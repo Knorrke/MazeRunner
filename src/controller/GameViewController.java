@@ -4,6 +4,7 @@ import application.ImageLoader;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -11,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import model.GameModelInterface;
 import model.LevelModelInterface;
+import model.creature.CreatureGroup;
 import model.player.PlayerModelInterface;
 import view.CreatureTimelineView;
 import view.MazeView;
@@ -53,5 +55,9 @@ public class GameViewController {
 
 	private void initLevel(LevelModelInterface level) {
 		this.level = level;
+		creatureTimeline.createFromData(level.getCreatureTimeline());
+		level.getCreatureTimeline().addListener((ListChangeListener<CreatureGroup>) c -> {
+			creatureTimeline.createFromData(level.getCreatureTimeline());
+		});
 	}
 }

@@ -1,6 +1,8 @@
 package view;
 
+import application.ImageLoader;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
@@ -14,5 +16,6 @@ public class MazeView extends StackPane {
 		creatures.widthProperty().bind(walls.widthProperty());
 		creatures.heightProperty().bind(walls.heightProperty());
 		this.getChildren().addAll(walls, creatures);
+//		walls.getChildren().add(new ImageView(ImageLoader.money));
 	}
 }
