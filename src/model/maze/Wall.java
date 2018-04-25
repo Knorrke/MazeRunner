@@ -1,16 +1,16 @@
-package model;
+package model.maze;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import model.tower.NoTower;
-import model.tower.Tower;
+import model.maze.tower.AbstractTower;
+import model.maze.tower.NoTower;
 
 public class Wall {
 
 	private IntegerProperty x, y;
-	private ObjectProperty<Tower> tower;
+	private ObjectProperty<AbstractTower> abstractTower;
 	
 	public Wall(int x, int y) {
 		this(new SimpleIntegerProperty(x),new SimpleIntegerProperty(y));
@@ -19,7 +19,7 @@ public class Wall {
 	public Wall(IntegerProperty x, IntegerProperty y) {
 		this.x = x;
 		this.y = y;
-		this.tower = new SimpleObjectProperty<Tower>(new NoTower());
+		this.abstractTower = new SimpleObjectProperty<AbstractTower>(new NoTower());
 	}
 
 	/**
@@ -60,20 +60,20 @@ public class Wall {
 	}
 
 	/**
-	 * @return the tower
+	 * @return the abstractTower
 	 */
-	public Tower getTower() {
-		return tower.get();
+	public AbstractTower getTower() {
+		return abstractTower.get();
 	}
 
 	/**
-	 * @param tower the tower to set
+	 * @param abstractTower the abstractTower to set
 	 */
-	public void setTower(Tower tower) {
-		this.tower.set(tower);
+	public void setTower(AbstractTower abstractTower) {
+		this.abstractTower.set(abstractTower);
 	}
 
-	public ObjectProperty<Tower> towerProperty() {
-		return tower;
+	public ObjectProperty<AbstractTower> towerProperty() {
+		return abstractTower;
 	}
 }

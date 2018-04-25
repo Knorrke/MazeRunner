@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import model.Wall;
-import model.tower.NoTower;
+import model.maze.Wall;
+import model.maze.tower.NoTower;
 
 public class WallTest {
 	private int x, y;
@@ -37,7 +37,7 @@ public class WallTest {
 
 	@Test
 	public void newWallHasNoTower() {
-		assertTrue("Tower on new wall should be not set", wall.getTower() instanceof NoTower);
+		assertTrue("AbstractTower on new wall should be not set", wall.getTower() instanceof NoTower);
 	}
 
 	@Test
@@ -52,6 +52,6 @@ public class WallTest {
 		assertFalse("tower should not have changed yet", changed.get());
 		
 		wall.setTower(new NoTower());
-		assertTrue("Tower should have changed", changed.get());
+		assertTrue("AbstractTower should have changed", changed.get());
 	}
 }

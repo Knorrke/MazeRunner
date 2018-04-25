@@ -4,14 +4,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import model.tower.NoTower;
-import model.tower.Tower;
+import model.maze.tower.AbstractTower;
+import model.maze.tower.NoTower;
 
 public class TowerTest {
 
 	@Test
 	public void setupTest() {
-		Tower tower = new NoTower();
-		assertNotNull("Tower should not be null", tower);
+		AbstractTower abstractTower = new NoTower();
+		assertNotNull("AbstractTower should not be null", abstractTower);
 	}
 }

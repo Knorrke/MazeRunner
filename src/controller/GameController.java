@@ -1,39 +1,49 @@
 package controller;
 
+import java.io.IOException;
+
 import application.ImageLoader;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import model.GameModelInterface;
-import model.LevelModelInterface;
 import model.creature.CreatureGroup;
-import model.player.PlayerModelInterface;
+import model.level.LevelModelInterface;
 import view.CreatureTimelineView;
-import view.MazeView;
 
-public class GameViewController {
-	
+public class GameController {
 	private BooleanProperty paused = new SimpleBooleanProperty(false);
 	private GameModelInterface game;
-	private PlayerModelInterface player;
 	private LevelModelInterface level;
+	private Parent view;
 	
+	@FXML PlayerController player;
 	@FXML CreatureTimelineView creatureTimeline;
 	@FXML StackPane maze;
 	@FXML ImageView pauseButton;
-
-	@FXML Label money;
-	@FXML Label lifes;
-
+	
+	public GameController() {
+		FXMLLoader gameViewLoader = new FXMLLoader(getClass().getClassLoader().getResource("view/GameView.fxml"));
+		gameViewLoader.setController(this);
+        try {
+        	System.out.println("loading gameController view");
+            view = gameViewLoader.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+	}
+	
 	public void initialize() {
+		System.out.println("initializing");
 		pauseButton.imageProperty().bind(Bindings.when(paused).then(ImageLoader.play).otherwise(ImageLoader.pause));
-		maze.getChildren().add(new MazeView());
+		//maze.getChildren().add(new MazeView());
 	}
 
 	@FXML
@@ -41,18 +51,16 @@ public class GameViewController {
 		paused.set(!paused.get());
 	}
 
-	public void initGameModel(GameModelInterface game) {
-		this.game = game;
-		initPlayer(game.getPlayer());
-		initLevel(game.getLevel());
+	public Parent getView() {
+		return view;
 	}
 	
-	private void initPlayer(PlayerModelInterface player) {
-		this.player = player;
-		money.textProperty().bind(player.moneyProperty().asString());
-		lifes.textProperty().bind(player.lifesProperty().asString());
+	public void initModel(GameModelInterface game) {
+		this.game = game;
+		player.initModel(game.getPlayer());
+		initLevel(game.getLevel());
 	}
-
+		
 	private void initLevel(LevelModelInterface level) {
 		this.level = level;
 		creatureTimeline.createFromData(level.getCreatureTimeline());
@@ -60,4 +68,5 @@ public class GameViewController {
 			creatureTimeline.createFromData(level.getCreatureTimeline());
 		});
 	}
+
 }

@@ -19,7 +19,7 @@ public class CreatureTimelineView extends VBox {
 		this.getChildren().addAll(timeline.stream().map((group)-> {
 			ImageView el = new ImageView(ImageLoader.lifes);
 			el.setPreserveRatio(true);
-			el.setFitWidth(20);
+			el.setFitWidth(40);
 			return el;
 		}).collect(Collectors.toList()));
 	}

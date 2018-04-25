@@ -1,9 +1,9 @@
-package model.tower;
+package model.maze.tower;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 
-public abstract class Tower {
+public abstract class AbstractTower {
 
 	protected DoubleProperty fireRate;
 	protected IntegerProperty damage;
