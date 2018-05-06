@@ -1,18 +1,57 @@
 package application;
 
+import java.io.InputStream;
+import java.util.logging.Logger;
+
 import javafx.scene.image.Image;
 
 public class ImageLoader {
+	private static Logger LOG = Logger.getLogger(ImageLoader.class.getName());
 
+	private static final String basePath = "assets/images";
+	private static Image placeholder = loadImage("placeholder.png");
+	
 	public static Image money, lifes;
 	public static Image play, pause;
+	public static Image normalCreature, toughCreature;
 
-	public ImageLoader() {
-		money = new Image(getClass().getClassLoader().getResourceAsStream("images/desert.png"));
-		lifes = new Image(getClass().getClassLoader().getResourceAsStream("images/desert.png"));
-		play = new Image(getClass().getClassLoader().getResourceAsStream("images/play.png"));
-		pause = new Image(getClass().getClassLoader().getResourceAsStream("images/pause.png"));
+	public static void loadAll() {
+		loadGameImages();
+		loadMenuImages();
 	}
 	
+	public static void loadGameImages() {
+		LOG.fine("Loading game images");
+		money = loadImage("money.png");
+		lifes = loadImage("lifes.png");
+		play = loadImage("play.png");
+		pause = loadImage("pause.png");
+		normalCreature = loadImage("creatures/normal.png");
+		toughCreature = loadImage("creatures/tough.png");
+		LOG.fine("Finished loading game images");
+
+	}
+	
+	public static void loadMenuImages() {}
+
+	private static Image loadImage(String src) {
+		InputStream resourceStream = ImageLoader.class.getClassLoader().getResourceAsStream(createLookupPath(src));
+		if (resourceStream != null) {
+			return new Image(resourceStream);
+		} else if (placeholder != null){
+			return placeholder;
+		}
+		
+		LOG.severe("Image loading unsuccessfull!");
+		throw new Error("Failed loading Image " + src);
+	}
+	
+	private static String createLookupPath(String src) {
+		if (basePath.endsWith("/")) {
+			return basePath+src;
+		} else {
+			return basePath+"/"+src;
+		}
+	}
 	
 }

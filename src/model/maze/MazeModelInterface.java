@@ -1,5 +1,7 @@
 package model.maze;
 
+import java.util.List;
+
 import javafx.collections.ObservableList;
 import model.creature.Creature;
 
@@ -26,6 +28,12 @@ public interface MazeModelInterface {
 	 * @param creature the creature to add
 	 */
 	public void addCreature(Creature creature);
+	
+
+	/**
+	 * @param creatures the list of creatures to add
+	 */
+	public void addAllCreatures(List<Creature> creatures);
 	
 	/**
 	 * @param creature the creature to remove

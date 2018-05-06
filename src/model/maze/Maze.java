@@ -1,12 +1,15 @@
 package model.maze;
 
+import java.util.List;
+
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.creature.Creature;
 
 public class Maze implements MazeModelInterface {
 
-	private ObservableList<Wall> walls;
-	private ObservableList<Creature> creatures;
+	private ObservableList<Wall> walls = FXCollections.observableArrayList();
+	private ObservableList<Creature> creatures = FXCollections.observableArrayList();
 	
 	@Override
 	public ObservableList<Wall> getWalls() {
@@ -15,7 +18,8 @@ public class Maze implements MazeModelInterface {
 	
 	@Override
 	public void addWall(Wall wall) {
-		this.walls.add(wall);
+		if (!hasWallOn(wall.getX(), wall.getY()))
+			this.walls.add(wall);
 	}
 	
 	@Override
@@ -36,5 +40,14 @@ public class Maze implements MazeModelInterface {
 	@Override
 	public void removeCreature(Creature creature) {
 		this.creatures.remove(creature);
+	}
+
+	@Override
+	public void addAllCreatures(List<Creature> creatures) {
+		this.creatures.addAll(creatures);
+	}
+
+	public boolean hasWallOn(int x, int y) {
+		return !getWalls().filtered(wall -> wall.getX() == x && wall.getY() == y).isEmpty();
 	}
 }

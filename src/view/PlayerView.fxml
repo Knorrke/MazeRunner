@@ -8,16 +8,14 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.layout.HBox?>
+<?import application.ImageLoader?>
 
 <fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml">
 	<children>
 		<StackPane>
 			<children>
-				<ImageView fitHeight="50.0" fitWidth="50.0"
+				<ImageView fx:id="lifesImage" fitHeight="50.0" fitWidth="50.0"
 					pickOnBounds="true" preserveRatio="true">
-					<image>
-						<Image url="@../images/desert.png" />
-					</image>
 					<StackPane.margin>
 						<Insets />
 					</StackPane.margin>
@@ -43,11 +41,8 @@
 		</StackPane>
 		<StackPane>
 			<children>
-				<ImageView fitHeight="50.0" fitWidth="50.0"
+				<ImageView fx:id="moneyImage" fitHeight="50.0" fitWidth="50.0"
 					pickOnBounds="true" preserveRatio="true">
-					<image>
-						<Image url="@../images/desert.png" />
-					</image>
 				</ImageView>
 				<Label fx:id="money" alignment="BOTTOM_RIGHT"
 					style="-fx-background-color: #6c6; -fx-background-radius: 30;"

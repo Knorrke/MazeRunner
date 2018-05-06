@@ -2,16 +2,40 @@ package model.creature;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import model.creature.movements.MovementInterface;
 
 public class Creature {
 
 	private DoubleProperty x,y;
 	private DoubleProperty velocity;
-//	private DoubleProperty visualRange;
 	private IntegerProperty lifes;
 	private MovementInterface movementStrategy;
+	private final CreatureType type;
 	
+	public Creature(double x, double y, double velocity, 
+			int lifes, MovementInterface movementStrategy, CreatureType type) {
+		this(
+			new SimpleDoubleProperty(x), 
+			new SimpleDoubleProperty(y), 
+			new SimpleDoubleProperty(velocity),
+			new SimpleIntegerProperty(lifes),
+			movementStrategy,
+			type
+		);
+	}
+	
+	public Creature(DoubleProperty x, DoubleProperty y, DoubleProperty velocity, 
+			IntegerProperty lifes, MovementInterface movementStrategy, CreatureType type) {
+		this.x = x;
+		this.y = y;
+		this.velocity = velocity;
+		this.lifes = lifes;
+		this.movementStrategy = movementStrategy;
+		this.type = type;
+	}
+
 	public void move() {
 		double[] pos = movementStrategy.move();
 		x.set(pos[0]);
@@ -80,28 +104,7 @@ public class Creature {
 	public DoubleProperty velocityProperty() {
 		return velocity;
 	}
-//
-//	/**
-//	 * @return the visualRange value
-//	 */
-//	public double getVisualRange() {
-//		return visualRange.get();
-//	}
-//
-//	/**
-//	 * @param visualRange the visualRange to set
-//	 */
-//	public void setVisualRange(double visualRange) {
-//		this.visualRange.set(visualRange);
-//	}
-//
-//	/**
-//	 * @return the visualRange property
-//	 */
-//	public DoubleProperty visualRangeProperty() {
-//		return visualRange;
-//	}
-	
+
 	/**
 	 * @return the lifes value
 	 */
@@ -128,6 +131,13 @@ public class Creature {
 	 */
 	public void setMovementStrategy(MovementInterface movementStrategy) {
 		this.movementStrategy = movementStrategy;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public CreatureType getType() {
+		return type;
 	}
 	
 }
