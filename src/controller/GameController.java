@@ -1,30 +1,21 @@
 package controller;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import application.ImageLoader;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import model.GameModelInterface;
-import model.creature.CreatureGroup;
-import model.creature.CreatureType;
-import model.level.LevelModelInterface;
+import view.MazeView;
 
 public class GameController {
 	private static Logger LOG = Logger.getLogger(GameController.class.getName());
@@ -34,21 +25,26 @@ public class GameController {
 	 */
 	private BooleanProperty paused = new SimpleBooleanProperty(false);
 	private GameModelInterface game;
-	private LevelModelInterface level;
 
 	/**
 	 * Connected controllers
 	 */
 	@FXML PlayerController player;
+	MazeController mazeController;
+	LevelController levelController;
+	
 	/**
 	 * View classes
 	 */
 	private Parent view;
 	@FXML VBox creatureTimelineView;
-	@FXML StackPane maze;
+	@FXML MazeView maze;
 	@FXML ImageView pauseButton;
 	
 	public GameController() {
+		mazeController = new MazeController();
+		levelController = new LevelController();
+		
 		FXMLLoader gameViewLoader = new FXMLLoader(getClass().getClassLoader().getResource("view/GameView.fxml"));
 		gameViewLoader.setController(this);
         try {
@@ -63,8 +59,8 @@ public class GameController {
 	public void initialize() {
 		LOG.fine("initializing GameController");
 		pauseButton.imageProperty().bind(Bindings.when(paused).then(ImageLoader.play).otherwise(ImageLoader.pause));
-		
-		//maze.getChildren().add(new MazeView());
+		levelController.setView(creatureTimelineView);
+		mazeController.setView(maze);
 	}
 
 	@FXML
@@ -80,44 +76,7 @@ public class GameController {
 		LOG.finer("initializing GameModel");
 		this.game = game;
 		player.initModel(game.getPlayer());
-		initLevel(game.getLevel());
+		mazeController.initModel(game.getMaze());
+		levelController.initModel(game.getLevel());
 	}
-		
-	private void initLevel(LevelModelInterface level) {
-		LOG.finer("initializing LevelModel");
-		this.level = level;
-		createCreatureTimeline();
-		level.getCreatureTimeline().addListener((ListChangeListener<CreatureGroup>) c -> {
-			this.createCreatureTimeline();
-		});
-	}
-	
-	public void createCreatureTimeline() {
-		List<CreatureGroup> timeline = level.getCreatureTimeline();
-		creatureTimelineView.getChildren().clear();
-		creatureTimelineView.getChildren().addAll(
-			timeline.stream().map(this::createCreatureTimelineImageView).collect(Collectors.toList())
-		);
-	}
-	
-	public Node createCreatureTimelineImageView(CreatureGroup group) {
-		StackPane parent = new StackPane();
-		Image im = createCreatureTimelineImage(group.getType());
-		ImageView img = new ImageView(im);
-		img.setPreserveRatio(true);
-		img.setFitWidth(40);
-		
-		Label label = new Label(Integer.toString(group.getNumber()));
-		
-		parent.getChildren().addAll(img, label);
-		return parent;
-	}
-
-	private Image createCreatureTimelineImage(CreatureType type) {
-		switch (type) {
-			case NORMAL:
-			default: return ImageLoader.normalCreature;
-		}
-	}
-
 }
