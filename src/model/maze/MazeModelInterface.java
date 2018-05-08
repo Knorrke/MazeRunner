@@ -16,6 +16,13 @@ public interface MazeModelInterface {
 	public void addWall(Wall wall);
 	
 	/**
+	 * Builds a new wall. If the wall already exists, this is a no-op
+	 * @param x
+	 * @param y
+	 */
+	public void buildWall(int x, int y);
+	
+	/**
 	 * @param wall the wall to remove
 	 */
 	public void removeWall(Wall wall);
@@ -39,4 +46,12 @@ public interface MazeModelInterface {
 	 * @param creature the creature to remove
 	 */
 	public void removeCreature(Creature creature);
+	
+	
+	/**
+	 * Checks if there is a wall on a certain position
+	 * @param int x
+	 * @param int y
+	 */
+	public boolean hasWallOn(int x, int y);
 }

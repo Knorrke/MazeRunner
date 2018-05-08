@@ -48,9 +48,4 @@ public class Game implements GameModelInterface {
 	public GameState getState() {
 		return state;
 	}
-
-	@Override
-	public void buildWall(int x, int y) {
-		maze.addWall(new Wall(x, y));
-	}
 }

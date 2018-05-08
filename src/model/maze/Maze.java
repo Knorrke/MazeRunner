@@ -21,6 +21,11 @@ public class Maze implements MazeModelInterface {
 		if (!hasWallOn(wall.getX(), wall.getY()))
 			this.walls.add(wall);
 	}
+
+	@Override
+	public void buildWall(int x, int y) {
+		this.addWall(new Wall(x, y));
+	}
 	
 	@Override
 	public void removeWall(Wall wall) {
