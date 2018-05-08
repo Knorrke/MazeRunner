@@ -54,4 +54,14 @@ public interface MazeModelInterface {
 	 * @param int y
 	 */
 	public boolean hasWallOn(int x, int y);
+	
+	/**
+	 * @return the maximal X value for walls
+	 */
+	public int getMaxWallX();
+	
+	/**
+	 * @return the maximal Y value for walls
+	 */
+	public int getMaxWallY();
 }

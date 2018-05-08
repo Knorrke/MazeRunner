@@ -1,5 +1,6 @@
 package model.maze;
 
+import java.awt.Rectangle;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -10,6 +11,7 @@ public class Maze implements MazeModelInterface {
 
 	private ObservableList<Wall> walls = FXCollections.observableArrayList();
 	private ObservableList<Creature> creatures = FXCollections.observableArrayList();
+	private final int maxWallX = 20, maxWallY = 10;
 	
 	@Override
 	public ObservableList<Wall> getWalls() {
@@ -18,14 +20,23 @@ public class Maze implements MazeModelInterface {
 	
 	@Override
 	public void addWall(Wall wall) {
-		if (!hasWallOn(wall.getX(), wall.getY()))
+		int x = wall.getX();
+		int y = wall.getY();
+		if (checkBounds(x,y) && !hasWallOn(x, y)) {			
 			this.walls.add(wall);
+		}
 	}
 
 	@Override
 	public void buildWall(int x, int y) {
 		this.addWall(new Wall(x, y));
 	}
+	
+	private boolean checkBounds(int x, int y) {
+		//return new Rectangle(maxWallX, maxWallY).contains(x, y);
+		return x >= 0 && x < maxWallX && y >= 0 && y < maxWallY;
+	}
+
 	
 	@Override
 	public void removeWall(Wall wall) {
@@ -54,5 +65,16 @@ public class Maze implements MazeModelInterface {
 
 	public boolean hasWallOn(int x, int y) {
 		return !getWalls().filtered(wall -> wall.getX() == x && wall.getY() == y).isEmpty();
+	}
+	
+
+	@Override
+	public int getMaxWallX() {
+		return maxWallX;
+	}
+
+	@Override
+	public int getMaxWallY() {
+		return maxWallY;
 	}
 }

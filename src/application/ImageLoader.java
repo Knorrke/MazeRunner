@@ -15,6 +15,8 @@ public class ImageLoader {
 	public static Image play, pause;
 	public static Image normalCreature, toughCreature;
 
+	public static Image wall;
+
 	public static void loadAll() {
 		loadGameImages();
 		loadMenuImages();
@@ -24,6 +26,9 @@ public class ImageLoader {
 		LOG.fine("Loading game images");
 		money = loadImage("money.png");
 		lifes = loadImage("lifes.png");
+		
+		wall = loadImage("wall.png");
+		
 		play = loadImage("play.png");
 		pause = loadImage("pause.png");
 		normalCreature = loadImage("creatures/normal.png");
