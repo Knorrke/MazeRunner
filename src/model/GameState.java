@@ -1,5 +1,5 @@
 package model;
 
 public enum GameState {
-	BUILDING, PAUSED, GAMEOVER,
+	BUILDING, RUNNING, PAUSED, GAMEOVER
 }

@@ -194,7 +194,7 @@ public class Creature implements ActorInterface {
 	public void act(double dt) {
 		if (countdown < dt) {
 			move();
-			countdown = 1;
+			countdown = 0.5;
 		} else {
 			countdown -= dt;
 		}

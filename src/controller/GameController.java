@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import model.GameModelInterface;
+import model.GameState;
 import view.MazeView;
 
 public class GameController {
@@ -65,7 +66,11 @@ public class GameController {
 
 	@FXML
 	public void togglePause(MouseEvent event) {
-		paused.set(!paused.get());
+		if(paused.get()) {
+			game.start();
+		} else {
+			game.pause();
+		}
 	}
 
 	public Parent getView() {
@@ -78,5 +83,6 @@ public class GameController {
 		player.initModel(game.getPlayer());
 		mazeController.initModel(game.getMaze());
 		levelController.initModel(game.getLevel());
+		paused.bind(game.stateProperty().isEqualTo(GameState.PAUSED));
 	}
 }

@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.logging.Logger;
 
 import javafx.scene.image.Image;
+import model.creature.CreatureType;
 
 public class ImageLoader {
 	private static Logger LOG = Logger.getLogger(ImageLoader.class.getName());
@@ -56,6 +57,16 @@ public class ImageLoader {
 			return basePath+src;
 		} else {
 			return basePath+"/"+src;
+		}
+	}
+
+	public static Image getCreatureImage(CreatureType type) {
+		switch(type) {
+		case TOUGH: return ImageLoader.toughCreature;
+		case NORMAL: 
+		default:
+			return ImageLoader.normalCreature;
+		
 		}
 	}
 	

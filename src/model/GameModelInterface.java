@@ -1,5 +1,6 @@
 package model;
 
+import javafx.beans.property.ObjectProperty;
 import model.gameloop.Updateable;
 import model.level.LevelModelInterface;
 import model.maze.MazeModelInterface;
@@ -25,5 +26,17 @@ public interface GameModelInterface extends Updateable {
 	 * @return the state
 	 */
 	public GameState getState();
+
+	/**
+	 * start the game
+	 */
+	public void start();
+
+	/**
+	 * pause the game
+	 */
+	void pause();
+
+	ObjectProperty<GameState> stateProperty();
 	
 }

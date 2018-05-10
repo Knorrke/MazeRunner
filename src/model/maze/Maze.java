@@ -17,12 +17,12 @@ public class Maze implements MazeModelInterface {
 	
 	public Maze() {
 		this(20,10);
-		addCreature(CreatureFactory.create(this, CreatureType.NORMAL));
 	}
 	
 	public Maze(int maxX, int maxY) {
 		maxWallX = maxX;
 		maxWallY = maxY;
+		addCreature(CreatureFactory.create(this, CreatureType.NORMAL));
 	}
 
 	@Override

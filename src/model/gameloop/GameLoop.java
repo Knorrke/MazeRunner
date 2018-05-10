@@ -1,43 +1,57 @@
 package model.gameloop;
 
-import static model.GameState.GAMEOVER;
-
+import javafx.animation.AnimationTimer;
 import model.GameModelInterface;
 
-public class GameLoop {
+public class GameLoop extends AnimationTimer {
 	GameModelInterface game;
-	
+
 	public GameLoop(GameModelInterface game) {
 		this.game = game;
 	}
 
-	public void startGameLoop() {
-		final double timeStep = 0.0166;
-		final double maxDelta = 0.05;
-		long previousTime = System.nanoTime();
-		double accumulatedTime = 0;
+	private static final float timeStep = 0.0166f;
+	private static final float maxTimeStep = 0.05f;
+	private long previousTime = 0;
+	private float accumulatedTime = 0;
 
-		while (game.getState() != GAMEOVER)
-		{
-		    long currentTime = System.nanoTime();
-		    double deltaTime = (currentTime - previousTime) / 1_000_000_000.0;
+//	private float secondsElapsedSinceLastFpsUpdate = 0f;
+//	private int framesSinceLastFpsUpdate = 0;
 
-		    if (deltaTime > maxDelta) {
-		        deltaTime = maxDelta;
-		    }
-
-		    accumulatedTime += deltaTime;
-
-//		    processEvents();
-
-		    while (accumulatedTime >= timeStep) {
-		        game.update(timeStep);
-		        accumulatedTime -= timeStep;
-		    }
-
-//		    renderFrame();
-
-		    previousTime = currentTime;
+	@Override
+	public void handle(long currentTime) {
+		if (previousTime == 0) {
+			previousTime = currentTime;
+			return;
 		}
+
+		float secondsElapsed = (currentTime - previousTime) / 1e9f; /* nanoseconds to seconds */
+		float secondsElapsedCapped = Math.min(secondsElapsed, maxTimeStep);
+		accumulatedTime += secondsElapsedCapped;
+		previousTime = currentTime;
+
+		while (accumulatedTime >= timeStep) {
+			game.update(timeStep);
+			accumulatedTime -= timeStep;
+		}
+//		renderer.run();
+
+//		secondsElapsedSinceLastFpsUpdate += secondsElapsed;
+//		framesSinceLastFpsUpdate++;
+//		if (secondsElapsedSinceLastFpsUpdate >= 0.5f) {
+//			int fps = Math.round(framesSinceLastFpsUpdate / secondsElapsedSinceLastFpsUpdate);
+//			fpsReporter.accept(fps);
+//			secondsElapsedSinceLastFpsUpdate = 0;
+//			framesSinceLastFpsUpdate = 0;
+//		}
+	}
+
+	@Override
+	public void stop() {
+		previousTime = 0;
+		accumulatedTime = 0;
+//		secondsElapsedSinceLastFpsUpdate = 0f;
+//		framesSinceLastFpsUpdate = 0;
+		super.stop();
 	}
 }

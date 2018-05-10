@@ -1,17 +1,10 @@
 package controller;
 
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import javafx.beans.binding.DoubleBinding;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
+import model.creature.CreatureFactory;
+import model.creature.CreatureType;
 import model.maze.MazeModelInterface;
-import model.maze.Wall;
 import view.MazeView;
-import view.WallView;
 
 public class MazeController {
 	private MazeView view;
@@ -36,25 +29,14 @@ public class MazeController {
 			maze.buildWall((int) (maze.getMaxWallX() * event.getX() / view.getWidth()),
 					(int) (maze.getMaxWallY() * event.getY() / view.getHeight()));
 		});
-
-		maze.getWalls().addListener((ListChangeListener<Wall>) c -> {
-			this.createCreatureTimeline();
-		});
-	}
-
-	public void createCreatureTimeline() {
-		List<Wall> walls = maze.getWalls();
-		ObservableList<Node> children = view.getWalls().getChildren();
-		children.clear();
-		children.addAll(walls.stream().map(new Function<Wall, WallView>() {
-
-			@Override
-			public WallView apply(Wall wall) {
-				DoubleBinding scaleX = view.widthProperty().divide(maze.getMaxWallX());
-				DoubleBinding scaleY = view.heightProperty().divide(maze.getMaxWallY());
-				return new WallView(wall,scaleX, scaleY);
+		
+		view.setOnKeyTyped(event -> {
+			if (event.getCode() == KeyCode.SPACE) {
+				maze.addCreature(CreatureFactory.create(maze, CreatureType.NORMAL));
 			}
-		}).collect(Collectors.toList()));
+		});
+		
+		view.bind(maze);
 	}
 
 }
