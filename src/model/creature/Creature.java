@@ -1,6 +1,5 @@
 package model.creature;
 
-import java.util.Arrays;
 import java.util.Stack;
 
 import javafx.beans.property.DoubleProperty;
@@ -13,9 +12,7 @@ import model.gameloop.ActorInterface;
 import model.maze.MazeModelInterface;
 
 public class Creature implements ActorInterface {
-	
 	private double countdown = 1;
-	
 	private DoubleProperty x, y;
 	private DoubleProperty velocity;
 	private IntegerProperty lifes;
@@ -48,15 +45,20 @@ public class Creature implements ActorInterface {
 	}
 
 	public void move() {
+		move(1);
+	}
+	public void move(double dt) {
 		double[] dir = movementStrategy.getMoveDirection(maze, vision, map, getX(), getY());
-		move(dir);
+		move(dir, dt);
 	}
 	
-
 	public void move(double dirX, double dirY) {
 		move(new double[]{dirX, dirY});
 	}
 	public void move(double[] dir) {
+		move(dir, 1);
+	}
+	private void move(double[] dir, double dt) {
 		boolean backtracking = false;
 		if (dir == null) {
 			if(lastMovements.isEmpty()) {
@@ -68,10 +70,10 @@ public class Creature implements ActorInterface {
 				backtracking = true;
 			}
 		}
-		setX(getX() + getVelocity() * dir[0]);
-		setY(getY() + getVelocity() * dir[1]);
+		setX(getX() + getVelocity() * dir[0]*dt);
+		setY(getY() + getVelocity() * dir[1]*dt);
 		markCurrentFieldVisited();
-		if (!backtracking && (lastMovements.isEmpty() || !Arrays.equals(lastMovements.peek(), dir))) {
+		if (!backtracking) {
 			lastMovements.push(dir);
 		}
 	}

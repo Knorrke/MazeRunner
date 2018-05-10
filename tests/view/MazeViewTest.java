@@ -6,6 +6,8 @@ import static org.testfx.api.FxAssert.verifyThat;
 import org.junit.Test;
 import org.testfx.matcher.base.NodeMatchers;
 
+import javafx.scene.input.MouseButton;
+
 public class MazeViewTest extends AbstractViewTest {
     
     @Test
@@ -15,14 +17,14 @@ public class MazeViewTest extends AbstractViewTest {
     	verifyThat("#maze", NodeMatchers.hasChildren(1, ".wall"));
     	verifyThat("#maze .wall", NodeMatchers.hasChildren(1, ".image-view"));
     	//second click:
-    	clickOn();
+    	clickOn(MouseButton.PRIMARY);
 
     	assertEquals("There should still be only one wall", 1, maze.getWalls().size());
     	verifyThat("#maze", NodeMatchers.hasChildren(1, ".wall"));
     	
     	//third click:
     	moveBy(20, 50);
-    	clickOn();
+    	clickOn(MouseButton.PRIMARY);
 
     	assertEquals("There should be two walls now", 2, maze.getWalls().size());
     	verifyThat("#maze", NodeMatchers.hasChildren(2, ".wall"));

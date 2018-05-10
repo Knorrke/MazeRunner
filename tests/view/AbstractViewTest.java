@@ -25,6 +25,7 @@ public class AbstractViewTest extends ApplicationTest {
 		gameController = new GameController();
 		gameController.initModel(game);
 		Scene scene = new Scene(gameController.getView());
+		scene.getStylesheets().add(getClass().getClassLoader().getResource("view/application.css").toExternalForm());
 		maze = game.getMaze();
 		level = game.getLevel();
 		player = game.getPlayer();

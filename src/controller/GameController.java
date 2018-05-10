@@ -24,7 +24,7 @@ public class GameController {
 	/**
 	 * Model classes
 	 */
-	private BooleanProperty paused = new SimpleBooleanProperty(false);
+	private BooleanProperty paused = new SimpleBooleanProperty(true);
 	private GameModelInterface game;
 
 	/**

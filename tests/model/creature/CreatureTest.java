@@ -79,6 +79,20 @@ public class CreatureTest {
 		assertTrue("BlindAlley should be marked useless", creature.getVisitedMap().isUseless(x, y));
 	}
 	
+	@Test
+	public void shouldNotMoveOutOfBoard() {
+		int y1 = 5;
+		Creature creature1 = CreatureFactory.create(maze, CreatureType.NORMAL, 0, y1 - 1);
+		//starting on 0,y1 + 1 move in a circle to visit all fields surrounding 0,y1
+		creature1.move(1,0);
+		creature1.move(0,1);
+		creature1.move(0,1);
+		creature1.move(-1,0);
+		creature1.move(0,-1);
+		
+		creature1.move();
+		assertTrue("Creature should have moved back", movedTo(creature1, 0, y1+1, 0.1));
+	}
 	private static boolean isMoved(Creature c, double oldX, double oldY) {
 		return !movedTo(c, oldX, oldY, 0.1);
 	}
