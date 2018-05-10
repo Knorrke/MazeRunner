@@ -64,4 +64,14 @@ public interface MazeModelInterface {
 	 * @return the maximal Y value for walls
 	 */
 	public int getMaxWallY();
+
+	/**
+	 * Check if the coordinates are valid
+	 * @param x
+	 * @param y
+	 * @return true if and only if x >= 0 && x < maxWallX && y >= 0 && y <= maxWallY
+	 */
+	public default boolean checkBounds(int x, int y) {
+		return x >= 0 && x < getMaxWallX() && y >= 0 && y <= getMaxWallY();
+	}
 }

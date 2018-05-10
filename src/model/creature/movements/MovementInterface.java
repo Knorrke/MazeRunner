@@ -1,6 +1,9 @@
 package model.creature.movements;
 
-public interface MovementInterface {
+import model.creature.VisitedMap;
+import model.creature.vision.Vision;
+import model.maze.MazeModelInterface;
 
-	public double[] move();
+public interface MovementInterface {
+	public double[] getMoveDirection(MazeModelInterface maze, Vision vision, VisitedMap visited, double currentX, double currentY);
 }

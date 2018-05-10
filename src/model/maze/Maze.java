@@ -1,6 +1,5 @@
 package model.maze;
 
-import java.awt.Rectangle;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -11,8 +10,17 @@ public class Maze implements MazeModelInterface {
 
 	private ObservableList<Wall> walls = FXCollections.observableArrayList();
 	private ObservableList<Creature> creatures = FXCollections.observableArrayList();
-	private final int maxWallX = 20, maxWallY = 10;
+	private final int maxWallX, maxWallY;
 	
+	public Maze() {
+		this(20,10);
+	}
+	
+	public Maze(int maxX, int maxY) {
+		maxWallX = maxX;
+		maxWallY = maxY;
+	}
+
 	@Override
 	public ObservableList<Wall> getWalls() {
 		return walls;
@@ -31,12 +39,6 @@ public class Maze implements MazeModelInterface {
 	public void buildWall(int x, int y) {
 		this.addWall(new Wall(x, y));
 	}
-	
-	private boolean checkBounds(int x, int y) {
-		//return new Rectangle(maxWallX, maxWallY).contains(x, y);
-		return x >= 0 && x < maxWallX && y >= 0 && y < maxWallY;
-	}
-
 	
 	@Override
 	public void removeWall(Wall wall) {

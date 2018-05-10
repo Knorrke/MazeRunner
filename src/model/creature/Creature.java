@@ -1,45 +1,83 @@
 package model.creature;
 
+import java.util.Arrays;
+import java.util.Stack;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import model.creature.movements.MovementInterface;
+import model.creature.vision.Vision;
+import model.maze.MazeModelInterface;
 
 public class Creature {
 
-	private DoubleProperty x,y;
+	private DoubleProperty x, y;
 	private DoubleProperty velocity;
 	private IntegerProperty lifes;
 	private MovementInterface movementStrategy;
 	private final CreatureType type;
-	
-	public Creature(double x, double y, double velocity, 
-			int lifes, MovementInterface movementStrategy, CreatureType type) {
-		this(
-			new SimpleDoubleProperty(x), 
-			new SimpleDoubleProperty(y), 
-			new SimpleDoubleProperty(velocity),
-			new SimpleIntegerProperty(lifes),
-			movementStrategy,
-			type
-		);
+	private MazeModelInterface maze;
+	private Vision vision;
+	private VisitedMap map;
+	private Stack<double[]> lastMovements;
+
+	public Creature(double x, double y, double velocity, int lifes, MovementInterface movementStrategy, Vision vision, CreatureType type,
+			MazeModelInterface maze) {
+		this(new SimpleDoubleProperty(x), new SimpleDoubleProperty(y), new SimpleDoubleProperty(velocity), new SimpleIntegerProperty(lifes), movementStrategy,
+				vision, type, maze);
 	}
-	
-	public Creature(DoubleProperty x, DoubleProperty y, DoubleProperty velocity, 
-			IntegerProperty lifes, MovementInterface movementStrategy, CreatureType type) {
+
+	public Creature(DoubleProperty x, DoubleProperty y, DoubleProperty velocity, IntegerProperty lifes, MovementInterface movementStrategy, Vision vision,
+			CreatureType type, MazeModelInterface maze) {
 		this.x = x;
 		this.y = y;
 		this.velocity = velocity;
 		this.lifes = lifes;
 		this.movementStrategy = movementStrategy;
 		this.type = type;
+		this.vision = vision;
+		this.maze = maze;
+		this.map = new VisitedMap(maze.getMaxWallX(), maze.getMaxWallY());
+		markCurrentFieldVisited();
+		lastMovements = new Stack<>();
 	}
 
 	public void move() {
-		double[] pos = movementStrategy.move();
-		x.set(pos[0]);
-		y.set(pos[1]);
+		double[] dir = movementStrategy.getMoveDirection(maze, vision, map, getX(), getY());
+		move(dir);
+	}
+	
+
+	public void move(double dirX, double dirY) {
+		move(new double[]{dirX, dirY});
+	}
+	public void move(double[] dir) {
+		boolean backtracking = false;
+		if (dir == null) {
+			if(lastMovements.isEmpty()) {
+				dir = new double[] {1,0};
+			} else { //backtracking
+				double[] last = lastMovements.pop();
+				dir = new double[] {last[0]*-1, last[1]*-1};				
+				markCurrentFieldUseless();
+				backtracking = true;
+			}
+		}
+		setX(getX() + getVelocity() * dir[0]);
+		setY(getY() + getVelocity() * dir[1]);
+		markCurrentFieldVisited();
+		if (!backtracking && (lastMovements.isEmpty() || !Arrays.equals(lastMovements.peek(), dir))) {
+			lastMovements.push(dir);
+		}
+	}
+
+	private void markCurrentFieldVisited() {
+		map.markVisited((int) getX(),(int) getY());
+	}
+	private void markCurrentFieldUseless() {
+		map.markUseless((int) getX(),(int) getY());
 	}
 
 	/**
@@ -50,7 +88,8 @@ public class Creature {
 	}
 
 	/**
-	 * @param x the x to set
+	 * @param x
+	 *            the x to set
 	 */
 	public void setX(double x) {
 		this.x.set(x);
@@ -62,7 +101,7 @@ public class Creature {
 	public DoubleProperty xProperty() {
 		return x;
 	}
-	
+
 	/**
 	 * @return the y value
 	 */
@@ -71,12 +110,13 @@ public class Creature {
 	}
 
 	/**
-	 * @param y the y to set
+	 * @param y
+	 *            the y to set
 	 */
 	public void setY(double y) {
 		this.y.set(y);
 	}
-	
+
 	/**
 	 * @return the y property
 	 */
@@ -92,7 +132,8 @@ public class Creature {
 	}
 
 	/**
-	 * @param velocity the velocity to set
+	 * @param velocity
+	 *            the velocity to set
 	 */
 	public void setVelocity(double velocity) {
 		this.velocity.set(velocity);
@@ -113,7 +154,8 @@ public class Creature {
 	}
 
 	/**
-	 * @param lifes the lifes to set
+	 * @param lifes
+	 *            the lifes to set
 	 */
 	public void setLifes(int lifes) {
 		this.lifes.set(lifes);
@@ -125,9 +167,10 @@ public class Creature {
 	public IntegerProperty lifesProperty() {
 		return lifes;
 	}
-	
+
 	/**
-	 * @param movementStrategy the movementStrategy to set
+	 * @param movementStrategy
+	 *            the movementStrategy to set
 	 */
 	public void setMovementStrategy(MovementInterface movementStrategy) {
 		this.movementStrategy = movementStrategy;
@@ -139,5 +182,8 @@ public class Creature {
 	public CreatureType getType() {
 		return type;
 	}
-	
+
+	public VisitedMap getVisitedMap() {
+		return map;
+	}
 }
