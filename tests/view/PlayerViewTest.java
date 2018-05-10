@@ -4,30 +4,9 @@ import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 import org.junit.Test;
-import org.testfx.framework.junit.ApplicationTest;
-
-import controller.GameController;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import model.Game;
-import model.player.PlayerModelInterface;
 
 
-public class PlayerViewTest extends ApplicationTest {
-
-	PlayerModelInterface player;
-	GameController gameController;
-	
-    @Override
-    public void start(Stage stage) {
-		Game game = new Game();
-		gameController = new GameController();
-		gameController.initModel(game);
-		Scene scene = new Scene(gameController.getView());
-		player = game.getPlayer();
-		stage.setScene(scene);
-        stage.show();
-    }
+public class PlayerViewTest extends AbstractViewTest {
 	
 	@Test
 	public void labelsShouldDisplayCorrectInformation() {

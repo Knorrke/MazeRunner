@@ -1,35 +1,12 @@
 package view;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.testfx.api.FxAssert.verifyThat;
 
 import org.junit.Test;
-import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.base.NodeMatchers;
-import org.testfx.util.DebugUtils;
 
-import controller.GameController;
-import javafx.geometry.Point2D;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseButton;
-import javafx.stage.Stage;
-import model.Game;
-import model.maze.MazeModelInterface;
-
-public class MazeViewTest extends ApplicationTest {
-	MazeModelInterface maze;
-	GameController gameController;
-	
-    @Override
-    public void start(Stage stage) {
-		Game game = new Game();
-		gameController = new GameController();
-		gameController.initModel(game);
-		Scene scene = new Scene(gameController.getView());
-		maze = game.getMaze();
-		stage.setScene(scene);
-        stage.show();
-    }
+public class MazeViewTest extends AbstractViewTest {
     
     @Test
     public void buildWallOnClick() {
