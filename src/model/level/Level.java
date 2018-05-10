@@ -17,4 +17,9 @@ public class Level implements LevelModelInterface {
 	public ObservableList<CreatureGroup> getCreatureTimeline() {
 		return creatureTimeline;
 	}
+
+	@Override
+	public void update(double dt) {
+		//Start new creature waves?
+	}
 }

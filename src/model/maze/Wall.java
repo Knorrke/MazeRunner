@@ -4,10 +4,11 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import model.gameloop.ActorInterface;
 import model.maze.tower.AbstractTower;
 import model.maze.tower.NoTower;
 
-public class Wall {
+public class Wall implements ActorInterface {
 
 	private IntegerProperty x, y;
 	private ObjectProperty<AbstractTower> abstractTower;
@@ -75,5 +76,10 @@ public class Wall {
 
 	public ObjectProperty<AbstractTower> towerProperty() {
 		return abstractTower;
+	}
+
+	@Override
+	public void act(double dt) {
+		getTower().act(dt);
 	}
 }

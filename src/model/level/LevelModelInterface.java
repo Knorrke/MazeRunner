@@ -2,8 +2,9 @@ package model.level;
 
 import javafx.collections.ObservableList;
 import model.creature.CreatureGroup;
+import model.gameloop.Updateable;
 
-public interface LevelModelInterface {
+public interface LevelModelInterface extends Updateable {
 	
 	/**
 	 * Adds a new group of creatures to the timeline
@@ -15,4 +16,10 @@ public interface LevelModelInterface {
 	 * @return the timeline of creature groups
 	 */
 	public ObservableList<CreatureGroup> getCreatureTimeline();
+
+	/**
+	 * GameLoop update
+	 * @param dt
+	 */
+	public void update(double dt);
 }

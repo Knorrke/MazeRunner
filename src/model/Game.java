@@ -1,6 +1,6 @@
 package model;
 
-import static model.GameState.*;
+import static model.GameState.BUILDING;
 
 import model.creature.CreatureGroup;
 import model.creature.CreatureType;
@@ -8,7 +8,6 @@ import model.level.Level;
 import model.level.LevelModelInterface;
 import model.maze.Maze;
 import model.maze.MazeModelInterface;
-import model.maze.Wall;
 import model.player.Player;
 import model.player.PlayerModelInterface;
 
@@ -28,6 +27,11 @@ public class Game implements GameModelInterface {
 		
 		maze = new Maze();
 		state = BUILDING;
+	}
+		
+	public void update(double dt) {
+		maze.update(dt);
+		level.update(dt);
 	}
 	
 	@Override

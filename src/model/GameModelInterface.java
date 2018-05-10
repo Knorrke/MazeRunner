@@ -1,10 +1,11 @@
 package model;
 
+import model.gameloop.Updateable;
 import model.level.LevelModelInterface;
 import model.maze.MazeModelInterface;
 import model.player.PlayerModelInterface;
 
-public interface GameModelInterface {
+public interface GameModelInterface extends Updateable {
 	/**
 	 * @return the player
 	 */

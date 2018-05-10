@@ -4,8 +4,9 @@ import java.util.List;
 
 import javafx.collections.ObservableList;
 import model.creature.Creature;
+import model.gameloop.Updateable;
 
-public interface MazeModelInterface {
+public interface MazeModelInterface extends Updateable {
 	/**
 	 * @return the walls
 	 */
@@ -74,4 +75,10 @@ public interface MazeModelInterface {
 	public default boolean checkBounds(int x, int y) {
 		return x >= 0 && x < getMaxWallX() && y >= 0 && y <= getMaxWallY();
 	}
+	
+	/**
+	 * GameLoop update
+	 * @param dt
+	 */
+	public void update(double dt);
 }

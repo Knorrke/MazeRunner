@@ -2,8 +2,9 @@ package model.maze.tower;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import model.gameloop.ActorInterface;
 
-public abstract class AbstractTower {
+public abstract class AbstractTower implements ActorInterface {
 
 	protected DoubleProperty fireRate;
 	protected IntegerProperty damage;

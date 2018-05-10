@@ -9,10 +9,13 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import model.creature.movements.MovementInterface;
 import model.creature.vision.Vision;
+import model.gameloop.ActorInterface;
 import model.maze.MazeModelInterface;
 
-public class Creature {
-
+public class Creature implements ActorInterface {
+	
+	private double countdown = 1;
+	
 	private DoubleProperty x, y;
 	private DoubleProperty velocity;
 	private IntegerProperty lifes;
@@ -185,5 +188,15 @@ public class Creature {
 
 	public VisitedMap getVisitedMap() {
 		return map;
+	}
+
+	@Override
+	public void act(double dt) {
+		if (countdown < dt) {
+			move();
+			countdown = 1;
+		} else {
+			countdown -= dt;
+		}
 	}
 }

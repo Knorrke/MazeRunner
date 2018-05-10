@@ -5,6 +5,9 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.creature.Creature;
+import model.creature.CreatureFactory;
+import model.creature.CreatureType;
+import model.gameloop.ActorInterface;
 
 public class Maze implements MazeModelInterface {
 
@@ -14,6 +17,7 @@ public class Maze implements MazeModelInterface {
 	
 	public Maze() {
 		this(20,10);
+		addCreature(CreatureFactory.create(this, CreatureType.NORMAL));
 	}
 	
 	public Maze(int maxX, int maxY) {
@@ -78,5 +82,15 @@ public class Maze implements MazeModelInterface {
 	@Override
 	public int getMaxWallY() {
 		return maxWallY;
+	}
+
+	@Override
+	public void update(double dt) {
+		for (ActorInterface creature : creatures) {
+			creature.act(dt);
+		}
+		for (ActorInterface wall : walls) {
+			wall.act(dt);
+		}
 	}
 }
