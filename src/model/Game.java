@@ -15,7 +15,7 @@ import model.player.Player;
 import model.player.PlayerModelInterface;
 
 public class Game implements GameModelInterface {
-	private ObjectProperty<GameState> state;
+	private ObjectProperty<GameState> state = new SimpleObjectProperty<GameState>();
 	private final PlayerModelInterface player;
 	private final LevelModelInterface level;
 	private final MazeModelInterface maze;
@@ -30,7 +30,7 @@ public class Game implements GameModelInterface {
 		}
 		
 		maze = new Maze();
-		state = new SimpleObjectProperty<GameState>(BUILDING);
+		setState(BUILDING);
 		gameloop = new GameLoop(this);
 	}
 		

@@ -24,7 +24,7 @@ public class GameController {
 	/**
 	 * Model classes
 	 */
-	private BooleanProperty paused = new SimpleBooleanProperty(true);
+	private BooleanProperty paused = new SimpleBooleanProperty(false);
 	private GameModelInterface game;
 
 	/**
@@ -83,6 +83,6 @@ public class GameController {
 		player.initModel(game.getPlayer());
 		mazeController.initModel(game.getMaze());
 		levelController.initModel(game.getLevel());
-		paused.bind(game.stateProperty().isEqualTo(GameState.PAUSED));
+		paused.bind(game.stateProperty().isNotEqualTo(GameState.RUNNING));
 	}
 }

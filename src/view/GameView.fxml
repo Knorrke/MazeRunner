@@ -38,9 +38,6 @@
 								<ImageView fx:id="pauseButton" fitHeight="30.0"
 									fitWidth="30.0" onMouseClicked="#togglePause" pickOnBounds="true"
 									preserveRatio="true">
-									<image>
-										<Image url="@../images/pause.png" />
-									</image>
 								</ImageView>
 							</children>
 						</HBox>
