@@ -2,14 +2,9 @@ package model.creature;
 
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import model.creature.Creature;
-import model.creature.CreatureFactory;
-import model.creature.CreatureType;
 import model.maze.Maze;
 import model.maze.MazeModelInterface;
 

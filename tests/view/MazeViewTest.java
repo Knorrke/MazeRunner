@@ -14,20 +14,19 @@ public class MazeViewTest extends AbstractViewTest {
     public void buildWallOnClick() {
     	clickOn("#maze");
     	assertEquals("There should be a wall now", 1, maze.getWalls().size());
-    	verifyThat("#maze", NodeMatchers.hasChildren(1, ".wall"));
-    	verifyThat("#maze .wall", NodeMatchers.hasChildren(1, ".image-view"));
+    	verifyThat("#maze", NodeMatchers.hasChildren(1, ".wall"), collectInfos());
+    	verifyThat("#maze .wall", NodeMatchers.hasChildren(1, ".image-view"), collectInfos());
     	//second click:
     	clickOn(MouseButton.PRIMARY);
 
     	assertEquals("There should still be only one wall", 1, maze.getWalls().size());
-    	verifyThat("#maze", NodeMatchers.hasChildren(1, ".wall"));
+    	verifyThat("#maze", NodeMatchers.hasChildren(1, ".wall"), collectInfos());
     	
     	//third click:
     	moveBy(20, 50);
     	clickOn(MouseButton.PRIMARY);
 
     	assertEquals("There should be two walls now", 2, maze.getWalls().size());
-    	verifyThat("#maze", NodeMatchers.hasChildren(2, ".wall"));
-    	    	
+    	verifyThat("#maze", NodeMatchers.hasChildren(2, ".wall"), collectInfos());
     }
 }
