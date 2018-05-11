@@ -11,10 +11,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import view.MazeView?>
-<?import view.CreaturesView?>
-<?import view.WallsView?>
 <?import controller.PlayerController?>
+<?import view.maze.MazeView?>
 
 <BorderPane id="main" maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"

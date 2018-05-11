@@ -1,7 +1,8 @@
-package view;
+package view.maze;
 
 import javafx.scene.layout.StackPane;
 import model.maze.MazeModelInterface;
+import view.creatures.CreaturesView;
 
 public class MazeView extends StackPane {
 	private WallsView walls;

@@ -6,7 +6,7 @@ import model.level.LevelModelInterface;
 import model.maze.MazeModelInterface;
 import model.player.PlayerModelInterface;
 
-public interface GameModelInterface extends Updateable {
+public interface GameModelInterface extends Updateable, ModelInterface {
 	/**
 	 * @return the player
 	 */

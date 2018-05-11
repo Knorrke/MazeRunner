@@ -3,10 +3,11 @@ package model.maze;
 import java.util.List;
 
 import javafx.collections.ObservableList;
+import model.ModelInterface;
 import model.creature.Creature;
 import model.gameloop.Updateable;
 
-public interface MazeModelInterface extends Updateable {
+public interface MazeModelInterface extends Updateable, ModelInterface {
 	/**
 	 * @return the walls
 	 */

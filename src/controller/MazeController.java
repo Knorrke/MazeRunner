@@ -4,12 +4,13 @@ import javafx.scene.input.KeyCode;
 import model.creature.CreatureFactory;
 import model.creature.CreatureType;
 import model.maze.MazeModelInterface;
-import view.MazeView;
+import view.maze.MazeView;
 
-public class MazeController {
+public class MazeController implements ModelHolder<MazeModelInterface>{
 	private MazeView view;
 	private MazeModelInterface maze;
 
+	@Override
 	public void initModel(MazeModelInterface maze) {
 		this.maze = maze;
 		if (view != null) {

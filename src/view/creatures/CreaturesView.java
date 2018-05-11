@@ -1,4 +1,4 @@
-package view;
+package view.creatures;
 
 import java.util.stream.Collectors;
 
@@ -9,8 +9,9 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import model.creature.Creature;
 import model.maze.MazeModelInterface;
+import view.Bindable;
 
-public class CreaturesView extends Pane {
+public class CreaturesView extends Pane implements Bindable<MazeModelInterface>{
 	
 	ObservableList<Creature> creatures;
 	DoubleBinding scaleX, scaleY;
@@ -18,6 +19,7 @@ public class CreaturesView extends Pane {
 		createCreatures();
 	};
 	
+	@Override
 	public void bind(MazeModelInterface maze) {
 		if (creatures != null) {
 			creatures.removeListener(listener);

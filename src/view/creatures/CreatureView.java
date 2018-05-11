@@ -1,4 +1,4 @@
-package view;
+package view.creatures;
 
 import application.ImageLoader;
 import javafx.beans.binding.DoubleBinding;

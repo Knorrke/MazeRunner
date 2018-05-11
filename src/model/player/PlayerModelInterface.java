@@ -1,8 +1,9 @@
 package model.player;
 
 import javafx.beans.property.IntegerProperty;
+import model.ModelInterface;
 
-public interface PlayerModelInterface {
+public interface PlayerModelInterface extends ModelInterface {
 	/**
 	 * @return the money
 	 */

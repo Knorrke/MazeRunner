@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import model.player.PlayerModelInterface;
 
-public class PlayerController extends HBox {
+public class PlayerController extends HBox implements ModelHolder<PlayerModelInterface>{
 
 	private static Logger LOG = Logger.getLogger(PlayerController.class.getName());
 
@@ -43,7 +43,7 @@ public class PlayerController extends HBox {
 		lifesImage.setImage(ImageLoader.lifes);
 	}
 	
-	
+	@Override
 	public void initModel(PlayerModelInterface player) {
 		this.player = player;
 		money.textProperty().bind(this.player.moneyProperty().asString());

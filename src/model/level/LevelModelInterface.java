@@ -1,10 +1,11 @@
 package model.level;
 
 import javafx.collections.ObservableList;
+import model.ModelInterface;
 import model.creature.CreatureGroup;
 import model.gameloop.Updateable;
 
-public interface LevelModelInterface extends Updateable {
+public interface LevelModelInterface extends Updateable, ModelInterface {
 	
 	/**
 	 * Adds a new group of creatures to the timeline

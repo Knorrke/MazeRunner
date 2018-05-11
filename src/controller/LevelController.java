@@ -10,12 +10,12 @@ import model.creature.CreatureGroup;
 import model.level.LevelModelInterface;
 import view.CreatureTimelineImage;
 
-public class LevelController {
+public class LevelController implements ModelHolder<LevelModelInterface> {
 	private static Logger LOG = Logger.getLogger(LevelController.class.getName());
 	private LevelModelInterface level;
 	private VBox view;
 	
-	
+	@Override
 	public void initModel(LevelModelInterface level) {
 		LOG.finer("initializing LevelModel");
 		this.level = level;

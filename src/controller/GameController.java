@@ -16,9 +16,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import model.GameModelInterface;
 import model.GameState;
-import view.MazeView;
+import view.maze.MazeView;
 
-public class GameController {
+public class GameController implements ModelHolder<GameModelInterface> {
 	private static Logger LOG = Logger.getLogger(GameController.class.getName());
 	
 	/**
@@ -77,6 +77,7 @@ public class GameController {
 		return view;
 	}
 	
+	@Override
 	public void initModel(GameModelInterface game) {
 		LOG.finer("initializing GameModel");
 		this.game = game;
