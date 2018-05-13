@@ -4,17 +4,22 @@ import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
+import application.model.Position;
 import application.model.creature.movements.MovementInterface;
 import application.model.creature.vision.Vision;
 import application.model.gameloop.ActorInterface;
 import application.model.maze.MazeModelInterface;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 public class Creature implements ActorInterface {
   private double countdown = 1;
+  private ObjectProperty<Position> position;
   private DoubleProperty x, y;
   private DoubleProperty velocity;
   private IntegerProperty lifes;
@@ -35,8 +40,7 @@ public class Creature implements ActorInterface {
       CreatureType type,
       MazeModelInterface maze) {
     this(
-        new SimpleDoubleProperty(x),
-        new SimpleDoubleProperty(y),
+        new SimpleObjectProperty<Position>(new Position(x, y)),
         new SimpleDoubleProperty(velocity),
         new SimpleIntegerProperty(lifes),
         movementStrategy,
@@ -46,16 +50,19 @@ public class Creature implements ActorInterface {
   }
 
   public Creature(
-      DoubleProperty x,
-      DoubleProperty y,
+      ObjectProperty<Position> position,
       DoubleProperty velocity,
       IntegerProperty lifes,
       MovementInterface movementStrategy,
       Vision vision,
       CreatureType type,
       MazeModelInterface maze) {
-    this.x = x;
-    this.y = y;
+    this.position = position;
+    this.x = new SimpleDoubleProperty();
+    this.y = new SimpleDoubleProperty();
+    x.bind(Bindings.createDoubleBinding(() -> position.get().getX(), position));
+    y.bind(Bindings.createDoubleBinding(() -> position.get().getY(), position));
+
     this.velocity = velocity;
     this.lifes = lifes;
     this.movementStrategy = movementStrategy;
@@ -96,8 +103,9 @@ public class Creature implements ActorInterface {
         backtracking = true;
       }
     }
-    setX(getX() + getVelocity() * dir[0] * dt);
-    setY(getY() + getVelocity() * dir[1] * dt);
+    double newX = getX() + getVelocity() * dir[0] * dt;
+    double newY = getY() + getVelocity() * dir[1] * dt;
+    setPosition(newX, newY);
     markCurrentFieldVisited();
     if (!backtracking) {
       lastMovements.push(dir);
@@ -134,12 +142,12 @@ public class Creature implements ActorInterface {
 
   /** @return the x value */
   public double getX() {
-    return x.get();
+    return this.x.get();
   }
 
   /** @param x the x to set */
   public void setX(double x) {
-    this.x.set(x);
+    setPosition(x, getY());
   }
 
   /** @return the x property */
@@ -154,7 +162,7 @@ public class Creature implements ActorInterface {
 
   /** @param y the y to set */
   public void setY(double y) {
-    this.y.set(y);
+    setPosition(getX(), y);
   }
 
   /** @return the y property */
@@ -214,5 +222,13 @@ public class Creature implements ActorInterface {
     } else {
       countdown -= dt;
     }
+  }
+
+  public ObjectProperty<Position> positionProperty() {
+    return position;
+  }
+
+  public void setPosition(double x, double y) {
+    position.set(new Position(x, y));
   }
 }
