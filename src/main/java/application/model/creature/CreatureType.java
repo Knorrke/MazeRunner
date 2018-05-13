@@ -1,5 +1,6 @@
 package application.model.creature;
 
 public enum CreatureType {
-	NORMAL, TOUGH
+  NORMAL,
+  TOUGH
 }

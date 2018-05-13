@@ -7,11 +7,11 @@ import org.junit.Test;
 import org.testfx.matcher.base.NodeMatchers;
 
 public class CreatureViewTest extends AbstractViewTest {
-	@Test
-	public void checkCreatureVisible() {
-		game.start();
-		assertEquals("There should be a creature", false, maze.getCreatures().isEmpty());
-		verifyThat("#maze", NodeMatchers.hasChild(".creature"), collectInfos());
-		game.pause();
-	}
+  @Test
+  public void checkCreatureVisible() {
+    game.start();
+    assertEquals("There should be a creature", false, maze.getCreatures().isEmpty());
+    verifyThat("#maze", NodeMatchers.hasChild(".creature"), collectInfos());
+    game.pause();
+  }
 }

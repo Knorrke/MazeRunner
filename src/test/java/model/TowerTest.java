@@ -9,9 +9,9 @@ import org.junit.Test;
 
 public class TowerTest {
 
-	@Test
-	public void setupTest() {
-		AbstractTower abstractTower = new NoTower();
-		assertNotNull("AbstractTower should not be null", abstractTower);
-	}
+  @Test
+  public void setupTest() {
+    AbstractTower abstractTower = new NoTower();
+    assertNotNull("AbstractTower should not be null", abstractTower);
+  }
 }

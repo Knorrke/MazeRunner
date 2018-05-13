@@ -67,8 +67,8 @@ public class VisitedMap {
   }
 
   /**
-   * Method for merging the {@link VisitedState#USELESS} markings with another map. This method is private, use {@link
-   * #mergeUseless(VisitedMap, VisitedMap) static mergeUseless} method instead.
+   * Method for merging the {@link VisitedState#USELESS} markings with another map. This method is
+   * private, use {@link #mergeUseless(VisitedMap, VisitedMap) static mergeUseless} method instead.
    *
    * @param visitedMap2
    */
@@ -80,12 +80,12 @@ public class VisitedMap {
       }
     }
   }
-  
+
   @Override
   public boolean equals(Object obj) {
-	  if (!(obj instanceof VisitedMap)) return false;
-	  
-	  VisitedMap visitedMap2 = (VisitedMap) obj;
-	  return Arrays.deepEquals(map, visitedMap2.map);
+    if (!(obj instanceof VisitedMap)) return false;
+
+    VisitedMap visitedMap2 = (VisitedMap) obj;
+    return Arrays.deepEquals(map, visitedMap2.map);
   }
 }

@@ -8,9 +8,9 @@ import org.junit.Test;
 
 public class ImageLoaderTest {
 
-	@Test
-	public void imageDefined() {
-		ImageLoader.loadAll();
-		assertNotNull(ImageLoader.lifes);
-	}
+  @Test
+  public void imageDefined() {
+    ImageLoader.loadAll();
+    assertNotNull(ImageLoader.lifes);
+  }
 }

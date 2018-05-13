@@ -7,36 +7,23 @@ import application.model.player.PlayerModelInterface;
 import javafx.beans.property.ObjectProperty;
 
 public interface GameModelInterface extends Updateable, ModelInterface {
-	/**
-	 * @return the player
-	 */
-	public PlayerModelInterface getPlayer();
-	
-	/**
-	 * @return the level
-	 */
-	public LevelModelInterface getLevel();
+  /** @return the player */
+  public PlayerModelInterface getPlayer();
 
-	/**
-	 * @return the maze
-	 */
-	public MazeModelInterface getMaze();
-	
-	/**
-	 * @return the state
-	 */
-	public GameState getState();
+  /** @return the level */
+  public LevelModelInterface getLevel();
 
-	/**
-	 * start the game
-	 */
-	public void start();
+  /** @return the maze */
+  public MazeModelInterface getMaze();
 
-	/**
-	 * pause the game
-	 */
-	void pause();
+  /** @return the state */
+  public GameState getState();
 
-	ObjectProperty<GameState> stateProperty();
-	
+  /** start the game */
+  public void start();
+
+  /** pause the game */
+  void pause();
+
+  ObjectProperty<GameState> stateProperty();
 }
