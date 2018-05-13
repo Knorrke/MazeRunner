@@ -18,7 +18,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class Creature implements ActorInterface {
-  private double countdown = 0;
+  private double countdown = 0.5;
   private ObjectProperty<Position> position;
   private DoubleProperty x, y;
   private DoubleProperty velocity;

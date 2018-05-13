@@ -20,7 +20,7 @@ public class Level implements LevelModelInterface {
 
   public Level(GameModelInterface game) {
     this.game = game;
-    resetCountdown();
+    countdown = 1;
   }
 
   @Override
@@ -51,6 +51,6 @@ public class Level implements LevelModelInterface {
   }
 
   private void resetCountdown() {
-    countdown = 10;
+    countdown = 20;
   }
 }
