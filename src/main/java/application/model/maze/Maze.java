@@ -3,8 +3,6 @@ package application.model.maze;
 import java.util.List;
 
 import application.model.creature.Creature;
-import application.model.creature.CreatureFactory;
-import application.model.creature.CreatureType;
 import application.model.gameloop.ActorInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +20,6 @@ public class Maze implements MazeModelInterface {
 	public Maze(int maxX, int maxY) {
 		maxWallX = maxX;
 		maxWallY = maxY;
-		addCreature(CreatureFactory.create(this, CreatureType.NORMAL));
 	}
 
 	@Override

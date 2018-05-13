@@ -10,7 +10,7 @@ import application.view.CreatureTimelineImage;
 import javafx.collections.ListChangeListener;
 import javafx.scene.layout.VBox;
 
-public class LevelController implements ModelHolder<LevelModelInterface> {
+public class LevelController implements ModelHolderInterface<LevelModelInterface> {
 	private static Logger LOG = Logger.getLogger(LevelController.class.getName());
 	private LevelModelInterface level;
 	private VBox view;

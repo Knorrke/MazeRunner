@@ -18,7 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
-public class GameController implements ModelHolder<GameModelInterface> {
+public class GameController implements ModelHolderInterface<GameModelInterface> {
 	private static Logger LOG = Logger.getLogger(GameController.class.getName());
 	
 	/**

@@ -13,7 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-public class PlayerController extends HBox implements ModelHolder<PlayerModelInterface>{
+public class PlayerController extends HBox implements ModelHolderInterface<PlayerModelInterface>{
 
 	private static Logger LOG = Logger.getLogger(PlayerController.class.getName());
 
