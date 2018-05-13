@@ -1,6 +1,7 @@
 package application.model.level;
 
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import application.model.GameModelInterface;
@@ -21,8 +22,7 @@ public class Level implements LevelModelInterface {
     this.game = game;
     resetCountdown();
   }
-  
-  
+
   @Override
   public void addCreatureToTimeline(CreatureGroup group) {
     creatureTimeline.add(group);
@@ -44,13 +44,13 @@ public class Level implements LevelModelInterface {
 
   @Override
   public void sendNextCreatureWave() {
-    CreatureGroup nextCreatureGroup = creatureTimeline.get(waveNumber .getAndIncrement());
-    List<Creature> creatures = CreatureFactory.createAll(game.getMaze(), nextCreatureGroup);
+    CreatureGroup nextCreatureGroup = creatureTimeline.get(waveNumber.getAndIncrement());
+    List<Creature> creatures = CreatureFactory.createAll(game.getMaze(), nextCreatureGroup, () -> 0.0, () -> (double) new Random().nextInt());
     game.nextWave(creatures);
     resetCountdown();
   }
-  
-  private void resetCountdown(){
+
+  private void resetCountdown() {
     countdown = 10;
   }
 }
