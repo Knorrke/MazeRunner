@@ -1,5 +1,8 @@
 package application.model;
 
+import java.util.List;
+
+import application.model.creature.Creature;
 import application.model.gameloop.Updateable;
 import application.model.level.LevelModelInterface;
 import application.model.maze.MazeModelInterface;
@@ -26,4 +29,6 @@ public interface GameModelInterface extends Updateable, ModelInterface {
   void pause();
 
   ObjectProperty<GameState> stateProperty();
+
+  public void nextWave(List<Creature> nextCreatures);
 }

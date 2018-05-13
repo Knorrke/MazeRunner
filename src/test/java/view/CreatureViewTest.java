@@ -13,13 +13,12 @@ import application.model.creature.CreatureType;
 import application.view.creatures.CreatureView;
 
 public class CreatureViewTest extends AbstractViewTest {
-  /*@Test
+  @Test
   public void checkCreatureVisible() {
-    game.start();
+    interact(() -> level.sendNextCreatureWave());
     assertEquals("There should be a creature", false, maze.getCreatures().isEmpty());
     verifyThat("#maze", NodeMatchers.hasChild(".creature"), collectInfos());
-    game.pause();
-  }*/
+  }
 
   @Test
   public void checkCreatureDirection() {

@@ -23,4 +23,7 @@ public interface LevelModelInterface extends Updateable, ModelInterface {
    * @param dt
    */
   public void update(double dt);
+
+  /** Creates the next wave of creatures according to Timeline and resets the countdown */
+  public void sendNextCreatureWave();
 }

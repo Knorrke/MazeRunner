@@ -2,6 +2,9 @@ package application.model;
 
 import static application.model.GameState.BUILDING;
 
+import java.util.List;
+
+import application.model.creature.Creature;
 import application.model.creature.CreatureGroup;
 import application.model.creature.CreatureType;
 import application.model.gameloop.GameLoop;
@@ -24,7 +27,7 @@ public class Game implements GameModelInterface {
   public Game() {
     player = new Player(50, 20);
 
-    level = new Level();
+    level = new Level(this);
     for (int i = 0; i < 9; i++) {
       level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 20));
     }
@@ -78,5 +81,10 @@ public class Game implements GameModelInterface {
   public void pause() {
     setState(GameState.PAUSED);
     gameloop.stop();
+  }
+
+  @Override
+  public void nextWave(List<Creature> nextCreatures) {
+    maze.addAllCreatures(nextCreatures);
   }
 }
