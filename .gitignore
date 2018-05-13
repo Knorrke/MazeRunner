@@ -1,3 +1,4 @@
 *.class
 bin
 failed-test-screenshots
+/target/
