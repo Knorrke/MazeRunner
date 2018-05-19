@@ -18,6 +18,10 @@ public class ImageLoader {
 
   public static Image wall;
 
+  public static Image sell;
+
+  public static Image normalTower;
+
   public static void loadAll() {
     loadGameImages();
     loadMenuImages();
@@ -34,6 +38,11 @@ public class ImageLoader {
     pause = loadImage("pause.png");
     normalCreature = loadImage("creatures/normal.png");
     toughCreature = loadImage("creatures/tough.png");
+    
+    sell = loadImage("sell.png");
+    
+    normalTower = loadImage("towers/normal.png");
+    
     LOG.fine("Finished loading game images");
   }
 

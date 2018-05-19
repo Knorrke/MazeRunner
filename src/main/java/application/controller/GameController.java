@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import application.ImageLoader;
 import application.model.GameModelInterface;
 import application.model.GameState;
+import application.model.maze.Wall;
 import application.view.maze.MazeView;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -40,7 +41,7 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
   @FXML ImageView pauseButton;
 
   public GameController() {
-    mazeController = new MazeController();
+    mazeController = new MazeController(this);
     levelController = new LevelController();
 
     FXMLLoader gameViewLoader =
@@ -86,4 +87,8 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
     levelController.initModel(game.getLevel());
     paused.bind(game.stateProperty().isNotEqualTo(GameState.RUNNING));
   }
+
+  public void sell(Wall wall) {}
+
+  public void buildTower(Wall wall) {}
 }

@@ -11,7 +11,7 @@ import javafx.beans.property.SimpleObjectProperty;
 public class Wall implements ActorInterface {
 
   private IntegerProperty x, y;
-  private ObjectProperty<AbstractTower> abstractTower;
+  private ObjectProperty<AbstractTower> tower;
 
   public Wall(int x, int y) {
     this(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
@@ -20,7 +20,7 @@ public class Wall implements ActorInterface {
   public Wall(IntegerProperty x, IntegerProperty y) {
     this.x = x;
     this.y = y;
-    this.abstractTower = new SimpleObjectProperty<AbstractTower>(new NoTower());
+    this.tower = new SimpleObjectProperty<AbstractTower>(new NoTower());
   }
 
   /** @return the x position */
@@ -50,16 +50,16 @@ public class Wall implements ActorInterface {
 
   /** @return the abstractTower */
   public AbstractTower getTower() {
-    return abstractTower.get();
+    return tower.get();
   }
 
   /** @param abstractTower the abstractTower to set */
   public void setTower(AbstractTower abstractTower) {
-    this.abstractTower.set(abstractTower);
+    this.tower.set(abstractTower);
   }
 
   public ObjectProperty<AbstractTower> towerProperty() {
-    return abstractTower;
+    return tower;
   }
 
   @Override

@@ -1,5 +1,6 @@
 package application.view.maze;
 
+import application.controller.MazeController;
 import application.model.maze.MazeModelInterface;
 import application.view.creatures.CreaturesView;
 import javafx.scene.layout.StackPane;
@@ -7,10 +8,12 @@ import javafx.scene.layout.StackPane;
 public class MazeView extends StackPane {
   private WallsView walls;
   private CreaturesView creatures;
-
+  private MazeController controller;
+  
   public MazeView() {
     setWalls(new WallsView());
     setCreatures(new CreaturesView());
+    getCreatures().setPickOnBounds(false);
     //		creatures.widthProperty().bind(getWalls().widthProperty());
     //		creatures.heightProperty().bind(getWalls().heightProperty());
     this.getChildren().addAll(getWalls(), getCreatures());
@@ -39,5 +42,10 @@ public class MazeView extends StackPane {
   public void bind(MazeModelInterface maze) {
     walls.bind(maze);
     creatures.bind(maze);
+  }
+
+  public void setController(MazeController mazeController) {
+    this.controller = mazeController;
+    walls.setController(mazeController);
   }
 }

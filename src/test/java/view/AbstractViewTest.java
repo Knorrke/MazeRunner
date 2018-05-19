@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 import org.junit.BeforeClass;
+import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.util.DebugUtils;
 
@@ -36,7 +37,12 @@ public abstract class AbstractViewTest extends ApplicationTest {
       System.setProperty("java.awt.headless", "true");
     }
   }
-
+  
+  @Override
+  public void init() throws Exception {
+    FxToolkit.registerStage(() -> new Stage());
+  }
+  
   @Override
   public void start(Stage stage) {
     ImageLoader.loadAll();
@@ -56,6 +62,11 @@ public abstract class AbstractViewTest extends ApplicationTest {
     player = game.getPlayer();
     stage.setScene(scene);
     stage.show();
+  }
+  
+  @Override
+  public void stop() throws Exception {
+    FxToolkit.hideStage();
   }
 
   /** Debug helper */
