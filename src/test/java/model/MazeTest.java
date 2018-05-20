@@ -2,15 +2,14 @@ package model;
 
 import static org.junit.Assert.*;
 
-import application.model.maze.Maze;
-import application.model.maze.MazeModelInterface;
-import application.model.maze.Wall;
-
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import application.model.maze.Maze;
+import application.model.maze.MazeModelInterface;
+import application.model.maze.Wall;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 

@@ -9,7 +9,7 @@ public class MazeView extends StackPane {
   private WallsView walls;
   private CreaturesView creatures;
   private MazeController controller;
-  
+
   public MazeView() {
     setWalls(new WallsView());
     setCreatures(new CreaturesView());

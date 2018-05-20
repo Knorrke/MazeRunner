@@ -41,15 +41,16 @@ public class Launcher extends Application {
 
     primaryStage.setScene(scene);
     primaryStage.show();
-    primaryStage.addEventHandler(KeyEvent.KEY_TYPED, new EventHandler<javafx.scene.input.KeyEvent>() {
-      @Override
-      public void handle(KeyEvent event) {
-        if (event.getCode() == KeyCode.P  && event.isControlDown()) {
-          System.out.println(game.toString()); 
-        }
-      }
-      
-    });
+    primaryStage.addEventHandler(
+        KeyEvent.KEY_TYPED,
+        new EventHandler<javafx.scene.input.KeyEvent>() {
+          @Override
+          public void handle(KeyEvent event) {
+            if (event.getCode() == KeyCode.P && event.isControlDown()) {
+              System.out.println(game.toString());
+            }
+          }
+        });
   }
 
   public static void main(String[] args) {

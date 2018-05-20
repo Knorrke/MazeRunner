@@ -6,10 +6,10 @@ public class MovementFactory {
   }
 
   public static MovementInterface get(MovementType type) {
-    switch(type) {
-    case NO_SIGHT:
-    default:
-      return new NoSightMovement();
+    switch (type) {
+      case NO_SIGHT:
+      default:
+        return new NoSightMovement();
     }
   }
 }

@@ -1,13 +1,12 @@
 package model;
 
-import static org.junit.Assert.assertEquals;
-
-import application.model.Game;
-
 import static application.model.GameState.BUILDING;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import application.model.Game;
 
 public class GameTest {
 

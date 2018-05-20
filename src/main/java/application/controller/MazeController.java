@@ -10,7 +10,7 @@ public class MazeController implements ModelHolderInterface<MazeModelInterface> 
   private MazeView view;
   private MazeModelInterface maze;
   private GameController gameController;
-  
+
   public MazeController(GameController gameController) {
     this.gameController = gameController;
   }
@@ -55,6 +55,6 @@ public class MazeController implements ModelHolderInterface<MazeModelInterface> 
   }
 
   public void buildTower(Wall wall) {
-//    wall.setTower(...);
+    //    wall.setTower(...);
   }
 }

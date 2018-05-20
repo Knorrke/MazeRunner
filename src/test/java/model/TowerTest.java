@@ -1,11 +1,11 @@
 package model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+
+import org.junit.Test;
 
 import application.model.maze.tower.AbstractTower;
 import application.model.maze.tower.NoTower;
-
-import org.junit.Test;
 
 public class TowerTest {
 

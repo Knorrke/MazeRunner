@@ -20,12 +20,15 @@ public class CreatureView extends StackPane {
     this.getChildren().add(img);
     this.layoutXProperty().bind(creature.xProperty().multiply(scaleX));
     this.layoutYProperty().bind(creature.yProperty().multiply(scaleY));
-    creature.positionProperty().addListener((obj, oldPos, newPos) -> {
-      setRotate(calculateRotation(oldPos, newPos));
-    });
+    creature
+        .positionProperty()
+        .addListener(
+            (obj, oldPos, newPos) -> {
+              setRotate(calculateRotation(oldPos, newPos));
+            });
   }
-  
+
   private static double calculateRotation(Position oldPos, Position newPos) {
-    return Math.atan2(newPos.getY() - oldPos.getY(), newPos.getX() - oldPos.getX())/Math.PI * 180;
+    return Math.atan2(newPos.getY() - oldPos.getY(), newPos.getX() - oldPos.getX()) / Math.PI * 180;
   }
 }

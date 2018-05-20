@@ -1,6 +1,6 @@
 package view;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.testfx.api.FxAssert.verifyThat;
 
 import org.junit.Test;
@@ -23,30 +23,30 @@ public class CreatureViewTest extends AbstractViewTest {
   @Test
   public void checkCreatureDirection() {
     final int forward = 0, upward = 90, backward = 180, downward = 270;
-    
+
     Creature creature = CreatureFactory.create(maze, CreatureType.NORMAL, 3, 3);
     interact(() -> maze.addCreature(creature));
     WaitForAsyncUtils.waitForFxEvents();
     verifyThat("#maze", NodeMatchers.hasChildren(1, ".creature"), collectInfos());
     CreatureView creatureView = lookup(".creature").query();
-    
+
     interact(() -> creature.move(1, 0)); // forward
     WaitForAsyncUtils.waitForFxEvents();
-    assertEquals(forward, mod(creatureView.getRotate(),360));
+    assertEquals(forward, mod(creatureView.getRotate(), 360));
 
     interact(() -> creature.move(-1, 0)); // backward
     WaitForAsyncUtils.waitForFxEvents();
-    assertEquals(backward, mod(creatureView.getRotate(),360));
+    assertEquals(backward, mod(creatureView.getRotate(), 360));
 
     interact(() -> creature.move(0, 1)); // upward
     WaitForAsyncUtils.waitForFxEvents();
-    assertEquals(upward, mod(creatureView.getRotate(),360));
+    assertEquals(upward, mod(creatureView.getRotate(), 360));
 
     interact(() -> creature.move(0, -1)); // downward
     WaitForAsyncUtils.waitForFxEvents();
-    assertEquals(downward, mod(creatureView.getRotate(),360));
+    assertEquals(downward, mod(creatureView.getRotate(), 360));
   }
-  
+
   private int mod(double x, int modulo) {
     return Math.floorMod((int) x, modulo);
   }

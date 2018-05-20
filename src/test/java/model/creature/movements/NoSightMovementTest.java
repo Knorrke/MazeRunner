@@ -2,17 +2,17 @@ package model.creature.movements;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import application.model.creature.VisitedMap;
 import application.model.creature.movements.MovementInterface;
 import application.model.creature.movements.NoSightMovement;
 import application.model.creature.vision.Vision;
 import application.model.maze.Maze;
 import application.model.maze.MazeModelInterface;
-
-import java.util.Arrays;
-
-import org.junit.Before;
-import org.junit.Test;
 
 public class NoSightMovementTest {
   int maxX = 5, maxY = 5;

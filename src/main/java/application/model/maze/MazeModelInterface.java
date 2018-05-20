@@ -2,7 +2,6 @@ package application.model.maze;
 
 import java.util.List;
 
-import application.controller.MazeController;
 import application.model.ModelInterface;
 import application.model.creature.Creature;
 import application.model.gameloop.Updateable;
@@ -66,5 +65,6 @@ public interface MazeModelInterface extends Updateable, ModelInterface {
    *
    * @param dt
    */
+  @Override
   public void update(double dt);
 }

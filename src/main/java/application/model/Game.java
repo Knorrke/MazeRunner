@@ -37,6 +37,7 @@ public class Game implements GameModelInterface {
     gameloop = new GameLoop(this);
   }
 
+  @Override
   public void update(double dt) {
     maze.update(dt);
     level.update(dt);
@@ -57,6 +58,7 @@ public class Game implements GameModelInterface {
     return maze;
   }
 
+  @Override
   public GameState getState() {
     return state.get();
   }

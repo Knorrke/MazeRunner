@@ -38,11 +38,11 @@ public class ImageLoader {
     pause = loadImage("pause.png");
     normalCreature = loadImage("creatures/normal.png");
     toughCreature = loadImage("creatures/tough.png");
-    
+
     sell = loadImage("sell.png");
-    
+
     normalTower = loadImage("towers/normal.png");
-    
+
     LOG.fine("Finished loading game images");
   }
 

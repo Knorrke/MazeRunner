@@ -1,10 +1,10 @@
 package view;
 
-import static org.junit.Assert.*;
-
-import application.ImageLoader;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+
+import application.ImageLoader;
 
 public class ImageLoaderTest {
 

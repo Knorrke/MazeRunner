@@ -66,6 +66,7 @@ public class Maze implements MazeModelInterface {
     this.creatures.addAll(creatures);
   }
 
+  @Override
   public boolean hasWallOn(int x, int y) {
     return !getWalls().filtered(wall -> wall.getX() == x && wall.getY() == y).isEmpty();
   }

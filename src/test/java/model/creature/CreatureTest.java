@@ -2,14 +2,14 @@ package model.creature;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import application.model.creature.Creature;
 import application.model.creature.CreatureFactory;
 import application.model.creature.CreatureType;
 import application.model.maze.Maze;
 import application.model.maze.MazeModelInterface;
-
-import org.junit.Before;
-import org.junit.Test;
 
 public class CreatureTest {
 

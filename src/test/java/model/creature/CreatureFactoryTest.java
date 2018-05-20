@@ -27,7 +27,7 @@ public class CreatureFactoryTest {
     normalCreatureGroup = new CreatureGroup(type, number);
     maze = new Maze();
   }
-  
+
   @Test
   public void createCreatureGroupTest() {
     List<Creature> creatures =
@@ -38,48 +38,58 @@ public class CreatureFactoryTest {
         creatures.stream().allMatch((Creature c) -> c.getType().equals(type)));
     assertNotEquals("Should be different creature objects", creatures.get(0), creatures.get(1));
   }
-  
+
   @Test
   public void createCreatureGroupFixedTest() {
     final int x = 4, y = 5;
     List<Creature> creatures = CreatureFactory.createAll(maze, normalCreatureGroup, x, y);
-    assertTrue("Should be on correct position",
+    assertTrue(
+        "Should be on correct position",
         creatures.stream().allMatch((Creature c) -> c.getX() == x && c.getY() == y));
   }
-  
+
   @Test
   public void createCreatureGroupRandomYTest() {
     final int x = 4;
-    List<Creature> creatures = CreatureFactory.createAll(maze, normalCreatureGroup,x, new Random());
+    List<Creature> creatures =
+        CreatureFactory.createAll(maze, normalCreatureGroup, x, new Random());
     double exampleY = creatures.get(0).getY();
 
-    assertTrue("Should be on correct x positions",
+    assertTrue(
+        "Should be on correct x positions",
         creatures.stream().allMatch((Creature c) -> c.getX() == x));
-    assertTrue("Should be on different y positions",
+    assertTrue(
+        "Should be on different y positions",
         creatures.stream().anyMatch((Creature c) -> c.getY() != exampleY));
   }
-  
+
   @Test
   public void createCreatureGroupRandomXTest() {
-    final int y=5;
-    List<Creature> creatures = CreatureFactory.createAll(maze, normalCreatureGroup,new Random(), y);
+    final int y = 5;
+    List<Creature> creatures =
+        CreatureFactory.createAll(maze, normalCreatureGroup, new Random(), y);
     double exampleX = creatures.get(0).getX();
 
-    assertTrue("Should be on correct y positions",
+    assertTrue(
+        "Should be on correct y positions",
         creatures.stream().allMatch((Creature c) -> c.getY() == y));
-    assertTrue("Should be on different x positions",
+    assertTrue(
+        "Should be on different x positions",
         creatures.stream().anyMatch((Creature c) -> c.getX() != exampleX));
   }
-  
+
   @Test
   public void createCreatureGroupRandomXAndYTest() {
-    List<Creature> creatures = CreatureFactory.createAll(maze, normalCreatureGroup, new Random(), new Random());
+    List<Creature> creatures =
+        CreatureFactory.createAll(maze, normalCreatureGroup, new Random(), new Random());
     double exampleX = creatures.get(0).getX();
     double exampleY = creatures.get(0).getY();
 
-    assertTrue("Should be on different x positions",
+    assertTrue(
+        "Should be on different x positions",
         creatures.stream().anyMatch((Creature c) -> c.getX() != exampleX));
-    assertTrue("Should be on different y positions",
-            creatures.stream().anyMatch((Creature c) -> c.getY() != exampleY));
+    assertTrue(
+        "Should be on different y positions",
+        creatures.stream().anyMatch((Creature c) -> c.getY() != exampleY));
   }
 }

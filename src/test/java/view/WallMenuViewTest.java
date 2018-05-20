@@ -23,15 +23,15 @@ public class WallMenuViewTest extends AbstractViewTest {
     openMenuAndWaitForAnimation();
     assertTrue(menu.isShown());
   }
-  
+
   @Test
   public void closingMenuTest() {
     buildWall();
     openMenuAndWaitForAnimation();
-    moveTo(0,0);
+    moveTo(0, 0);
     assertFalse(menu.isShown());
   }
-  
+
   @Test
   public void sellTest() {
     buildWall();
@@ -40,7 +40,7 @@ public class WallMenuViewTest extends AbstractViewTest {
     assertFalse(menu.isShown());
     verifyThat("#maze", NodeMatchers.hasChildren(0, ".wall"), collectInfos());
   }
-  
+
   private void selectSell() {
     clickOn("#sell-item");
   }
@@ -48,16 +48,16 @@ public class WallMenuViewTest extends AbstractViewTest {
   private void buildWall() {
     clickOn("#maze", MouseButton.PRIMARY);
   }
-  
+
   private void openMenuAndWaitForAnimation() {
     clickOn(".wall", MouseButton.PRIMARY);
     WallView wall = this.lookup(".wall").query();
     menu = wall.getWallMenu();
-    
+
     waitForAnimation();
   }
-  
+
   private void waitForAnimation() {
-    WaitForAsyncUtils.sleep((long)menu.getAnimationDuration().toMillis(), TimeUnit.MILLISECONDS);
+    WaitForAsyncUtils.sleep((long) menu.getAnimationDuration().toMillis(), TimeUnit.MILLISECONDS);
   }
 }

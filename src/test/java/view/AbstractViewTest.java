@@ -37,12 +37,12 @@ public abstract class AbstractViewTest extends ApplicationTest {
       System.setProperty("java.awt.headless", "true");
     }
   }
-  
+
   @Override
   public void init() throws Exception {
     FxToolkit.registerStage(() -> new Stage());
   }
-  
+
   @Override
   public void start(Stage stage) {
     ImageLoader.loadAll();
@@ -63,7 +63,7 @@ public abstract class AbstractViewTest extends ApplicationTest {
     stage.setScene(scene);
     stage.show();
   }
-  
+
   @Override
   public void stop() throws Exception {
     FxToolkit.hideStage();

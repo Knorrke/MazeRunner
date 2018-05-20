@@ -35,12 +35,14 @@ public class CreatureFactory {
 
   public static List<Creature> createAll(
       MazeModelInterface maze, CreatureGroup creatures, Random randomX, double fixedY) {
-    return createAll(maze, creatures, () -> randomX.nextDouble()*maze.getMaxWallX(), () -> fixedY);
+    return createAll(
+        maze, creatures, () -> randomX.nextDouble() * maze.getMaxWallX(), () -> fixedY);
   }
 
   public static List<Creature> createAll(
       MazeModelInterface maze, CreatureGroup creatures, double fixedX, Random randomY) {
-    return createAll(maze, creatures, () -> fixedX, () -> randomY.nextDouble()*maze.getMaxWallY());
+    return createAll(
+        maze, creatures, () -> fixedX, () -> randomY.nextDouble() * maze.getMaxWallY());
   }
 
   public static List<Creature> createAll(
@@ -59,7 +61,7 @@ public class CreatureFactory {
       try {
         x = xGenerator.call() % maze.getMaxWallX();
         y = yGenerator.call() % maze.getMaxWallY();
-        
+
         if (x < 0) x += maze.getMaxWallX();
         if (y < 0) y += maze.getMaxWallY();
       } catch (Exception e) {

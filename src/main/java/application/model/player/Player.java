@@ -18,28 +18,34 @@ public class Player implements PlayerModelInterface {
   }
 
   /** @return the money */
+  @Override
   public int getMoney() {
     return money.get();
   }
   /** @return the money property */
+  @Override
   public IntegerProperty moneyProperty() {
     return money;
   }
   /** @return the lives */
+  @Override
   public int getLifes() {
     return lifes.get();
   }
   /** @return the lives property */
+  @Override
   public IntegerProperty lifesProperty() {
     return lifes;
   }
 
   /** Loose a life */
+  @Override
   public void looseLife() {
     lifes.set(lifes.get() - 1);
   }
 
   /** Gain a life */
+  @Override
   public void gainLife() {
     lifes.set(lifes.get() + 1);
   }
@@ -49,6 +55,7 @@ public class Player implements PlayerModelInterface {
    *
    * @param costs
    */
+  @Override
   public void spendMoney(int costs) {
     money.set(money.get() - costs);
   }
@@ -58,6 +65,7 @@ public class Player implements PlayerModelInterface {
    *
    * @param earnings
    */
+  @Override
   public void earnMoney(int earnings) {
     money.set(money.get() + earnings);
   }
