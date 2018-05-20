@@ -5,7 +5,10 @@ import java.util.logging.Logger;
 import application.controller.GameController;
 import application.model.Game;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class Launcher extends Application {
@@ -38,6 +41,15 @@ public class Launcher extends Application {
 
     primaryStage.setScene(scene);
     primaryStage.show();
+    primaryStage.addEventHandler(KeyEvent.KEY_TYPED, new EventHandler<javafx.scene.input.KeyEvent>() {
+      @Override
+      public void handle(KeyEvent event) {
+        if (event.getCode() == KeyCode.P  && event.isControlDown()) {
+          System.out.println(game.toString()); 
+        }
+      }
+      
+    });
   }
 
   public static void main(String[] args) {

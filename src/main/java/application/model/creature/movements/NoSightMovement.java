@@ -9,7 +9,6 @@ import application.model.maze.MazeModelInterface;
 import application.model.maze.Wall;
 
 public class NoSightMovement implements MovementInterface {
-
   @Override
   public double[] getMoveDirection(
       MazeModelInterface maze,

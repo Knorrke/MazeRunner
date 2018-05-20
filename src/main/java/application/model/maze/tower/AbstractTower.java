@@ -3,13 +3,15 @@ package application.model.maze.tower;
 import application.model.gameloop.ActorInterface;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public abstract class AbstractTower implements ActorInterface {
 
-  protected DoubleProperty fireRate;
-  protected IntegerProperty damage;
-  protected IntegerProperty costs;
-  protected DoubleProperty visualRange;
+  protected DoubleProperty fireRate = new SimpleDoubleProperty();
+  protected IntegerProperty damage = new SimpleIntegerProperty();
+  protected IntegerProperty costs = new SimpleIntegerProperty();
+  protected DoubleProperty visualRange = new SimpleDoubleProperty();
 
   public void shoot() {
     // TODO

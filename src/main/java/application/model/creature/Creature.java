@@ -19,16 +19,16 @@ import javafx.beans.property.SimpleObjectProperty;
 
 public class Creature implements ActorInterface {
   private double countdown = 0.5;
-  private ObjectProperty<Position> position;
+  private transient ObjectProperty<Position> position;
   private DoubleProperty x, y;
   private DoubleProperty velocity;
   private IntegerProperty lifes;
   private MovementInterface movementStrategy;
   private final CreatureType type;
-  private MazeModelInterface maze;
+  private transient MazeModelInterface maze;
   private Vision vision;
   private VisitedMap map;
-  private Stack<double[]> lastMovements;
+  private transient Stack<double[]> lastMovements;
 
   public Creature(
       double x,

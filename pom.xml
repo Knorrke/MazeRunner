@@ -54,7 +54,6 @@
 			<groupId>org.hildan.fxgson</groupId>
 			<artifactId>fx-gson</artifactId>
 			<version>3.1.0</version>
-			<type>pom</type>
 		</dependency>
 		<!-- Test dependencies -->
 		<!-- TestFX: Testframework for JavaFX-Unittests -->

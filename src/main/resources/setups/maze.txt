@@ -1,0 +1,22 @@
+{
+	"walls": [],
+	"levels: [
+		{
+			"type": "NORMAL",
+			"number": 20
+		},		{
+			"type": "NORMAL",
+			"number": 20
+		},		{
+			"type": "NORMAL",
+			"number": 20
+		},		{
+			"type": "NORMAL",
+			"number": 20
+		}
+	],
+	"player: {
+		"lifes": 20,
+		"money": 50
+	}
+}
