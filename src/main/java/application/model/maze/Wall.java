@@ -1,5 +1,7 @@
 package application.model.maze;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import application.model.gameloop.ActorInterface;
 import application.model.maze.tower.AbstractTower;
 import application.model.maze.tower.NoTower;
@@ -12,6 +14,13 @@ public class Wall implements ActorInterface {
 
   private IntegerProperty x, y;
   private ObjectProperty<AbstractTower> tower;
+
+  /** json enty */
+  public Wall() {
+    x = new SimpleIntegerProperty();
+    y = new SimpleIntegerProperty();
+    tower = new SimpleObjectProperty<>();
+  }
 
   public Wall(int x, int y) {
     this(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
@@ -28,6 +37,11 @@ public class Wall implements ActorInterface {
     return x.get();
   }
 
+  /** @param y the x position to set */
+  public void setX(int x) {
+    this.x.set(x);
+  }
+
   /** @return the x property */
   public IntegerProperty xProperty() {
     return x;
@@ -38,12 +52,18 @@ public class Wall implements ActorInterface {
     return y.get();
   }
 
+  /** @param y the y position to set */
+  public void setY(int y) {
+    this.y.set(y);
+  }
+
   /** @return the y property */
   public IntegerProperty yProperty() {
     return y;
   }
 
   /** @return the position as array */
+  @JsonIgnore
   public int[] getPosition() {
     return new int[] {x.get(), y.get()};
   }

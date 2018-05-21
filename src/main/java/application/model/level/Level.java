@@ -4,20 +4,28 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import application.model.GameModelInterface;
 import application.model.creature.Creature;
 import application.model.creature.CreatureFactory;
 import application.model.creature.CreatureGroup;
+import application.util.ObservableListDeserializer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Level implements LevelModelInterface {
-
+  @JsonDeserialize(using = ObservableListDeserializer.forCreatureGroups.class)
   private ObservableList<CreatureGroup> creatureTimeline = FXCollections.observableArrayList();
-  private GameModelInterface game;
+  @JsonBackReference private GameModelInterface game;
   private double countdown;
   private AtomicInteger waveNumber = new AtomicInteger(0);
 
+  public Level() {
+    countdown = 1;
+  }
+  
   public Level(GameModelInterface game) {
     this.game = game;
     countdown = 1;

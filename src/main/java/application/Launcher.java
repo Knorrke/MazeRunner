@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import application.controller.GameController;
 import application.model.Game;
 import application.util.Serializer;
@@ -18,7 +21,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class Launcher extends Application {
-  private static Logger LOG = Logger.getLogger(Launcher.class.getName());
+  private static final Logger LOG = Logger.getLogger(Launcher.class.getName());
 
   GameController gameController;
 
@@ -29,7 +32,7 @@ public class Launcher extends Application {
 
     LOG.fine("creating application.model");
     Game game = params.containsKey("setup")
-        ? Serializer.create().fromJson(readJson(params.get("setup")), Game.class)
+        ? createGamefromJsonFile(params.get("setup"))
         : new Game();
 
     LOG.fine("creating gameController");
@@ -37,7 +40,7 @@ public class Launcher extends Application {
 
     LOG.fine("initializing Model");
     gameController.initModel(game);
-
+    
     Scene scene = new Scene(gameController.getView());
     LOG.fine("loading stylesheet");
     scene
@@ -56,10 +59,32 @@ public class Launcher extends Application {
           @Override
           public void handle(KeyEvent event) {
             if (event.getCode() == KeyCode.P && event.isControlDown()) {
-              System.out.println(Serializer.create().toJson(game));
+              try {
+                System.out.println(Serializer.create().writeValueAsString(game));
+              } catch (JsonProcessingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              }
             }
           }
         });
+  }
+
+  private Game createGamefromJsonFile(String name) {
+    String json = readJson(name);
+    System.out.println(json);
+    ObjectMapper serializer = Serializer.create();
+    if (serializer.canDeserialize(serializer.constructType(Game.class))) {
+      try {
+        return serializer.readValue(json, Game.class);
+      } catch (IOException e) {
+        LOG.log(Level.SEVERE, "Failed to convert json to Game", e);
+        return null;
+      }
+    } else {
+      LOG.warning("Json doesn't seem to be a Game. Creating a new one.");
+      return new Game();
+    }
   }
 
   private String readJson(String name) {

@@ -1,11 +1,19 @@
 package application.model.level;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+
 import application.model.GameModelInterface;
 import application.model.ModelInterface;
 import application.model.creature.CreatureGroup;
 import application.model.gameloop.Updateable;
 import javafx.collections.ObservableList;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = Level.class, name = "Level"),
+})
 public interface LevelModelInterface extends Updateable, ModelInterface {
 
   /**
