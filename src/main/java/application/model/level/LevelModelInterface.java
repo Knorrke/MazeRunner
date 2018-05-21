@@ -1,5 +1,6 @@
 package application.model.level;
 
+import application.model.GameModelInterface;
 import application.model.ModelInterface;
 import application.model.creature.CreatureGroup;
 import application.model.gameloop.Updateable;
@@ -27,4 +28,6 @@ public interface LevelModelInterface extends Updateable, ModelInterface {
 
   /** Creates the next wave of creatures according to Timeline and resets the countdown */
   public void sendNextCreatureWave();
+
+  public void setGame(GameModelInterface game);
 }

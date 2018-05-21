@@ -55,4 +55,9 @@ public class Level implements LevelModelInterface {
   private void resetCountdown() {
     countdown = 20;
   }
+
+  @Override
+  public void setGame(GameModelInterface game) {
+    this.game = game;
+  }
 }

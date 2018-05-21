@@ -1,9 +1,15 @@
 package application;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import application.controller.GameController;
 import application.model.Game;
+import application.util.Serializer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -19,9 +25,12 @@ public class Launcher extends Application {
   @Override
   public void start(Stage primaryStage) {
     ImageLoader.loadAll();
+    Map<String, String> params = this.getParameters().getNamed();
 
     LOG.fine("creating application.model");
-    Game game = new Game();
+    Game game = params.containsKey("setup")
+        ? Serializer.create().fromJson(readJson(params.get("setup")), Game.class)
+        : new Game();
 
     LOG.fine("creating gameController");
     gameController = new GameController();
@@ -42,15 +51,32 @@ public class Launcher extends Application {
     primaryStage.setScene(scene);
     primaryStage.show();
     primaryStage.addEventHandler(
-        KeyEvent.KEY_TYPED,
+        KeyEvent.KEY_PRESSED,
         new EventHandler<javafx.scene.input.KeyEvent>() {
           @Override
           public void handle(KeyEvent event) {
             if (event.getCode() == KeyCode.P && event.isControlDown()) {
-              System.out.println(game.toString());
+              System.out.println(Serializer.create().toJson(game));
             }
           }
         });
+  }
+
+  private String readJson(String name) {
+    try {
+      BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("setups/"+name+".json"), "UTF-8"));
+      StringBuffer builder = new StringBuffer();
+      String nextLine = reader.readLine();
+      while(nextLine != null) {
+        builder.append(nextLine);
+        nextLine = reader.readLine();
+      }
+      return builder.toString();
+    } catch (IOException e) {
+      LOG.log(Level.SEVERE, "opening file {} failed", name);
+      e.printStackTrace();
+      return "";
+    }
   }
 
   public static void main(String[] args) {
