@@ -33,13 +33,15 @@ public class PlayerController extends HBox implements ModelHolderInterface<Playe
     try {
       LOG.fine("Loading PlayerView from fxml");
       playerLoader.load();
+      LOG.fine("Loading PlayerView successfull");
     } catch (IOException exception) {
       LOG.log(Level.SEVERE, "Loading PlayerView.fxml failed", exception);
       throw new RuntimeException(exception);
     }
   }
 
-  public void initialize() {
+  @FXML private void initialize() {
+    LOG.fine("initializing PlayerView");
     moneyImage.setImage(ImageLoader.money);
     lifesImage.setImage(ImageLoader.lifes);
   }

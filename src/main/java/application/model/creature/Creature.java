@@ -38,17 +38,6 @@ public class Creature implements ActorInterface {
 
   /** json entry */
   public Creature() {
-//    x = new SimpleDoubleProperty();
-//    y = new SimpleDoubleProperty();
-//    position = new SimpleObjectProperty<Position>(new Position(x, y));
-//    velocity = new SimpleDoubleProperty();
-//    lifes = new SimpleIntegerProperty();
-//    movementStrategy = null;
-//    type = CreatureType.NORMAL;
-//    maze = null;
-//    vision = null;
-//    map = null;
-//    lastMovements = new S
     this(0,0,0,0,new NoSightMovement(),new Vision(),CreatureType.NORMAL,new Maze());
   }
 

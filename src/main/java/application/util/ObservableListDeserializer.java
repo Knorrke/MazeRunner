@@ -5,8 +5,11 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import application.model.creature.Creature;
 import application.model.creature.CreatureGroup;
@@ -18,8 +21,10 @@ public class ObservableListDeserializer {
   private static class For<T> extends JsonDeserializer<ObservableList<T>> {
     public ObservableList<T> deserialize(JsonParser jp, DeserializationContext ctxt)
         throws IOException, JsonProcessingException {
-      ArrayList<T> list = (ArrayList<T>) ctxt.readValue(jp, ArrayList.class);
-      return FXCollections.observableArrayList(list);
+      ObjectMapper mapper = Serializer.create();
+        JsonNode node = mapper.readTree(jp);
+        ArrayList<T> list = mapper.convertValue(node, new TypeReference<ArrayList<T>>() {});
+        return FXCollections.observableArrayList(list);
     }
   }
 

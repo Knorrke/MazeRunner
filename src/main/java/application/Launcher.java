@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 public class Launcher extends Application {
   private static final Logger LOG = Logger.getLogger(Launcher.class.getName());
 
-  GameController gameController;
+  private GameController gameController;
 
   @Override
   public void start(Stage primaryStage) {

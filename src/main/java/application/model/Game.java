@@ -4,8 +4,6 @@ import static application.model.GameState.BUILDING;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import application.model.creature.Creature;
 import application.model.creature.CreatureGroup;
 import application.model.creature.CreatureType;
