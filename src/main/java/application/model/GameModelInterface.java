@@ -2,6 +2,10 @@ package application.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+
 import application.model.creature.Creature;
 import application.model.gameloop.Updateable;
 import application.model.level.LevelModelInterface;
@@ -9,6 +13,10 @@ import application.model.maze.MazeModelInterface;
 import application.model.player.PlayerModelInterface;
 import javafx.beans.property.ObjectProperty;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = Game.class, name = "Game"),
+})
 public interface GameModelInterface extends Updateable, ModelInterface {
   /** @return the player */
   public PlayerModelInterface getPlayer();

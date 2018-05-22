@@ -4,10 +4,16 @@ import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import application.model.Position;
 import application.model.creature.movements.MovementInterface;
+import application.model.creature.movements.NoSightMovement;
 import application.model.creature.vision.Vision;
 import application.model.gameloop.ActorInterface;
+import application.model.maze.Maze;
 import application.model.maze.MazeModelInterface;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -23,12 +29,17 @@ public class Creature implements ActorInterface {
   private DoubleProperty x, y;
   private DoubleProperty velocity;
   private IntegerProperty lifes;
-  private MovementInterface movementStrategy;
-  private final CreatureType type;
-  private transient MazeModelInterface maze;
+  @JsonProperty private MovementInterface movementStrategy;
+  private CreatureType type;
+  @JsonBackReference private MazeModelInterface maze;
   private Vision vision;
-  private VisitedMap map;
-  private transient Stack<double[]> lastMovements;
+  private VisitedMap visitedMap;
+  @JsonIgnore private Stack<double[]> lastMovements;
+
+  /** json entry */
+  public Creature() {
+    this(0,0,0,0,new NoSightMovement(),new Vision(),CreatureType.NORMAL,new Maze());
+  }
 
   public Creature(
       double x,
@@ -69,7 +80,7 @@ public class Creature implements ActorInterface {
     this.type = type;
     this.vision = vision;
     this.maze = maze;
-    this.map = new VisitedMap(maze.getMaxWallX(), maze.getMaxWallY());
+    this.visitedMap = new VisitedMap(maze.getMaxWallX(), maze.getMaxWallY());
     markCurrentFieldVisited();
     lastMovements = new Stack<>();
   }
@@ -79,7 +90,7 @@ public class Creature implements ActorInterface {
   }
 
   public void move(double dt) {
-    double[] dir = movementStrategy.getMoveDirection(maze, vision, map, getX(), getY());
+    double[] dir = movementStrategy.getMoveDirection(maze, vision, visitedMap, getX(), getY());
     move(dir, dt);
   }
 
@@ -129,15 +140,15 @@ public class Creature implements ActorInterface {
   }
 
   private void markCurrentFieldVisited() {
-    map.markVisited((int) getX(), (int) getY());
+    visitedMap.markVisited((int) getX(), (int) getY());
   }
 
   private void markCurrentFieldUseless() {
-    map.markUseless((int) getX(), (int) getY());
+    visitedMap.markUseless((int) getX(), (int) getY());
   }
 
   public void synchronizeMaps(Creature creature2) {
-    VisitedMap.mergeUseless(map, creature2.getVisitedMap());
+    VisitedMap.mergeUseless(visitedMap, creature2.getVisitedMap());
   }
 
   /** @return the x value */
@@ -211,7 +222,7 @@ public class Creature implements ActorInterface {
   }
 
   public VisitedMap getVisitedMap() {
-    return map;
+    return visitedMap;
   }
 
   @Override

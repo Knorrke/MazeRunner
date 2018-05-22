@@ -19,10 +19,10 @@ import javafx.beans.property.SimpleObjectProperty;
 
 public class Game implements GameModelInterface {
   private ObjectProperty<GameState> state = new SimpleObjectProperty<GameState>();
-  private final PlayerModelInterface player;
-  private final LevelModelInterface level;
-  private final MazeModelInterface maze;
-  private final GameLoop gameloop;
+  private PlayerModelInterface player;
+  private LevelModelInterface level;
+  private MazeModelInterface maze;
+  private final transient GameLoop gameloop;
 
   public Game() {
     player = new Player(50, 20);

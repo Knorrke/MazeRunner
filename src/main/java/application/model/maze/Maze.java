@@ -2,14 +2,18 @@ package application.model.maze;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import application.model.creature.Creature;
 import application.model.gameloop.ActorInterface;
+import application.util.ObservableListDeserializer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Maze implements MazeModelInterface {
-
+  @JsonDeserialize(using = ObservableListDeserializer.forWalls.class)
   private ObservableList<Wall> walls = FXCollections.observableArrayList();
+  @JsonDeserialize(using = ObservableListDeserializer.forCreatures.class)
   private ObservableList<Creature> creatures = FXCollections.observableArrayList();
   private final int maxWallX, maxWallY;
 

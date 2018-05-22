@@ -1,11 +1,18 @@
 package application.model.maze.tower;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+
 import application.model.gameloop.ActorInterface;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = NoTower.class, name = "NoSight"),
+})
 public abstract class AbstractTower implements ActorInterface {
 
   protected DoubleProperty fireRate = new SimpleDoubleProperty();

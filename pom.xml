@@ -12,6 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jackson-2-version>2.9.5</jackson-2-version>
 	</properties>
 
 	<build>
@@ -43,18 +44,27 @@
 			<artifactId>jfxtras-menu</artifactId>
 			<version>8.0-r6</version>
 		</dependency>
-		<!-- Gson: Java to Json conversion -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.8.4</version>
-		</dependency>
-		<!-- FXGson: Convenience adapters for java-fx properties -->
-		<dependency>
-			<groupId>org.hildan.fxgson</groupId>
-			<artifactId>fx-gson</artifactId>
-			<version>3.1.0</version>
-		</dependency>
+ <!-- the core, which includes Streaming API, shared low-level abstractions (but NOT data-binding) -->
+ <dependency>
+   <groupId>com.fasterxml.jackson.core</groupId>
+   <artifactId>jackson-core</artifactId>
+   <version>${jackson-2-version}</version>
+ </dependency>
+
+ <!-- Just the annotations; use this dependency if you want to attach annotations
+      to classes without connecting them to the code. -->
+ <dependency>
+   <groupId>com.fasterxml.jackson.core</groupId>
+   <artifactId>jackson-annotations</artifactId>
+   <version>${jackson-2-version}</version>
+</dependency>
+
+<!-- databinding; ObjectMapper, JsonNode and related classes are here -->
+<dependency>
+  <groupId>com.fasterxml.jackson.core</groupId>
+  <artifactId>jackson-databind</artifactId>
+  <version>${jackson-2-version}</version>
+</dependency>
 		<!-- Test dependencies -->
 		<!-- TestFX: Testframework for JavaFX-Unittests -->
 		<dependency>

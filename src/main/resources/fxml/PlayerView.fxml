@@ -15,9 +15,6 @@
 			<children>
 				<ImageView fx:id="lifesImage" fitHeight="50.0" fitWidth="50.0"
 					pickOnBounds="true" preserveRatio="true">
-					<StackPane.margin>
-						<Insets />
-					</StackPane.margin>
 				</ImageView>
 				<Label fx:id="lifes" alignment="BOTTOM_RIGHT"
 					style="-fx-background-color: #6c6; -fx-background-radius: 30;"

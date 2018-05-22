@@ -2,6 +2,8 @@ package application.model.creature;
 
 import java.util.Arrays;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class VisitedMap {
   public enum VisitedState {
     UNKNOWN,
@@ -9,8 +11,13 @@ public class VisitedMap {
     USELESS
   }
 
+  @JsonProperty
   private VisitedState[][] map;
 
+  public VisitedMap() {
+    map = new VisitedState[0][0];
+  }
+  
   public VisitedMap(int maxX, int maxY) {
     map = new VisitedState[maxX][maxY];
     for (int x = 0; x < map.length; x++) {

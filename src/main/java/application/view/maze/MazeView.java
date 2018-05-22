@@ -1,16 +1,21 @@
 package application.view.maze;
 
+import java.util.logging.Logger;
+
 import application.controller.MazeController;
 import application.model.maze.MazeModelInterface;
 import application.view.creatures.CreaturesView;
 import javafx.scene.layout.StackPane;
 
 public class MazeView extends StackPane {
+  private static Logger LOG = Logger.getLogger(MazeView.class.getName());
+  
   private WallsView walls;
   private CreaturesView creatures;
   private MazeController controller;
 
   public MazeView() {
+    LOG.fine("creating Maze view");
     setWalls(new WallsView());
     setCreatures(new CreaturesView());
     getCreatures().setPickOnBounds(false);

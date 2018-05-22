@@ -1,10 +1,14 @@
 package application.model.creature;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CreatureGroup {
   private final CreatureType type;
   private final int number;
 
-  public CreatureGroup(CreatureType type, int number) {
+  @JsonCreator
+  public CreatureGroup(@JsonProperty("type") CreatureType type,@JsonProperty("number") int number) {
     this.type = type;
     this.number = number;
   }

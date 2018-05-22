@@ -1,5 +1,8 @@
 package application.model.player;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -8,7 +11,8 @@ public class Player implements PlayerModelInterface {
   private IntegerProperty money;
   private IntegerProperty lifes;
 
-  public Player(int startMoney, int startLifes) {
+  @JsonCreator
+  public Player(@JsonProperty("money") int startMoney,@JsonProperty("lifes") int startLifes) {
     this(new SimpleIntegerProperty(startMoney), new SimpleIntegerProperty(startLifes));
   }
 

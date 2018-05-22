@@ -2,11 +2,18 @@ package application.model.maze;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+
 import application.model.ModelInterface;
 import application.model.creature.Creature;
 import application.model.gameloop.Updateable;
 import javafx.collections.ObservableList;
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = Maze.class, name = "Maze"),
+})
 public interface MazeModelInterface extends Updateable, ModelInterface {
   /** @return the walls */
   public ObservableList<Wall> getWalls();

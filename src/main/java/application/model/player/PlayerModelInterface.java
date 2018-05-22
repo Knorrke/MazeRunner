@@ -1,8 +1,15 @@
 package application.model.player;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+
 import application.model.ModelInterface;
 import javafx.beans.property.IntegerProperty;
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = Player.class, name = "Player"),
+})
 public interface PlayerModelInterface extends ModelInterface {
   /** @return the money */
   public int getMoney();
