@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
-
 import application.ImageLoader;
 import application.model.GameModelInterface;
 import application.model.GameState;
@@ -55,7 +53,7 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
       LOG.fine("loading GameView successfull");
     } catch (IOException exception) {
       LOG.log(Level.SEVERE, "Loading GameView.fxml failed", exception);
-//      throw new RuntimeException(exception);
+      throw new RuntimeException(exception);
     }
   }
 
