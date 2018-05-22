@@ -4,6 +4,9 @@ import static application.model.GameState.BUILDING;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import application.model.creature.Creature;
 import application.model.creature.CreatureGroup;
 import application.model.creature.CreatureType;
@@ -19,9 +22,15 @@ import javafx.beans.property.SimpleObjectProperty;
 
 public class Game implements GameModelInterface {
   private ObjectProperty<GameState> state = new SimpleObjectProperty<GameState>();
+
   private PlayerModelInterface player;
+
+  @JsonManagedReference
+  @JsonDeserialize(as = Level.class)
   private LevelModelInterface level;
+
   private MazeModelInterface maze;
+
   private final transient GameLoop gameloop;
 
   public Game() {

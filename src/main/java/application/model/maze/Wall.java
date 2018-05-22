@@ -1,6 +1,8 @@
 package application.model.maze;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import application.model.gameloop.ActorInterface;
 import application.model.maze.tower.AbstractTower;
@@ -15,14 +17,8 @@ public class Wall implements ActorInterface {
   private IntegerProperty x, y;
   private ObjectProperty<AbstractTower> tower;
 
-  /** json enty */
-  public Wall() {
-    x = new SimpleIntegerProperty();
-    y = new SimpleIntegerProperty();
-    tower = new SimpleObjectProperty<>();
-  }
-
-  public Wall(int x, int y) {
+  @JsonCreator
+  public Wall(@JsonProperty("x") int x, @JsonProperty("y") int y) {
     this(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
   }
 
