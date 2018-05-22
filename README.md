@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/Knorrke/MazeRunner.svg?branch=master)](https://travis-ci.org/Knorrke/MazeRunner) [![Coverage Status](https://coveralls.io/repos/github/Knorrke/MazeRunner/badge.svg?branch=master)](https://coveralls.io/github/Knorrke/MazeRunner?branch=master)
+[![Build Status](https://img.shields.io/travis/Knorrke/MazeRunner.svg)](https://travis-ci.org/Knorrke/MazeRunner) 
+[![Coverage Status](https://img.shields.io/coveralls/github/Knorrke/MazeRunner.svg)](https://coveralls.io/github/Knorrke/MazeRunner?branch=master)
 # MazeRunner
 A tower defense game, where you really have to create mazes with dead ends. 
 The creatures search their way through the maze wave by wave, splitting up at crossings. 
