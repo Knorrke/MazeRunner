@@ -42,7 +42,7 @@ public class WallMenuViewTest extends AbstractViewTest {
   }
 
   private void selectSell() {
-    clickOn("#sell-item");
+    clickOn("#sell");
   }
 
   private void buildWall() {

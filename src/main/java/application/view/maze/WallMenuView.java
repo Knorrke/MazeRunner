@@ -5,6 +5,7 @@ import application.controller.MazeController;
 import application.model.maze.Wall;
 import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import jfxtras.scene.menu.CirclePopupMenu;
@@ -15,13 +16,18 @@ public class WallMenuView extends CirclePopupMenu {
 
   public WallMenuView(Node parent) {
     super(parent, null);
-    ImageView sell = new ImageView(ImageLoader.sell);
-    sell.setId("sell-item");
-    sellItem = new MenuItem("Sell", sell);
-    ImageView normalTower = new ImageView(ImageLoader.normalTower);
-    normalTower.setId("normal-tower");
-    normalTowerItem = new MenuItem("Normal Tower", normalTower);
+    sellItem = createMenuItem("Sell", ImageLoader.sell);
+    normalTowerItem = createMenuItem("Normal Tower", ImageLoader.normalTower);
     getItems().addAll(sellItem, normalTowerItem);
+  }
+
+  private MenuItem createMenuItem(String string, Image image) {
+    ImageView view = new ImageView(image);
+    view.setId(string.toLowerCase().replace(' ', '-'));
+    view.setPreserveRatio(true);
+    view.setFitWidth(50);
+    view.setFitHeight(50);
+    return new MenuItem(string, view);
   }
 
   public void show(MouseEvent event, Wall wall, MazeController controller) {
