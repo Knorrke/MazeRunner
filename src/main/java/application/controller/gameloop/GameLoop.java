@@ -1,22 +1,22 @@
-package application.model.gameloop;
+package application.controller.gameloop;
 
-import application.model.GameModelInterface;
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 public class GameLoop extends AnimationTimer {
-  GameModelInterface game;
+  private Updateable main;
+  private BooleanProperty running;
 
-  public GameLoop(GameModelInterface game) {
-    this.game = game;
+  public GameLoop(Updateable main) {
+    this.main = main;
+    running = new SimpleBooleanProperty(false);
   }
 
   private static final float timeStep = 0.0166f;
   private static final float maxTimeStep = 0.05f;
   private long previousTime = 0;
   private float accumulatedTime = 0;
-
-  //	private float secondsElapsedSinceLastFpsUpdate = 0f;
-  //	private int framesSinceLastFpsUpdate = 0;
 
   @Override
   public void handle(long currentTime) {
@@ -31,27 +31,31 @@ public class GameLoop extends AnimationTimer {
     previousTime = currentTime;
 
     while (accumulatedTime >= timeStep) {
-      game.update(timeStep);
+      main.update(timeStep);
       accumulatedTime -= timeStep;
     }
-    //		renderer.run();
+  }
 
-    //		secondsElapsedSinceLastFpsUpdate += secondsElapsed;
-    //		framesSinceLastFpsUpdate++;
-    //		if (secondsElapsedSinceLastFpsUpdate >= 0.5f) {
-    //			int fps = Math.round(framesSinceLastFpsUpdate / secondsElapsedSinceLastFpsUpdate);
-    //			fpsReporter.accept(fps);
-    //			secondsElapsedSinceLastFpsUpdate = 0;
-    //			framesSinceLastFpsUpdate = 0;
-    //		}
+  @Override
+  public void start() {
+    running.set(true);
+    super.start();
   }
 
   @Override
   public void stop() {
+    running.set(false);
     previousTime = 0;
     accumulatedTime = 0;
-    //		secondsElapsedSinceLastFpsUpdate = 0f;
-    //		framesSinceLastFpsUpdate = 0;
     super.stop();
+  }
+
+  public BooleanProperty runningProperty() {
+    return running;
+  }
+
+  public void togglePlayPause() {
+    if (running.get()) stop();
+    else start();
   }
 }

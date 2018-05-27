@@ -8,11 +8,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import application.controller.gameloop.ActorInterface;
 import application.model.Position;
 import application.model.creature.movements.MovementInterface;
 import application.model.creature.movements.NoSightMovement;
 import application.model.creature.vision.Vision;
-import application.model.gameloop.ActorInterface;
 import application.model.maze.Maze;
 import application.model.maze.MazeModelInterface;
 import javafx.beans.binding.Bindings;
@@ -38,7 +38,7 @@ public class Creature implements ActorInterface {
 
   /** json entry */
   public Creature() {
-    this(0,0,0,0,new NoSightMovement(),new Vision(),CreatureType.NORMAL,new Maze());
+    this(0, 0, 0, 0, new NoSightMovement(), new Vision(), CreatureType.NORMAL, new Maze());
   }
 
   public Creature(
