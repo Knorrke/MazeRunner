@@ -1,7 +1,7 @@
 package application.model.creature;
 
 import java.util.List;
-import java.util.Stack;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import application.controller.gameloop.ActorInterface;
 import application.model.Position;
+import application.model.actions.Action;
+import application.model.creature.actions.MoveAction;
 import application.model.creature.movements.MovementInterface;
 import application.model.creature.movements.NoSightMovement;
 import application.model.creature.vision.Vision;
@@ -24,7 +26,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class Creature implements ActorInterface {
-  private double countdown = 0.5;
+  private static final Logger LOG = Logger.getLogger(Creature.class.getName());
+
   private transient ObjectProperty<Position> position;
   private DoubleProperty x, y;
   private DoubleProperty velocity;
@@ -34,7 +37,7 @@ public class Creature implements ActorInterface {
   @JsonBackReference private MazeModelInterface maze;
   private Vision vision;
   private VisitedMap visitedMap;
-  @JsonIgnore private Stack<double[]> lastMovements;
+  @JsonIgnore private Action action;
 
   /** json entry */
   public Creature() {
@@ -81,47 +84,18 @@ public class Creature implements ActorInterface {
     this.vision = vision;
     this.maze = maze;
     this.visitedMap = new VisitedMap(maze.getMaxWallX(), maze.getMaxWallY());
-    markCurrentFieldVisited();
-    lastMovements = new Stack<>();
+    visitedMap.visit((int) getX(), (int) getY());
+    markWalls();
+    chooseNewAction();
   }
 
-  public void move() {
-    move(1);
+  public void moveBy(double dirX, double dirY) {
+    moveTo(getX() + dirX, getY() + dirY);
   }
 
-  public void move(double dt) {
-    double[] dir = movementStrategy.getMoveDirection(maze, vision, visitedMap, getX(), getY());
-    move(dir, dt);
-  }
-
-  public void move(double dirX, double dirY) {
-    move(new double[] {dirX, dirY});
-  }
-
-  public void move(double[] dir) {
-    move(dir, 1);
-  }
-
-  private void move(double[] dir, double dt) {
-    boolean backtracking = false;
-    if (dir == null) {
-      if (lastMovements.isEmpty()) {
-        dir = new double[] {1, 0};
-      } else { // backtracking
-        double[] last = lastMovements.pop();
-        dir = new double[] {last[0] * -1, last[1] * -1};
-        markCurrentFieldUseless();
-        backtracking = true;
-      }
-    }
-    double newX = getX() + getVelocity() * dir[0] * dt;
-    double newY = getY() + getVelocity() * dir[1] * dt;
+  public void moveTo(double newX, double newY) {
+    visitedMap.visit((int) newX, (int) newY);
     setPosition(newX, newY);
-    markCurrentFieldVisited();
-    if (!backtracking) {
-      lastMovements.push(dir);
-    }
-
     communicateWithOthers();
   }
 
@@ -137,14 +111,6 @@ public class Creature implements ActorInterface {
                         && Math.abs(creature.getY() - getY()) < 0.3)
             .collect(Collectors.toList());
     creaturesInRange.forEach(this::synchronizeMaps);
-  }
-
-  private void markCurrentFieldVisited() {
-    visitedMap.markVisited((int) getX(), (int) getY());
-  }
-
-  private void markCurrentFieldUseless() {
-    visitedMap.markUseless((int) getX(), (int) getY());
   }
 
   public void synchronizeMaps(Creature creature2) {
@@ -227,12 +193,7 @@ public class Creature implements ActorInterface {
 
   @Override
   public void act(double dt) {
-    if (countdown < dt) {
-      move();
-      countdown = 0.5;
-    } else {
-      countdown -= dt;
-    }
+    action.run(dt);
   }
 
   public ObjectProperty<Position> positionProperty() {
@@ -241,5 +202,28 @@ public class Creature implements ActorInterface {
 
   public void setPosition(double x, double y) {
     position.set(new Position(x, y));
+    markWalls();
+  }
+
+  public void chooseNewAction() {
+    double[] goal = movementStrategy.getNextGoal(vision, visitedMap, getX(), getY());
+    setAction(new MoveAction(this, goal));
+  }
+
+  public void setAction(Action action) {
+    this.action = action;
+  }
+
+  public void markWalls() {
+    for (int i = -1; i <= 1; i++) {
+      for (int j = -1; j <= 1; j++) {
+        int adjacentX = (int) getX() + i;
+        int adjacentY = (int) getY() + j;
+        if (maze.hasWallOn(adjacentX, adjacentY)) {
+          LOG.finest(String.format("wall detected on %d,%d", adjacentX, adjacentY));
+          visitedMap.markWall(adjacentX, adjacentY);
+        }
+      }
+    }
   }
 }

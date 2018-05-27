@@ -53,12 +53,14 @@ public class Level implements LevelModelInterface {
 
   @Override
   public void sendNextCreatureWave() {
-    CreatureGroup nextCreatureGroup = creatureTimeline.get(waveNumber.getAndIncrement());
-    List<Creature> creatures =
-        CreatureFactory.createAll(
-            game.getMaze(), nextCreatureGroup, () -> 0.0, () -> (double) new Random().nextInt());
-    game.nextWave(creatures);
-    resetCountdown();
+    if (creatureTimeline.size() > waveNumber.get()) {
+      CreatureGroup nextCreatureGroup = creatureTimeline.get(waveNumber.getAndIncrement());
+      List<Creature> creatures =
+          CreatureFactory.createAll(
+              game.getMaze(), nextCreatureGroup, () -> 0.0, () -> (double) new Random().nextInt());
+      game.nextWave(creatures);
+      resetCountdown();
+    }
   }
 
   private void resetCountdown() {

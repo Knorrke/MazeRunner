@@ -10,6 +10,7 @@ import application.controller.gameloop.Updateable;
 import application.model.ModelInterface;
 import application.model.creature.Creature;
 import javafx.collections.ObservableList;
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Maze.class, name = "Maze"),
@@ -64,7 +65,7 @@ public interface MazeModelInterface extends Updateable, ModelInterface {
    * @return true if and only if x >= 0 && x < maxWallX && y >= 0 && y <= maxWallY
    */
   public default boolean checkBounds(int x, int y) {
-    return x >= 0 && x < getMaxWallX() && y >= 0 && y <= getMaxWallY();
+    return x >= 0 && x < getMaxWallX() && y >= 0 && y < getMaxWallY();
   }
 
   /**
