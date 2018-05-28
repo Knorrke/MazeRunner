@@ -31,11 +31,6 @@ public class NoSightMovement implements MovementInterface {
   private double[] backtrack(Vision vision, VisitedMap visited, double currentX, double currentY) {
     visited.backtrackToUnknown();
     return findUnknown(vision, visited, currentX, currentY);
-    //    if (visited.getLastVisited().isEmpty()) {
-    //      return findUnknown(currentX, currentY);
-    //    }
-    //    int[] lastUnknown = visited.getLastVisited().peek();
-    //    return new double[] {lastUnknown[0], lastUnknown[1]};
   }
 
   private double[] findUnknown(

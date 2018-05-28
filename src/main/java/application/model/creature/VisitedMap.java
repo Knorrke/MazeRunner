@@ -81,25 +81,28 @@ public class VisitedMap {
   }
 
   /**
-   * Merge the {@link VisitedState#USELESS} markings of two maps
+   * Merge the {@link VisitedState#USELESS} and {@link VisitedState#WALL} markings of two maps
    *
    * @param visitedMap1
    * @param visitedMap2
    */
-  public static void mergeUseless(VisitedMap visitedMap1, VisitedMap visitedMap2) {
-    visitedMap1.mergeUseless(visitedMap2);
+  public static void merge(VisitedMap visitedMap1, VisitedMap visitedMap2) {
+    visitedMap1.merge(visitedMap2);
   }
 
   /**
-   * Method for merging the {@link VisitedState#USELESS} markings with another map. This method is
-   * private, use {@link #mergeUseless(VisitedMap, VisitedMap) static mergeUseless} method instead.
+   * Method for merging the {@link VisitedState#USELESS} and {@link VisitedState#WALL} markings with
+   * another map. This method is private, use {@link #merge(VisitedMap, VisitedMap) static merge}
+   * method instead.
    *
    * @param visitedMap2
    */
-  private void mergeUseless(VisitedMap visitedMap2) {
+  private void merge(VisitedMap visitedMap2) {
     for (int x = 0; x < map.length; x++) {
       for (int y = 0; y < map[x].length; y++) {
-        if (this.isUseless(x, y)) visitedMap2.markUseless(x, y);
+        if (this.isWall(x, y)) visitedMap2.markWall(x, y);
+        else if (visitedMap2.isWall(x, y)) this.markWall(x, y);
+        else if (this.isUseless(x, y)) visitedMap2.markUseless(x, y);
         else if (visitedMap2.isUseless(x, y)) this.markUseless(x, y);
       }
     }

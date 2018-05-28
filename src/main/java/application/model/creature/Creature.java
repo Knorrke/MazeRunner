@@ -107,14 +107,14 @@ public class Creature implements ActorInterface {
             .filter(
                 creature ->
                     creature != this
-                        && Math.abs(creature.getX() - getX()) < 0.3
-                        && Math.abs(creature.getY() - getY()) < 0.3)
+                        && Math.abs(creature.getX() - getX()) < 0.01
+                        && Math.abs(creature.getY() - getY()) < 0.01)
             .collect(Collectors.toList());
     creaturesInRange.forEach(this::synchronizeMaps);
   }
 
   public void synchronizeMaps(Creature creature2) {
-    VisitedMap.mergeUseless(visitedMap, creature2.getVisitedMap());
+    VisitedMap.merge(visitedMap, creature2.getVisitedMap());
   }
 
   /** @return the x value */
