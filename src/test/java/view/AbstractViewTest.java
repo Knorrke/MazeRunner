@@ -11,6 +11,7 @@ import org.testfx.util.DebugUtils;
 
 import application.ImageLoader;
 import application.controller.GameController;
+import application.controller.gameloop.GameLoop;
 import application.model.Game;
 import application.model.GameModelInterface;
 import application.model.level.LevelModelInterface;
@@ -24,6 +25,9 @@ public abstract class AbstractViewTest extends ApplicationTest {
   protected MazeModelInterface maze;
   protected LevelModelInterface level;
   protected PlayerModelInterface player;
+  
+  protected GameController gameController;
+  protected GameLoop gameLoop;
 
   private Scene scene;
 
@@ -47,8 +51,9 @@ public abstract class AbstractViewTest extends ApplicationTest {
   public void start(Stage stage) {
     ImageLoader.loadAll();
     game = new Game();
-    GameController gameController = new GameController();
+    gameController = new GameController();
     gameController.initModel(game);
+    gameLoop = gameController.getGameLoop();
     scene = new Scene(gameController.getView());
     scene
         .getStylesheets()

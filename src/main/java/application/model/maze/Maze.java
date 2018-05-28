@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import application.controller.gameloop.ActorInterface;
 import application.model.creature.Creature;
-import application.model.gameloop.ActorInterface;
 import application.util.ObservableCreaturesListDeserializer;
 import application.util.ObservableWallsListDeserializer;
 import javafx.collections.FXCollections;

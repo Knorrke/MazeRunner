@@ -30,19 +30,19 @@ public class CreatureViewTest extends AbstractViewTest {
     verifyThat("#maze", NodeMatchers.hasChildren(1, ".creature"), collectInfos());
     CreatureView creatureView = lookup(".creature").query();
 
-    interact(() -> creature.move(1, 0)); // forward
+    interact(() -> creature.moveBy(1, 0)); // forward
     WaitForAsyncUtils.waitForFxEvents();
     assertEquals(forward, mod(creatureView.getRotate(), 360));
 
-    interact(() -> creature.move(-1, 0)); // backward
+    interact(() -> creature.moveBy(-1, 0)); // backward
     WaitForAsyncUtils.waitForFxEvents();
     assertEquals(backward, mod(creatureView.getRotate(), 360));
 
-    interact(() -> creature.move(0, 1)); // upward
+    interact(() -> creature.moveBy(0, 1)); // upward
     WaitForAsyncUtils.waitForFxEvents();
     assertEquals(upward, mod(creatureView.getRotate(), 360));
 
-    interact(() -> creature.move(0, -1)); // downward
+    interact(() -> creature.moveBy(0, -1)); // downward
     WaitForAsyncUtils.waitForFxEvents();
     assertEquals(downward, mod(creatureView.getRotate(), 360));
   }

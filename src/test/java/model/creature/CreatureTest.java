@@ -28,14 +28,16 @@ public class CreatureTest {
 
   @Test
   public void creatureShouldMove() {
-    creature.move();
-    assertTrue("Creature should move on call of move()", isMoved(creature, startX, startY));
+    moveOneFieldAutonomously(creature);
+    assertTrue(
+        "Creature should move on moveOneFieldAutonomously(call of)",
+        isMoved(creature, startX, startY));
   }
 
   @Test
   public void shouldMoveForwardOnEmptyMaze() {
     assertEquals("Maze should have no walls", 0, maze.getWalls().size());
-    creature.move();
+    moveOneFieldAutonomously(creature);
     assertTrue(
         "Creature should move forward (in x direction)",
         movedTo(creature, startX + 1, startY, 0.1));
@@ -43,7 +45,7 @@ public class CreatureTest {
 
   @Test
   public void shouldUpdateVisitedOnMove() {
-    creature.move();
+    moveOneFieldAutonomously(creature);
     assertTrue(
         "Start field should be visited",
         creature.getVisitedMap().isVisited((int) startX, (int) startY));
@@ -58,18 +60,10 @@ public class CreatureTest {
   @Test
   public void shouldUpdateUselessInBlindAlley() {
     int x = (int) startX + 1, y = (int) startY;
-    buildBlindAlley(x, y, 1);
-    creature.move(1, 0); // move to x,y (blind alley)
-    creature.move();
+    buildHorizontalBlindAlley(x, y, 1);
+    creature.moveBy(1, 0); // move to x,y (blind alley)
+    moveOneFieldAutonomously(creature);
     assertTrue("BlindAlley should be marked useless", creature.getVisitedMap().isUseless(x, y));
-  }
-
-  private void buildBlindAlley(int x, int y, int length) {
-    for (int i = 0; i < length; i++) {
-      maze.buildWall(x + i, y + 1); // above
-      maze.buildWall(x + i, y - 1); // below
-    }
-    maze.buildWall(x + length, y); // in front of
   }
 
   @Test
@@ -78,14 +72,18 @@ public class CreatureTest {
     Creature creature1 = CreatureFactory.create(maze, CreatureType.NORMAL, 0, y1 - 1);
     // starting on 0,y1 + 1 move in a circle to visit all fields surrounding
     // 0,y1
-    creature1.move(1, 0);
-    creature1.move(0, 1);
-    creature1.move(0, 1);
-    creature1.move(-1, 0);
-    creature1.move(0, -1);
+    creature1.moveBy(1, 0);
+    creature1.moveBy(0, 1);
+    creature1.moveBy(0, 1);
+    creature1.moveBy(-1, 0);
+    creature1.moveBy(0, -1);
+    assertTrue("creature is on 0,y1 now", movedTo(creature1, 0, y1, 0.1));
 
-    creature1.move();
-    assertTrue("Creature should have moved back", movedTo(creature1, 0, y1 + 1, 0.1));
+    moveOneFieldAutonomously(creature1);
+    assertTrue("Creature should have moved", isMoved(creature1, 0, y1));
+    assertTrue(
+        "Creature should not have moved from board",
+        creature1.getX() >= 0 && creature1.getY() >= 0);
   }
 
   @Test
@@ -96,11 +94,11 @@ public class CreatureTest {
     int x2 = (int) startX, y2 = (int) startY + 2 * fieldsBetweenCreatures;
     Creature creature2 = CreatureFactory.create(maze, CreatureType.NORMAL, x2, y2);
     maze.addCreature(creature2);
-    buildBlindAlley(x1 + 1, y1, blindAlleyLength); // in front of creature1
-    buildBlindAlley(x2 + 1, y2, blindAlleyLength); // in front of creature2
+    buildHorizontalBlindAlley(x1 + 1, y1, blindAlleyLength); // in front of creature1
+    buildHorizontalBlindAlley(x2 + 1, y2, blindAlleyLength); // in front of creature2
     for (int i = 0; i < 2 * blindAlleyLength; i++) {
-      creature.move();
-      creature2.move();
+      moveOneFieldAutonomously(creature);
+      moveOneFieldAutonomously(creature2);
     }
     assertTrue(movedTo(creature, x1, y1, 0.01));
     assertTrue(movedTo(creature2, x2, y2, 0.01));
@@ -112,8 +110,8 @@ public class CreatureTest {
     assertFalse(creature.getVisitedMap().isUseless(x2 + 1, y2));
 
     for (int i = 0; i < fieldsBetweenCreatures; i++) {
-      creature.move(0, 1);
-      creature2.move(0, -1);
+      creature.moveBy(0, 1);
+      creature2.moveBy(0, -1);
     }
     assertTrue(
         "creatures should be on same square now",
@@ -125,6 +123,49 @@ public class CreatureTest {
     assertTrue(creature2.getVisitedMap().isUseless(x1 + 1, y1));
     assertTrue(creature2.getVisitedMap().isUseless(x2 + 1, y1));
     assertTrue(creature.getVisitedMap().isUseless(x2 + 1, y2));
+  }
+
+  @Test
+  public void backtrackTest() {
+    int x = (int) startX;
+    int y = (int) startY;
+    int length = 3;
+    buildHorizontalBlindAlley(x + 1, y, length);
+    buildVerticalBlindAlley(x, y + 1, length);
+    maze.buildWall(x - 1, y);
+    maze.buildWall(x, y - 1);
+    for (int i = 0; i < length; i++) {
+      creature.moveBy(1, 0);
+    }
+    for (int i = 0; i < length; i++) {
+      moveOneFieldAutonomously(creature);
+    }
+    assertTrue("back to start", movedTo(creature, x, y, 0.1));
+    moveOneFieldAutonomously(creature);
+    assertTrue("moved to unknown", movedTo(creature, x, y + 1, 0.1));
+    moveOneFieldAutonomously(creature);
+    assertTrue("moved to unknown", movedTo(creature, x, y + 2, 0.1));
+  }
+
+  private void moveOneFieldAutonomously(Creature c) {
+    c.chooseNewAction();
+    c.act(1 / c.getVelocity());
+  }
+
+  private void buildHorizontalBlindAlley(int x, int y, int length) {
+    for (int i = 0; i < length; i++) {
+      maze.buildWall(x + i, y + 1); // above
+      maze.buildWall(x + i, y - 1); // below
+    }
+    maze.buildWall(x + length, y); // in front of
+  }
+
+  private void buildVerticalBlindAlley(int x, int y, int length) {
+    for (int i = 0; i < length; i++) {
+      maze.buildWall(x + 1, y + i); // right
+      maze.buildWall(x - 1, y + i); // left
+    }
+    maze.buildWall(x, y + length); // in front of
   }
 
   private static boolean isMoved(Creature c, double oldX, double oldY) {

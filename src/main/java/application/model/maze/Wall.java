@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import application.model.gameloop.ActorInterface;
+import application.controller.gameloop.ActorInterface;
 import application.model.maze.tower.AbstractTower;
 import application.model.maze.tower.NoTower;
 import javafx.beans.property.IntegerProperty;

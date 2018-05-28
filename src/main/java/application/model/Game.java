@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import application.model.creature.Creature;
 import application.model.creature.CreatureGroup;
 import application.model.creature.CreatureType;
-import application.model.gameloop.GameLoop;
 import application.model.level.Level;
 import application.model.level.LevelModelInterface;
 import application.model.maze.Maze;
@@ -31,8 +30,6 @@ public class Game implements GameModelInterface {
 
   private MazeModelInterface maze;
 
-  private final transient GameLoop gameloop;
-
   public Game() {
     player = new Player(50, 20);
 
@@ -43,7 +40,6 @@ public class Game implements GameModelInterface {
 
     maze = new Maze();
     setState(BUILDING);
-    gameloop = new GameLoop(this);
   }
 
   @Override
@@ -80,18 +76,6 @@ public class Game implements GameModelInterface {
   /** @param state the state to set */
   public void setState(GameState state) {
     this.state.set(state);
-  }
-
-  @Override
-  public void start() {
-    setState(GameState.RUNNING);
-    gameloop.start();
-  }
-
-  @Override
-  public void pause() {
-    setState(GameState.PAUSED);
-    gameloop.stop();
   }
 
   @Override
