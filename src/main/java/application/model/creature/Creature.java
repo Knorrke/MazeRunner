@@ -107,8 +107,8 @@ public class Creature implements ActorInterface {
             .filter(
                 creature ->
                     creature != this
-                        && Math.abs(creature.getX() - getX()) < 0.01
-                        && Math.abs(creature.getY() - getY()) < 0.01)
+                        && Math.abs(creature.getX() - getX()) < 0.4
+                        && Math.abs(creature.getY() - getY()) < 0.4)
             .collect(Collectors.toList());
     creaturesInRange.forEach(this::synchronizeMaps);
   }

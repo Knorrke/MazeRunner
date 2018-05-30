@@ -20,7 +20,7 @@ public class NoSightMovement implements MovementInterface {
       int x = (int) (currentX + direction[0]);
       int y = (int) (currentY + direction[1]);
       if (x >= 0 && y >= 0 && visited.isUnknown(x, y)) {
-        return new double[] {(int) currentX + direction[0], (int) currentY + direction[1]};
+        return new double[] {currentX + direction[0],currentY + direction[1]};
       }
     }
 
@@ -68,7 +68,7 @@ public class NoSightMovement implements MovementInterface {
           }
 
           if (visited.isUnknown(neighbor.x, neighbor.y)) {
-            LOG.finest(String.format("Found unknown field at %d,%d", neighbor.x, neighbor.y));
+            LOG.finest(String.format("Found UNKNOWN field at %d,%d", neighbor.x, neighbor.y));
             found = neighbor;
             break;
           }
@@ -82,7 +82,7 @@ public class NoSightMovement implements MovementInterface {
         goal = previous.get(goal);
       }
       LOG.finest(String.format("Moving towards unknown field, next stop %d,%d", goal.x, goal.y));
-      return new double[] {goal.x, goal.y};
+      return new double[] {goal.x + currentX%1, goal.y + currentY%1};
     } else {
       LOG.warning("No unknown fields! This means that there is no path to the goal.");
       return new double[] {currentX + 1, currentY};

@@ -3,7 +3,7 @@ package application.model.creature;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Callable;
+import java.util.function.Supplier;
 
 import application.model.creature.movements.MovementInterface;
 import application.model.creature.movements.NoSightMovement;
@@ -53,22 +53,15 @@ public class CreatureFactory {
   public static List<Creature> createAll(
       MazeModelInterface maze,
       CreatureGroup creatures,
-      Callable<Double> xGenerator,
-      Callable<Double> yGenerator) {
+      Supplier<Double> xGenerator,
+      Supplier<Double> yGenerator) {
     ArrayList<Creature> list = new ArrayList<>();
     for (int i = 0; i < creatures.getNumber(); i++) {
-      double x, y;
-      try {
-        x = xGenerator.call() % maze.getMaxWallX();
-        y = yGenerator.call() % maze.getMaxWallY();
+      double x = xGenerator.get() % maze.getMaxWallX();
+      double y = yGenerator.get() % maze.getMaxWallY();
 
-        if (x < 0) x += maze.getMaxWallX();
-        if (y < 0) y += maze.getMaxWallY();
-      } catch (Exception e) {
-        x = 0;
-        y = 0;
-        e.printStackTrace();
-      }
+      if (x < 0) x += maze.getMaxWallX();
+      if (y < 0) y += maze.getMaxWallY();
       list.add(create(maze, creatures.getType(), x, y));
     }
     return list;

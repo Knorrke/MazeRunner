@@ -9,17 +9,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
 public class CreatureView extends StackPane {
+  private double imageSize = 0.7;
+  
   public CreatureView(Creature creature, DoubleBinding scaleX, DoubleBinding scaleY) {
     this.getStyleClass().add("creature");
 
     Image im = ImageLoader.getCreatureImage(creature.getType());
     ImageView img = new ImageView(im);
-    img.fitWidthProperty().bind(scaleX);
-    img.fitHeightProperty().bind(scaleY);
+    img.setPreserveRatio(true);
+    img.fitWidthProperty().bind(scaleX.multiply(imageSize));
+    img.fitHeightProperty().bind(scaleY.multiply(imageSize));
 
     this.getChildren().add(img);
-    this.layoutXProperty().bind(creature.xProperty().multiply(scaleX));
-    this.layoutYProperty().bind(creature.yProperty().multiply(scaleY));
+    this.layoutXProperty().bind(creature.xProperty().subtract(0.5*imageSize).multiply(scaleX));
+    this.layoutYProperty().bind(creature.yProperty().subtract(0.5*imageSize).multiply(scaleY));
     creature
         .positionProperty()
         .addListener(

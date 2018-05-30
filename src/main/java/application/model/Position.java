@@ -16,9 +16,4 @@ public class Position {
   public double getY() {
     return y;
   }
-
-  @Override
-  public String toString() {
-    return String.format("(%.5f,%.5f)", x, y);
-  }
 }
