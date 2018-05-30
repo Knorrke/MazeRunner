@@ -5,9 +5,11 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import application.model.GameModelInterface;
+import application.model.actions.Action;
 import application.model.creature.Creature;
 import application.model.creature.CreatureFactory;
 import application.model.creature.CreatureGroup;
@@ -20,16 +22,21 @@ public class Level implements LevelModelInterface {
   private ObservableList<CreatureGroup> creatureTimeline = FXCollections.observableArrayList();
 
   @JsonBackReference private GameModelInterface game;
-  private double countdown;
   private AtomicInteger waveNumber = new AtomicInteger(0);
 
+  @JsonIgnore private Action action;
+
+  /**
+   * Empty constructor mainly used for json deserialization. When using this, you need to set {@link
+   * Level#game} by calling {@link Level#setGame(GameModelInterface)}
+   */
   public Level() {
-    countdown = 1;
+    this(null);
   }
 
   public Level(GameModelInterface game) {
     this.game = game;
-    countdown = 1;
+    this.action = new CreatureWaveAction(this);
   }
 
   @Override
@@ -44,27 +51,25 @@ public class Level implements LevelModelInterface {
 
   @Override
   public void update(double dt) {
-    if (countdown < dt) {
-      sendNextCreatureWave();
-    } else {
-      countdown -= dt;
-    }
+    action.run(dt);
   }
 
   @Override
   public void sendNextCreatureWave() {
-    if (creatureTimeline.size() > waveNumber.get()) {
+    if (waveNumber.get() < creatureTimeline.size()) {
       CreatureGroup nextCreatureGroup = creatureTimeline.get(waveNumber.getAndIncrement());
+      double streuung = 0.4;
       List<Creature> creatures =
           CreatureFactory.createAll(
-              game.getMaze(), nextCreatureGroup, () -> 0.0, () -> (double) new Random().nextInt());
+              game.getMaze(),
+              nextCreatureGroup,
+              () -> new Random().nextDouble() * streuung + 0.5 * (1 - streuung),
+              () ->
+                  new Random().nextInt(game.getMaze().getMaxWallY())
+                      + Math.random() * streuung
+                      + 0.5 * (1 - streuung));
       game.nextWave(creatures);
-      resetCountdown();
     }
-  }
-
-  private void resetCountdown() {
-    countdown = 20;
   }
 
   @Override

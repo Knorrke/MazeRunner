@@ -8,28 +8,28 @@ public abstract class Action {
     this(0);
   }
 
-  public Action(double countdown) {
-    this.setCountdown(countdown);
-    defaultCountdown = countdown;
+  public Action(double defaultCountdown) {
+    this.defaultCountdown = defaultCountdown;
+    this.setCountdown(defaultCountdown);
   }
 
   public void run(double dt) {
     updateHook(dt);
-    if (countdown >= 0 && countdown < dt) {
+    if (countdown >= 0 && countdown <= dt) {
       execute();
     }
     countdown -= dt;
   }
 
-  public void updateHook(double dt) {}
+  protected void updateHook(double dt) {}
 
-  public abstract void execute();
+  protected abstract void execute();
 
-  public void resetCountdown() {
+  protected void resetCountdown() {
     setCountdown(defaultCountdown);
   }
 
-  private void setCountdown(double countdown) {
+  protected void setCountdown(double countdown) {
     this.countdown = countdown;
   }
 }
