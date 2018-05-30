@@ -2,6 +2,7 @@ package application.model.maze;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import application.controller.gameloop.ActorInterface;
@@ -15,6 +16,8 @@ public class Maze implements MazeModelInterface {
   @JsonDeserialize(using = ObservableWallsListDeserializer.class)
   private ObservableList<Wall> walls = FXCollections.observableArrayList();
 
+  @JsonIgnore private boolean[][] hasWall;
+
   @JsonDeserialize(using = ObservableCreaturesListDeserializer.class)
   private ObservableList<Creature> creatures = FXCollections.observableArrayList();
 
@@ -27,11 +30,24 @@ public class Maze implements MazeModelInterface {
   public Maze(int maxX, int maxY) {
     maxWallX = maxX;
     maxWallY = maxY;
+    hasWall = new boolean[maxWallX][maxWallY];
   }
 
   @Override
   public ObservableList<Wall> getWalls() {
     return walls;
+  }
+
+  public void setWalls(ObservableList<Wall> walls) {
+    this.walls = walls;
+    for (int i = 0; i < maxWallX; i++) {
+      for (int j = 0; j < maxWallY; j++) {
+        hasWall[i][j] = false;
+      }
+    }
+    for (Wall wall : walls) {
+      hasWall[wall.getX()][wall.getY()] = true;
+    }
   }
 
   @Override
@@ -40,6 +56,7 @@ public class Maze implements MazeModelInterface {
     int y = wall.getY();
     if (checkBounds(x, y) && !hasWallOn(x, y)) {
       this.walls.add(wall);
+      hasWall[x][y] = true;
     }
   }
 
@@ -51,6 +68,7 @@ public class Maze implements MazeModelInterface {
   @Override
   public void removeWall(Wall wall) {
     this.walls.remove(wall);
+    hasWall[wall.getX()][wall.getY()] = false;
   }
 
   @Override
@@ -75,7 +93,7 @@ public class Maze implements MazeModelInterface {
 
   @Override
   public boolean hasWallOn(int x, int y) {
-    return !getWalls().filtered(wall -> wall.getX() == x && wall.getY() == y).isEmpty();
+    return hasWall[x][y];
   }
 
   @Override

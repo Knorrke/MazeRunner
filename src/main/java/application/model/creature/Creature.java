@@ -219,7 +219,7 @@ public class Creature implements ActorInterface {
       for (int j = -1; j <= 1; j++) {
         int adjacentX = (int) getX() + i;
         int adjacentY = (int) getY() + j;
-        if (maze.hasWallOn(adjacentX, adjacentY)) {
+        if (!visitedMap.isWall(adjacentX, adjacentY) && maze.hasWallOn(adjacentX, adjacentY)) {
           LOG.finest(String.format("wall detected on %d,%d", adjacentX, adjacentY));
           visitedMap.markWall(adjacentX, adjacentY);
         }

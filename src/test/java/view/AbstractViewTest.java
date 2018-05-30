@@ -25,22 +25,11 @@ public abstract class AbstractViewTest extends ApplicationTest {
   protected MazeModelInterface maze;
   protected LevelModelInterface level;
   protected PlayerModelInterface player;
-  
+
   protected GameController gameController;
   protected GameLoop gameLoop;
 
   private Scene scene;
-
-  @BeforeClass
-  public static void setupSpec() throws Exception {
-    if (Boolean.getBoolean("headless")) {
-      System.setProperty("testfx.robot", "glass");
-      System.setProperty("testfx.headless", "true");
-      System.setProperty("prism.order", "sw");
-      System.setProperty("prism.text", "t2k");
-      System.setProperty("java.awt.headless", "true");
-    }
-  }
 
   @Override
   public void init() throws Exception {

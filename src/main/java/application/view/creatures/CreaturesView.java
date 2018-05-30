@@ -1,5 +1,6 @@
 package application.view.creatures;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import application.model.creature.Creature;
@@ -17,7 +18,11 @@ public class CreaturesView extends Pane implements Bindable<MazeModelInterface> 
   DoubleBinding scaleX, scaleY;
   ListChangeListener<Creature> listener =
       (c) -> {
-        createCreatures();
+        while (c.next()) {
+          if (c.wasAdded()) {
+            createCreatures(c.getAddedSubList());
+          }
+        }
       };
 
   @Override
@@ -29,15 +34,13 @@ public class CreaturesView extends Pane implements Bindable<MazeModelInterface> 
     this.scaleX = widthProperty().divide(maze.getMaxWallX());
     this.scaleY = heightProperty().divide(maze.getMaxWallY());
     creatures.addListener(listener);
-    createCreatures();
+    createCreatures(this.creatures);
   }
 
-  public void createCreatures() {
+  public void createCreatures(List<? extends Creature> list) {
     ObservableList<Node> children = getChildren();
-    children.clear();
     children.addAll(
-        creatures
-            .stream()
+        list.stream()
             .map(creature -> new CreatureView(creature, scaleX, scaleY))
             .collect(Collectors.toList()));
   }
