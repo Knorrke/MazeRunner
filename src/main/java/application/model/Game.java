@@ -64,6 +64,16 @@ public class Game implements GameModelInterface {
     return maze;
   }
 
+  public void setPlayer(PlayerModelInterface player) {
+    this.player = player;
+    maze.setPlayer(player);
+  }
+
+  public void setMaze(MazeModelInterface maze) {
+    this.maze = maze;
+    maze.setPlayer(player);
+  }
+
   @Override
   public GameState getState() {
     return state.get();

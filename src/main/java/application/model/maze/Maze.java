@@ -25,7 +25,7 @@ public class Maze implements MazeModelInterface {
 
   private final int maxWallX, maxWallY;
 
-  @JsonIgnore private PlayerModelInterface player;
+  private PlayerModelInterface player;
 
   public Maze() {
     this(20, 10);
@@ -66,10 +66,12 @@ public class Maze implements MazeModelInterface {
 
   @Override
   public void buildWall(int x, int y) {
-    if (player != null) {
-      player.spendMoney(1);
+    if (checkBounds(x, y) && !hasWallOn(x, y)) {
+      if (player != null) {
+        player.spendMoney(1);
+      }
+      this.addWall(new Wall(x, y));
     }
-    this.addWall(new Wall(x, y));
   }
 
   @Override
