@@ -21,6 +21,9 @@ public class CreaturesView extends Pane implements Bindable<MazeModelInterface> 
         while (c.next()) {
           if (c.wasAdded()) {
             createCreatures(c.getAddedSubList());
+          } else if (c.wasRemoved()) {
+            getChildren().clear();
+            createCreatures(creatures);
           }
         }
       };

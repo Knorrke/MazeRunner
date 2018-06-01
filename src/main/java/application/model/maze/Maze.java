@@ -1,5 +1,6 @@
 package application.model.maze;
 
+import java.util.Iterator;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import application.controller.gameloop.ActorInterface;
 import application.model.creature.Creature;
+import application.model.player.PlayerModelInterface;
 import application.util.ObservableCreaturesListDeserializer;
 import application.util.ObservableWallsListDeserializer;
 import javafx.collections.FXCollections;
@@ -22,6 +24,8 @@ public class Maze implements MazeModelInterface {
   private ObservableList<Creature> creatures = FXCollections.observableArrayList();
 
   private final int maxWallX, maxWallY;
+
+  @JsonIgnore private PlayerModelInterface player;
 
   public Maze() {
     this(20, 10);
@@ -62,6 +66,9 @@ public class Maze implements MazeModelInterface {
 
   @Override
   public void buildWall(int x, int y) {
+    if (player != null) {
+      player.spendMoney(1);
+    }
     this.addWall(new Wall(x, y));
   }
 
@@ -107,9 +114,21 @@ public class Maze implements MazeModelInterface {
   }
 
   @Override
+  public void setPlayer(PlayerModelInterface player) {
+    this.player = player;
+  }
+
+  @Override
   public void update(double dt) {
-    for (ActorInterface creature : creatures) {
+    for (Iterator<Creature> iter = creatures.iterator(); iter.hasNext(); ) {
+      Creature creature = iter.next();
       creature.act(dt);
+      if (creature.getX() >= maxWallX - 1) {
+        iter.remove();
+        if (player != null) {
+          player.looseLife();
+        }
+      }
     }
     for (ActorInterface wall : walls) {
       wall.act(dt);

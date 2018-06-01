@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import application.controller.gameloop.Updateable;
 import application.model.ModelInterface;
 import application.model.creature.Creature;
+import application.model.player.PlayerModelInterface;
 import javafx.collections.ObservableList;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
@@ -16,6 +17,8 @@ import javafx.collections.ObservableList;
   @JsonSubTypes.Type(value = Maze.class, name = "Maze"),
 })
 public interface MazeModelInterface extends Updateable, ModelInterface {
+  public void setPlayer(PlayerModelInterface player);
+
   /** @return the walls */
   public ObservableList<Wall> getWalls();
   /** @param wall the wall to add */

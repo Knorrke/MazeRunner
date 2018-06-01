@@ -39,6 +39,7 @@ public class Game implements GameModelInterface {
     }
 
     maze = new Maze();
+    maze.setPlayer(player);
     setState(BUILDING);
   }
 

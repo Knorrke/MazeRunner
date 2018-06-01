@@ -47,6 +47,16 @@ public class CreatureViewTest extends AbstractViewTest {
     assertEquals(downward, mod(creatureView.getRotate(), 360));
   }
 
+  @Test
+  public void creatureRemovedAfterReachingGoal() {
+    Creature creature =
+        CreatureFactory.create(maze, CreatureType.NORMAL, maze.getMaxWallX() - 1, 3);
+    interact(() -> maze.addCreature(creature));
+    verifyThat("#maze", NodeMatchers.hasChildren(1, ".creature"), collectInfos());
+    interact(() -> maze.update(1));
+    verifyThat(".creature", NodeMatchers.isNull(), collectInfos());
+  }
+
   private int mod(double x, int modulo) {
     return Math.floorMod((int) x, modulo);
   }
