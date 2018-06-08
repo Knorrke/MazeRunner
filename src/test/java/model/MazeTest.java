@@ -17,16 +17,24 @@ import application.model.maze.MazeModelInterface;
 import application.model.maze.Wall;
 import application.model.player.Player;
 import application.model.player.PlayerModelInterface;
+import application.model.player.PlayerUpdater;
+import application.model.player.PlayerUpdaterInterface;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 public class MazeTest {
   MazeModelInterface maze;
+  PlayerUpdaterInterface playerUpdater;
+  PlayerModelInterface playerMock;
   int x, y;
 
   @Before
   public void setup() {
+    playerMock = Mockito.mock(Player.class);
+    Mockito.doReturn(true).when(playerMock).spendMoney(ArgumentMatchers.anyInt());
+    playerUpdater = Mockito.spy(new PlayerUpdater(playerMock));
     maze = new Maze();
+    maze.setPlayerUpdater(playerUpdater);
     x = 2;
     y = 3;
   }
@@ -77,11 +85,21 @@ public class MazeTest {
   @Test
   public void buildShouldCostTest() {
     ObservableList<Wall> walls = maze.getWalls();
-    PlayerModelInterface player = Mockito.mock(Player.class);
-    maze.setPlayer(player);
     maze.buildWall(x, y);
     assertEquals("Maze should have a wall now", 1, walls.size());
-    Mockito.verify(player, Mockito.times(1)).spendMoney(ArgumentMatchers.anyInt());
+    Mockito.verify(playerUpdater, Mockito.times(1)).newWallBuilt(walls.get(0));
+    Mockito.verify(playerMock, Mockito.times(1)).spendMoney(ArgumentMatchers.anyInt());
+  }
+
+  @Test
+  public void sellShouldEarnMoneyTest() {
+    ObservableList<Wall> walls = maze.getWalls();
+    Wall wall = maze.buildWall(x, y);
+    assertTrue("maze contains built wall", walls.contains(wall));
+    maze.sell(wall);
+    assertFalse("Maze shouldn't contain the wall after sell", walls.contains(wall));
+    Mockito.verify(playerUpdater, Mockito.times(1)).soldWall(wall);
+    Mockito.verify(playerMock, Mockito.times(1)).earnMoney(ArgumentMatchers.anyInt());
   }
 
   @Test
@@ -97,12 +115,11 @@ public class MazeTest {
 
   @Test
   public void looseLifeIfCreatureReachesGoal() {
-    PlayerModelInterface player = Mockito.mock(Player.class);
-    maze.setPlayer(player);
     Creature creature =
         CreatureFactory.create(maze, CreatureType.NORMAL, maze.getMaxWallX() - 1, 0);
     maze.addCreature(creature);
     maze.update(1);
-    Mockito.verify(player, Mockito.times(1)).looseLife();
+    Mockito.verify(playerUpdater, Mockito.times(1)).leavingCreature(creature);
+    Mockito.verify(playerMock, Mockito.times(1)).looseLife();
   }
 }

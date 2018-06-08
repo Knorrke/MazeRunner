@@ -8,16 +8,18 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import application.controller.gameloop.ActorInterface;
 import application.model.creature.Creature;
-import application.model.player.PlayerModelInterface;
+import application.model.player.PlayerUpdaterInterface;
 import application.util.ObservableCreaturesListDeserializer;
 import application.util.ObservableWallsListDeserializer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Maze implements MazeModelInterface {
+
   @JsonDeserialize(using = ObservableWallsListDeserializer.class)
   private ObservableList<Wall> walls = FXCollections.observableArrayList();
 
+  // boolean array for fast lookup
   @JsonIgnore private boolean[][] hasWall;
 
   @JsonDeserialize(using = ObservableCreaturesListDeserializer.class)
@@ -25,7 +27,7 @@ public class Maze implements MazeModelInterface {
 
   private final int maxWallX, maxWallY;
 
-  private PlayerModelInterface player;
+  @JsonIgnore private PlayerUpdaterInterface playerUpdater;
 
   public Maze() {
     this(20, 10);
@@ -65,13 +67,17 @@ public class Maze implements MazeModelInterface {
   }
 
   @Override
-  public void buildWall(int x, int y) {
+  public Wall buildWall(int x, int y) {
     if (checkBounds(x, y) && !hasWallOn(x, y)) {
-      if (player != null) {
-        player.spendMoney(1);
+      Wall wall = new Wall(x, y);
+      boolean successfull = playerUpdater != null ? playerUpdater.newWallBuilt(wall) : true;
+      if (successfull) {
+        this.addWall(wall);
+        return wall;
       }
-      this.addWall(new Wall(x, y));
     }
+
+    return null;
   }
 
   @Override
@@ -116,24 +122,36 @@ public class Maze implements MazeModelInterface {
   }
 
   @Override
-  public void setPlayer(PlayerModelInterface player) {
-    this.player = player;
-  }
-
-  @Override
   public void update(double dt) {
     for (Iterator<Creature> iter = creatures.iterator(); iter.hasNext(); ) {
       Creature creature = iter.next();
       creature.act(dt);
       if (creature.getX() >= maxWallX - 1) {
         iter.remove();
-        if (player != null) {
-          player.looseLife();
+        if (playerUpdater != null) {
+          playerUpdater.leavingCreature(creature);
         }
       }
     }
     for (ActorInterface wall : walls) {
       wall.act(dt);
     }
+  }
+
+  @JsonIgnore
+  @Override
+  public MazeUpdaterInterface createUpdater() {
+    return new MazeUpdater(this);
+  }
+
+  @Override
+  public void setPlayerUpdater(PlayerUpdaterInterface playerUpdater) {
+    this.playerUpdater = playerUpdater;
+  }
+
+  @Override
+  public void sell(Wall wall) {
+    removeWall(wall);
+    playerUpdater.soldWall(wall);
   }
 }

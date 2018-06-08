@@ -2,12 +2,8 @@ package application.model;
 
 import static application.model.GameState.BUILDING;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import application.model.creature.Creature;
 import application.model.creature.CreatureGroup;
 import application.model.creature.CreatureType;
 import application.model.level.Level;
@@ -24,22 +20,20 @@ public class Game implements GameModelInterface {
 
   private PlayerModelInterface player;
 
-  @JsonManagedReference
   @JsonDeserialize(as = Level.class)
   private LevelModelInterface level;
 
+  @JsonDeserialize(as = Maze.class)
   private MazeModelInterface maze;
 
   public Game() {
     player = new Player(50, 20);
-
-    level = new Level(this);
+    maze = new Maze();
+    level = new Level();
+    connectModels();
     for (int i = 0; i < 9; i++) {
       level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 20));
     }
-
-    maze = new Maze();
-    maze.setPlayer(player);
     setState(BUILDING);
   }
 
@@ -66,12 +60,22 @@ public class Game implements GameModelInterface {
 
   public void setPlayer(PlayerModelInterface player) {
     this.player = player;
-    maze.setPlayer(player);
+    connectModels();
   }
 
   public void setMaze(MazeModelInterface maze) {
     this.maze = maze;
-    maze.setPlayer(player);
+    connectModels();
+  }
+
+  public void setLevel(LevelModelInterface level) {
+    this.level = level;
+    connectModels();
+  }
+
+  private void connectModels() {
+    maze.setPlayerUpdater(player.createUpdater());
+    level.setMazeUpdater(maze.createUpdater());
   }
 
   @Override
@@ -87,10 +91,5 @@ public class Game implements GameModelInterface {
   /** @param state the state to set */
   public void setState(GameState state) {
     this.state.set(state);
-  }
-
-  @Override
-  public void nextWave(List<Creature> nextCreatures) {
-    maze.addAllCreatures(nextCreatures);
   }
 }

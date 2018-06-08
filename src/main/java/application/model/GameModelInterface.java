@@ -31,6 +31,4 @@ public interface GameModelInterface extends Updateable, ModelInterface {
   public GameState getState();
 
   ObjectProperty<GameState> stateProperty();
-
-  public void nextWave(List<Creature> nextCreatures);
 }

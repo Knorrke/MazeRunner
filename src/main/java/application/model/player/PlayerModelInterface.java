@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
 import application.model.ModelInterface;
 import javafx.beans.property.IntegerProperty;
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Player.class, name = "Player"),
@@ -27,11 +28,12 @@ public interface PlayerModelInterface extends ModelInterface {
   public void gainLife();
 
   /**
-   * Spend money
+   * Spend money, if player got enough. Returns false otherwise.
    *
    * @param costs
+   * @return true, if player has enough money, false otherwise
    */
-  public void spendMoney(int costs);
+  public boolean spendMoney(int costs);
 
   /**
    * Earn money
@@ -39,4 +41,6 @@ public interface PlayerModelInterface extends ModelInterface {
    * @param earnings
    */
   public void earnMoney(int earnings);
+
+  public PlayerUpdaterInterface createUpdater();
 }
