@@ -4,9 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import application.model.maze.Wall;
+import application.model.maze.tower.AbstractTower;
 import application.model.maze.tower.NoTower;
+import application.model.maze.tower.TowerType;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -18,7 +21,7 @@ public class WallTest {
   public void setup() {
     x = 2;
     y = 3;
-    wall = new Wall(x, y);
+    wall = new Wall(x, y, Mockito.mock(NoTower.class));
   }
 
   @Test
@@ -40,7 +43,7 @@ public class WallTest {
 
   @Test
   public void newWallHasNoTower() {
-    assertTrue("AbstractTower on new wall should be not set", wall.getTower() instanceof NoTower);
+    assertTrue("New wall should have NoTower ", wall.getTower() instanceof NoTower);
   }
 
   @Test
@@ -56,7 +59,7 @@ public class WallTest {
     wall.getTower().shoot();
     assertFalse("tower should not have changed yet", changed.get());
 
-    wall.setTower(new NoTower());
+    wall.setTower(AbstractTower.create(wall, TowerType.NORMAL));
     assertTrue("AbstractTower should have changed", changed.get());
   }
 }

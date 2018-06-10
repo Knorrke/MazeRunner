@@ -1,12 +1,18 @@
 package application.model.maze;
 
+import java.util.List;
+import java.util.function.Predicate;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import application.controller.gameloop.ActorInterface;
+import application.model.creature.Creature;
 import application.model.maze.tower.AbstractTower;
-import application.model.maze.tower.NoTower;
+import application.model.maze.tower.TowerType;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -15,17 +21,28 @@ import javafx.beans.property.SimpleObjectProperty;
 public class Wall implements ActorInterface {
 
   private IntegerProperty x, y;
-  private ObjectProperty<AbstractTower> tower;
+  @JsonManagedReference("tower") private ObjectProperty<AbstractTower> tower;
+  @JsonBackReference("wall") private MazeModelInterface maze;
 
   @JsonCreator
   public Wall(@JsonProperty("x") int x, @JsonProperty("y") int y) {
     this(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
+    setTower(AbstractTower.create(this, TowerType.NO));
+  }
+
+  public Wall(int x, int y, AbstractTower tower) {
+    this(new SimpleIntegerProperty(x),new SimpleIntegerProperty(y));
+    setTower(tower);
   }
 
   public Wall(IntegerProperty x, IntegerProperty y) {
+    this(x,y,new SimpleObjectProperty<>());
+  }
+
+  public Wall(IntegerProperty x, IntegerProperty y, ObjectProperty<AbstractTower> tower) {
     this.x = x;
     this.y = y;
-    this.tower = new SimpleObjectProperty<AbstractTower>(new NoTower());
+    this.tower = tower;
   }
 
   /** @return the x position */
@@ -72,6 +89,7 @@ public class Wall implements ActorInterface {
   /** @param abstractTower the abstractTower to set */
   public void setTower(AbstractTower abstractTower) {
     this.tower.set(abstractTower);
+    getTower().setWall(this);
   }
 
   public ObjectProperty<AbstractTower> towerProperty() {
@@ -86,5 +104,13 @@ public class Wall implements ActorInterface {
   @JsonIgnore
   public int getCosts() {
     return 1 + getTower().getCosts();
+  }
+
+  public List<Creature> getCreaturesMatchingCondition(Predicate<Creature> pred) {
+    return maze.getCreatures().filtered(pred);
+  }
+  
+  public void setMaze(MazeModelInterface maze) {
+    this.maze = maze;
   }
 }

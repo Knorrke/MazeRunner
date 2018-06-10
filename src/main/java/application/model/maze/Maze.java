@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import application.controller.gameloop.ActorInterface;
 import application.model.creature.Creature;
+import application.model.maze.tower.AbstractTower;
+import application.model.maze.tower.TowerType;
 import application.model.player.PlayerModelInterface;
 import application.util.ObservableCreaturesListDeserializer;
 import application.util.ObservableWallsListDeserializer;
@@ -69,6 +71,8 @@ public class Maze implements MazeModelInterface {
   public Wall buildWall(int x, int y) {
     if (checkBounds(x, y) && !hasWallOn(x, y)) {
       Wall wall = new Wall(x, y);
+      AbstractTower tower = AbstractTower.create(wall,TowerType.NO);
+      wall.setTower(tower);
       boolean successfull = player != null ? player.spendMoney(wall.getCosts()) : true;
       if (successfull) {
         this.addWall(wall);

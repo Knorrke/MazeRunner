@@ -1,14 +1,17 @@
 package application.model.maze.tower;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import application.model.maze.Wall;
+
 public class NoTower extends AbstractTower {
 
-  public NoTower() {
-    setFireRate(0);
-    setDamage(0);
-    setCosts(0);
-    setVisualRange(0);
+  @JsonCreator
+  public NoTower(@JsonProperty("wall") Wall wall) {
+    super(0,0,0,0, TowerType.NO, wall);
   }
 
   @Override
-  public void act(double dt) {}
+  public void shoot() {}
 }
