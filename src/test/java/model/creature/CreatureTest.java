@@ -147,6 +147,7 @@ public class CreatureTest {
     assertTrue("moved to unknown", movedTo(creature, x, y + 2, 0.1));
   }
 
+  /** Helper functions */
   private void moveOneFieldAutonomously(Creature c) {
     c.chooseNewAction();
     c.act(1 / c.getVelocity());

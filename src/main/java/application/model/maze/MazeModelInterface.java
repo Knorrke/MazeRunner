@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import application.controller.gameloop.Updateable;
 import application.model.ModelInterface;
 import application.model.creature.Creature;
+import application.model.player.PlayerModelInterface;
 import javafx.collections.ObservableList;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
@@ -16,18 +17,19 @@ import javafx.collections.ObservableList;
   @JsonSubTypes.Type(value = Maze.class, name = "Maze"),
 })
 public interface MazeModelInterface extends Updateable, ModelInterface {
+
   /** @return the walls */
   public ObservableList<Wall> getWalls();
-  /** @param wall the wall to add */
-  public void addWall(Wall wall);
-
+  
   /**
-   * Builds a new wall. If the wall already exists, this is a no-op
+   * Builds a new wall and returns it at success. If the wall already exists or the player hasn't
+   * enough money the wall isn't added and the method returns null
    *
    * @param x
    * @param y
+   * @return the wall if successfull
    */
-  public void buildWall(int x, int y);
+  public Wall buildWall(int x, int y);
 
   /** @param wall the wall to remove */
   public void removeWall(Wall wall);
@@ -75,4 +77,7 @@ public interface MazeModelInterface extends Updateable, ModelInterface {
    */
   @Override
   public void update(double dt);
+
+  public void setPlayerModel(PlayerModelInterface player);
+  public void sell(Wall wall);
 }

@@ -67,4 +67,13 @@ public class PlayerTest {
     player.earnMoney(costs);
     assertEquals("Earning should change money correctly", startMoney, player.getMoney());
   }
+  
+  @Test
+  public void stopBeforeNegativeMoneyTest() {
+    int costs = startMoney-1;
+    assertTrue("spending money should be successfull", player.spendMoney(costs));
+    assertEquals("player should have 1 money left",1, player.getMoney());
+    assertFalse("spending more should not be successfull", player.spendMoney(2));
+    assertEquals("player should still have 1 money left",1, player.getMoney());
+  }
 }

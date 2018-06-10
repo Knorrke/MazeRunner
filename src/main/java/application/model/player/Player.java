@@ -12,7 +12,7 @@ public class Player implements PlayerModelInterface {
   private IntegerProperty lifes;
 
   @JsonCreator
-  public Player(@JsonProperty("money") int startMoney,@JsonProperty("lifes") int startLifes) {
+  public Player(@JsonProperty("money") int startMoney, @JsonProperty("lifes") int startLifes) {
     this(new SimpleIntegerProperty(startMoney), new SimpleIntegerProperty(startLifes));
   }
 
@@ -42,33 +42,26 @@ public class Player implements PlayerModelInterface {
     return lifes;
   }
 
-  /** Loose a life */
   @Override
   public void looseLife() {
     lifes.set(lifes.get() - 1);
   }
 
-  /** Gain a life */
   @Override
   public void gainLife() {
     lifes.set(lifes.get() + 1);
   }
 
-  /**
-   * Spend money
-   *
-   * @param costs
-   */
   @Override
-  public void spendMoney(int costs) {
-    money.set(money.get() - costs);
+  public boolean spendMoney(int costs) {
+    if (money.get() >= costs) {
+      money.set(money.get() - costs);
+      return true;
+    }
+
+    return false;
   }
 
-  /**
-   * Earn money
-   *
-   * @param earnings
-   */
   @Override
   public void earnMoney(int earnings) {
     money.set(money.get() + earnings);

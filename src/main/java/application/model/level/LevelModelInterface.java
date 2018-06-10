@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
 import application.controller.gameloop.Updateable;
-import application.model.GameModelInterface;
 import application.model.ModelInterface;
 import application.model.creature.CreatureGroup;
+import application.model.maze.MazeModelInterface;
 import javafx.collections.ObservableList;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
@@ -37,5 +37,5 @@ public interface LevelModelInterface extends Updateable, ModelInterface {
   /** Creates the next wave of creatures according to Timeline and resets the countdown */
   public void sendNextCreatureWave();
 
-  public void setGame(GameModelInterface game);
+  public void setMazeModel(MazeModelInterface maze);
 }

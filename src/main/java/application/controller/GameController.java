@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import application.ImageLoader;
 import application.controller.gameloop.GameLoop;
 import application.model.GameModelInterface;
-import application.model.maze.Wall;
 import application.view.maze.MazeView;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
@@ -86,10 +85,6 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
                 .then(ImageLoader.pause)
                 .otherwise(ImageLoader.play));
   }
-
-  public void sell(Wall wall) {}
-
-  public void buildTower(Wall wall) {}
 
   public GameLoop getGameLoop() {
     return gameloop;
