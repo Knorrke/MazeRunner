@@ -74,8 +74,8 @@ public class Game implements GameModelInterface {
   }
 
   private void connectModels() {
-    maze.setPlayerUpdater(player.createUpdater());
-    level.setMazeUpdater(maze.createUpdater());
+    getMaze().setPlayerModel(getPlayer());
+    getLevel().setMazeModel(getMaze());
   }
 
   @Override

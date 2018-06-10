@@ -1,7 +1,6 @@
 package application.model.player;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javafx.beans.property.IntegerProperty;
@@ -66,11 +65,5 @@ public class Player implements PlayerModelInterface {
   @Override
   public void earnMoney(int earnings) {
     money.set(money.get() + earnings);
-  }
-
-  @JsonIgnore
-  @Override
-  public PlayerUpdaterInterface createUpdater() {
-    return new PlayerUpdater(this);
   }
 }

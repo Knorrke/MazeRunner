@@ -10,8 +10,6 @@ import application.model.level.Level;
 import application.model.level.LevelModelInterface;
 import application.model.maze.Maze;
 import application.model.maze.MazeModelInterface;
-import application.model.maze.MazeUpdater;
-import application.model.maze.MazeUpdaterInterface;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
@@ -33,12 +31,11 @@ public class LevelTest {
     MazeModelInterface maze = Mockito.mock(Maze.class);
     Mockito.when(maze.getMaxWallX()).thenReturn(20);
     Mockito.when(maze.getMaxWallY()).thenReturn(10);
-    MazeUpdaterInterface mazeUpdater = Mockito.spy(new MazeUpdater(maze));
     LevelModelInterface level = new Level();
-    level.setMazeUpdater(mazeUpdater);
+    level.setMazeModel(maze);
 
     level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 10));
     level.sendNextCreatureWave();
-    Mockito.verify(mazeUpdater).nextWave(ArgumentMatchers.argThat(list -> list.size() == 10));
+    Mockito.verify(maze).addAllCreatures(ArgumentMatchers.argThat(list -> list.size() == 10));
   }
 }

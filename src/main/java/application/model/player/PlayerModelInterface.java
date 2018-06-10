@@ -41,6 +41,4 @@ public interface PlayerModelInterface extends ModelInterface {
    * @param earnings
    */
   public void earnMoney(int earnings);
-
-  public PlayerUpdaterInterface createUpdater();
 }

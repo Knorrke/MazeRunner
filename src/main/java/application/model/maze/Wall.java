@@ -82,4 +82,9 @@ public class Wall implements ActorInterface {
   public void act(double dt) {
     getTower().act(dt);
   }
+
+  @JsonIgnore
+  public int getCosts() {
+    return 1 + getTower().getCosts();
+  }
 }

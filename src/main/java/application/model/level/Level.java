@@ -11,7 +11,7 @@ import application.model.actions.Action;
 import application.model.creature.Creature;
 import application.model.creature.CreatureFactory;
 import application.model.creature.CreatureGroup;
-import application.model.maze.MazeUpdaterInterface;
+import application.model.maze.MazeModelInterface;
 import application.util.ObservableCreatureGroupListDeserializer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,7 +20,7 @@ public class Level implements LevelModelInterface {
   @JsonDeserialize(using = ObservableCreatureGroupListDeserializer.class)
   private ObservableList<CreatureGroup> creatureTimeline = FXCollections.observableArrayList();
 
-  @JsonIgnore private MazeUpdaterInterface mazeUpdater;
+  @JsonIgnore private MazeModelInterface maze;
   private AtomicInteger waveNumber = new AtomicInteger(0);
 
   @JsonIgnore private Action action;
@@ -46,25 +46,25 @@ public class Level implements LevelModelInterface {
 
   @Override
   public void sendNextCreatureWave() {
-    assert mazeUpdater != null : "Model Level and Maze not connected!";
+    assert maze != null : "Models Level and Maze not connected!";
     if (waveNumber.get() < creatureTimeline.size()) {
       CreatureGroup nextCreatureGroup = creatureTimeline.get(waveNumber.getAndIncrement());
       double streuung = 0.4;
       List<Creature> creatures =
           CreatureFactory.createAll(
-              mazeUpdater.getMaze(),
+              maze,
               nextCreatureGroup,
               () -> new Random().nextDouble() * streuung + 0.5 * (1 - streuung),
               () ->
-                  new Random().nextInt(mazeUpdater.getMaze().getMaxWallY())
+                  new Random().nextInt(maze.getMaxWallY())
                       + Math.random() * streuung
                       + 0.5 * (1 - streuung));
-      mazeUpdater.nextWave(creatures);
+      maze.addAllCreatures(creatures);
     }
   }
 
   @Override
-  public void setMazeUpdater(MazeUpdaterInterface mazeUpdater) {
-    this.mazeUpdater = mazeUpdater;
+  public void setMazeModel(MazeModelInterface mazeUpdater) {
+    this.maze = mazeUpdater;
   }
 }

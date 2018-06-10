@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import application.controller.gameloop.ActorInterface;
 import application.model.creature.Creature;
-import application.model.player.PlayerUpdaterInterface;
+import application.model.player.PlayerModelInterface;
 import application.util.ObservableCreaturesListDeserializer;
 import application.util.ObservableWallsListDeserializer;
 import javafx.collections.FXCollections;
@@ -27,7 +27,7 @@ public class Maze implements MazeModelInterface {
 
   private final int maxWallX, maxWallY;
 
-  @JsonIgnore private PlayerUpdaterInterface playerUpdater;
+  @JsonIgnore private PlayerModelInterface player;
 
   public Maze() {
     this(20, 10);
@@ -56,8 +56,7 @@ public class Maze implements MazeModelInterface {
     }
   }
 
-  @Override
-  public void addWall(Wall wall) {
+  private void addWall(Wall wall) {
     int x = wall.getX();
     int y = wall.getY();
     if (checkBounds(x, y) && !hasWallOn(x, y)) {
@@ -70,7 +69,7 @@ public class Maze implements MazeModelInterface {
   public Wall buildWall(int x, int y) {
     if (checkBounds(x, y) && !hasWallOn(x, y)) {
       Wall wall = new Wall(x, y);
-      boolean successfull = playerUpdater != null ? playerUpdater.newWallBuilt(wall) : true;
+      boolean successfull = player != null ? player.spendMoney(wall.getCosts()) : true;
       if (successfull) {
         this.addWall(wall);
         return wall;
@@ -128,8 +127,8 @@ public class Maze implements MazeModelInterface {
       creature.act(dt);
       if (creature.getX() >= maxWallX - 1) {
         iter.remove();
-        if (playerUpdater != null) {
-          playerUpdater.leavingCreature(creature);
+        if (player != null) {
+          player.looseLife();
         }
       }
     }
@@ -138,20 +137,16 @@ public class Maze implements MazeModelInterface {
     }
   }
 
-  @JsonIgnore
   @Override
-  public MazeUpdaterInterface createUpdater() {
-    return new MazeUpdater(this);
-  }
-
-  @Override
-  public void setPlayerUpdater(PlayerUpdaterInterface playerUpdater) {
-    this.playerUpdater = playerUpdater;
+  public void setPlayerModel(PlayerModelInterface player) {
+    this.player = player;
   }
 
   @Override
   public void sell(Wall wall) {
     removeWall(wall);
-    playerUpdater.soldWall(wall);
+    if (player != null) {
+      player.earnMoney(wall.getCosts());
+    }
   }
 }
