@@ -89,4 +89,8 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
   public GameLoop getGameLoop() {
     return gameloop;
   }
+
+  public GameModelInterface getModel() {
+    return game;
+  }
 }

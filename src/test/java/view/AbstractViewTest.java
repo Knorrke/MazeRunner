@@ -10,6 +10,7 @@ import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.util.DebugUtils;
 
 import application.ImageLoader;
+import application.Launcher;
 import application.controller.GameController;
 import application.controller.gameloop.GameLoop;
 import application.model.Game;
@@ -38,24 +39,13 @@ public abstract class AbstractViewTest extends ApplicationTest {
 
   @Override
   public void start(Stage stage) {
-    ImageLoader.loadAll();
-    game = new Game();
-    gameController = new GameController();
-    gameController.initModel(game);
+    gameController = Launcher.createGame();
+    game = gameController.getModel();
     gameLoop = gameController.getGameLoop();
-    scene = new Scene(gameController.getView());
-    scene
-        .getStylesheets()
-        .add(
-            getClass()
-                .getClassLoader()
-                .getResource("stylesheets/application.css")
-                .toExternalForm());
     maze = game.getMaze();
     level = game.getLevel();
     player = game.getPlayer();
-    stage.setScene(scene);
-    stage.show();
+    scene = Launcher.startScene(gameController, stage);
   }
 
   @Override
