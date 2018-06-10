@@ -4,15 +4,22 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import application.ImageLoader;
 import application.controller.gameloop.GameLoop;
 import application.model.GameModelInterface;
+import application.util.Serializer;
 import application.view.maze.MazeView;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
@@ -53,6 +60,15 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
       LOG.log(Level.SEVERE, "Loading GameView.fxml failed", exception);
       throw new RuntimeException(exception);
     }
+
+    addSaveHandler(
+        event -> {
+          try {
+            LOG.info(Serializer.create().writeValueAsString(getModel()));
+          } catch (JsonProcessingException e) {
+            LOG.log(Level.SEVERE, "Couldn't serialize game", e);
+          }
+        });
   }
 
   public void initialize() {
@@ -92,5 +108,21 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
 
   public GameModelInterface getModel() {
     return game;
+  }
+
+  public void addSaveHandler(EventHandler<KeyEvent> handler) {
+    Platform.runLater(
+        () -> {
+          if (view.getScene() != null) {
+            view.getScene()
+                .addEventHandler(
+                    KeyEvent.KEY_PRESSED,
+                    event -> {
+                      if (event.getCode() == KeyCode.S && event.isControlDown()) {
+                        handler.handle(event);
+                      }
+                    });
+          }
+        });
   }
 }

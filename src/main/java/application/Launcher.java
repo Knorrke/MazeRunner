@@ -7,17 +7,13 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import application.controller.GameController;
 import application.model.Game;
 import application.util.Serializer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class Launcher extends Application {
@@ -66,23 +62,9 @@ public class Launcher extends Application {
 
     primaryStage.setScene(scene);
     primaryStage.show();
-    primaryStage.addEventHandler(
-        KeyEvent.KEY_PRESSED,
-        new EventHandler<javafx.scene.input.KeyEvent>() {
-          @Override
-          public void handle(KeyEvent event) {
-            if (event.getCode() == KeyCode.P && event.isControlDown()) {
-              try {
-                LOG.info(Serializer.create().writeValueAsString(gameController.getModel()));
-              } catch (JsonProcessingException e) {
-                e.printStackTrace();
-              }
-            }
-          }
-        });
     return scene;
   }
-
+  
   private static Game createGamefromJsonFile(String path) {
     String json = readJson(path);
     LOG.log(Level.FINE, "Trying to deserialize {}", json);
@@ -95,7 +77,7 @@ public class Launcher extends Application {
         return null;
       }
     } else {
-      LOG.warning("Json doesn't seem to be a Game. Creating a new one.");
+      LOG.warning("Game doesn't seem to be deserializeable. Creating a new one.");
       return new Game();
     }
   }
@@ -105,8 +87,7 @@ public class Launcher extends Application {
       BufferedReader reader =
           new BufferedReader(
               new InputStreamReader(
-                  Launcher.class.getClassLoader().getResourceAsStream(path),
-                  "UTF-8"));
+                  Launcher.class.getClassLoader().getResourceAsStream(path), "UTF-8"));
       StringBuffer builder = new StringBuffer();
       String nextLine = reader.readLine();
       while (nextLine != null) {

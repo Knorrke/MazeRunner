@@ -4,16 +4,13 @@ import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
-import org.junit.BeforeClass;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.util.DebugUtils;
 
-import application.ImageLoader;
 import application.Launcher;
 import application.controller.GameController;
 import application.controller.gameloop.GameLoop;
-import application.model.Game;
 import application.model.GameModelInterface;
 import application.model.level.LevelModelInterface;
 import application.model.maze.MazeModelInterface;
