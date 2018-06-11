@@ -32,6 +32,8 @@ public class Creature implements ActorInterface {
   private DoubleProperty x, y;
   private DoubleProperty velocity;
   private IntegerProperty lifes;
+  private int value;
+  
   @JsonProperty private MovementInterface movementStrategy;
   private CreatureType type;
   @JsonBackReference private MazeModelInterface maze;
@@ -41,7 +43,7 @@ public class Creature implements ActorInterface {
 
   /** json entry */
   public Creature() {
-    this(0, 0, 0, 0, new NoSightMovement(), new Vision(), CreatureType.NORMAL, new Maze());
+    this(0, 0, 0, 0, 0, new NoSightMovement(), new Vision(), CreatureType.NORMAL, new Maze());
   }
 
   public Creature(
@@ -49,6 +51,7 @@ public class Creature implements ActorInterface {
       double y,
       double velocity,
       int lifes,
+      int value,
       MovementInterface movementStrategy,
       Vision vision,
       CreatureType type,
@@ -57,6 +60,7 @@ public class Creature implements ActorInterface {
         new SimpleObjectProperty<Position>(new Position(x, y)),
         new SimpleDoubleProperty(velocity),
         new SimpleIntegerProperty(lifes),
+        value,
         movementStrategy,
         vision,
         type,
@@ -67,6 +71,7 @@ public class Creature implements ActorInterface {
       ObjectProperty<Position> position,
       DoubleProperty velocity,
       IntegerProperty lifes,
+      int value,
       MovementInterface movementStrategy,
       Vision vision,
       CreatureType type,
@@ -79,6 +84,7 @@ public class Creature implements ActorInterface {
 
     this.velocity = velocity;
     this.lifes = lifes;
+    this.value = value;
     this.movementStrategy = movementStrategy;
     this.type = type;
     this.vision = vision;
@@ -168,7 +174,7 @@ public class Creature implements ActorInterface {
   }
 
   /** @param lifes the lifes to set */
-  public void setLifes(int lifes) {
+  private void setLifes(int lifes) {
     this.lifes.set(lifes);
   }
 
@@ -225,5 +231,16 @@ public class Creature implements ActorInterface {
         }
       }
     }
+  }
+
+  public void damage(int damage) {
+    setLifes(getLifes() - damage);
+    if (getLifes() <= 0) {
+      maze.creatureDied(this);
+    }
+  }
+
+  public int getValue() {
+    return value;
   }
 }

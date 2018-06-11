@@ -157,6 +157,11 @@ public abstract class AbstractTower implements ActorInterface {
     return visualRange;
   }
 
+  /** @return the type of the tower */
+  public TowerType getType() {
+    return type;
+  }
+  
   public List<Creature> findCreaturesInRange() {
     return wall.getCreaturesMatchingCondition(c -> Point.distance(c.getX(), c.getY(), x + 0.5, y + 0.5) <= getVisualRange());
   }
@@ -172,4 +177,5 @@ public abstract class AbstractTower implements ActorInterface {
     this.x = x;
     this.y = y;
   }
+
 }

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import application.controller.gameloop.Updateable;
 import application.model.ModelInterface;
 import application.model.creature.Creature;
+import application.model.maze.tower.TowerType;
 import application.model.player.PlayerModelInterface;
 import javafx.collections.ObservableList;
 
@@ -80,4 +81,8 @@ public interface MazeModelInterface extends Updateable, ModelInterface {
 
   public void setPlayerModel(PlayerModelInterface player);
   public void sell(Wall wall);
+  public void buildTower(Wall wall, TowerType type);
+
+  public void creatureDied(Creature creature);
+
 }

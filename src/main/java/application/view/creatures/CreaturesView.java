@@ -1,5 +1,6 @@
 package application.view.creatures;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,8 +23,7 @@ public class CreaturesView extends Pane implements Bindable<MazeModelInterface> 
           if (c.wasAdded()) {
             createCreatures(c.getAddedSubList());
           } else if (c.wasRemoved()) {
-            getChildren().clear();
-            createCreatures(creatures);
+            removeCreatures(c.getRemoved());
           }
         }
       };
@@ -46,5 +46,15 @@ public class CreaturesView extends Pane implements Bindable<MazeModelInterface> 
         list.stream()
             .map(creature -> new CreatureView(creature, scaleX, scaleY))
             .collect(Collectors.toList()));
+  }
+
+  private void removeCreatures(List<? extends Creature> removed) {
+    ObservableList<Node> children = getChildren();
+    for (Iterator<Node> iterator = children.iterator(); iterator.hasNext(); ) {
+      Node node = iterator.next();
+      if (node instanceof CreatureView && removed.contains(((CreatureView) node).getCreature())) {
+        iterator.remove();
+      }
+    }
   }
 }

@@ -70,8 +70,7 @@ public class CreatureTest {
   public void shouldNotMoveOutOfBoard() {
     int y1 = 5;
     Creature creature1 = CreatureFactory.create(maze, CreatureType.NORMAL, 0, y1 - 1);
-    // starting on 0,y1 + 1 move in a circle to visit all fields surrounding
-    // 0,y1
+    // starting on 0,y1 + 1 move in a circle to visit all fields surrounding 0,y1
     creature1.moveBy(1, 0);
     creature1.moveBy(0, 1);
     creature1.moveBy(0, 1);
@@ -145,6 +144,12 @@ public class CreatureTest {
     assertTrue("moved to unknown", movedTo(creature, x, y + 1, 0.1));
     moveOneFieldAutonomously(creature);
     assertTrue("moved to unknown", movedTo(creature, x, y + 2, 0.1));
+  }
+
+  @Test
+  public void dieOnDamage() {
+    creature.damage(creature.getLifes() + 1);
+    assertFalse(maze.getCreatures().contains(creature));
   }
 
   /** Helper functions */

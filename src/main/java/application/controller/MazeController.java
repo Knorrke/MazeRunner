@@ -4,6 +4,7 @@ import application.model.creature.CreatureFactory;
 import application.model.creature.CreatureType;
 import application.model.maze.MazeModelInterface;
 import application.model.maze.Wall;
+import application.model.maze.tower.TowerType;
 import application.view.maze.MazeView;
 
 public class MazeController implements ModelHolderInterface<MazeModelInterface> {
@@ -54,7 +55,7 @@ public class MazeController implements ModelHolderInterface<MazeModelInterface> 
     maze.sell(wall);
   }
 
-  public void buildTower(Wall wall) {
-    //    wall.setTower(...);
+  public void buildTower(Wall wall, TowerType type) {
+    maze.buildTower(wall, type);
   }
 }

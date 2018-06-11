@@ -2,7 +2,6 @@ package model;
 
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -77,5 +76,30 @@ public class TowerTest {
     List<Creature> creaturesInRange = abstractTower.findCreaturesInRange();
     assertEquals("one creature in range", 1, creaturesInRange.size());
     assertSame("should be the expectedCreature", creatureInRange, creaturesInRange.get(0));
+  }
+  
+  @Test
+  public void shootCreatureInRange() {
+    double visualRange = 4;
+    int wallX=2, wallY=3;
+    abstractTower = AbstractTower.create(TowerType.NORMAL);
+    abstractTower.setVisualRange(visualRange);
+    Wall wall = new Wall(wallX, wallY, abstractTower);
+    
+    MazeModelInterface mazeMock = Mockito.mock(Maze.class);
+    Creature creatureInRange = mockCreature(wallX+visualRange/2, wallY);
+    Creature creatureNotInRange = mockCreature(wallX+visualRange+1, wallY);
+    Mockito.doReturn(FXCollections.observableArrayList(creatureInRange, creatureNotInRange)).when(mazeMock).getCreatures();
+    wall.setMaze(mazeMock);
+
+    abstractTower.shoot();
+    Mockito.verify(creatureInRange).damage(ArgumentMatchers.anyInt());
+  }
+
+  private Creature mockCreature(double x, double y) {
+    Creature creatureMock = Mockito.mock(Creature.class);
+    Mockito.doReturn(x).when(creatureMock).getX();
+    Mockito.doReturn(y).when(creatureMock).getY();
+    return creatureMock;
   }
 }

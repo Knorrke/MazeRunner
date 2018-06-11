@@ -7,8 +7,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 import org.testfx.matcher.base.NodeMatchers;
+import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.util.WaitForAsyncUtils;
 
+import application.model.maze.tower.AbstractTower;
+import application.model.maze.tower.TowerType;
 import application.view.maze.WallMenuView;
 import application.view.maze.WallView;
 import javafx.scene.input.MouseButton;
@@ -36,9 +39,29 @@ public class WallMenuViewTest extends AbstractViewTest {
   public void sellTest() {
     buildWall();
     openMenuAndWaitForAnimation();
+    int moneyBefore = player.getMoney();
     selectSell();
     assertFalse(menu.isShown());
     verifyThat("#maze", NodeMatchers.hasChildren(0, ".wall"), collectInfos());
+    assertTrue(player.getMoney() > moneyBefore);
+    verifyThat("#money", LabeledMatchers.hasText(Integer.toString(player.getMoney())));
+  }
+  
+  @Test
+  public void buildTowerTest() {
+    buildWall();
+    openMenuAndWaitForAnimation();
+    int moneyBefore = player.getMoney();
+    int costs = AbstractTower.create(TowerType.NORMAL).getCosts();
+    selectNormalTower();
+    assertFalse(menu.isShown());
+    verifyThat(".wall", NodeMatchers.hasChildren(1, "." + TowerType.NORMAL.toString()));
+    assertTrue(player.getMoney() == moneyBefore - costs);
+    verifyThat("#money", LabeledMatchers.hasText(Integer.toString(player.getMoney())));
+  }
+
+  private void selectNormalTower() {
+    clickOn("#normal-tower");
   }
 
   private void selectSell() {

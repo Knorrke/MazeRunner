@@ -20,7 +20,7 @@ public class ImageLoader {
 
   public static Image sell;
 
-  public static Image normalTower;
+  public static Image noTower, normalTower;
 
   public static void loadAll() {
     loadGameImages();
@@ -41,6 +41,7 @@ public class ImageLoader {
 
     sell = loadImage("sell.png");
 
+    noTower = loadImage("towers/no.png");
     normalTower = loadImage("towers/normal.png");
 
     LOG.fine("Finished loading game images");

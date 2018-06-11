@@ -12,8 +12,10 @@ import javafx.util.Duration;
 
 public class CreatureView extends StackPane {
   private double imageSize = 0.7;
+  private final Creature creature;
 
   public CreatureView(Creature creature, DoubleBinding scaleX, DoubleBinding scaleY) {
+    this.creature = creature;
     this.getStyleClass().add("creature");
 
     Image im = ImageLoader.getCreatureImage(creature.getType());
@@ -37,5 +39,9 @@ public class CreatureView extends StackPane {
 
   private static double calculateRotation(Position oldPos, Position newPos) {
     return Math.atan2(newPos.getY() - oldPos.getY(), newPos.getX() - oldPos.getX()) / Math.PI * 180;
+  }
+  
+  public Creature getCreature() {
+    return creature;
   }
 }

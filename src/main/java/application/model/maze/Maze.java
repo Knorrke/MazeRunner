@@ -55,6 +55,7 @@ public class Maze implements MazeModelInterface {
     }
     for (Wall wall : walls) {
       hasWall[wall.getX()][wall.getY()] = true;
+      wall.setMaze(this);
     }
   }
 
@@ -63,6 +64,7 @@ public class Maze implements MazeModelInterface {
     int y = wall.getY();
     if (checkBounds(x, y) && !hasWallOn(x, y)) {
       this.walls.add(wall);
+      wall.setMaze(this);
       hasWall[x][y] = true;
     }
   }
@@ -70,11 +72,8 @@ public class Maze implements MazeModelInterface {
   @Override
   public Wall buildWall(int x, int y) {
     if (checkBounds(x, y) && !hasWallOn(x, y)) {
-      Wall wall = new Wall(x, y);
-      AbstractTower tower = AbstractTower.create(wall,TowerType.NO);
-      wall.setTower(tower);
-      boolean successfull = player != null ? player.spendMoney(wall.getCosts()) : true;
-      if (successfull) {
+      Wall wall = new Wall(x, y, AbstractTower.create(TowerType.NO));
+      if (payIfEnoughMoney(wall.getCosts())) {
         this.addWall(wall);
         return wall;
       }
@@ -152,5 +151,25 @@ public class Maze implements MazeModelInterface {
     if (player != null) {
       player.earnMoney(wall.getCosts());
     }
+  }
+
+  @Override
+  public void creatureDied(Creature creature) {
+    removeCreature(creature);
+    if (player != null) {      
+      player.earnMoney(creature.getValue());
+    }
+  }
+
+  @Override
+  public void buildTower(Wall wall, TowerType type) {
+    AbstractTower newTower = AbstractTower.create(type);
+    if (payIfEnoughMoney(newTower.getCosts())) {
+      wall.setTower(AbstractTower.create(wall, type));
+    }
+  }
+
+  private boolean payIfEnoughMoney(int costs) {
+    return player != null ? player.spendMoney(costs) : true;
   }
 }
