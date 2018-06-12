@@ -4,9 +4,12 @@ import java.io.InputStream;
 import java.util.logging.Logger;
 
 import application.model.creature.CreatureType;
+import application.model.maze.tower.TowerType;
 import javafx.scene.image.Image;
 
 public class ImageLoader {
+  private ImageLoader() {}
+  
   private static Logger LOG = Logger.getLogger(ImageLoader.class.getName());
 
   private static final String basePath = "images";
@@ -20,7 +23,8 @@ public class ImageLoader {
 
   public static Image sell;
 
-  public static Image normalTower;
+  public static Image noTower, normalTower;
+  public static Image normalBullet;
 
   public static void loadAll() {
     loadGameImages();
@@ -41,7 +45,10 @@ public class ImageLoader {
 
     sell = loadImage("sell.png");
 
+    noTower = loadImage("towers/no.png");
     normalTower = loadImage("towers/normal.png");
+
+    normalBullet = loadImage("towers/normalBullet.png");
 
     LOG.fine("Finished loading game images");
   }
@@ -76,6 +83,16 @@ public class ImageLoader {
       case NORMAL:
       default:
         return ImageLoader.normalCreature;
+    }
+  }
+
+  public static Image getTowerImage(TowerType towerType) {
+    switch (towerType) {
+      case NORMAL:
+        return ImageLoader.normalTower;
+      case NO:
+      default:
+        return ImageLoader.noTower;
     }
   }
 }

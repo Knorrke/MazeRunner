@@ -1,8 +1,8 @@
 package application.view.creatures;
 
 import application.ImageLoader;
-import application.model.Position;
 import application.model.creature.Creature;
+import application.util.Calc;
 import javafx.animation.RotateTransition;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.image.Image;
@@ -12,8 +12,10 @@ import javafx.util.Duration;
 
 public class CreatureView extends StackPane {
   private double imageSize = 0.7;
+  private final Creature creature;
 
   public CreatureView(Creature creature, DoubleBinding scaleX, DoubleBinding scaleY) {
+    this.creature = creature;
     this.getStyleClass().add("creature");
 
     Image im = ImageLoader.getCreatureImage(creature.getType());
@@ -30,12 +32,12 @@ public class CreatureView extends StackPane {
         .addListener(
             (obj, oldPos, newPos) -> {
               RotateTransition rotate = new RotateTransition(new Duration(50), this);
-              rotate.setToAngle(calculateRotation(oldPos, newPos));
+              rotate.setToAngle(Calc.calculateRotation(oldPos, newPos));
               rotate.play();
             });
-  }
-
-  private static double calculateRotation(Position oldPos, Position newPos) {
-    return Math.atan2(newPos.getY() - oldPos.getY(), newPos.getX() - oldPos.getX()) / Math.PI * 180;
+  }  
+  
+  public Creature getCreature() {
+    return creature;
   }
 }

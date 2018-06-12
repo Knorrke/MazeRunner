@@ -12,7 +12,6 @@ import application.model.creature.movements.MovementInterface;
 import application.model.creature.movements.NoSightMovement;
 import application.model.creature.vision.Vision;
 import application.model.maze.MazeModelInterface;
-import org.hamcrest.core.AnyOf;
 
 public class NoSightMovementTest {
   int maxX = 5, maxY = 5;

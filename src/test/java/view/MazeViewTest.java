@@ -15,7 +15,7 @@ public class MazeViewTest extends AbstractViewTest {
     clickOn("#maze");
     assertEquals("There should be a wall now", 1, maze.getWalls().size());
     verifyThat("#maze", NodeMatchers.hasChildren(1, ".wall"), collectInfos());
-    verifyThat("#maze .wall", NodeMatchers.hasChildren(1, ".image-view"), collectInfos());
+    verifyThat("#maze .wall", NodeMatchers.hasChildren(1, ".wall-image"), collectInfos());
     // second click:
     clickOn(MouseButton.PRIMARY);
     assertEquals("There should still be only one wall", 1, maze.getWalls().size());

@@ -15,9 +15,10 @@ public class CreatureFactory {
   public static Creature create(MazeModelInterface maze, CreatureType type, double x, double y) {
     double velocity = 1;
     int lifes = 10;
+    int value = 2;
     MovementInterface movementStrategy = new NoSightMovement();
 
-    return new Creature(x, y, velocity, lifes, movementStrategy, new Vision(), type, maze);
+    return new Creature(x, y, velocity, lifes, value, movementStrategy, new Vision(), type, maze);
   }
 
   public static Creature create(MazeModelInterface maze, CreatureType type) {

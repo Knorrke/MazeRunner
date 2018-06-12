@@ -15,8 +15,8 @@
 <?import application.view.maze.MazeView?>
 
 <BorderPane id="main" maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-	prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1">
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"
+	prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1">
 	<left>
 		<VBox fx:id="creatureTimelineView" spacing="10.0" BorderPane.alignment="TOP_CENTER">
 			<BorderPane.margin>
