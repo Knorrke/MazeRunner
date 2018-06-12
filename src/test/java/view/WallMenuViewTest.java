@@ -44,7 +44,7 @@ public class WallMenuViewTest extends AbstractViewTest {
     assertFalse(menu.isShown());
     verifyThat("#maze", NodeMatchers.hasChildren(0, ".wall"), collectInfos());
     assertTrue(player.getMoney() > moneyBefore);
-    verifyThat("#money", LabeledMatchers.hasText(Integer.toString(player.getMoney())));
+    verifyThat("#money", LabeledMatchers.hasText(Integer.toString(player.getMoney())), collectInfos());
   }
   
   @Test
@@ -55,9 +55,9 @@ public class WallMenuViewTest extends AbstractViewTest {
     int costs = AbstractTower.create(TowerType.NORMAL).getCosts();
     selectNormalTower();
     assertFalse(menu.isShown());
-    verifyThat(".wall", NodeMatchers.hasChildren(1, "." + TowerType.NORMAL.toString()));
+    verifyThat(".wall", NodeMatchers.hasChildren(1, "." + TowerType.NORMAL.toString()), collectInfos());
     assertTrue(player.getMoney() == moneyBefore - costs);
-    verifyThat("#money", LabeledMatchers.hasText(Integer.toString(player.getMoney())));
+    verifyThat("#money", LabeledMatchers.hasText(Integer.toString(player.getMoney())), collectInfos());
   }
 
   private void selectNormalTower() {

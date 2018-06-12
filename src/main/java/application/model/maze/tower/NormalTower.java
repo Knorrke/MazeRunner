@@ -18,7 +18,7 @@ public class NormalTower extends AbstractTower {
   public void shoot() {
     List<Creature> creatures = findCreaturesInRange();
     if(!creatures.isEmpty()) {
-      addBullet(new Bullet(getX(), getY(), getDamage(), creatures.get(0)));
+      addBullet(new Bullet(getX()+0.5, getY()+0.5, getDamage(), creatures.get(0)));
     }
   }
 }

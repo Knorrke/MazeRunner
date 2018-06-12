@@ -197,7 +197,7 @@ public abstract class AbstractTower implements ActorInterface {
   }
 
 
-  public List<Bullet> getBullets() {
+  public ObservableList<Bullet> getBullets() {
     return bullets;
   }
 }
