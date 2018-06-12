@@ -1,7 +1,5 @@
 package application.controller;
 
-import application.model.creature.CreatureFactory;
-import application.model.creature.CreatureType;
 import application.model.maze.MazeModelInterface;
 import application.model.maze.Wall;
 import application.model.maze.tower.TowerType;
@@ -37,16 +35,7 @@ public class MazeController implements ModelHolderInterface<MazeModelInterface> 
         event -> {
           int gameX = (int) (maze.getMaxWallX() * event.getX() / view.getWidth());
           int gameY = (int) (maze.getMaxWallY() * event.getY() / view.getHeight());
-          switch (event.getButton()) {
-            case PRIMARY:
-              maze.buildWall(gameX, gameY);
-              break;
-            case SECONDARY:
-              maze.addCreature(CreatureFactory.create(maze, CreatureType.NORMAL, gameX, gameY));
-              break;
-            default:
-              break;
-          }
+          maze.buildWall(gameX, gameY);
         });
     view.bind(maze);
   }

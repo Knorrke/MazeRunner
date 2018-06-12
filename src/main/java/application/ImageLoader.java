@@ -8,6 +8,8 @@ import application.model.maze.tower.TowerType;
 import javafx.scene.image.Image;
 
 public class ImageLoader {
+  private ImageLoader() {}
+  
   private static Logger LOG = Logger.getLogger(ImageLoader.class.getName());
 
   private static final String basePath = "images";

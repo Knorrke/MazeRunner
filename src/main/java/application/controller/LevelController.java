@@ -36,17 +36,7 @@ public class LevelController implements ModelHolderInterface<LevelModelInterface
         .addAll(timeline.stream().map(CreatureTimelineImage::new).collect(Collectors.toList()));
   }
 
-  /** @return the level */
-  public LevelModelInterface getLevel() {
-    return level;
-  }
-
-  /** @return the application.view */
-  public VBox getView() {
-    return view;
-  }
-
-  /** @param application.view the application.view to set */
+  /** @param view the view to set */
   public void setView(VBox view) {
     this.view = view;
   }

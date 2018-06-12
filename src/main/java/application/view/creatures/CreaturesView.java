@@ -30,9 +30,6 @@ public class CreaturesView extends Pane implements Bindable<MazeModelInterface> 
 
   @Override
   public void bind(MazeModelInterface maze) {
-    if (creatures != null) {
-      creatures.removeListener(listener);
-    }
     this.creatures = maze.getCreatures();
     this.scaleX = widthProperty().divide(maze.getMaxWallX());
     this.scaleY = heightProperty().divide(maze.getMaxWallY());

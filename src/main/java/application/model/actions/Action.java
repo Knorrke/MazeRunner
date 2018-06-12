@@ -4,10 +4,6 @@ public abstract class Action {
   private double countdown;
   private double defaultCountdown;
 
-  public Action() {
-    this(0);
-  }
-
   public Action(double defaultCountdown) {
     this.defaultCountdown = defaultCountdown;
     this.setCountdown(defaultCountdown);
