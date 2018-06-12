@@ -20,7 +20,7 @@ public class WallsView extends Pane implements Bindable<MazeModelInterface> {
         createWalls();
       };
 
-  private WallMenuView wallMenu = new WallMenuView(this);
+  private WallMenuView wallMenu;
   private MazeController controller;
 
   @Override
@@ -32,6 +32,7 @@ public class WallsView extends Pane implements Bindable<MazeModelInterface> {
     this.scaleX = widthProperty().divide(maze.getMaxWallX());
     this.scaleY = heightProperty().divide(maze.getMaxWallY());
     walls.addListener(listener);
+    wallMenu = new WallMenuView(this);
     createWalls();
   }
 
@@ -52,5 +53,20 @@ public class WallsView extends Pane implements Bindable<MazeModelInterface> {
 
   public void setController(MazeController mazeController) {
     this.controller = mazeController;
+  }
+  
+  /**
+   * @return the scaleX
+   */
+  public DoubleBinding xScalingProperty() {
+    return scaleX;
+  }
+
+
+  /**
+   * @return the scaleY
+   */
+  public DoubleBinding yScalingProperty() {
+    return scaleY;
   }
 }

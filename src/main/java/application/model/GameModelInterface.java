@@ -1,13 +1,10 @@
 package application.model;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
 import application.controller.gameloop.Updateable;
-import application.model.creature.Creature;
 import application.model.level.LevelModelInterface;
 import application.model.maze.MazeModelInterface;
 import application.model.player.PlayerModelInterface;
