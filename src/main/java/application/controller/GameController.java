@@ -33,7 +33,7 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
   private GameModelInterface game;
 
   /** Connected controllers */
-  @FXML private PlayerController player;
+  @FXML private PlayerController playerController;
 
   private MazeController mazeController;
   private LevelController levelController;
@@ -90,7 +90,7 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
   public void initModel(GameModelInterface game) {
     LOG.finer("initializing GameModel");
     this.game = game;
-    player.initModel(this.game.getPlayer());
+    playerController.initModel(this.game.getPlayer());
     mazeController.initModel(this.game.getMaze());
     levelController.initModel(this.game.getLevel());
     gameloop = new GameLoop(this.game);

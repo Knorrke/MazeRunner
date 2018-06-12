@@ -51,7 +51,7 @@
 						<Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
 					</BorderPane.margin>
 					<children>
-						<PlayerController fx:id="player" spacing="10.0" AnchorPane.rightAnchor="0.0" />
+						<fx:include fx:id="player" spacing="10.0" AnchorPane.rightAnchor="0.0" source="PlayerView.fxml"/>
 					</children>
 				</AnchorPane>
 			</top>
