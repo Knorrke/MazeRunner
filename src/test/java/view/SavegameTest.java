@@ -5,8 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.ApplicationTest;
 
 import application.Launcher;
 import application.controller.GameController;

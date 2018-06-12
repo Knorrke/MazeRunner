@@ -1,21 +1,26 @@
 package application.model.maze.tower;
 
 import java.awt.Point;
+import java.util.Iterator;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import application.controller.gameloop.ActorInterface;
 import application.model.actions.Action;
 import application.model.creature.Creature;
 import application.model.maze.Wall;
+import application.util.ObservableBulletsListDeserializer;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public abstract class AbstractTower implements ActorInterface {
 
@@ -27,14 +32,15 @@ public abstract class AbstractTower implements ActorInterface {
 
   @JsonIgnore private Action shootingAction;
   @JsonIgnore protected int x, y;
-  @JsonBackReference("tower") protected Wall wall;
+
+  @JsonBackReference("tower")
+  protected Wall wall;
+
+  @JsonDeserialize(using = ObservableBulletsListDeserializer.class)
+  protected ObservableList<Bullet> bullets;
 
   protected AbstractTower(
-      double fireRate,
-      int damage,
-      int costs,
-      double visualRange,
-      TowerType type, Wall wall) {
+      double fireRate, int damage, int costs, double visualRange, TowerType type, Wall wall) {
     this(
         new SimpleDoubleProperty(fireRate),
         new SimpleIntegerProperty(damage),
@@ -57,44 +63,54 @@ public abstract class AbstractTower implements ActorInterface {
     this.visualRange = visualRange;
     this.type = type;
     setWall(wall);
-    if (getFireRate() > 0) {
-      shootingAction =
-          new Action(1 / getFireRate()) {
-            @Override
-            protected void execute() {
-              shoot();
-              resetCountdown();
-            }
-          };
-    } else {
-      shootingAction =
-          new Action() {
-            @Override
-            protected void execute() {}
-          };
-    }
+    shootingAction =
+        new Action(1 / getFireRate()) { // Infinity if fireRate==0.0
+          @Override
+          protected void execute() {
+            shoot();
+            resetCountdown();
+          }
+        };
+    bullets = FXCollections.observableArrayList();
   }
 
   @JsonCreator
   public static AbstractTower create(@JsonProperty("type") TowerType type) {
     return create(null, type);
   }
-  
+
   public static AbstractTower create(Wall wall, TowerType type) {
     switch (type) {
-    case NORMAL:
-      return new NormalTower(wall);
-    case NO:
-    default:
-      return new NoTower(wall);
+      case NORMAL:
+        return new NormalTower(wall);
+      case NO:
+      default:
+        return new NoTower(wall);
     }
   }
-  
+
   public abstract void shoot();
+  
+  protected void addBullet(Bullet bullet) {
+    bullets.add(bullet);
+  }
 
   @Override
   public void act(double dt) {
     shootingAction.run(dt);
+    for (Iterator<Bullet> iterator = bullets.iterator(); iterator.hasNext(); ) {
+      Bullet bullet = iterator.next();
+      if (bullet.hasHitTarget()) {
+        iterator.remove();
+        continue;
+      }
+      bullet.act(dt);
+    }
+  }
+
+  public List<Creature> findCreaturesInRange() {
+    return wall.getCreaturesMatchingCondition(
+        c -> Point.distance(c.getX(), c.getY(), x + 0.5, y + 0.5) <= getVisualRange());
   }
 
   /** @return the fireRate value */
@@ -161,21 +177,27 @@ public abstract class AbstractTower implements ActorInterface {
   public TowerType getType() {
     return type;
   }
-  
-  public List<Creature> findCreaturesInRange() {
-    return wall.getCreaturesMatchingCondition(c -> Point.distance(c.getX(), c.getY(), x + 0.5, y + 0.5) <= getVisualRange());
-  }
 
   public void setWall(Wall wall) {
     this.wall = wall;
-    if(wall != null) {
+    if (wall != null) {
       setPosition(wall.getX(), wall.getY());
     }
   }
-  
+
   public void setPosition(int x, int y) {
     this.x = x;
     this.y = y;
   }
+  protected double getX() {
+    return x;
+  }
+  protected double getY() {
+    return y;
+  }
 
+
+  public List<Bullet> getBullets() {
+    return bullets;
+  }
 }

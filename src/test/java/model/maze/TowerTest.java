@@ -1,4 +1,4 @@
-package model;
+package model.maze;
 
 import static org.junit.Assert.*;
 
@@ -16,6 +16,7 @@ import application.model.maze.Maze;
 import application.model.maze.MazeModelInterface;
 import application.model.maze.Wall;
 import application.model.maze.tower.AbstractTower;
+import application.model.maze.tower.Bullet;
 import application.model.maze.tower.TowerType;
 import javafx.collections.FXCollections;
 
@@ -92,7 +93,14 @@ public class TowerTest {
     Mockito.doReturn(FXCollections.observableArrayList(creatureInRange, creatureNotInRange)).when(mazeMock).getCreatures();
     wall.setMaze(mazeMock);
 
+    List<Bullet> bullets = abstractTower.getBullets();
+    assertEquals("There should be no bullet yet", 0, bullets.size());
     abstractTower.shoot();
+    assertEquals("There should be a bullet by that tower now", 1, bullets.size());
+    Bullet shotBullet = bullets.get(0);
+    assertEquals("The bullet should have the correct Target", creatureInRange, shotBullet.getTarget());
+    
+    shotBullet.hitTarget();
     Mockito.verify(creatureInRange).damage(ArgumentMatchers.anyInt());
   }
 

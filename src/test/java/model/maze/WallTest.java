@@ -1,4 +1,4 @@
-package model;
+package model.maze;
 
 import static org.junit.Assert.*;
 
