@@ -1,7 +1,7 @@
 package application.view.level;
 
-import application.ImageLoader;
 import application.model.creature.CreatureGroup;
+import application.util.ImageLoader;
 import application.view.FloatingLabel;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;

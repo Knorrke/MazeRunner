@@ -3,6 +3,7 @@ package application.model;
 import static application.model.GameState.BUILDING;
 import static application.model.GameState.GAMEOVER;
 import static application.model.GameState.RUNNING;
+import static application.model.GameState.WON;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import application.model.creature.CreatureGroup;
 import application.model.creature.CreatureType;
@@ -12,7 +13,11 @@ import application.model.maze.Maze;
 import application.model.maze.MazeModelInterface;
 import application.model.player.Player;
 import application.model.player.PlayerModelInterface;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class Game implements GameModelInterface {
@@ -35,15 +40,19 @@ public class Game implements GameModelInterface {
       level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 20));
     }
     setState(BUILDING);
-    player
-        .lifesProperty()
-        .lessThanOrEqualTo(0)
-        .addListener(
-            (obj, oldValue, newValue) -> {
-              if (newValue) {
-                setState(GAMEOVER);
-              }
-            });
+    player.lifesProperty().addListener((obj, oldValue, newValue) -> {
+      if (newValue.intValue() <= 0) {
+        setState(GAMEOVER);
+      }
+    });
+    BooleanBinding gameFinished = Bindings.createBooleanBinding(
+        () -> maze.getCreatures().isEmpty() && level.calculatePassedTimePercentage() == 1,
+        maze.getCreatures(), level.passedTimePercentageBinding());
+    gameFinished.addListener((obj, oldValue, newValue) -> {
+      if (newValue) {
+        setState(WON);
+      }
+    });
   }
 
   @Override

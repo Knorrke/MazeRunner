@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import application.controller.GameController;
 import application.model.Game;
+import application.util.ImageLoader;
 import application.util.Serializer;
 import javafx.application.Application;
 import javafx.scene.Scene;

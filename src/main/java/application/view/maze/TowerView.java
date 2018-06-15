@@ -3,11 +3,10 @@ package application.view.maze;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import application.ImageLoader;
 import application.model.maze.tower.AbstractTower;
 import application.model.maze.tower.Bullet;
 import application.model.maze.tower.TowerType;
+import application.util.ImageLoader;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;

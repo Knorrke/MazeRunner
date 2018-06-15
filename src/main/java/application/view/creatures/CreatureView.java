@@ -1,7 +1,7 @@
 package application.view.creatures;
 
-import application.ImageLoader;
 import application.model.creature.Creature;
+import application.util.ImageLoader;
 import application.util.Util;
 import javafx.animation.RotateTransition;
 import javafx.beans.binding.DoubleBinding;

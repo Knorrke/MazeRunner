@@ -1,10 +1,10 @@
 package application.view.maze;
 
-import application.ImageLoader;
 import application.controller.MazeController;
 import application.model.maze.Wall;
 import application.model.maze.tower.AbstractTower;
 import application.model.maze.tower.TowerType;
+import application.util.ImageLoader;
 import application.util.Util;
 import application.view.FloatingLabel;
 import javafx.beans.binding.DoubleBinding;

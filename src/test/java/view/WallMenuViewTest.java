@@ -53,7 +53,7 @@ public class WallMenuViewTest extends AbstractViewTest {
   @Test
   public void optionShouldHaveLabel() {
     int costs = AbstractTower.create(TowerType.NORMAL).getCosts();
-    verifyThat("#normal-tower-label", LabeledMatchers.hasText(Util.moneyString(-1*costs)));
+    verifyThat("#normal-tower-label", LabeledMatchers.hasText(Util.moneyString(-1*costs)), collectInfos());
     int earnings = maze.getWalls().get(0).getCosts();
     verifyThat("#sell-label", LabeledMatchers.hasText(Util.moneyString(earnings)));
   }

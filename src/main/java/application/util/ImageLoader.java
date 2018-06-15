@@ -1,4 +1,4 @@
-package application;
+package application.util;
 
 import java.io.InputStream;
 import java.util.logging.Logger;
@@ -12,7 +12,7 @@ public class ImageLoader {
   
   private static Logger LOG = Logger.getLogger(ImageLoader.class.getName());
 
-  private static final String basePath = "images";
+  private static final String basePath = "images/";
   private static Image placeholder = loadImage("placeholder.png");
 
   public static Image money, lifes;
@@ -25,6 +25,8 @@ public class ImageLoader {
 
   public static Image noTower, normalTower;
   public static Image normalBullet;
+
+  public static Image endModalBackground;
 
   public static void loadAll() {
     loadGameImages();
@@ -53,11 +55,13 @@ public class ImageLoader {
     LOG.fine("Finished loading game images");
   }
 
-  public static void loadMenuImages() {}
+  public static void loadMenuImages() {
+    endModalBackground = loadImage("end-modal-background.png");
+  }
 
   private static Image loadImage(String src) {
     InputStream resourceStream =
-        ImageLoader.class.getClassLoader().getResourceAsStream(createLookupPath(src));
+        ImageLoader.class.getClassLoader().getResourceAsStream(basePath + src);
     if (resourceStream != null) {
       return new Image(resourceStream);
     } else if (placeholder != null) {
@@ -66,14 +70,6 @@ public class ImageLoader {
 
     LOG.severe("Image loading unsuccessfull!");
     throw new Error("Failed loading Image " + src);
-  }
-
-  private static String createLookupPath(String src) {
-    if (basePath.endsWith("/")) {
-      return basePath + src;
-    } else {
-      return basePath + "/" + src;
-    }
   }
 
   public static Image getCreatureImage(CreatureType type) {

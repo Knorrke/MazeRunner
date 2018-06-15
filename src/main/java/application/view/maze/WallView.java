@@ -1,8 +1,8 @@
 package application.view.maze;
 
-import application.ImageLoader;
 import application.controller.MazeController;
 import application.model.maze.Wall;
+import application.util.ImageLoader;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;

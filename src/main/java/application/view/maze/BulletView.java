@@ -1,7 +1,7 @@
 package application.view.maze;
 
-import application.ImageLoader;
 import application.model.maze.tower.Bullet;
+import application.util.ImageLoader;
 import application.util.Util;
 import javafx.animation.RotateTransition;
 import javafx.beans.binding.DoubleBinding;
