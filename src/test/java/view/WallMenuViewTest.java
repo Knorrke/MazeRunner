@@ -13,6 +13,7 @@ import org.testfx.util.WaitForAsyncUtils;
 
 import application.model.maze.tower.AbstractTower;
 import application.model.maze.tower.TowerType;
+import application.util.Util;
 import application.view.maze.WallMenuView;
 import application.view.maze.WallView;
 import javafx.scene.input.MouseButton;
@@ -46,15 +47,15 @@ public class WallMenuViewTest extends AbstractViewTest {
     verifyThat("#maze", NodeMatchers.hasChildren(0, ".wall"), collectInfos());
     assertTrue(player.getMoney() > moneyBefore);
     verifyThat(
-        "#money", LabeledMatchers.hasText(Integer.toString(player.getMoney())), collectInfos());
+        "#money", LabeledMatchers.hasText(Util.moneyString(player.getMoney())), collectInfos());
   }
   
   @Test
   public void optionShouldHaveLabel() {
     int costs = AbstractTower.create(TowerType.NORMAL).getCosts();
-    verifyThat("#normal-tower-label", LabeledMatchers.hasText("-$"+costs));
+    verifyThat("#normal-tower-label", LabeledMatchers.hasText(Util.moneyString(-1*costs)));
     int earnings = maze.getWalls().get(0).getCosts();
-    verifyThat("#sell-label", LabeledMatchers.hasText("+$"+earnings));
+    verifyThat("#sell-label", LabeledMatchers.hasText(Util.moneyString(earnings)));
   }
 
   @Test
@@ -67,7 +68,7 @@ public class WallMenuViewTest extends AbstractViewTest {
         ".wall", NodeMatchers.hasChildren(1, "." + TowerType.NORMAL.toString()), collectInfos());
     assertTrue(player.getMoney() == moneyBefore - costs);
     verifyThat(
-        "#money", LabeledMatchers.hasText(Integer.toString(player.getMoney())), collectInfos());
+        "#money", LabeledMatchers.hasText(Util.moneyString(player.getMoney())), collectInfos());
   }
   
   @Test

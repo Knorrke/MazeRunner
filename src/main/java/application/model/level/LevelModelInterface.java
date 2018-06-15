@@ -3,11 +3,11 @@ package application.model.level;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-
 import application.controller.gameloop.Updateable;
 import application.model.ModelInterface;
 import application.model.creature.CreatureGroup;
 import application.model.maze.MazeModelInterface;
+import javafx.beans.binding.NumberBinding;
 import javafx.collections.ObservableList;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
@@ -38,4 +38,10 @@ public interface LevelModelInterface extends Updateable, ModelInterface {
   public void sendNextCreatureWave();
 
   public void setMazeModel(MazeModelInterface maze);
+
+  public double calculateGameDuration();
+
+  public float calculatePassedTimePercentage();
+
+  public NumberBinding passedTimePercentageBinding();
 }

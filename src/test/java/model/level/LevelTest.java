@@ -1,5 +1,8 @@
 package model.level;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
@@ -15,27 +18,65 @@ import javafx.collections.ObservableList;
 
 public class LevelTest {
 
-  @Test
-  public void observableCreatureTimelineTest() {
-    LevelModelInterface level = new Level();
-    ObservableList<CreatureGroup> creatureTimeline = level.getCreatureTimeline();
-    @SuppressWarnings("unchecked")
-    ListChangeListener<CreatureGroup> listener = Mockito.mock(ListChangeListener.class);
-    creatureTimeline.addListener(listener);
-    level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 10));
-    Mockito.verify(listener).onChanged(ArgumentMatchers.any());
-  }
+	private LevelModelInterface level;
+	
+	@Before
+	public void setUp() {
+		level = new Level();
+	}
 
-  @Test
-  public void sendNextCreatureWaveTest() {
-    MazeModelInterface maze = Mockito.mock(Maze.class);
-    Mockito.when(maze.getMaxWallX()).thenReturn(20);
-    Mockito.when(maze.getMaxWallY()).thenReturn(10);
-    LevelModelInterface level = new Level();
-    level.setMazeModel(maze);
+	@Test
+	public void observableCreatureTimelineTest() {
+		ObservableList<CreatureGroup> creatureTimeline = level.getCreatureTimeline();
+		@SuppressWarnings("unchecked")
+		ListChangeListener<CreatureGroup> listener = Mockito.mock(ListChangeListener.class);
+		creatureTimeline.addListener(listener);
+		level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 10));
+		Mockito.verify(listener).onChanged(ArgumentMatchers.any());
+	}
 
-    level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 10));
-    level.sendNextCreatureWave();
-    Mockito.verify(maze).addAllCreatures(ArgumentMatchers.argThat(list -> list.size() == 10));
-  }
+	@Test
+	public void sendNextCreatureWaveTest() {
+		level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 10));
+		MazeModelInterface mazeMock = addMazeMock();
+		level.sendNextCreatureWave();
+		Mockito.verify(mazeMock).addAllCreatures(ArgumentMatchers.argThat(list -> list.size() == 10));
+	}
+
+	@Test
+	public void calculateTime() {
+		int numberOfWaves = 3;
+		addWaves(numberOfWaves);
+		assertEquals("Should calculate the time correctly", numberOfWaves * Level.WAVE_DURATION,
+				level.calculateGameDuration(),0.001);
+	}
+
+	@Test
+	public void calculatePercentageOfPassedTime() {
+		int numberOfWaves = 4;
+		addWaves(numberOfWaves);
+		addMazeMock();
+        level.sendNextCreatureWave();
+        level.sendNextCreatureWave();
+		assertEquals("Should calculate the passed time correctly", 0.25, level.calculatePassedTimePercentage(),0.001);
+	}
+	
+	
+	/* 
+	 * Helper methods
+	 */
+	
+	private void addWaves(int numberOfWaves) {
+		for (int i = 0; i < numberOfWaves; i++) {
+			level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 20));
+		}
+	}
+	
+	private MazeModelInterface addMazeMock() {
+		MazeModelInterface mazeMock = Mockito.mock(Maze.class);
+		Mockito.when(mazeMock.getMaxWallX()).thenReturn(20);
+		Mockito.when(mazeMock.getMaxWallY()).thenReturn(10);
+		level.setMazeModel(mazeMock);
+		return mazeMock;
+	}
 }

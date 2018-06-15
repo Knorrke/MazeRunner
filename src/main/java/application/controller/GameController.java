@@ -3,13 +3,12 @@ package application.controller;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-
 import application.ImageLoader;
 import application.controller.gameloop.GameLoop;
 import application.model.GameModelInterface;
 import application.util.Serializer;
+import application.view.level.CreatureTimelineView;
 import application.view.maze.MazeView;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -21,7 +20,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 
 public class GameController implements ModelHolderInterface<GameModelInterface> {
   private static Logger LOG = Logger.getLogger(GameController.class.getName());
@@ -41,7 +39,7 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
   /** View classes */
   private Parent view;
 
-  @FXML private VBox creatureTimelineView;
+  @FXML private CreatureTimelineView creatureTimelineView;
   @FXML private MazeView maze;
   @FXML private ImageView playPauseButton;
 

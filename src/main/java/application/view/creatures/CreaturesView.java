@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import application.model.creature.Creature;
 import application.model.maze.MazeModelInterface;
+import application.util.Util;
 import application.view.Bindable;
 import application.view.FloatingLabel;
 import javafx.animation.FadeTransition;
@@ -64,7 +65,7 @@ public class CreaturesView extends Pane implements Bindable<MazeModelInterface> 
     }
     for (Creature creature : removed) {
       if (creature.getLifes() <= 0) {
-        Label label = new FloatingLabel("+$" + creature.getValue()).getView();
+        Label label = new FloatingLabel(Util.moneyString(creature.getValue())).getView();
         label.setLayoutX(creature.getX() * scaleX.doubleValue());
         label.setLayoutY(creature.getY() * scaleY.doubleValue());
         label.getStyleClass().add("earning-label");
