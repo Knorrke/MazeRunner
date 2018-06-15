@@ -13,16 +13,17 @@
 <?import javafx.scene.text.Font?>
 <?import application.controller.PlayerController?>
 <?import application.view.maze.MazeView?>
+<?import application.view.level.CreatureTimelineView?>
 
 <BorderPane id="main" maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"
 	prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.1" xmlns:fx="http://javafx.com/fxml/1">
 	<left>
-		<VBox fx:id="creatureTimelineView" spacing="10.0" BorderPane.alignment="TOP_CENTER">
+		<CreatureTimelineView fx:id="creatureTimelineView" BorderPane.alignment="TOP_CENTER">
 			<BorderPane.margin>
 				<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 			</BorderPane.margin>
-		</VBox>
+		</CreatureTimelineView>
 	</left>
 	<center>
 		<BorderPane prefHeight="200.0" prefWidth="200.0"

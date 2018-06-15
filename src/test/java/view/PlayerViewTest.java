@@ -2,8 +2,8 @@ package view;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
-
 import org.junit.Test;
+import application.util.Util;
 
 public class PlayerViewTest extends AbstractViewTest {
 
@@ -13,7 +13,7 @@ public class PlayerViewTest extends AbstractViewTest {
     verifyThat("#lifes", hasText(Integer.toString(lifes)), collectInfos());
 
     int money = player.getMoney();
-    verifyThat("#money", hasText(Integer.toString(money)), collectInfos());
+    verifyThat("#money", hasText(Util.moneyString(money)), collectInfos());
   }
 
   @Test
@@ -21,17 +21,11 @@ public class PlayerViewTest extends AbstractViewTest {
     int lifes = player.getLifes();
     int money = player.getMoney();
 
-    interact(
-        () -> {
-          player.looseLife();
-        });
+    interact(() -> player.looseLife());
     verifyThat("#lifes", hasText(Integer.toString(lifes - 1)), collectInfos());
 
     int earnings = 50;
-    interact(
-        () -> {
-          player.earnMoney(earnings);
-        });
-    verifyThat("#money", hasText(Integer.toString(money + earnings)), collectInfos());
+    interact(() -> player.earnMoney(earnings));
+    verifyThat("#money", hasText(Util.moneyString(money + earnings)), collectInfos());
   }
 }

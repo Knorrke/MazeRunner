@@ -2,7 +2,7 @@ package application.view.creatures;
 
 import application.ImageLoader;
 import application.model.creature.Creature;
-import application.util.Calc;
+import application.util.Util;
 import javafx.animation.RotateTransition;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.image.Image;
@@ -32,7 +32,7 @@ public class CreatureView extends StackPane {
         .addListener(
             (obj, oldPos, newPos) -> {
               RotateTransition rotate = new RotateTransition(new Duration(50), this);
-              rotate.setToAngle(Calc.calculateRotation(oldPos, newPos));
+              rotate.setToAngle(Util.calculateRotation(oldPos, newPos));
               rotate.play();
             });
   }  

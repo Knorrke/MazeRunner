@@ -2,7 +2,7 @@ package application.view.maze;
 
 import application.ImageLoader;
 import application.model.maze.tower.Bullet;
-import application.util.Calc;
+import application.util.Util;
 import javafx.animation.RotateTransition;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.image.ImageView;
@@ -29,7 +29,7 @@ public class BulletView extends ImageView {
         .addListener(
             (obj, oldPos, newPos) -> {
               RotateTransition rotate = new RotateTransition(new Duration(50), this);
-              rotate.setToAngle(Calc.calculateRotation(oldPos, newPos));
+              rotate.setToAngle(Util.calculateRotation(oldPos, newPos));
               rotate.play();
             });
   }

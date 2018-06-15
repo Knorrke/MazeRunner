@@ -1,9 +1,9 @@
 package application.model;
 
 import static application.model.GameState.BUILDING;
-
+import static application.model.GameState.GAMEOVER;
+import static application.model.GameState.RUNNING;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import application.model.creature.CreatureGroup;
 import application.model.creature.CreatureType;
 import application.model.level.Level;
@@ -31,14 +31,26 @@ public class Game implements GameModelInterface {
     maze = new Maze();
     level = new Level();
     connectModels();
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < 3; i++) {
       level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 20));
     }
     setState(BUILDING);
+    player
+        .lifesProperty()
+        .lessThanOrEqualTo(0)
+        .addListener(
+            (obj, oldValue, newValue) -> {
+              if (newValue) {
+                setState(GAMEOVER);
+              }
+            });
   }
 
   @Override
   public void update(double dt) {
+    if (getState().equals(BUILDING)) {
+      setState(RUNNING);
+    }
     maze.update(dt);
     level.update(dt);
   }

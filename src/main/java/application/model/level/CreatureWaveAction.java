@@ -7,8 +7,12 @@ public class CreatureWaveAction extends Action {
   private LevelModelInterface level;
 
   public CreatureWaveAction(LevelModelInterface level) {
-    super(20);
-    super.setCountdown(1);
+    this(level, Level.WAVE_DURATION, 1);
+  }
+
+  public CreatureWaveAction(LevelModelInterface level, double waveDuration, double startDelay) {
+    super(waveDuration);
+    super.setCountdown(startDelay);
     this.level = level;
   }
 

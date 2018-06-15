@@ -5,6 +5,7 @@ import application.controller.MazeController;
 import application.model.maze.Wall;
 import application.model.maze.tower.AbstractTower;
 import application.model.maze.tower.TowerType;
+import application.util.Util;
 import application.view.FloatingLabel;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.control.Label;
@@ -32,7 +33,7 @@ public class WallMenuView extends CirclePopupMenu {
     sellItemLabel = new FloatingLabel("").getView();
     sellItem = createMenuItem("Sell", ImageLoader.sell, sellItemLabel);
     normalTowerLabel =
-        new FloatingLabel("-$" + AbstractTower.create(TowerType.NORMAL).getCosts()).getView();
+        new FloatingLabel(Util.moneyString(-1*AbstractTower.create(TowerType.NORMAL).getCosts())).getView();
     normalTowerItem = createMenuItem("Normal Tower", ImageLoader.normalTower, normalTowerLabel);
   }
 
@@ -50,7 +51,7 @@ public class WallMenuView extends CirclePopupMenu {
   public void show(MouseEvent event, Wall wall, MazeController controller) {
     getItems().clear();
     sellItem.setOnAction(e -> controller.sell(wall));
-    sellItemLabel.setText("+$" + wall.getCosts());
+    sellItemLabel.setText(Util.moneyString(wall.getCosts()));
     getItems().add(sellItem);
     if (wall.getTower().getType() == TowerType.NO) {
       normalTowerItem.setOnAction(e -> controller.buildTower(wall, TowerType.NORMAL));

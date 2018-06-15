@@ -1,9 +1,9 @@
 package application.controller;
 
 import java.util.logging.Logger;
-
 import application.ImageLoader;
 import application.model.player.PlayerModelInterface;
+import application.util.Util;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -20,7 +20,8 @@ public class PlayerController extends HBox implements ModelHolderInterface<Playe
 
   private PlayerModelInterface player;
 
-  @FXML private void initialize() {
+  @FXML
+  private void initialize() {
     LOG.fine("initializing PlayerView");
     moneyImage.setImage(ImageLoader.money);
     lifesImage.setImage(ImageLoader.lifes);
@@ -29,7 +30,7 @@ public class PlayerController extends HBox implements ModelHolderInterface<Playe
   @Override
   public void initModel(PlayerModelInterface player) {
     this.player = player;
-    money.textProperty().bind(this.player.moneyProperty().asString());
+    money.textProperty().bind(Util.moneyString(this.player.moneyProperty()));
     lifes.textProperty().bind(this.player.lifesProperty().asString());
   }
 }

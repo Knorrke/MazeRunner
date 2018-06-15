@@ -11,7 +11,7 @@
 	style="-fx-background-color: #6c6; -fx-background-radius: 30;"
 	text="20" StackPane.alignment="BOTTOM_RIGHT">
 	<StackPane.margin>
-		<Insets bottom="-4.0" left="-4.0" right="-4.0" top="-4.0" />
+		<Insets bottom="-4.0" right="-10.0" />
 	</StackPane.margin>
 	<font>
 		<Font name="Open Sans" size="14.0" />
