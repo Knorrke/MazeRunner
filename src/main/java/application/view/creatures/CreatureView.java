@@ -5,6 +5,7 @@ import application.util.ImageLoader;
 import application.util.Util;
 import javafx.animation.RotateTransition;
 import javafx.beans.binding.DoubleBinding;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -31,12 +32,25 @@ public class CreatureView extends StackPane {
         .positionProperty()
         .addListener(
             (obj, oldPos, newPos) -> {
-              RotateTransition rotate = new RotateTransition(new Duration(50), this);
+              RotateTransition rotate = new RotateTransition(new Duration(50), img);
               rotate.setToAngle(Util.calculateRotation(oldPos, newPos));
               rotate.play();
             });
-  }  
-  
+    ProgressBar healthBar = new ProgressBar();
+    this.getChildren().add(healthBar);
+    healthBar.setVisible(false);
+    healthBar.getStyleClass().add("health-bar");
+    healthBar.maxWidthProperty().bind(img.fitWidthProperty());
+    creature
+        .lifesProperty()
+        .addListener(
+            (obj, oldLifes, newLifes) -> {
+              healthBar.setProgress(newLifes.doubleValue() / creature.getMaxLifes());
+              healthBar.setVisible(true);
+              healthBar.toFront();
+            });
+  }
+
   public Creature getCreature() {
     return creature;
   }

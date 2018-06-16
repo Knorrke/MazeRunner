@@ -1,5 +1,6 @@
 package application.view;
 
+import application.controller.gameloop.GameLoop;
 import application.model.GameState;
 import application.util.FXMLLoaderUtil;
 import application.util.ImageLoader;
@@ -19,12 +20,9 @@ import javafx.stage.Window;
 public class GameEndModal extends Stage {
   private GameState state;
 
-  @FXML
-  private Label gameEndText;
-  @FXML
-  private ImageView gameEndImage;
-  @FXML
-  private StackPane pane;
+  @FXML private Label gameEndText;
+  @FXML private ImageView gameEndImage;
+  @FXML private StackPane pane;
 
   public GameEndModal(GameState state, Window window) {
     super(StageStyle.TRANSPARENT);
@@ -36,10 +34,13 @@ public class GameEndModal extends Stage {
     dialogScene.setFill(Color.TRANSPARENT);
     pane.setBackground(Background.EMPTY);
     setScene(dialogScene);
-    widthProperty().addListener((obj, oldVal, newVal) -> {
-      centerOnOwner();
-    });
+    widthProperty()
+        .addListener(
+            (obj, oldVal, newVal) -> {
+              centerOnOwner();
+            });
     show();
+    GameLoop.executionSpeedUp = 0.3;
   }
 
   @FXML
@@ -54,10 +55,11 @@ public class GameEndModal extends Stage {
     double windowCenterY = owner.getY() + owner.getHeight() / 2;
 
     if (!Double.isNaN(windowCenterX)) {
-      Platform.runLater(() -> {
-        setX(windowCenterX - getWidth() / 2);
-        setY(windowCenterY - getHeight() / 2);
-      });
+      Platform.runLater(
+          () -> {
+            setX(windowCenterX - getWidth() / 2);
+            setY(windowCenterY - getHeight() / 2);
+          });
     } else {
       centerOnScreen();
     }

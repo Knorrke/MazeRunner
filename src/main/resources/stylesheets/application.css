@@ -4,10 +4,21 @@
     -fx-background-repeat: stretch;
     -fx-background-position: center center;
     -fx-background-size: cover, auto;
-    -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0); 
+    -fx-effect: dropshadow(three-pass-box, black, 30.0, 0.5, 0.0, 0.0); 
 }
 
 #maze {
-	-fx-border-width: 2;
-	-fx-border-color: rgb(0,100,0);
+	-fx-border-width: 2.0;
+	-fx-border-color: rgb(0.0,100.0,0.0);
+}
+
+.health-bar > .bar {
+    -fx-background-color: linear-gradient(to bottom, derive(-fx-accent, -7.0%), derive(-fx-accent, 0.0%), derive(-fx-accent, -3.0%), derive(-fx-accent, -9.0%) );
+	-fx-background-radius: 2.0;
+    -fx-background-insets: 1.0 1.0 2.0 1.0;
+    -fx-padding: 0.20em;
+}
+
+.health-bar {
+    -fx-translate-y: -10.0px;
 }
