@@ -34,7 +34,7 @@ public class Game implements GameModelInterface {
     maze = new Maze();
     level = new Level();
     connectModels();
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 10; i++) {
       level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 20));
     }
     setState(BUILDING);
