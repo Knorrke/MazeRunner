@@ -1,25 +1,27 @@
 package application.controller;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import application.ImageLoader;
 import application.controller.gameloop.GameLoop;
 import application.model.GameModelInterface;
+import application.util.FXMLLoaderUtil;
+import application.util.ImageLoader;
 import application.util.Serializer;
+import application.view.GameEndModal;
 import application.view.level.CreatureTimelineView;
 import application.view.maze.MazeView;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class GameController implements ModelHolderInterface<GameModelInterface> {
   private static Logger LOG = Logger.getLogger(GameController.class.getName());
@@ -46,19 +48,7 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
   public GameController() {
     mazeController = new MazeController(this);
     levelController = new LevelController();
-
-    FXMLLoader gameViewLoader =
-        new FXMLLoader(getClass().getClassLoader().getResource("fxml/GameView.fxml"));
-    gameViewLoader.setController(this);
-    try {
-      LOG.fine("loading GameView from fxml");
-      view = gameViewLoader.load();
-      LOG.fine("loading GameView successfull");
-    } catch (IOException exception) {
-      LOG.log(Level.SEVERE, "Loading GameView.fxml failed", exception);
-      throw new RuntimeException(exception);
-    }
-
+    view = FXMLLoaderUtil.load("GameView.fxml", this);
     addSaveHandler(
         event -> {
           try {
@@ -98,6 +88,20 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
             Bindings.when(gameloop.runningProperty())
                 .then(ImageLoader.pause)
                 .otherwise(ImageLoader.play));
+    game.stateProperty()
+        .addListener(
+            (obj, oldValue, newValue) -> {
+              switch (newValue) {
+                case GAMEOVER:
+                case WON:
+                  mazeController.getView().addEventFilter(EventType.ROOT, event -> event.consume());
+                  new GameEndModal(newValue, view.getScene().getWindow());
+                case RUNNING:
+                case BUILDING:
+                default:
+                  return;
+              }
+            });
   }
 
   public GameLoop getGameLoop() {

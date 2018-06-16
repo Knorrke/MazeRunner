@@ -5,6 +5,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 public class GameLoop extends AnimationTimer {
+  public static double executionSpeedUp = 1;
   private Updateable main;
   private BooleanProperty running;
 
@@ -31,7 +32,7 @@ public class GameLoop extends AnimationTimer {
     previousTime = currentTime;
 
     while (accumulatedTime >= timeStep) {
-      main.update(timeStep);
+      main.update(executionSpeedUp * timeStep);
       accumulatedTime -= timeStep;
     }
   }

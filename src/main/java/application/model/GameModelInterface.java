@@ -3,12 +3,11 @@ package application.model;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-
 import application.controller.gameloop.Updateable;
 import application.model.level.LevelModelInterface;
 import application.model.maze.MazeModelInterface;
 import application.model.player.PlayerModelInterface;
-import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
 @JsonSubTypes({
@@ -27,5 +26,5 @@ public interface GameModelInterface extends Updateable, ModelInterface {
   /** @return the state */
   public GameState getState();
 
-  ObjectProperty<GameState> stateProperty();
+  ReadOnlyObjectProperty<GameState> stateProperty();
 }

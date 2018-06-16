@@ -1,8 +1,8 @@
 package application.controller;
 
 import java.util.logging.Logger;
-import application.ImageLoader;
 import application.model.player.PlayerModelInterface;
+import application.util.ImageLoader;
 import application.util.Util;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

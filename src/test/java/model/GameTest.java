@@ -1,14 +1,16 @@
 package model;
 
 import static application.model.GameState.BUILDING;
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-
 import application.model.Game;
+import application.model.GameState;
 import application.model.creature.CreatureFactory;
+import application.model.creature.CreatureGroup;
 import application.model.creature.CreatureType;
+import application.model.level.LevelModelInterface;
 import application.model.maze.MazeModelInterface;
 import application.model.player.PlayerModelInterface;
 
@@ -28,6 +30,7 @@ public class GameTest {
 
   @Test
   public void mazeAndPlayerConnected() {
+    game.getLevel().getCreatureTimeline().clear();
     PlayerModelInterface player = game.getPlayer();
     MazeModelInterface maze = game.getMaze();
     int money = player.getMoney();
@@ -39,5 +42,39 @@ public class GameTest {
     maze.update(1);
     assertEquals("Creature should be removed", 0, maze.getCreatures().size());
     assertEquals("Player should have lost a life", lifes - 1, player.getLifes());
+  }
+
+  @Test
+  public void noticeWhenPlayerLost() {
+    PlayerModelInterface player = game.getPlayer();
+    LevelModelInterface level = game.getLevel();
+    level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 20));
+    level.sendNextCreatureWave();
+
+    int lifes = player.getLifes();
+    for (int i = 0; i < lifes; i++) {
+      player.looseLife();
+    }
+    assertEquals("State should be GAMEOVER now", GameState.GAMEOVER, game.getState());
+  }
+
+  @Test
+  public void noticeWhenPlayerWins() {
+    LevelModelInterface level = game.getLevel();
+    level.getCreatureTimeline().clear();
+    level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 20));
+    level.sendNextCreatureWave();
+
+    MazeModelInterface maze = game.getMaze();
+    maze.getCreatures().clear();
+    assertEquals(
+        "Game should be over now", level.getCreatureTimeline().size(), level.getWaveNumber());
+    assertEquals("State should be WON now", GameState.WON, game.getState());
+  }
+
+  @Test
+  public void setStateRunningWhenStart() {
+    game.update(1);
+    assertEquals("State should be RUNNING now", GameState.RUNNING, game.getState());
   }
 }

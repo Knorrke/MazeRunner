@@ -1,4 +1,4 @@
-package view;
+package view.maze;
 
 import static org.junit.Assert.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
@@ -17,6 +17,7 @@ import application.model.maze.Wall;
 import application.model.maze.tower.AbstractTower;
 import application.model.maze.tower.Bullet;
 import application.model.maze.tower.TowerType;
+import view.AbstractViewTest;
 
 public class BulletViewTest extends AbstractViewTest {
   private AbstractTower tower;

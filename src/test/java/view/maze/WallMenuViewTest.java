@@ -1,4 +1,4 @@
-package view;
+package view.maze;
 
 import static org.junit.Assert.*;
 import static org.testfx.api.FxAssert.verifyThat;
@@ -17,6 +17,7 @@ import application.util.Util;
 import application.view.maze.WallMenuView;
 import application.view.maze.WallView;
 import javafx.scene.input.MouseButton;
+import view.AbstractViewTest;
 
 public class WallMenuViewTest extends AbstractViewTest {
   WallMenuView menu;
@@ -53,7 +54,7 @@ public class WallMenuViewTest extends AbstractViewTest {
   @Test
   public void optionShouldHaveLabel() {
     int costs = AbstractTower.create(TowerType.NORMAL).getCosts();
-    verifyThat("#normal-tower-label", LabeledMatchers.hasText(Util.moneyString(-1*costs)));
+    verifyThat("#normal-tower-label", LabeledMatchers.hasText(Util.moneyString(-1*costs)), collectInfos());
     int earnings = maze.getWalls().get(0).getCosts();
     verifyThat("#sell-label", LabeledMatchers.hasText(Util.moneyString(earnings)));
   }

@@ -1,4 +1,4 @@
-package view;
+package view.maze;
 
 import static org.junit.Assert.assertEquals;
 import static org.testfx.api.FxAssert.verifyThat;
@@ -11,6 +11,7 @@ import application.model.creature.Creature;
 import application.model.creature.CreatureFactory;
 import application.model.creature.CreatureType;
 import application.view.creatures.CreatureView;
+import view.AbstractViewTest;
 
 public class CreatureViewTest extends AbstractViewTest {
   @Test

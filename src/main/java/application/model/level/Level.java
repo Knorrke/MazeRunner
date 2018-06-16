@@ -14,8 +14,10 @@ import application.util.Util;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 
 public class Level implements LevelModelInterface {
@@ -80,12 +82,22 @@ public class Level implements LevelModelInterface {
     }
   }
 
-  private int getWaveNumber() {
+  @Override
+  public int getWaveNumber() {
     return waveNumber.get();
   }
 
+  @Override
+  public ReadOnlyIntegerProperty waveNumberProperty() {
+    return waveNumber;
+  }
+
+  private void setWaveNumber(int value) {
+    waveNumber.set(value);
+  }
+
   private void incrementWaveNumber() {
-    waveNumber.set(waveNumber.get() + 1);
+    setWaveNumber(getWaveNumber() + 1);
   }
 
   @Override
@@ -108,11 +120,20 @@ public class Level implements LevelModelInterface {
     remaining += (creatureTimeline.size() - getWaveNumber()) * WAVE_DURATION;
     if (getWaveNumber() > 0) remaining += action.getCountdown();
     double gameDuration = calculateGameDuration();
-    return (float) (gameDuration != 0 ? Util.round(remaining / calculateGameDuration(), 5) : 1);
+    return (float) (gameDuration != 0 ? Util.round(remaining / gameDuration, 5) : 1);
   }
 
   @Override
   public void setMazeModel(MazeModelInterface mazeUpdater) {
     this.maze = mazeUpdater;
+    maze.getCreatures()
+        .addListener(
+            (Change<? extends Creature> c) -> {
+              while (c.next()) {
+                if (c.wasRemoved() && maze.getCreatures().isEmpty() && action.getCountdown() > 1) {
+                  action.run(action.getCountdown() - 1);
+                }
+              }
+            });
   }
 }

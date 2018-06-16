@@ -8,6 +8,7 @@ import application.model.ModelInterface;
 import application.model.creature.CreatureGroup;
 import application.model.maze.MazeModelInterface;
 import javafx.beans.binding.NumberBinding;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.ObservableList;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
@@ -44,4 +45,8 @@ public interface LevelModelInterface extends Updateable, ModelInterface {
   public float calculatePassedTimePercentage();
 
   public NumberBinding passedTimePercentageBinding();
+
+  public int getWaveNumber();
+
+  public ReadOnlyIntegerProperty waveNumberProperty();
 }
