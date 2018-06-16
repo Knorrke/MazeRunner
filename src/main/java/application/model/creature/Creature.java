@@ -33,7 +33,8 @@ public class Creature implements ActorInterface {
   private DoubleProperty velocity;
   private IntegerProperty lifes;
   private int value;
-  
+  private int startLifes;
+
   @JsonProperty private MovementInterface movementStrategy;
   private CreatureType type;
   @JsonBackReference private MazeModelInterface maze;
@@ -84,6 +85,7 @@ public class Creature implements ActorInterface {
 
     this.velocity = velocity;
     this.lifes = lifes;
+    this.startLifes = getLifes();
     this.value = value;
     this.movementStrategy = movementStrategy;
     this.type = type;
@@ -242,5 +244,9 @@ public class Creature implements ActorInterface {
 
   public int getValue() {
     return value;
+  }
+
+  public int getStartLifes() {
+    return startLifes;
   }
 }

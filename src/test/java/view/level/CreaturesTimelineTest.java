@@ -1,4 +1,4 @@
-package view;
+package view.level;
 
 import static org.junit.Assert.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.testfx.matcher.base.NodeMatchers;
 import application.view.level.CreatureTimelineView;
 import javafx.scene.layout.VBox;
+import view.AbstractViewTest;
 
 public class CreaturesTimelineTest extends AbstractViewTest {
 

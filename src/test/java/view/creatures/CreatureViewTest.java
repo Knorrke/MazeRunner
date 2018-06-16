@@ -1,16 +1,15 @@
-package view.maze;
+package view.creatures;
 
+import static org.hamcrest.core.AnyOf.anyOf;
 import static org.junit.Assert.assertEquals;
 import static org.testfx.api.FxAssert.verifyThat;
-
 import org.junit.Test;
 import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.util.WaitForAsyncUtils;
-
 import application.model.creature.Creature;
 import application.model.creature.CreatureFactory;
 import application.model.creature.CreatureType;
-import application.view.creatures.CreatureView;
+import javafx.scene.image.ImageView;
 import view.AbstractViewTest;
 
 public class CreatureViewTest extends AbstractViewTest {
@@ -29,7 +28,7 @@ public class CreatureViewTest extends AbstractViewTest {
     interact(() -> maze.addCreature(creature));
     WaitForAsyncUtils.waitForFxEvents();
     verifyThat("#maze", NodeMatchers.hasChildren(1, ".creature"), collectInfos());
-    CreatureView creatureView = lookup(".creature").query();
+    ImageView creatureView = lookup(".creature > .image-view").query();
 
     interact(() -> creature.moveBy(1, 0)); // forward
     WaitForAsyncUtils.waitForFxEvents();
@@ -56,6 +55,17 @@ public class CreatureViewTest extends AbstractViewTest {
     verifyThat("#maze", NodeMatchers.hasChildren(1, ".creature"), collectInfos());
     interact(() -> maze.update(1));
     verifyThat(".creature", NodeMatchers.isNull(), collectInfos());
+  }
+
+  @Test
+  public void creatureHealthBarAfterDamage() {
+    Creature creature = CreatureFactory.create(maze, CreatureType.NORMAL, 3, 3);
+    interact(() -> maze.addCreature(creature));
+    verifyThat(".health-bar", anyOf(NodeMatchers.isNull(), NodeMatchers.isInvisible()));
+    interact(() -> creature.damage(creature.getLifes() - 1));
+    verifyThat(".creature", NodeMatchers.isNotNull(), collectInfos());
+    verifyThat(".health-bar", NodeMatchers.isNotNull());
+    verifyThat(".health-bar", NodeMatchers.isVisible());
   }
 
   private int mod(double x, int modulo) {
