@@ -19,5 +19,6 @@ public class CreatureWaveAction extends Action {
   @Override
   protected void execute() {
     level.sendNextCreatureWave();
+    resetCountdown();
   }
 }

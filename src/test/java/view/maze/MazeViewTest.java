@@ -1,4 +1,4 @@
-package view;
+package view.maze;
 
 import static org.junit.Assert.assertEquals;
 import static org.testfx.api.FxAssert.verifyThat;
@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.testfx.matcher.base.NodeMatchers;
 
 import javafx.scene.input.MouseButton;
+import view.AbstractViewTest;
 
 public class MazeViewTest extends AbstractViewTest {
 

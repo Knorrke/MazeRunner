@@ -35,7 +35,7 @@ public class MoveAction extends Action {
   }
 
   @Override
-  public void execute() {
+  protected void execute() {
     creature.moveTo(goal[0], goal[1]);
     creature.chooseNewAction();
   }

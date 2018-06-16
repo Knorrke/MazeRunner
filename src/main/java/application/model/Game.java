@@ -5,6 +5,7 @@ import static application.model.GameState.GAMEOVER;
 import static application.model.GameState.RUNNING;
 import static application.model.GameState.WON;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import application.model.creature.Creature;
 import application.model.creature.CreatureGroup;
 import application.model.creature.CreatureType;
 import application.model.level.Level;
@@ -13,12 +14,9 @@ import application.model.maze.Maze;
 import application.model.maze.MazeModelInterface;
 import application.model.player.Player;
 import application.model.player.PlayerModelInterface;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ListChangeListener.Change;
 
 public class Game implements GameModelInterface {
   private ObjectProperty<GameState> state = new SimpleObjectProperty<GameState>();
@@ -40,19 +38,6 @@ public class Game implements GameModelInterface {
       level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 20));
     }
     setState(BUILDING);
-    player.lifesProperty().addListener((obj, oldValue, newValue) -> {
-      if (newValue.intValue() <= 0) {
-        setState(GAMEOVER);
-      }
-    });
-    BooleanBinding gameFinished = Bindings.createBooleanBinding(
-        () -> maze.getCreatures().isEmpty() && level.calculatePassedTimePercentage() == 1,
-        maze.getCreatures(), level.passedTimePercentageBinding());
-    gameFinished.addListener((obj, oldValue, newValue) -> {
-      if (newValue) {
-        setState(WON);
-      }
-    });
   }
 
   @Override
@@ -97,6 +82,24 @@ public class Game implements GameModelInterface {
   private void connectModels() {
     getMaze().setPlayerModel(getPlayer());
     getLevel().setMazeModel(getMaze());
+    player
+        .lifesProperty()
+        .addListener(
+            (obj, oldValue, newValue) -> {
+              if (newValue.intValue() <= 0) {
+                setState(GAMEOVER);
+              }
+            });
+
+    Runnable winChecker =
+        () -> {
+          if (maze.getCreatures().isEmpty()
+              && level.getWaveNumber() >= level.getCreatureTimeline().size()) {
+            setState(WON);
+          }
+        };
+    maze.getCreatures().addListener((Change<? extends Creature> c) -> winChecker.run());
+    level.waveNumberProperty().addListener((obj, oldVal, newVal) -> winChecker.run());
   }
 
   @Override
