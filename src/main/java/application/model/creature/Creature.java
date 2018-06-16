@@ -246,7 +246,7 @@ public class Creature implements ActorInterface {
     return value;
   }
 
-  public int getMaxLifes() {
+  public int getStartLifes() {
     return startLifes;
   }
 }

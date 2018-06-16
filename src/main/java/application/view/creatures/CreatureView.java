@@ -45,7 +45,7 @@ public class CreatureView extends StackPane {
         .lifesProperty()
         .addListener(
             (obj, oldLifes, newLifes) -> {
-              healthBar.setProgress(newLifes.doubleValue() / creature.getMaxLifes());
+              healthBar.setProgress(newLifes.doubleValue() / creature.getStartLifes());
               healthBar.setVisible(true);
               healthBar.toFront();
             });
