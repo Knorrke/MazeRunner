@@ -11,18 +11,20 @@ import application.model.creature.vision.Vision;
 import application.model.maze.MazeModelInterface;
 
 public class CreatureFactory {
+  private CreatureFactory() {}
 
   public static Creature create(MazeModelInterface maze, CreatureType type, double x, double y) {
+    return create(maze, type, x, y, 1);
+  }
+
+  private static Creature create(
+      MazeModelInterface maze, CreatureType type, double x, double y, double toughnessFactor) {
     double velocity = 1;
-    int lifes = 10;
+    int lifes = (int) (type.getDefaultLifes() * toughnessFactor);
     int value = 2;
     MovementInterface movementStrategy = new NoSightMovement();
 
     return new Creature(x, y, velocity, lifes, value, movementStrategy, new Vision(), type, maze);
-  }
-
-  public static Creature create(MazeModelInterface maze, CreatureType type) {
-    return create(maze, type, 0, 0);
   }
 
   public static List<Creature> createAll(
@@ -63,7 +65,7 @@ public class CreatureFactory {
 
       if (x < 0) x += maze.getMaxWallX();
       if (y < 0) y += maze.getMaxWallY();
-      list.add(create(maze, creatures.getType(), x, y));
+      list.add(create(maze, creatures.getType(), x, y, creatures.getToughnessFactor()));
     }
     return list;
   }
