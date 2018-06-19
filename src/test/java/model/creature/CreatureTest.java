@@ -20,7 +20,7 @@ public class CreatureTest {
   @Before
   public void setup() {
     maze = new Maze();
-    creature = CreatureFactory.create(maze, CreatureType.NORMAL);
+    creature = CreatureFactory.create(maze, CreatureType.NORMAL, 0, 0);
     maze.addCreature(creature);
     startX = creature.getX();
     startY = creature.getY();

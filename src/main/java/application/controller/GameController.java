@@ -21,7 +21,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 public class GameController implements ModelHolderInterface<GameModelInterface> {
   private static Logger LOG = Logger.getLogger(GameController.class.getName());
