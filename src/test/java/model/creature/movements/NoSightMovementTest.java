@@ -48,8 +48,8 @@ public class NoSightMovementTest {
   }
 
   @Test
-  public void avoidUselessSquares() {
-    visited.markUseless((int) x, (int) y);
+  public void avoidVisitedSquares() {
+    visited.markVisited((int) x, (int) y);
     double[] nextPos = movement.getNextGoal(vision, visited, x - 1, y);
     assertFalse("Should not move to useless square", Arrays.equals(new double[] {x, y}, nextPos));
   }
@@ -72,9 +72,9 @@ public class NoSightMovementTest {
     visited.visit((int) x - 1, (int) y);
     visited.visit((int) x, (int) y);
     // communication information
-    visited.markUseless((int) x - 1, (int) y - 1);
-    visited.markUseless((int) x - 1, (int) y + 1);
-    visited.markUseless((int) x - 2, (int) y);
+    visited.markVisited((int) x - 1, (int) y - 1);
+    visited.markVisited((int) x - 1, (int) y + 1);
+    visited.markVisited((int) x - 2, (int) y);
     // backtracking should move out of useless fields in three moves
     double[] pos = new double[] {x, y};
     for (int i = 0; i <= 2; i++) {

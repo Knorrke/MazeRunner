@@ -1,20 +1,16 @@
 package application.model.creature;
 
 import java.util.Arrays;
-import java.util.Stack;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class VisitedMap {
   public enum VisitedState {
     UNKNOWN,
     VISITED,
-    USELESS,
     WALL
   }
 
   @JsonProperty private VisitedState[][] map;
-  private Stack<int[]> lastVisited;
 
   public VisitedMap() {
     this(0, 0);
@@ -27,18 +23,11 @@ public class VisitedMap {
         map[x][y] = VisitedState.UNKNOWN;
       }
     }
-    lastVisited = new Stack<>();
   }
 
   public void markVisited(int x, int y) {
     if (checkBounds(x, y)) {
       map[x][y] = VisitedState.VISITED;
-    }
-  }
-
-  public void markUseless(int x, int y) {
-    if (checkBounds(x, y)) {
-      map[x][y] = VisitedState.USELESS;
     }
   }
 
@@ -51,14 +40,6 @@ public class VisitedMap {
   public boolean isVisited(int x, int y) {
     if (checkBounds(x, y)) {
       return map[x][y] == VisitedState.VISITED;
-    } else {
-      return true;
-    }
-  }
-
-  public boolean isUseless(int x, int y) {
-    if (checkBounds(x, y)) {
-      return map[x][y] == VisitedState.USELESS;
     } else {
       return true;
     }
@@ -102,8 +83,8 @@ public class VisitedMap {
       for (int y = 0; y < map[x].length; y++) {
         if (this.isWall(x, y)) visitedMap2.markWall(x, y);
         else if (visitedMap2.isWall(x, y)) this.markWall(x, y);
-        else if (this.isUseless(x, y)) visitedMap2.markUseless(x, y);
-        else if (visitedMap2.isUseless(x, y)) this.markUseless(x, y);
+        else if (this.isVisited(x, y)) visitedMap2.markVisited(x, y);
+        else if (visitedMap2.isVisited(x, y)) this.markVisited(x, y);
       }
     }
   }
@@ -125,32 +106,6 @@ public class VisitedMap {
   public void visit(int x, int y) {
     if (isUnknown(x, y)) {
       markVisited(x, y);
-      lastVisited.add(new int[] {x, y});
-    }
-  }
-
-  public Stack<int[]> getLastVisited() {
-    return lastVisited;
-  }
-
-  /**
-   * Backtracks {@link VisitedMap#lastVisited lastVisited} and marks them as useless, until there's
-   * an unknown field next to it.
-   */
-  public void backtrackToUnknown() {
-    while (!lastVisited.isEmpty()) {
-      int[] visited = lastVisited.peek();
-      int x = visited[0];
-      int y = visited[1];
-      if (isUnknown(x, y + 1)
-          || isUnknown(x, y - 1)
-          || isUnknown(x + 1, y)
-          || isUnknown(x - 1, y)) {
-        break;
-      } else {
-        markUseless(x, y);
-        lastVisited.pop();
-      }
     }
   }
 
