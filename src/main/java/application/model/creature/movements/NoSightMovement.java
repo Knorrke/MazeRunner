@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-
 import application.model.creature.VisitedMap;
 import application.model.creature.vision.Vision;
 
@@ -20,16 +19,9 @@ public class NoSightMovement implements MovementInterface {
       int x = (int) (currentX + direction[0]);
       int y = (int) (currentY + direction[1]);
       if (x >= 0 && y >= 0 && visited.isUnknown(x, y)) {
-        return new double[] {currentX + direction[0],currentY + direction[1]};
+        return new double[] {currentX + direction[0], currentY + direction[1]};
       }
     }
-
-    // no unknown field around creature
-    return backtrack(vision, visited, currentX, currentY);
-  }
-
-  private double[] backtrack(Vision vision, VisitedMap visited, double currentX, double currentY) {
-    visited.backtrackToUnknown();
     return findUnknown(vision, visited, currentX, currentY);
   }
 
@@ -82,7 +74,7 @@ public class NoSightMovement implements MovementInterface {
         goal = previous.get(goal);
       }
       LOG.finest(String.format("Moving towards unknown field, next stop %d,%d", goal.x, goal.y));
-      return new double[] {goal.x + currentX%1, goal.y + currentY%1};
+      return new double[] {goal.x + currentX % 1, goal.y + currentY % 1};
     } else {
       LOG.warning("No unknown fields! This means that there is no path to the goal.");
       return new double[] {currentX + 1, currentY};

@@ -58,15 +58,6 @@ public class CreatureTest {
   }
 
   @Test
-  public void shouldUpdateUselessInBlindAlley() {
-    int x = (int) startX + 1, y = (int) startY;
-    buildHorizontalBlindAlley(x, y, 1);
-    creature.moveBy(1, 0); // move to x,y (blind alley)
-    moveOneFieldAutonomously(creature);
-    assertTrue("BlindAlley should be marked useless", creature.getVisitedMap().isUseless(x, y));
-  }
-
-  @Test
   public void shouldNotMoveOutOfBoard() {
     int y1 = 5;
     Creature creature1 = CreatureFactory.create(maze, CreatureType.NORMAL, 0, y1 - 1);
@@ -103,10 +94,10 @@ public class CreatureTest {
     assertTrue(movedTo(creature2, x2, y2, 0.01));
 
     assertTrue(
-        "creatures should have different maps", creature.getVisitedMap().isUseless(x1 + 1, y1));
-    assertFalse(creature2.getVisitedMap().isUseless(x1 + 1, y1));
-    assertTrue(creature2.getVisitedMap().isUseless(x2 + 1, y2));
-    assertFalse(creature.getVisitedMap().isUseless(x2 + 1, y2));
+        "creatures should have different maps", creature.getVisitedMap().isVisited(x1 + 1, y1));
+    assertFalse(creature2.getVisitedMap().isVisited(x1 + 1, y1));
+    assertTrue(creature2.getVisitedMap().isVisited(x2 + 1, y2));
+    assertFalse(creature.getVisitedMap().isVisited(x2 + 1, y2));
 
     for (int i = 0; i < fieldsBetweenCreatures; i++) {
       creature.moveBy(0, 1);
@@ -117,11 +108,11 @@ public class CreatureTest {
         movedTo(creature, creature2.getX(), creature2.getY(), 0.5));
 
     assertTrue(
-        "creatures should have synchronized USELESS information",
-        creature.getVisitedMap().isUseless(x1 + 1, y1));
-    assertTrue(creature2.getVisitedMap().isUseless(x1 + 1, y1));
-    assertTrue(creature2.getVisitedMap().isUseless(x2 + 1, y1));
-    assertTrue(creature.getVisitedMap().isUseless(x2 + 1, y2));
+        "creatures should have synchronized VISITED information",
+        creature.getVisitedMap().isVisited(x1 + 1, y1));
+    assertTrue(creature2.getVisitedMap().isVisited(x1 + 1, y1));
+    assertTrue(creature2.getVisitedMap().isVisited(x2 + 1, y1));
+    assertTrue(creature.getVisitedMap().isVisited(x2 + 1, y2));
   }
 
   @Test
