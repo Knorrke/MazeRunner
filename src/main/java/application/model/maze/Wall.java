@@ -21,8 +21,12 @@ import javafx.beans.property.SimpleObjectProperty;
 public class Wall implements ActorInterface {
 
   private IntegerProperty x, y;
-  @JsonManagedReference("tower") private ObjectProperty<AbstractTower> tower;
-  @JsonBackReference("wall") private MazeModelInterface maze;
+
+  @JsonManagedReference("tower")
+  private ObjectProperty<AbstractTower> tower;
+
+  @JsonBackReference("wall")
+  private MazeModelInterface maze;
 
   @JsonCreator
   public Wall(@JsonProperty("x") int x, @JsonProperty("y") int y) {
@@ -31,12 +35,12 @@ public class Wall implements ActorInterface {
   }
 
   public Wall(int x, int y, AbstractTower tower) {
-    this(new SimpleIntegerProperty(x),new SimpleIntegerProperty(y));
+    this(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
     setTower(tower);
   }
 
   public Wall(IntegerProperty x, IntegerProperty y) {
-    this(x,y,new SimpleObjectProperty<>());
+    this(x, y, new SimpleObjectProperty<>());
   }
 
   public Wall(IntegerProperty x, IntegerProperty y, ObjectProperty<AbstractTower> tower) {
@@ -109,8 +113,16 @@ public class Wall implements ActorInterface {
   public List<Creature> getCreaturesMatchingCondition(Predicate<Creature> pred) {
     return maze.getCreatures().filtered(pred);
   }
-  
+
   public void setMaze(MazeModelInterface maze) {
     this.maze = maze;
+  }
+
+  public void buildTower(TowerType type) {
+    setTower(AbstractTower.create(this, type));
+  }
+
+  public void upgradeTower() {
+    setTower(getTower().upgrade());
   }
 }

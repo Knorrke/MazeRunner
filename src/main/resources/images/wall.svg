@@ -12,11 +12,11 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    id="svg3954"
-   width="387.46774"
-   height="171.45892"
-   viewBox="0 0 387.46773 171.45892"
+   width="820.81879"
+   height="241.28345"
+   viewBox="0 0 820.81876 241.28344"
    sodipodi:docname="wall.svg"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   inkscape:version="0.91 r"
    inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\wall.png"
    inkscape:export-xdpi="28"
    inkscape:export-ydpi="28">
@@ -28,7 +28,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -79,6 +79,17 @@
        fx="91.753014"
        fy="61.468422"
        r="76.490051" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient868"
+       id="radialGradient3429"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0414714,0.57719423,-0.62841569,1.1335168,48.826896,-51.995565)"
+       cx="91.753014"
+       cy="61.468422"
+       fx="91.753014"
+       fy="61.468422"
+       r="76.490051" />
   </defs>
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -89,18 +100,18 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1366"
-     inkscape:window-height="705"
+     inkscape:window-width="1920"
+     inkscape:window-height="1053"
      id="namedview3956"
      showgrid="false"
      inkscape:snap-bbox="true"
      inkscape:bbox-nodes="true"
      inkscape:snap-page="true"
-     inkscape:zoom="0.78458334"
-     inkscape:cx="264.24768"
-     inkscape:cy="166.19374"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:zoom="1.1095684"
+     inkscape:cx="488.95226"
+     inkscape:cy="162.42683"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer3"
      inkscape:snap-nodes="false"
@@ -110,13 +121,14 @@
      fit-margin-bottom="0"
      inkscape:snap-bbox-midpoints="true"
      inkscape:bbox-paths="true"
-     showguides="false" />
+     showguides="false"
+     inkscape:snap-center="false" />
   <g
      inkscape:groupmode="layer"
      id="layer1"
      inkscape:label="Wall"
      style="display:inline"
-     transform="translate(-1.7804064e-4,-0.00112739)">
+     transform="translate(-1.7808128e-4,69.823391)">
     <g
        style="display:inline"
        id="g956"
@@ -218,7 +230,7 @@
          sodipodi:type="arc"
          id="path860"
          style="display:inline;fill:#614b25;fill-opacity:1;stroke:#7c6439;stroke-width:10.64485264;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1"
-         transform="scale(-1)" />
+         transform="scale(-1,-1)" />
       <path
          inkscape:export-ydpi="28"
          inkscape:export-xdpi="28"
@@ -265,12 +277,141 @@
          id="tspan1028"
          x="450.62585"
          y="-39.432766">Normal</tspan></text>
+    <g
+       transform="translate(649.38993,-0.0308423)"
+       id="g3413"
+       style="display:inline">
+      <path
+         sodipodi:type="star"
+         id="path3415"
+         sodipodi:sides="8"
+         sodipodi:cx="85.231171"
+         sodipodi:cy="85.57795"
+         sodipodi:r1="82.108078"
+         sodipodi:r2="41.054035"
+         sodipodi:arg1="0.37206776"
+         sodipodi:arg2="0.76476684"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 161.72122,115.42772 118.21082,160.77156 55.381396,162.068 10.037561,118.5576 8.7411228,55.728175 52.251517,10.38434 115.08095,9.0879017 160.42478,52.598296 Z"
+         style="display:inline;fill:#1f1200;fill-opacity:1;stroke:#614b25;stroke-width:19.82211304;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         transform="matrix(0.99790357,0.01742151,-0.01741848,0.99807759,2.1526591,-1.168831)"
+         inkscape:export-xdpi="28"
+         inkscape:export-ydpi="28" />
+      <path
+         transform="matrix(0.86742885,0.01514367,-0.01514103,0.86758012,13.078774,10.193019)"
+         style="display:inline;fill:url(#radialGradient3429);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:19.82211304;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 161.72122,115.42772 118.21082,160.77156 55.381396,162.068 10.037561,118.5576 8.7411228,55.728175 52.251517,10.38434 115.08095,9.0879017 160.42478,52.598296 Z"
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.76476684"
+         sodipodi:arg1="0.37206776"
+         sodipodi:r2="41.054035"
+         sodipodi:r1="82.108078"
+         sodipodi:cy="85.57795"
+         sodipodi:cx="85.231171"
+         sodipodi:sides="8"
+         id="path3417"
+         sodipodi:type="star"
+         inkscape:export-xdpi="28"
+         inkscape:export-ydpi="28" />
+      <path
+         sodipodi:type="star"
+         id="path3419"
+         sodipodi:sides="8"
+         sodipodi:cx="85.231171"
+         sodipodi:cy="85.57795"
+         sodipodi:r1="82.108078"
+         sodipodi:r2="41.054035"
+         sodipodi:arg1="0.37206776"
+         sodipodi:arg2="0.76476684"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 161.72122,115.42772 118.21082,160.77156 55.381396,162.068 10.037561,118.5576 8.7411228,55.728175 52.251517,10.38434 115.08095,9.0879017 160.42478,52.598296 Z"
+         style="display:inline;fill:none;fill-opacity:1;stroke:#7c6439;stroke-width:10.01860905;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         transform="matrix(1.0583905,0.01847401,-0.01847429,1.0583754,-2.9124215,-6.4344318)"
+         inkscape:export-xdpi="28"
+         inkscape:export-ydpi="28" />
+      <path
+         style="display:inline;fill:#614b25;fill-opacity:1;stroke:#7c6439;stroke-width:10.64485264;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1"
+         id="path3421"
+         sodipodi:type="arc"
+         sodipodi:cx="32.79472"
+         sodipodi:cy="32.794697"
+         sodipodi:rx="27.474234"
+         sodipodi:ry="27.474234"
+         sodipodi:start="2.3561945"
+         sodipodi:end="5.4977871"
+         sodipodi:open="true"
+         d="m 13.367503,52.221914 a 27.474234,27.474234 0 0 1 -10e-7,-38.854434 27.474234,27.474234 0 0 1 38.854434,-1e-6"
+         inkscape:export-xdpi="28"
+         inkscape:export-ydpi="28" />
+      <path
+         d="m -158.09302,52.221914 a 27.474234,27.474234 0 0 1 0,-38.854434 27.474234,27.474234 0 0 1 38.85443,-1e-6"
+         sodipodi:open="true"
+         sodipodi:end="5.4977871"
+         sodipodi:start="2.3561945"
+         sodipodi:ry="27.474234"
+         sodipodi:rx="27.474234"
+         sodipodi:cy="32.794697"
+         sodipodi:cx="-138.6658"
+         sodipodi:type="arc"
+         id="path3423"
+         style="display:inline;fill:#614b25;fill-opacity:1;stroke:#7c6439;stroke-width:10.64485264;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1"
+         transform="scale(-1,1)"
+         inkscape:export-xdpi="28"
+         inkscape:export-ydpi="28" />
+      <path
+         transform="scale(-1,-1)"
+         style="display:inline;fill:#614b25;fill-opacity:1;stroke:#7c6439;stroke-width:10.64485264;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1"
+         id="path3425"
+         sodipodi:type="arc"
+         sodipodi:cx="-138.6658"
+         sodipodi:cy="-138.69571"
+         sodipodi:rx="27.474234"
+         sodipodi:ry="27.474234"
+         sodipodi:start="2.3561945"
+         sodipodi:end="5.4977871"
+         sodipodi:open="true"
+         d="m -158.09302,-119.26849 a 27.474234,27.474234 0 0 1 0,-38.85444 27.474234,27.474234 0 0 1 38.85443,0"
+         inkscape:export-xdpi="28"
+         inkscape:export-ydpi="28" />
+      <path
+         d="m 13.367503,-119.23651 a 27.474234,27.474234 0 0 1 -10e-7,-38.85443 27.474234,27.474234 0 0 1 38.854434,0"
+         sodipodi:open="true"
+         sodipodi:end="5.4977871"
+         sodipodi:start="2.3561945"
+         sodipodi:ry="27.474234"
+         sodipodi:rx="27.474234"
+         sodipodi:cy="-138.66373"
+         sodipodi:cx="32.79472"
+         sodipodi:type="arc"
+         id="path3427"
+         style="display:inline;fill:#614b25;fill-opacity:1;stroke:#7c6439;stroke-width:10.64485264;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1"
+         transform="scale(1,-1)"
+         inkscape:export-xdpi="28"
+         inkscape:export-ydpi="28" />
+    </g>
+    <text
+       id="text3449"
+       y="-39.432766"
+       x="663.32117"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         y="-39.432766"
+         x="663.32117"
+         sodipodi:role="line"
+         id="tspan3453">Levels</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="TowerBackgrounds"
-     style="display:none">
+     style="display:none"
+     transform="translate(-4.0640536e-8,69.824518)">
     <g
        transform="translate(216.03872,-3.09e-6)"
        id="g980"
@@ -359,7 +500,7 @@
          inkscape:export-xdpi="28"
          inkscape:export-ydpi="28" />
       <path
-         transform="scale(-1)"
+         transform="scale(-1,-1)"
          style="display:inline;fill:#614b25;fill-opacity:1;stroke:#7c6439;stroke-width:10.64485264;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1"
          id="path976"
          sodipodi:type="arc"
@@ -392,7 +533,7 @@
     <g
        style="display:inline"
        id="g998"
-       transform="translate(436.53792)">
+       transform="translate(436.53792,0)">
       <path
          inkscape:export-ydpi="28"
          inkscape:export-xdpi="28"
@@ -490,7 +631,7 @@
          sodipodi:type="arc"
          id="path994"
          style="display:inline;fill:#614b25;fill-opacity:1;stroke:#7c6439;stroke-width:10.64485264;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1"
-         transform="scale(-1)" />
+         transform="scale(-1,-1)" />
       <path
          inkscape:export-ydpi="28"
          inkscape:export-xdpi="28"
@@ -512,14 +653,14 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="Towers"
-     transform="translate(-1.7804064e-4,-0.00112739)"
+     transform="translate(-1.7808128e-4,69.823391)"
      style="display:inline">
     <g
        id="g1058">
       <path
          inkscape:connector-curvature="0"
          id="path850"
-         d="m 548.51607,45.60997 10e-6,80.625 a 40.330997,40.330997 0 0 0 11.85546,-1.95312 l 10e-6,-76.753905 A 40.330997,40.330997 0 0 0 548.51607,45.60997 Z m -2.0332,0.03516 a 40.330997,40.330997 0 0 0 -11.85742,2.300786 v 75.943364 a 40.330997,40.330997 0 0 0 11.85743,2.28125 z m 15.92187,2.625 1e-5,75.33594 a 40.330997,40.330997 0 0 0 11.85742,-7.07226 V 55.260368 A 40.330997,40.330997 0 0 0 562.40474,48.27013 Z m -29.81054,0.451174 a 40.330997,40.330997 0 0 0 -11.85742,7.603512 V 115.5006 a 40.330997,40.330997 0 0 0 11.85742,7.64649 z m 43.69922,8.429686 v 57.57813 A 40.330997,40.330997 0 0 0 588.15084,90.332634 V 81.760366 A 40.330997,40.330997 0 0 0 576.29342,57.150988 Z m -57.58985,1.208981 a 40.330997,40.330997 0 0 0 -10.95508,27.560549 40.330997,40.330997 0 0 0 10.95508,27.59375 z"
+         d="m 548.51607,45.60997 10e-6,80.625 a 40.330997,40.330997 0 0 0 11.85546,-1.95312 l 10e-6,-76.753905 A 40.330997,40.330997 0 0 0 548.51607,45.60997 Z m -2.0332,0.03516 a 40.330997,40.330997 0 0 0 -11.85742,2.300786 l 0,75.943364 a 40.330997,40.330997 0 0 0 11.85743,2.28125 z m 15.92187,2.625 1e-5,75.33594 a 40.330997,40.330997 0 0 0 11.85742,-7.07226 l 0,-61.273442 A 40.330997,40.330997 0 0 0 562.40474,48.27013 Z m -29.81054,0.451174 a 40.330997,40.330997 0 0 0 -11.85742,7.603512 l 0,59.175784 a 40.330997,40.330997 0 0 0 11.85742,7.64649 z m 43.69922,8.429686 0,57.57813 a 40.330997,40.330997 0 0 0 11.85742,-24.396486 l 0,-8.572268 A 40.330997,40.330997 0 0 0 576.29342,57.150988 Z m -57.58985,1.208981 a 40.330997,40.330997 0 0 0 -10.95508,27.560549 40.330997,40.330997 0 0 0 10.95508,27.59375 z"
          style="opacity:1;fill:#7c6439;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:8.21385002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
          inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\normal.png"
          inkscape:export-xdpi="47.650002"
@@ -615,9 +756,112 @@
        inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\no.png"
        inkscape:export-xdpi="47"
        inkscape:export-ydpi="47" />
+    <path
+       inkscape:export-ydpi="47"
+       inkscape:export-xdpi="47"
+       inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\level4.png"
+       transform="matrix(0.99790357,0.01742151,-0.01741848,0.99807759,651.54259,-1.1996684)"
+       style="display:inline;fill:#000000;fill-opacity:0.00392157;stroke:#000000;stroke-width:19.82211304;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.00392157"
+       d="M 161.72122,115.42772 118.21082,160.77156 55.381396,162.068 10.037561,118.5576 8.7411228,55.728175 52.251517,10.38434 115.08095,9.0879017 160.42478,52.598296 Z"
+       inkscape:randomized="0"
+       inkscape:rounded="0"
+       inkscape:flatsided="true"
+       sodipodi:arg2="0.76476684"
+       sodipodi:arg1="0.37206776"
+       sodipodi:r2="41.054035"
+       sodipodi:r1="82.108078"
+       sodipodi:cy="85.57795"
+       sodipodi:cx="85.231171"
+       sodipodi:sides="8"
+       id="path3391"
+       sodipodi:type="star" />
+    <path
+       sodipodi:type="star"
+       style="fill:#ffff00;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path3435"
+       sodipodi:sides="5"
+       sodipodi:cx="676.04187"
+       sodipodi:cy="142.18665"
+       sodipodi:r1="24.512306"
+       sodipodi:r2="13.869173"
+       sodipodi:arg1="-0.74581621"
+       sodipodi:arg2="-0.11749768"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 694.047,125.55329 -4.23158,15.00751 7.6096,13.60975 -15.58062,0.6131 -10.59215,11.44281 -5.39776,-14.62859 -14.15592,-6.53771 12.24462,-9.65406 1.84331,-15.48334 12.96536,8.66205 z"
+       inkscape:transform-center-x="-1.2993411"
+       inkscape:transform-center-y="1.1804821"
+       inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\level4.png"
+       inkscape:export-xdpi="47"
+       inkscape:export-ydpi="47" />
+    <path
+       inkscape:transform-center-y="-1.1804822"
+       inkscape:transform-center-x="-1.2993411"
+       d="m 694.047,-44.002357 -4.23158,15.007505 7.6096,13.609755 -15.58062,0.6131 -10.59215,11.4428094 -5.39776,-14.6285894 -14.15592,-6.53771 12.24462,-9.654065 1.84331,-15.483336 12.96536,8.662049 z"
+       inkscape:randomized="0"
+       inkscape:rounded="0"
+       inkscape:flatsided="false"
+       sodipodi:arg2="-0.11749768"
+       sodipodi:arg1="-0.74581621"
+       sodipodi:r2="13.869173"
+       sodipodi:r1="24.512306"
+       sodipodi:cy="-27.369003"
+       sodipodi:cx="676.04187"
+       sodipodi:sides="5"
+       id="path3443"
+       style="fill:#ffff00;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       sodipodi:type="star"
+       transform="scale(1,-1)"
+       inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\level4.png"
+       inkscape:export-xdpi="47"
+       inkscape:export-ydpi="47" />
+    <path
+       transform="scale(-1,-1)"
+       sodipodi:type="star"
+       style="fill:#ffff00;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path3445"
+       sodipodi:sides="5"
+       sodipodi:cx="-793.94312"
+       sodipodi:cy="-27.369003"
+       sodipodi:r1="24.512306"
+       sodipodi:r2="13.869173"
+       sodipodi:arg1="-0.74581621"
+       sodipodi:arg2="-0.11749768"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m -775.93799,-44.002357 -4.23158,15.007505 7.60961,13.609755 -15.58062,0.6131 -10.59215,11.4428094 -5.39777,-14.6285894 -14.15591,-6.53771 12.24461,-9.654065 1.84332,-15.483336 12.96535,8.662049 z"
+       inkscape:transform-center-x="1.2993516"
+       inkscape:transform-center-y="-1.1804822"
+       inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\level4.png"
+       inkscape:export-xdpi="47"
+       inkscape:export-ydpi="47" />
+    <path
+       inkscape:transform-center-y="1.1804859"
+       inkscape:transform-center-x="1.2993516"
+       d="m -775.93799,127.46513 -4.23158,15.0075 7.60961,13.60976 -15.58062,0.6131 -10.59215,11.44281 -5.39777,-14.62859 -14.15591,-6.53771 12.24461,-9.65407 1.84332,-15.48333 12.96535,8.66204 z"
+       inkscape:randomized="0"
+       inkscape:rounded="0"
+       inkscape:flatsided="false"
+       sodipodi:arg2="-0.11749768"
+       sodipodi:arg1="-0.74581621"
+       sodipodi:r2="13.869173"
+       sodipodi:r1="24.512306"
+       sodipodi:cy="144.09848"
+       sodipodi:cx="-793.94312"
+       sodipodi:sides="5"
+       id="path3447"
+       style="fill:#ffff00;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       sodipodi:type="star"
+       transform="scale(-1,1)"
+       inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\level4.png"
+       inkscape:export-xdpi="47"
+       inkscape:export-ydpi="47" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="Text" />
+     inkscape:label="Text"
+     transform="translate(-4.0640536e-8,69.824518)" />
 </svg>

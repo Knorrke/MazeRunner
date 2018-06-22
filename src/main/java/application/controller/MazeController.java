@@ -48,6 +48,10 @@ public class MazeController implements ModelHolderInterface<MazeModelInterface> 
     maze.buildTower(wall, type);
   }
 
+  public void upgradeTower(Wall wall) {
+    maze.upgradeTower(wall);
+  }
+
   public MazeView getView() {
     return view;
   }

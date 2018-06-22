@@ -1,37 +1,35 @@
 package application.model.maze.tower;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import application.controller.gameloop.ActorInterface;
 import application.model.actions.Action;
 import application.model.creature.Creature;
 import application.model.maze.Wall;
 import application.util.ObservableBulletsListDeserializer;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public abstract class AbstractTower implements ActorInterface {
 
   @JsonProperty protected final TowerType type;
-  @JsonIgnore protected DoubleProperty fireRate;
-  @JsonIgnore protected IntegerProperty damage;
-  @JsonIgnore protected IntegerProperty costs;
-  @JsonIgnore protected DoubleProperty visualRange;
+  @JsonIgnore protected double fireRate;
+  @JsonIgnore protected int damage;
+  @JsonIgnore protected int costs;
+  @JsonIgnore protected double visualRange;
 
   @JsonIgnore private Action shootingAction;
   @JsonIgnore protected int x, y;
+
+  @JsonIgnore private List<TowerUpgrade> upgrades;
 
   @JsonBackReference("tower")
   protected Wall wall;
@@ -41,22 +39,6 @@ public abstract class AbstractTower implements ActorInterface {
 
   protected AbstractTower(
       double fireRate, int damage, int costs, double visualRange, TowerType type, Wall wall) {
-    this(
-        new SimpleDoubleProperty(fireRate),
-        new SimpleIntegerProperty(damage),
-        new SimpleIntegerProperty(costs),
-        new SimpleDoubleProperty(visualRange),
-        type,
-        wall);
-  }
-
-  protected AbstractTower(
-      DoubleProperty fireRate,
-      IntegerProperty damage,
-      IntegerProperty costs,
-      DoubleProperty visualRange,
-      TowerType type,
-      Wall wall) {
     this.fireRate = fireRate;
     this.damage = damage;
     this.costs = costs;
@@ -72,10 +54,21 @@ public abstract class AbstractTower implements ActorInterface {
           }
         };
     bullets = FXCollections.observableArrayList();
+    this.upgrades = new ArrayList<>();
   }
 
   @JsonCreator
-  public static AbstractTower create(@JsonProperty("type") TowerType type) {
+  private static AbstractTower create(
+      @JsonProperty("type") TowerType type, @JsonProperty("level") int level) {
+    AbstractTower base = create(null, type);
+    AbstractTower upgraded = base;
+    for (int i = 0; i < level; i++) {
+      upgraded = upgraded.upgrade();
+    }
+    return upgraded;
+  }
+
+  public static AbstractTower create(TowerType type) {
     return create(null, type);
   }
 
@@ -89,8 +82,12 @@ public abstract class AbstractTower implements ActorInterface {
     }
   }
 
-  public abstract void shoot();
-  
+  public abstract Runnable createShooter(AbstractTower shooting);
+
+  public void shoot() {
+    createShooter(this).run();
+  }
+
   protected void addBullet(Bullet bullet) {
     bullets.add(bullet);
   }
@@ -113,63 +110,32 @@ public abstract class AbstractTower implements ActorInterface {
         c -> Point.distance(c.getX(), c.getY(), x + 0.5, y + 0.5) <= getVisualRange());
   }
 
-  /** @return the fireRate value */
+  public AbstractTower upgrade() {
+    if (upgrades.size() > getLevel()) {
+      TowerUpgrade upgrade = upgrades.get(getLevel());
+      return upgrade.createDecoratedTower(this);
+    } else {
+      return this;
+    }
+  }
+
+  /** @return the fireRate */
   public double getFireRate() {
-    return fireRate.get();
-  }
-
-  /** @param fireRate the fireRate to set */
-  public void setFireRate(double fireRate) {
-    this.fireRate.set(fireRate);
-  }
-
-  /** @return the fireRate property */
-  public DoubleProperty fireRateProperty() {
     return fireRate;
   }
 
-  /** @return the damage value */
+  /** @return the damage */
   public int getDamage() {
-    return damage.get();
-  }
-
-  /** @param damage the damage to set */
-  public void setDamage(int damage) {
-    this.damage.set(damage);
-  }
-
-  /** @return the damage property */
-  public IntegerProperty damageProperty() {
     return damage;
   }
 
-  /** @return the costs value */
+  /** @return the costs */
   public int getCosts() {
-    return costs.get();
-  }
-
-  /** @param costs the costs to set */
-  public void setCosts(int costs) {
-    this.costs.set(costs);
-  }
-
-  /** @return the costs property */
-  public IntegerProperty costsProperty() {
     return costs;
   }
 
-  /** @return the visualRange value */
+  /** @return the visualRange */
   public double getVisualRange() {
-    return visualRange.get();
-  }
-
-  /** @param visualRange the visualRange to set */
-  public void setVisualRange(double visualRange) {
-    this.visualRange.set(visualRange);
-  }
-
-  /** @return the visualRange property */
-  public DoubleProperty visualRangeProperty() {
     return visualRange;
   }
 
@@ -189,15 +155,39 @@ public abstract class AbstractTower implements ActorInterface {
     this.x = x;
     this.y = y;
   }
+
   protected double getX() {
     return x;
   }
+
   protected double getY() {
     return y;
   }
 
-
   public ObservableList<Bullet> getBullets() {
     return bullets;
+  }
+
+  /* package private access for decorators */
+  Wall getWall() {
+    return wall;
+  }
+
+  @JsonIgnore
+  public TowerUpgrade getNextUpgrade() {
+    if (upgrades.size() > getLevel()) {
+      return upgrades.get(getLevel());
+    }
+    return null;
+  }
+
+  /* package private for decorators */
+  List<TowerUpgrade> getUpgrades() {
+    return upgrades;
+  }
+
+  @JsonGetter
+  public int getLevel() {
+    return 0;
   }
 }
