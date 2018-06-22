@@ -2,18 +2,18 @@ package application.util;
 
 import java.io.InputStream;
 import java.util.logging.Logger;
-
 import application.model.creature.CreatureType;
 import application.model.maze.tower.TowerType;
 import javafx.scene.image.Image;
 
 public class ImageLoader {
   private ImageLoader() {}
-  
+
   private static Logger LOG = Logger.getLogger(ImageLoader.class.getName());
 
   private static final String basePath = "images/";
   private static Image placeholder = loadImage("placeholder.png");
+  private static Image empty;
 
   public static Image money, lifes;
   public static Image play, pause;
@@ -21,9 +21,10 @@ public class ImageLoader {
 
   public static Image wall;
 
-  public static Image sell;
-
+  public static Image sell, upgrade;
   public static Image noTower, normalTower;
+  public static Image level0, level1, level2, level3, level4;
+
   public static Image normalBullet;
 
   public static Image endModalBackground;
@@ -35,6 +36,7 @@ public class ImageLoader {
 
   public static void loadGameImages() {
     LOG.fine("Loading game images");
+    empty = loadImage("empty.png");
     money = loadImage("money.png");
     lifes = loadImage("lifes.png");
 
@@ -46,9 +48,15 @@ public class ImageLoader {
     toughCreature = loadImage("creatures/tough.png");
 
     sell = loadImage("sell.png");
+    upgrade = loadImage("upgrade.png");
 
-    noTower = loadImage("towers/no.png");
+    noTower = empty;
     normalTower = loadImage("towers/normal.png");
+    level0 = empty;
+    level1 = loadImage("towers/level1.png");
+    level2 = loadImage("towers/level2.png");
+    level3 = loadImage("towers/level3.png");
+    level4 = loadImage("towers/level4.png");
 
     normalBullet = loadImage("towers/normalBullet.png");
 
@@ -89,6 +97,22 @@ public class ImageLoader {
       case NO:
       default:
         return ImageLoader.noTower;
+    }
+  }
+
+  public static Image getLevelImage(int level) {
+    switch (level) {
+      case 0:
+        return ImageLoader.level0;
+      case 1:
+        return ImageLoader.level1;
+      case 2:
+        return ImageLoader.level2;
+      case 3:
+        return ImageLoader.level3;
+      case 4:
+      default:
+        return ImageLoader.level4;
     }
   }
 }

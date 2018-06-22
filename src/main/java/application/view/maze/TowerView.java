@@ -15,8 +15,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
 public class TowerView extends StackPane {
-  DoubleBinding scaleX, scaleY;
-  ListChangeListener<Bullet> listener =
+  private AbstractTower tower;
+  private DoubleBinding scaleX, scaleY;
+  private ListChangeListener<Bullet> listener =
       (c) -> {
         while (c.next()) {
           if (c.wasAdded()) {
@@ -28,16 +29,23 @@ public class TowerView extends StackPane {
       };
 
   public TowerView(AbstractTower tower, DoubleBinding scaleX, DoubleBinding scaleY) {
+    this.tower = tower;
     this.scaleX = scaleX;
     this.scaleY = scaleY;
+    this.getStyleClass().add("tower");
     TowerType towerType = tower.getType();
     ImageView towerImage = new ImageView(ImageLoader.getTowerImage(towerType));
     towerImage.fitWidthProperty().bind(scaleX);
     towerImage.fitHeightProperty().bind(scaleY);
     towerImage.getStyleClass().addAll("tower-image", towerType.toString());
-    
+
+    ImageView upgradeView = new ImageView(ImageLoader.getLevelImage(tower.getLevel()));
+    upgradeView.fitWidthProperty().bind(scaleX);
+    upgradeView.fitHeightProperty().bind(scaleY);
+    upgradeView.getStyleClass().add("level" + tower.getLevel());
+
     tower.getBullets().addListener(listener);
-    this.getChildren().add(towerImage);
+    this.getChildren().addAll(towerImage, upgradeView);
   }
 
   public void createBullets(List<? extends Bullet> list) {
@@ -56,5 +64,9 @@ public class TowerView extends StackPane {
         iterator.remove();
       }
     }
+  }
+
+  public AbstractTower getTower() {
+    return tower;
   }
 }

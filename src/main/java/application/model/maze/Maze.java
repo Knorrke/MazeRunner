@@ -2,10 +2,8 @@ package application.model.maze;
 
 import java.util.Iterator;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import application.controller.gameloop.ActorInterface;
 import application.model.creature.Creature;
 import application.model.maze.tower.AbstractTower;
@@ -156,7 +154,7 @@ public class Maze implements MazeModelInterface {
   @Override
   public void creatureDied(Creature creature) {
     removeCreature(creature);
-    if (player != null) {      
+    if (player != null) {
       player.earnMoney(creature.getValue());
     }
   }
@@ -165,7 +163,14 @@ public class Maze implements MazeModelInterface {
   public void buildTower(Wall wall, TowerType type) {
     AbstractTower newTower = AbstractTower.create(type);
     if (payIfEnoughMoney(newTower.getCosts())) {
-      wall.setTower(AbstractTower.create(wall, type));
+      wall.buildTower(type);
+    }
+  }
+
+  @Override
+  public void upgradeTower(Wall wall) {
+    if (payIfEnoughMoney(wall.getTower().getNextUpgrade().getCosts())) {
+      wall.upgradeTower();
     }
   }
 

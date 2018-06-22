@@ -59,7 +59,7 @@ public class JsonTest {
     String json = serializer.writeValueAsString(tower);
     LOG.fine(json);
 
-    AbstractTower tower2 = serializer.readValue(json, NoTower.class);
+    AbstractTower tower2 = serializer.readValue(json, AbstractTower.class);
     assertThat(tower2, is(instanceOf(NoTower.class)));
     assertEquals(json, serializer.writeValueAsString(tower2));
   }
@@ -155,5 +155,15 @@ public class JsonTest {
     assertEquals(game.getMaze().getWalls().size(), game2.getMaze().getWalls().size());
     assertEquals(game.getMaze().getCreatures().size(), game2.getMaze().getCreatures().size());
     assertEquals(json, serializer.writeValueAsString(game2));
+  }
+
+  @Test
+  public void upgradedTowerToJson() throws IOException {
+    AbstractTower upgradedTower = AbstractTower.create(TowerType.NORMAL).upgrade();
+    String json = serializer.writeValueAsString(upgradedTower);
+    LOG.fine(json);
+    AbstractTower tower2 = serializer.readValue(json, AbstractTower.class);
+    assertEquals(1, tower2.getLevel());
+    assertEquals(json, serializer.writeValueAsString(tower2));
   }
 }
