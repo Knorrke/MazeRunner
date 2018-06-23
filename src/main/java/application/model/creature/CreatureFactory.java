@@ -21,7 +21,7 @@ public class CreatureFactory {
       MazeModelInterface maze, CreatureType type, double x, double y, double toughnessFactor) {
     double velocity = 1;
     int lifes = (int) (type.getDefaultLifes() * toughnessFactor);
-    int value = 2;
+    int value = (int) (Math.sqrt(toughnessFactor * 2));
     MovementInterface movementStrategy = new NoSightMovement();
 
     return new Creature(x, y, velocity, lifes, value, movementStrategy, new Vision(), type, maze);

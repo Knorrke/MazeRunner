@@ -14,10 +14,10 @@ public class NormalTower extends AbstractTower {
     this.getUpgrades()
         .addAll(
             Arrays.asList(
-                new TowerUpgrade(getFireRate(), 5, 10, getVisualRange()),
-                new TowerUpgrade(getFireRate(), 15, 20, getVisualRange() + 3),
-                new TowerUpgrade(getFireRate() * 2, 5, 40, getVisualRange()),
-                new TowerUpgrade(getFireRate(), 40, 100, getVisualRange() + 3)));
+                new TowerUpgrade(rate -> rate, damage -> damage + 5, range -> range, 10),
+                new TowerUpgrade(rate -> rate, damage -> damage + 15, range -> range + 1, 20),
+                new TowerUpgrade(rate -> rate * 1.5, damage -> damage + 5, range -> range, 40),
+                new TowerUpgrade(rate -> rate, damage -> damage + 40, range -> range + 2, 100)));
   }
 
   @Override
