@@ -1,6 +1,6 @@
 package application.view.maze;
 
-import application.controller.MazeController;
+import application.controller.WallController;
 import application.model.maze.Wall;
 import application.model.maze.tower.AbstractTower;
 import application.model.maze.tower.TowerType;
@@ -28,11 +28,11 @@ public class WallMenuView extends CirclePopupMenu {
 
   private DoubleBinding scaleX, scaleY;
 
-  public WallMenuView(WallsView parent) {
-    super(parent, null);
+  public WallMenuView(WallView view, DoubleBinding scaleX, DoubleBinding scaleY) {
+    super(view, null);
     super.setAnimationDuration(new Duration(200));
-    scaleX = parent.xScalingProperty();
-    scaleY = parent.yScalingProperty();
+    this.scaleX = scaleX;
+    this.scaleY = scaleY;
     sellItemLabel = new FloatingLabel("").getView();
     sellItem = createMenuItem("Sell", ImageLoader.sell, sellItemLabel);
     normalTowerLabel =
@@ -54,18 +54,18 @@ public class WallMenuView extends CirclePopupMenu {
     return new MenuItem(hoverText, new StackPane(view, label));
   }
 
-  public void show(MouseEvent event, Wall wall, MazeController controller) {
+  public void show(MouseEvent event, Wall wall, WallController wallController) {
     getItems().clear();
-    sellItem.setOnAction(e -> controller.sell(wall));
+    sellItem.setOnAction(e -> wallController.sell());
     sellItemLabel.setText(Util.moneyString(wall.getCosts()));
     getItems().add(sellItem);
     if (wall.getTower().getType() == TowerType.NO) {
-      normalTowerItem.setOnAction(e -> controller.buildTower(wall, TowerType.NORMAL));
+      normalTowerItem.setOnAction(e -> wallController.buildTower(TowerType.NORMAL));
       getItems().add(normalTowerItem);
     } else {
       TowerUpgrade upgrade = wall.getTower().getNextUpgrade();
       if (upgrade != null) {
-        upgradeItem.setOnAction(e -> controller.upgradeTower(wall));
+        upgradeItem.setOnAction(e -> wallController.upgradeTower());
         upgradeItemLabel.setText(Util.moneyString(-1 * upgrade.getCosts()));
         getItems().add(upgradeItem);
       }

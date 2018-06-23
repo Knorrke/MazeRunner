@@ -141,7 +141,7 @@ public class WallMenuViewTest extends AbstractViewTest {
   private void openMenuAndWaitForAnimation() {
     clickOn(".wall", MouseButton.PRIMARY);
     WallView wall = this.lookup(".wall").query();
-    menu = wall.getWallMenu();
+    menu = wall.getController().getMenu();
 
     waitForAnimation();
   }
