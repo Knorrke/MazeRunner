@@ -65,7 +65,7 @@ public class Launcher extends Application {
     primaryStage.show();
     return scene;
   }
-  
+
   private static Game createGamefromJsonFile(String path) {
     String json = readJson(path);
     LOG.log(Level.FINE, "Trying to deserialize {}", json);

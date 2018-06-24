@@ -23,20 +23,13 @@ public class WallController {
     this.wall = wall;
     view.bind(wall, scaleX, scaleY);
     menu = new WallMenuView(view, scaleX, scaleY);
-    view.addEventHandler(
-        MouseEvent.MOUSE_CLICKED,
-        event -> {
-          if (!menu.isShown()) menu.show(event, wall, this);
-        });
     menu.shownProperty()
         .addListener(
             (obj, oldVal, newval) -> {
               if (newval) {
                 view.showSelection();
-                System.out.println("show");
               } else {
                 view.hideSelection();
-                System.out.println("hide");
               }
             });
   }
@@ -59,5 +52,9 @@ public class WallController {
 
   public WallMenuView getMenu() {
     return menu;
+  }
+
+  public void showMenu(MouseEvent event) {
+    if (!menu.isShown()) menu.show(event, wall, this);
   }
 }

@@ -17,7 +17,8 @@ public class GameLoopTest extends AbstractViewTest {
   @Test
   public void updateableCalledTest() {
     Updateable updateable = Mockito.mock(Updateable.class);
-    //GameLoop extends AnimationTimer, so this needs to be in FX-Runtime (so it needs to extend AbstractViewTest)
+    // GameLoop extends AnimationTimer, so this needs to be in FX-Runtime (so it needs to extend
+    // AbstractViewTest)
     GameLoop localeGameloop = new GameLoop(updateable);
     localeGameloop.start();
     WaitForAsyncUtils.sleep(100, TimeUnit.MILLISECONDS);

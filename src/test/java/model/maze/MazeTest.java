@@ -36,10 +36,38 @@ public class MazeTest {
   }
 
   @Test
-  public void testHasWall() {
+  public void hasWallTest() {
     assertFalse("Shouldn't have a wall yet", maze.hasWallOn(x, y));
     maze.buildWall(x, y);
     assertTrue("Should have wall", maze.hasWallOn(x, y));
+  }
+
+  @Test
+  public void getWallOnTest() {
+    assertNull("Shouldn't have a wall yet", maze.getWallOn(x, y));
+    maze.buildWall(x, y);
+    assertNotNull("Should have a wall", maze.getWallOn(x, y));
+  }
+
+  @Test
+  public void hasCreatureTest() {
+    assertFalse("Shouldn't have a creature yet", maze.hasCreatureNear(x, y));
+    maze.addCreature(CreatureFactory.create(maze, CreatureType.NORMAL, x, y));
+    assertTrue("Should have a creature now", maze.hasCreatureNear(x, y));
+    assertTrue(
+        "Should also work with a position a little beside the creature",
+        maze.hasCreatureNear(x + 0.1, y + 0.1));
+  }
+
+  @Test
+  public void getCreatureTest() {
+    assertNull("Shouldn't have a creature yet", maze.getCreatureNear(x, y));
+    Creature creature = CreatureFactory.create(maze, CreatureType.NORMAL, x, y);
+    maze.addCreature(creature);
+    assertNotNull("Should have a creature", maze.getCreatureNear(x, y));
+    assertEquals("Should be correct object", creature, maze.getCreatureNear(x, y));
+    assertEquals("Should also work with a position a little beside the creature", 
+        creature, maze.getCreatureNear(x+0.1, y+0.1));
   }
 
   @Test

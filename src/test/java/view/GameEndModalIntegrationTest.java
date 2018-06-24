@@ -4,44 +4,44 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import application.model.GameState;
-import application.view.GameEndModal;
+import application.view.popover.GameEndPopOver;
 import javafx.stage.Window;
 
 public class GameEndModalIntegrationTest extends AbstractViewTest {
 
   @Test
   public void getsCreatedWhenGamestateChangesToWin() {
-    interact(()->winGame());
+    interact(() -> winGame());
     assertEquals(GameState.WON, game.getState());
     verifyModalVisible();
   }
-  
+
   @Test
   public void getsCreatedWhenGamestateChangesToLoose() {
-    interact(()->looseGame());
+    interact(() -> looseGame());
     assertEquals(GameState.GAMEOVER, game.getState());
     verifyModalVisible();
   }
 
   private void winGame() {
     int numberLevels = level.getCreatureTimeline().size();
-    for(int i=0; i< numberLevels; i++) {
-      level.sendNextCreatureWave();      
+    for (int i = 0; i < numberLevels; i++) {
+      level.sendNextCreatureWave();
     }
     maze.getCreatures().clear();
   }
-  
+
   private void looseGame() {
     int numberLifes = player.getLifes();
-    for (int i=0; i<numberLifes; i++) {
+    for (int i = 0; i < numberLifes; i++) {
       player.looseLife();
     }
   }
-  
+
   private void verifyModalVisible() {
     boolean visible = false;
-    for(Window window : listWindows()) {
-      if (window instanceof GameEndModal) {
+    for (Window window : listWindows()) {
+      if (window instanceof GameEndPopOver) {
         visible = true;
       }
     }

@@ -48,8 +48,10 @@ public class FXMLLoaderUtilTest extends ApplicationTest {
     Filter expectedErrorFilter = Mockito.mock(Filter.class);
     Logger.getLogger(FXMLLoaderUtil.class.getName()).setFilter(expectedErrorFilter);
     Parent root = FXMLLoaderUtil.load("not-existing.fxml");
-    Mockito.verify(expectedErrorFilter).isLoggable(ArgumentMatchers
-        .argThat(record -> record.getMessage().equals("Loading not-existing.fxml failed")));
+    Mockito.verify(expectedErrorFilter)
+        .isLoggable(
+            ArgumentMatchers.argThat(
+                record -> record.getMessage().equals("Loading not-existing.fxml failed")));
     assertThat(root, is(instanceOf(ErrorView.class)));
   }
 }

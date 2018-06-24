@@ -10,6 +10,7 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 public class WallsView extends Pane implements Bindable<MazeModelInterface> {
@@ -48,5 +49,21 @@ public class WallsView extends Pane implements Bindable<MazeModelInterface> {
 
   public void setController(MazeController mazeController) {
     this.controller = mazeController;
+  }
+
+  public WallView getWallView(Wall wall) {
+    for (Node node : this.getChildren()) {
+      if (node instanceof WallView && ((WallView) node).belongsToWall(wall)) {
+        return (WallView) node;
+      }
+    }
+    return null;
+  }
+
+  public void showMenu(MouseEvent event, Wall wall) {
+    WallView view = getWallView(wall);
+    if (view != null) {
+      view.getController().showMenu(event);
+    }
   }
 }

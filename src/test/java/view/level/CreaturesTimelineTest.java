@@ -13,7 +13,9 @@ public class CreaturesTimelineTest extends AbstractViewTest {
   @Test
   public void shouldContainCorrectNumberOfImages() {
     int countGroups = level.getCreatureTimeline().size();
-    verifyThat("#creatureTimelineView", NodeMatchers.hasChildren(countGroups, ".image-view"),
+    verifyThat(
+        "#creatureTimelineView",
+        NodeMatchers.hasChildren(countGroups, ".image-view"),
         collectInfos());
   }
 
@@ -22,12 +24,14 @@ public class CreaturesTimelineTest extends AbstractViewTest {
     CreatureTimelineView creatureTimelineView = lookup("#creatureTimelineView").query();
     VBox creatureTimeline = creatureTimelineView.getTimeline();
     double startTranslation = creatureTimeline.getTranslateY();
-    interact(() -> level.sendNextCreatureWave()); //simulates passed time
-    interact(() -> level.sendNextCreatureWave()); //simulates passed time
+    interact(() -> level.sendNextCreatureWave()); // simulates passed time
+    interact(() -> level.sendNextCreatureWave()); // simulates passed time
     assertTrue(Math.abs(creatureTimeline.getTranslateY()) > startTranslation);
-	verifyThat(creatureTimeline, (VBox ct) -> {
-	  double visibleQuotient = Math.abs(ct.getTranslateY() / ct.getHeight());
-	  return Math.abs(visibleQuotient - level.calculatePassedTimePercentage()) < 0.01;
-	});
+    verifyThat(
+        creatureTimeline,
+        (VBox ct) -> {
+          double visibleQuotient = Math.abs(ct.getTranslateY() / ct.getHeight());
+          return Math.abs(visibleQuotient - level.calculatePassedTimePercentage()) < 0.01;
+        });
   }
 }

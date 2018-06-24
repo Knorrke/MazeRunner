@@ -1,15 +1,12 @@
 package application.model.maze;
 
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-
 import application.controller.gameloop.Updateable;
 import application.model.ModelInterface;
 import application.model.creature.Creature;
-import application.model.maze.tower.AbstractTower;
 import application.model.maze.tower.TowerType;
 import application.model.player.PlayerModelInterface;
 import javafx.collections.ObservableList;
@@ -54,6 +51,32 @@ public interface MazeModelInterface extends Updateable, ModelInterface {
    * @param int y
    */
   public boolean hasWallOn(int x, int y);
+
+  /**
+   * Returns the wall from the specified position if there is any. Otherwise returns null
+   *
+   * @param x the x coordinate
+   * @param y the y coordinate
+   * @return Matching {@link Wall} object or null, if there's no wall
+   */
+  public Wall getWallOn(int x, int y);
+
+  /**
+   * Checks if there is a creature near the position
+   *
+   * @param x double
+   * @param y double
+   */
+  public boolean hasCreatureNear(double x, double y);
+
+  /**
+   * Returns the creature near the specified position if there is any. Otherwise returns null
+   *
+   * @param x the x coordinate
+   * @param y the y coordinate
+   * @return Matching {@link Wall} object or null, if there's no creature
+   */
+  public Creature getCreatureNear(double x, double y);
 
   /** @return the maximal X value for walls */
   public int getMaxWallX();

@@ -15,7 +15,7 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.control.LabeledMatchers;
 import application.model.GameState;
-import application.view.GameEndModal;
+import application.view.popover.GameEndPopOver;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -25,29 +25,32 @@ public class GameEndModalTest extends ApplicationTest {
 
   @Parameters(name = "{index}: GameState {0} expects text \"{1}\"")
   public static List<Object[]> data() {
-    return Arrays.asList(new Object[] {GameState.WON, "You Win!"},
-        new Object[] {GameState.GAMEOVER, "GAME OVER"});
+    return Arrays.asList(
+        new Object[] {GameState.WON, "You Win!"}, new Object[] {GameState.GAMEOVER, "GAME OVER"});
   }
 
-  @Parameter(0) public GameState state;
+  @Parameter(0)
+  public GameState state;
 
-  @Parameter(1) public String expectedText;
-  
+  @Parameter(1)
+  public String expectedText;
+
   @Override
   public void init() throws Exception {
-    FxToolkit.registerStage(() -> new GameEndModal(state, new Stage()));
+    FxToolkit.registerStage(() -> new GameEndPopOver(state, new Stage()));
   }
+
   @After
   public void cleanUp() throws TimeoutException {
     FxToolkit.hideStage();
   }
-  
+
   @Override
   public void start(Stage stage) throws Exception {
     window = stage;
     stage.show();
   }
-  
+
   @Test
   public void wonScreenShouldContainYouWin() {
     verifyThat("#gameEndText", LabeledMatchers.hasText(expectedText));

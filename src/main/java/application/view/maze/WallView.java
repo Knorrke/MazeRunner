@@ -15,6 +15,7 @@ public class WallView extends StackPane {
   private ImageView imgView;
   private TowerView towerView;
   private WallController controller;
+  private Wall wall;
   private Node selectionView;
 
   public WallView(WallController controller) {
@@ -22,6 +23,7 @@ public class WallView extends StackPane {
   }
 
   public void bind(Wall wall, DoubleBinding scaleX, DoubleBinding scaleY) {
+    this.wall = wall;
     this.getStyleClass().add("wall");
 
     imgView = new ImageView(ImageLoader.wall);
@@ -83,5 +85,9 @@ public class WallView extends StackPane {
 
   public void hideSelection() {
     selectionView.setVisible(false);
+  }
+
+  public boolean belongsToWall(Wall wall) {
+    return this.wall == wall;
   }
 }

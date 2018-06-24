@@ -54,4 +54,8 @@ public class CreatureView extends StackPane {
   public Creature getCreature() {
     return creature;
   }
+
+  public boolean belongsToCreature(Creature creature) {
+    return this.creature == creature;
+  }
 }

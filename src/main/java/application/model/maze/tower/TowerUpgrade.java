@@ -20,8 +20,6 @@ public class TowerUpgrade {
   }
 
   public AbstractTower createDecoratedTower(AbstractTower abstractTower) {
-    //    AbstractTower upgraded =
-    // AbstractTower.create(abstractTower.getWall(),abstractTower.getType());
     return new UpgradedTower(abstractTower, this);
   }
 

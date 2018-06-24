@@ -69,13 +69,13 @@ public class CreaturesView extends Pane implements Bindable<MazeModelInterface> 
         label.setLayoutX(creature.getX() * scaleX.doubleValue());
         label.setLayoutY(creature.getY() * scaleY.doubleValue());
         label.getStyleClass().add("earning-label");
-        label.setMouseTransparent(true);        
-        
+        label.setMouseTransparent(true);
+
         FadeTransition fade = new FadeTransition(new Duration(200), label);
         fade.setToValue(0.2);
         fade.setDelay(new Duration(600));
         TranslateTransition translate = new TranslateTransition(new Duration(800), label);
-        translate.setToY(-1*scaleY.doubleValue());
+        translate.setToY(-1 * scaleY.doubleValue());
         ParallelTransition transition = new ParallelTransition(fade, translate);
         transition.setOnFinished(
             event -> {
@@ -90,5 +90,14 @@ public class CreaturesView extends Pane implements Bindable<MazeModelInterface> 
         }
       }
     }
+  }
+
+  public CreatureView getCreatureView(Creature creature) {
+    for (Node node : this.getChildren()) {
+      if (node instanceof CreatureView && ((CreatureView) node).belongsToCreature(creature)) {
+        return (CreatureView) node;
+      }
+    }
+    return null;
   }
 }

@@ -40,42 +40,43 @@ public class ActionTest {
     assertTrue(updateHookCalled.get());
     assertTrue(executeCalled.get());
   }
-  
+
   @Test
   public void resetCountdownTest() {
     double countdown = 1;
     AtomicInteger callsToExecuteWithoutReset = new AtomicInteger(0);
     AtomicInteger callsToExecuteWithReset = new AtomicInteger(0);
-    
-    Action actionWithoutReset = new Action(countdown){
-      @Override
-      public void execute() {
-        callsToExecuteWithoutReset.getAndIncrement();
-      }
-    };
-    
-    Action actionWithReset = new Action(countdown){
-      @Override
-      public void execute() {
-        resetCountdown();
-        callsToExecuteWithReset.getAndIncrement();
-      }
-    };
 
-    actionWithoutReset.run(countdown/2);
-    actionWithReset.run(countdown/2);
-    assertEquals("Execute shouldn't be called yet",0, callsToExecuteWithoutReset.get());
-    assertEquals("Execute shouldn't be called yet",0, callsToExecuteWithReset.get());
-    
+    Action actionWithoutReset =
+        new Action(countdown) {
+          @Override
+          public void execute() {
+            callsToExecuteWithoutReset.getAndIncrement();
+          }
+        };
+
+    Action actionWithReset =
+        new Action(countdown) {
+          @Override
+          public void execute() {
+            resetCountdown();
+            callsToExecuteWithReset.getAndIncrement();
+          }
+        };
+
+    actionWithoutReset.run(countdown / 2);
+    actionWithReset.run(countdown / 2);
+    assertEquals("Execute shouldn't be called yet", 0, callsToExecuteWithoutReset.get());
+    assertEquals("Execute shouldn't be called yet", 0, callsToExecuteWithReset.get());
 
     actionWithoutReset.run(countdown);
     actionWithReset.run(countdown);
-    assertEquals("Execute should be called now",1, callsToExecuteWithoutReset.get());
-    assertEquals("Execute should be called now",1, callsToExecuteWithReset.get());
-    
+    assertEquals("Execute should be called now", 1, callsToExecuteWithoutReset.get());
+    assertEquals("Execute should be called now", 1, callsToExecuteWithReset.get());
+
     actionWithoutReset.run(countdown);
     actionWithReset.run(countdown);
-    assertEquals("Execute should still be called only once",1, callsToExecuteWithoutReset.get());
-    assertEquals("Execute should be called twice now",2, callsToExecuteWithReset.get());
+    assertEquals("Execute should still be called only once", 1, callsToExecuteWithoutReset.get());
+    assertEquals("Execute should be called twice now", 2, callsToExecuteWithReset.get());
   }
 }

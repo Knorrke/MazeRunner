@@ -8,9 +8,9 @@ import application.model.GameModelInterface;
 import application.util.FXMLLoaderUtil;
 import application.util.ImageLoader;
 import application.util.Serializer;
-import application.view.GameEndModal;
 import application.view.level.CreatureTimelineView;
 import application.view.maze.MazeView;
+import application.view.popover.GameEndPopOver;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
@@ -42,7 +42,10 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
 
   @FXML private CreatureTimelineView creatureTimelineView;
   @FXML private MazeView maze;
+  @FXML private ImageView buildButton;
+  @FXML private ImageView infoButton;
   @FXML private ImageView playPauseButton;
+  private UserActionState actionState;
 
   public GameController() {
     mazeController = new MazeController(this);
@@ -62,11 +65,50 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
     LOG.fine("initializing GameController");
     levelController.setView(creatureTimelineView);
     mazeController.setView(maze);
+    setUserActionState(UserActionState.BUILD);
   }
 
   @FXML
   public void togglePlayPause(MouseEvent event) {
     gameloop.togglePlayPause();
+  }
+
+  @FXML
+  public void switchToBuildActions(MouseEvent event) {
+    setUserActionState(UserActionState.BUILD);
+  }
+
+  @FXML
+  public void switchToInfoActions(MouseEvent event) {
+    setUserActionState(UserActionState.INFO);
+  }
+
+  /** @param actionState the actionState to set */
+  private void setUserActionState(UserActionState actionState) {
+    this.actionState = actionState;
+    setButtonSelectedImage(actionState);
+  }
+
+  /** @return the actionState */
+  public UserActionState getUserActionState() {
+    return actionState;
+  }
+
+  private void setButtonSelectedImage(UserActionState actionState) {
+    switch (actionState) {
+      case BUILD:
+        buildButton.setImage(ImageLoader.buildSelected);
+        infoButton.setImage(ImageLoader.infoNotSelected);
+        break;
+      case INFO:
+        buildButton.setImage(ImageLoader.buildNotSelected);
+        infoButton.setImage(ImageLoader.infoSelected);
+        break;
+      default:
+        buildButton.setImage(ImageLoader.buildNotSelected);
+        infoButton.setImage(ImageLoader.infoNotSelected);
+        break;
+    }
   }
 
   public Parent getView() {
@@ -94,7 +136,7 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
                 case GAMEOVER:
                 case WON:
                   mazeController.getView().addEventFilter(EventType.ROOT, event -> event.consume());
-                  new GameEndModal(newValue, view.getScene().getWindow());
+                  new GameEndPopOver(newValue, view.getScene().getWindow());
                 case RUNNING:
                 case BUILDING:
                 default:

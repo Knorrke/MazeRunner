@@ -9,9 +9,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
 public class CreatureTimelineImage extends StackPane {
-  public CreatureTimelineImage(CreatureGroup group){
+  public CreatureTimelineImage(CreatureGroup group) {
     this.setMaxWidth(40);
-    
+
     Image im = ImageLoader.getCreatureImage(group.getType());
     ImageView img = new ImageView(im);
     img.setPreserveRatio(true);

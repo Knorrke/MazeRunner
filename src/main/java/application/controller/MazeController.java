@@ -4,6 +4,8 @@ import application.model.maze.MazeModelInterface;
 import application.model.maze.Wall;
 import application.model.maze.tower.TowerType;
 import application.view.maze.MazeView;
+import application.view.popover.CreatureInfoPopOver;
+import application.view.popover.WallInfoPopOver;
 
 public class MazeController implements ModelHolderInterface<MazeModelInterface> {
   private MazeView view;
@@ -33,9 +35,23 @@ public class MazeController implements ModelHolderInterface<MazeModelInterface> 
   private void setListeners() {
     view.setOnMouseClicked(
         event -> {
-          int gameX = (int) (maze.getMaxWallX() * event.getX() / view.getWidth());
-          int gameY = (int) (maze.getMaxWallY() * event.getY() / view.getHeight());
-          maze.buildWall(gameX, gameY);
+          double gameX = maze.getMaxWallX() * event.getX() / view.getWidth();
+          double gameY = maze.getMaxWallY() * event.getY() / view.getHeight();
+          int gameXInt = (int) gameX;
+          int gameYInt = (int) gameY;
+          if (gameController.getUserActionState().equals(UserActionState.BUILD)) {
+            if (maze.hasWallOn(gameXInt, gameYInt)) {
+              view.getWalls().showMenu(event, maze.getWallOn(gameXInt, gameYInt));
+            } else {
+              maze.buildWall(gameXInt, gameYInt);
+            }
+          } else if (gameController.getUserActionState().equals(UserActionState.INFO)) {
+            if (maze.hasWallOn(gameXInt, gameYInt)) {
+              new WallInfoPopOver(maze.getWallOn(gameXInt, gameYInt), view.getWalls());
+            } else if (maze.hasCreatureNear(gameX, gameY)) {
+              new CreatureInfoPopOver(maze.getCreatureNear(gameX, gameY), view.getCreatures());
+            }
+          }
         });
     view.bind(maze);
   }
