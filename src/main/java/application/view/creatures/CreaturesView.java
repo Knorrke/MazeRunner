@@ -65,7 +65,7 @@ public class CreaturesView extends Pane implements Bindable<MazeModelInterface> 
     }
     for (Creature creature : removed) {
       if (creature.getLifes() <= 0) {
-        Label label = new FloatingLabel(Util.moneyString(creature.getValue())).getView();
+        Label label = new FloatingLabel(Util.moneyString(creature.getValue()));
         label.setLayoutX(creature.getX() * scaleX.doubleValue());
         label.setLayoutY(creature.getY() * scaleY.doubleValue());
         label.getStyleClass().add("earning-label");

@@ -33,13 +33,12 @@ public class WallMenuView extends CirclePopupMenu {
     super.setAnimationDuration(new Duration(200));
     this.scaleX = scaleX;
     this.scaleY = scaleY;
-    sellItemLabel = new FloatingLabel("").getView();
+    sellItemLabel = new FloatingLabel();
     sellItem = createMenuItem("Sell", ImageLoader.sell, sellItemLabel);
     normalTowerLabel =
-        new FloatingLabel(Util.moneyString(-1 * AbstractTower.create(TowerType.NORMAL).getCosts()))
-            .getView();
+        new FloatingLabel(Util.moneyString(-1 * AbstractTower.create(TowerType.NORMAL).getCosts()));
     normalTowerItem = createMenuItem("Normal Tower", ImageLoader.normalTower, normalTowerLabel);
-    upgradeItemLabel = new FloatingLabel("").getView();
+    upgradeItemLabel = new FloatingLabel();
     upgradeItem = createMenuItem("Upgrade Tower", ImageLoader.upgrade, upgradeItemLabel);
   }
 

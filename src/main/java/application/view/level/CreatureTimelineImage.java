@@ -21,7 +21,7 @@ public class CreatureTimelineImage extends StackPane {
     img.setPreserveRatio(true);
     img.setFitWidth(40);
 
-    Label label = new FloatingLabel(Integer.toString(group.getNumber())).getView();
+    Label label = new FloatingLabel(Integer.toString(group.getNumber()));
     this.getChildren().addAll(img, label);
 
     setOnMouseClicked(
