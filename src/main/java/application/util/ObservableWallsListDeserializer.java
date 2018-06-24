@@ -19,8 +19,8 @@ public class ObservableWallsListDeserializer extends JsonDeserializer<Observable
   public ObservableList<Wall> deserialize(JsonParser jp, DeserializationContext ctxt)
       throws IOException, JsonProcessingException {
     ObjectMapper mapper = Serializer.create();
-      JsonNode node = mapper.readTree(jp);
-      ArrayList<Wall> list = mapper.convertValue(node, new TypeReference<ArrayList<Wall>>() {});
-      return FXCollections.observableArrayList(list);
+    JsonNode node = mapper.readTree(jp);
+    ArrayList<Wall> list = mapper.convertValue(node, new TypeReference<ArrayList<Wall>>() {});
+    return FXCollections.observableArrayList(list);
   }
 }

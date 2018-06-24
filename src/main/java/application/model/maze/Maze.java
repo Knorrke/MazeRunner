@@ -1,5 +1,6 @@
 package application.model.maze;
 
+import java.awt.Point;
 import java.util.Iterator;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -109,6 +110,33 @@ public class Maze implements MazeModelInterface {
   @Override
   public boolean hasWallOn(int x, int y) {
     return hasWall[x][y];
+  }
+
+  @Override
+  public Wall getWallOn(int x, int y) {
+    if (hasWallOn(x, y)) {
+      for (Wall wall : walls) {
+        if (wall.getX() == x && wall.getY() == y) {
+          return wall;
+        }
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public boolean hasCreatureNear(double x, double y) {
+    return getCreatureNear(x, y) != null;
+  }
+
+  @Override
+  public Creature getCreatureNear(double x, double y) {
+    for (Creature creature : creatures) {
+      if (Point.distance(creature.getX(), creature.getY(), x, y) < 0.3) {
+        return creature;
+      }
+    }
+    return null;
   }
 
   @Override

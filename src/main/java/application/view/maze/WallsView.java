@@ -1,8 +1,8 @@
 package application.view.maze;
 
 import java.util.stream.Collectors;
-
 import application.controller.MazeController;
+import application.controller.WallController;
 import application.model.maze.MazeModelInterface;
 import application.model.maze.Wall;
 import application.view.Bindable;
@@ -10,6 +10,7 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 public class WallsView extends Pane implements Bindable<MazeModelInterface> {
@@ -20,7 +21,6 @@ public class WallsView extends Pane implements Bindable<MazeModelInterface> {
         createWalls();
       };
 
-  private WallMenuView wallMenu;
   private MazeController controller;
 
   @Override
@@ -29,7 +29,6 @@ public class WallsView extends Pane implements Bindable<MazeModelInterface> {
     this.scaleX = widthProperty().divide(maze.getMaxWallX());
     this.scaleY = heightProperty().divide(maze.getMaxWallY());
     walls.addListener(listener);
-    wallMenu = new WallMenuView(this);
     createWalls();
   }
 
@@ -41,9 +40,9 @@ public class WallsView extends Pane implements Bindable<MazeModelInterface> {
             .stream()
             .map(
                 wall -> {
-                  WallView view = new WallView(wall, scaleX, scaleY);
-                  view.setMenu(wallMenu, controller);
-                  return view;
+                  WallController wallController = new WallController(controller);
+                  wallController.init(wall, scaleX, scaleY);
+                  return wallController.getView();
                 })
             .collect(Collectors.toList()));
   }
@@ -52,13 +51,19 @@ public class WallsView extends Pane implements Bindable<MazeModelInterface> {
     this.controller = mazeController;
   }
 
-  /** @return the scaleX */
-  public DoubleBinding xScalingProperty() {
-    return scaleX;
+  public WallView getWallView(Wall wall) {
+    for (Node node : this.getChildren()) {
+      if (node instanceof WallView && ((WallView) node).belongsToWall(wall)) {
+        return (WallView) node;
+      }
+    }
+    return null;
   }
 
-  /** @return the scaleY */
-  public DoubleBinding yScalingProperty() {
-    return scaleY;
+  public void showMenu(MouseEvent event, Wall wall) {
+    WallView view = getWallView(wall);
+    if (view != null) {
+      view.getController().showMenu(event);
+    }
   }
 }

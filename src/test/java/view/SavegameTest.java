@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 public class SavegameTest extends AbstractViewTest {
 
   private Stage primaryStage;
-  
+
   @Override
   public void start(Stage stage) {
     primaryStage = stage;

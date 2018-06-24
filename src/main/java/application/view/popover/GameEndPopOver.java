@@ -1,4 +1,4 @@
-package application.view;
+package application.view.popover;
 
 import application.controller.gameloop.GameLoop;
 import application.model.GameState;
@@ -17,14 +17,14 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
-public class GameEndModal extends Stage {
+public class GameEndPopOver extends Stage {
   private GameState state;
 
   @FXML private Label gameEndText;
   @FXML private ImageView gameEndImage;
   @FXML private StackPane pane;
 
-  public GameEndModal(GameState state, Window window) {
+  public GameEndPopOver(GameState state, Window window) {
     super(StageStyle.TRANSPARENT);
     initOwner(window);
 

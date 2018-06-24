@@ -1,9 +1,14 @@
 package application.controller;
 
+import application.model.creature.Creature;
 import application.model.maze.MazeModelInterface;
 import application.model.maze.Wall;
 import application.model.maze.tower.TowerType;
+import application.view.creatures.CreatureView;
 import application.view.maze.MazeView;
+import application.view.maze.WallView;
+import application.view.popover.CreatureInfoPopOver;
+import application.view.popover.WallInfoPopOver;
 
 public class MazeController implements ModelHolderInterface<MazeModelInterface> {
   private MazeView view;
@@ -33,9 +38,27 @@ public class MazeController implements ModelHolderInterface<MazeModelInterface> 
   private void setListeners() {
     view.setOnMouseClicked(
         event -> {
-          int gameX = (int) (maze.getMaxWallX() * event.getX() / view.getWidth());
-          int gameY = (int) (maze.getMaxWallY() * event.getY() / view.getHeight());
-          maze.buildWall(gameX, gameY);
+          double gameX = maze.getMaxWallX() * event.getX() / view.getWidth();
+          double gameY = maze.getMaxWallY() * event.getY() / view.getHeight();
+          int gameXInt = (int) gameX;
+          int gameYInt = (int) gameY;
+          if (gameController.getUserActionState().equals(UserActionState.BUILD)) {
+            if (maze.hasWallOn(gameXInt, gameYInt)) {
+              view.getWalls().showMenu(event, maze.getWallOn(gameXInt, gameYInt));
+            } else {
+              maze.buildWall(gameXInt, gameYInt);
+            }
+          } else if (gameController.getUserActionState().equals(UserActionState.INFO)) {
+            if (maze.hasWallOn(gameXInt, gameYInt)) {
+              Wall wall = maze.getWallOn(gameXInt, gameYInt);
+              WallView wallView = view.getWalls().getWallView(wall);
+              new WallInfoPopOver(wall, wallView);
+            } else if (maze.hasCreatureNear(gameX, gameY)) {
+              Creature creature = maze.getCreatureNear(gameX, gameY);
+              CreatureView creatureView = view.getCreatures().getCreatureView(creature);
+              new CreatureInfoPopOver(creature, creatureView);
+            }
+          }
         });
     view.bind(maze);
   }

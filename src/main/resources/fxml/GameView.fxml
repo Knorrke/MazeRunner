@@ -34,6 +34,14 @@
 						<HBox alignment="CENTER" spacing="10.0"
 							AnchorPane.rightAnchor="0.0">
 							<children>
+								<ImageView fx:id="buildButton" fitHeight="30.0"
+									fitWidth="30.0" onMouseClicked="#switchToBuildActions" pickOnBounds="true"
+									preserveRatio="true">
+								</ImageView>
+								<ImageView fx:id="infoButton" fitHeight="30.0"
+									fitWidth="30.0" onMouseClicked="#switchToInfoActions" pickOnBounds="true"
+									preserveRatio="true">
+								</ImageView>
 								<ImageView fx:id="playPauseButton" fitHeight="30.0"
 									fitWidth="30.0" onMouseClicked="#togglePlayPause" pickOnBounds="true"
 									preserveRatio="true">

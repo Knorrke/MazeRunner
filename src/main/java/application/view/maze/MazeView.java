@@ -9,7 +9,7 @@ import javafx.scene.layout.StackPane;
 
 public class MazeView extends StackPane {
   private static Logger LOG = Logger.getLogger(MazeView.class.getName());
-  
+
   private WallsView walls;
   private CreaturesView creatures;
   private MazeController controller;

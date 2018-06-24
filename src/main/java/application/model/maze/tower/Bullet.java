@@ -62,7 +62,7 @@ public class Bullet implements ActorInterface {
   public ObjectProperty<Position> relativePositionProperty() {
     return relativePosition;
   }
-  
+
   private void setRelativePosition(Position relativePosition) {
     this.relativePosition.set(relativePosition);
   }

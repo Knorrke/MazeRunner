@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 import application.model.creature.movements.MovementInterface;
 import application.model.creature.movements.NoSightMovement;
 import application.model.creature.vision.Vision;
+import application.model.maze.Maze;
 import application.model.maze.MazeModelInterface;
 
 public class CreatureFactory {
@@ -21,7 +22,7 @@ public class CreatureFactory {
       MazeModelInterface maze, CreatureType type, double x, double y, double toughnessFactor) {
     double velocity = 1;
     int lifes = (int) (type.getDefaultLifes() * toughnessFactor);
-    int value = 2;
+    int value = (int) (Math.sqrt(toughnessFactor * 2));
     MovementInterface movementStrategy = new NoSightMovement();
 
     return new Creature(x, y, velocity, lifes, value, movementStrategy, new Vision(), type, maze);
@@ -68,5 +69,9 @@ public class CreatureFactory {
       list.add(create(maze, creatures.getType(), x, y, creatures.getToughnessFactor()));
     }
     return list;
+  }
+
+  public static Creature createExampleOfGroup(CreatureGroup group) {
+    return create(new Maze(2, 1), group.getType(), 0, 0, group.getToughnessFactor());
   }
 }

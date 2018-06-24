@@ -60,7 +60,7 @@ public class WallMenuViewTest extends AbstractViewTest {
         LabeledMatchers.hasText(Util.moneyString(-1 * costs)),
         collectInfos());
     int earnings = maze.getWalls().get(0).getCosts();
-    verifyThat("#sell-label", LabeledMatchers.hasText(Util.moneyString(earnings)));
+    verifyThat("#sell-label", LabeledMatchers.hasText(Util.moneyString(earnings)), collectInfos());
   }
 
   @Test
@@ -109,13 +109,25 @@ public class WallMenuViewTest extends AbstractViewTest {
           "Should have paid money for upgrades", moneyBefore - upgradeCosts, player.getMoney());
       verifyThat(
           ".tower" + " " + String.format(".level%d", towerBeforeUpgrade.getLevel()),
-          NodeMatchers.isNull());
+          NodeMatchers.isNull(),
+          collectInfos());
       verifyThat(
           ".tower" + " " + String.format(".level%d", 1 + towerBeforeUpgrade.getLevel()),
-          NodeMatchers.isNotNull());
+          NodeMatchers.isNotNull(),
+          collectInfos());
     }
     openMenuAndWaitForAnimation();
-    verifyThat("#upgrade-tower", NodeMatchers.isNull());
+    verifyThat("#upgrade-tower", NodeMatchers.isNull(), collectInfos());
+  }
+
+  @Test
+  public void dontOpenWhenInfoTest() {
+    selectNormalTower();
+    waitForAnimation();
+    clickOn("#infoButton");
+    openMenuAndWaitForAnimation();
+    assertFalse(menu.isShown());
+    verifyThat(".popover", NodeMatchers.isNotNull(), collectInfos());
   }
 
   /*
@@ -141,7 +153,7 @@ public class WallMenuViewTest extends AbstractViewTest {
   private void openMenuAndWaitForAnimation() {
     clickOn(".wall", MouseButton.PRIMARY);
     WallView wall = this.lookup(".wall").query();
-    menu = wall.getWallMenu();
+    menu = wall.getController().getMenu();
 
     waitForAnimation();
   }

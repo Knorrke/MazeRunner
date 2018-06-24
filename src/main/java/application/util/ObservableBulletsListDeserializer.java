@@ -19,8 +19,8 @@ public class ObservableBulletsListDeserializer extends JsonDeserializer<Observab
   public ObservableList<Bullet> deserialize(JsonParser jp, DeserializationContext ctxt)
       throws IOException, JsonProcessingException {
     ObjectMapper mapper = Serializer.create();
-      JsonNode node = mapper.readTree(jp);
-      ArrayList<Bullet> list = mapper.convertValue(node, new TypeReference<ArrayList<Bullet>>() {});
-      return FXCollections.observableArrayList(list);
+    JsonNode node = mapper.readTree(jp);
+    ArrayList<Bullet> list = mapper.convertValue(node, new TypeReference<ArrayList<Bullet>>() {});
+    return FXCollections.observableArrayList(list);
   }
 }

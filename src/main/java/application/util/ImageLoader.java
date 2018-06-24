@@ -16,15 +16,14 @@ public class ImageLoader {
   private static Image empty;
 
   public static Image money, lifes;
-  public static Image play, pause;
+  public static Image play, pause, buildSelected, buildNotSelected, infoSelected, infoNotSelected;
   public static Image normalCreature, toughCreature;
 
   public static Image wall;
 
   public static Image sell, upgrade;
   public static Image noTower, normalTower;
-  public static Image level0, level1, level2, level3, level4;
-
+  public static Image[] levels;
   public static Image normalBullet;
 
   public static Image endModalBackground;
@@ -44,6 +43,11 @@ public class ImageLoader {
 
     play = loadImage("play.png");
     pause = loadImage("pause.png");
+    buildSelected = loadImage("build-selected.png");
+    buildNotSelected = loadImage("build.png");
+    infoSelected = loadImage("info-selected.png");
+    infoNotSelected = loadImage("info.png");
+
     normalCreature = loadImage("creatures/normal.png");
     toughCreature = loadImage("creatures/tough.png");
 
@@ -52,11 +56,11 @@ public class ImageLoader {
 
     noTower = empty;
     normalTower = loadImage("towers/normal.png");
-    level0 = empty;
-    level1 = loadImage("towers/level1.png");
-    level2 = loadImage("towers/level2.png");
-    level3 = loadImage("towers/level3.png");
-    level4 = loadImage("towers/level4.png");
+    levels = new Image[5];
+    levels[0] = empty;
+    for (int i = 1; i < levels.length; i++) {
+      levels[i] = loadImage("towers/level" + i + ".png");
+    }
 
     normalBullet = loadImage("towers/normalBullet.png");
 
@@ -101,18 +105,9 @@ public class ImageLoader {
   }
 
   public static Image getLevelImage(int level) {
-    switch (level) {
-      case 0:
-        return ImageLoader.level0;
-      case 1:
-        return ImageLoader.level1;
-      case 2:
-        return ImageLoader.level2;
-      case 3:
-        return ImageLoader.level3;
-      case 4:
-      default:
-        return ImageLoader.level4;
+    if (level < levels.length) {
+      return levels[level];
     }
+    return levels[levels.length - 1];
   }
 }

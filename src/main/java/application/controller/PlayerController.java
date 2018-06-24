@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 import application.model.player.PlayerModelInterface;
 import application.util.ImageLoader;
 import application.util.Util;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -31,6 +32,6 @@ public class PlayerController extends HBox implements ModelHolderInterface<Playe
   public void initModel(PlayerModelInterface player) {
     this.player = player;
     money.textProperty().bind(Util.moneyString(this.player.moneyProperty()));
-    lifes.textProperty().bind(this.player.lifesProperty().asString());
+    lifes.textProperty().bind(Bindings.max(0, this.player.lifesProperty()).asString());
   }
 }

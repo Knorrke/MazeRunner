@@ -1,40 +1,45 @@
 package application.model.maze.tower;
 
+import java.util.function.Function;
+
 public class TowerUpgrade {
-  private double upgradedFireRate;
-  private int additionalDamage;
+  private Function<Double, Double> fireRateUpgrader;
+  private Function<Integer, Integer> damageUpgrader;
+  private Function<Double, Double> visualRangeUpgrader;
   private int costs;
-  private double upgradedVisualRange;
 
   public TowerUpgrade(
-      double upgradedFireRate, int additionalDamage, int costs, double upgradedVisualRange) {
-    this.upgradedFireRate = upgradedFireRate;
-    this.additionalDamage = additionalDamage;
+      Function<Double, Double> fireRateUpgrader,
+      Function<Integer, Integer> damageUpgrader,
+      Function<Double, Double> visualRangeUpgrader,
+      int costs) {
+    this.fireRateUpgrader = fireRateUpgrader;
+    this.damageUpgrader = damageUpgrader;
+    this.visualRangeUpgrader = visualRangeUpgrader;
     this.costs = costs;
-    this.upgradedVisualRange = upgradedVisualRange;
   }
 
   public AbstractTower createDecoratedTower(AbstractTower abstractTower) {
     return new UpgradedTower(abstractTower, this);
   }
 
-  /** @return the upgradedFireRate */
-  public double getUpgradedFireRate() {
-    return upgradedFireRate;
+  /** @return the fireRateUpgrader */
+  public Function<Double, Double> getFireRateUpgrader() {
+    return fireRateUpgrader;
   }
 
-  /** @return the additionalDamage */
-  public int getAdditionalDamage() {
-    return additionalDamage;
+  /** @return the damageUpgrader */
+  public Function<Integer, Integer> getDamageUpgrader() {
+    return damageUpgrader;
+  }
+
+  /** @return the visualRangeUpgrader */
+  public Function<Double, Double> getVisualRangeUpgrader() {
+    return visualRangeUpgrader;
   }
 
   /** @return the costs */
   public int getCosts() {
     return costs;
-  }
-
-  /** @return the upgradedVisualRange */
-  public double getUpgradedVisualRange() {
-    return upgradedVisualRange;
   }
 }

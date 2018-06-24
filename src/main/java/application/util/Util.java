@@ -25,8 +25,9 @@ public final class Util {
   }
 
   public static double round(double val, int decimalPlaces) {
-    int[] factors = {1,10,100,1000,1000,10000,100000};
-    double factor = decimalPlaces < factors.length ? factors[decimalPlaces] : Math.pow(10, decimalPlaces);
+    int[] factors = {1, 10, 100, 1000, 1000, 10000, 100000};
+    double factor =
+        decimalPlaces < factors.length ? factors[decimalPlaces] : Math.pow(10, decimalPlaces);
     return Math.round(val * factor) / factor;
   }
 }

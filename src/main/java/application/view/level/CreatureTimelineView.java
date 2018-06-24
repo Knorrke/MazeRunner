@@ -22,39 +22,47 @@ public class CreatureTimelineView extends StackPane implements Bindable<LevelMod
   public CreatureTimelineView() {
     this.setPadding(new Insets(10, 20, 0, 0));
     this.setAlignment(Pos.TOP_CENTER);
-    
+
     creatureTimeline = new VBox();
     creatureTimeline.setSpacing(10);
     creatureTimeline.setPadding(new Insets(5, 0, 5, 0));
     creatureTimeline.setAlignment(Pos.TOP_CENTER);
     creatureTimeline.setMaxHeight(USE_PREF_SIZE);
-    
+
     currentWaveHighlight = new Rectangle(100, 50);
     currentWaveHighlight.setFill(Color.rgb(200, 200, 200, 0.5));
     currentWaveHighlight.setStroke(Color.rgb(20, 100, 20));
     currentWaveHighlight.setStrokeLineJoin(StrokeLineJoin.ROUND);
     currentWaveHighlight.setStrokeType(StrokeType.INSIDE);
     currentWaveHighlight.setStrokeWidth(5);
-    
+
     this.getChildren().addAll(currentWaveHighlight, creatureTimeline);
   }
 
   @Override
   public void bind(LevelModelInterface level) {
-    creatureTimeline.translateYProperty().bind(level.passedTimePercentageBinding()
-        .multiply(creatureTimeline.heightProperty()).multiply(-1));
+    creatureTimeline
+        .translateYProperty()
+        .bind(
+            level
+                .passedTimePercentageBinding()
+                .multiply(creatureTimeline.heightProperty())
+                .multiply(-1));
     createCreatureTimeline(level.getCreatureTimeline());
-    level.getCreatureTimeline().addListener((ListChangeListener<CreatureGroup>) c -> {
-      this.createCreatureTimeline(level.getCreatureTimeline());
-    });
+    level
+        .getCreatureTimeline()
+        .addListener(
+            (ListChangeListener<CreatureGroup>)
+                c -> {
+                  this.createCreatureTimeline(level.getCreatureTimeline());
+                });
   }
 
   public void createCreatureTimeline(List<? extends CreatureGroup> timeline) {
     creatureTimeline.getChildren().clear();
-    creatureTimeline.getChildren()
-        .addAll(timeline.stream()
-            .map(CreatureTimelineImage::new)
-            .collect(Collectors.toList()));
+    creatureTimeline
+        .getChildren()
+        .addAll(timeline.stream().map(CreatureTimelineImage::new).collect(Collectors.toList()));
   }
 
   public VBox getTimeline() {

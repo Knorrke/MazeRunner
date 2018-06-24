@@ -1,38 +1,27 @@
 package application.model.maze.tower;
 
 public class UpgradedTower extends AbstractTower {
-  private AbstractTower decorated;
+  private AbstractTower old;
 
-  public UpgradedTower(AbstractTower decorated, TowerUpgrade upgrade) {
+  public UpgradedTower(AbstractTower old, TowerUpgrade upgrade) {
     super(
-        upgrade.getUpgradedFireRate(),
-        upgrade.getAdditionalDamage(),
-        upgrade.getCosts(),
-        upgrade.getUpgradedVisualRange(),
-        decorated.getType(),
-        decorated.getWall());
-    this.decorated = decorated;
-    decorated.setWall(getWall());
-    this.getUpgrades().addAll(decorated.getUpgrades());
+        upgrade.getFireRateUpgrader().apply(old.getFireRate()),
+        upgrade.getDamageUpgrader().apply(old.getDamage()),
+        upgrade.getCosts() + old.getCosts(),
+        upgrade.getVisualRangeUpgrader().apply(old.getVisualRange()),
+        old.getType(),
+        old.getWall());
+    this.old = old;
+    this.getUpgrades().addAll(old.getUpgrades());
   }
 
   @Override
   public Runnable createShooter(AbstractTower shooting) {
-    return decorated.createShooter(shooting);
-  }
-
-  @Override
-  public int getCosts() {
-    return super.getCosts() + decorated.getCosts();
-  }
-
-  @Override
-  public int getDamage() {
-    return super.getDamage() + decorated.getDamage();
+    return old.createShooter(shooting);
   }
 
   @Override
   public int getLevel() {
-    return 1 + decorated.getLevel();
+    return 1 + old.getLevel();
   }
 }
