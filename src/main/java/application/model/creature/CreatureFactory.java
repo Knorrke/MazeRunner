@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 import application.model.creature.movements.MovementInterface;
 import application.model.creature.movements.NoSightMovement;
 import application.model.creature.vision.Vision;
+import application.model.maze.Maze;
 import application.model.maze.MazeModelInterface;
 
 public class CreatureFactory {
@@ -68,5 +69,9 @@ public class CreatureFactory {
       list.add(create(maze, creatures.getType(), x, y, creatures.getToughnessFactor()));
     }
     return list;
+  }
+
+  public static Creature createExampleOfGroup(CreatureGroup group) {
+    return create(new Maze(2, 1), group.getType(), 0, 0, group.getToughnessFactor());
   }
 }

@@ -41,6 +41,10 @@ public class GameControllerTest extends AbstractViewTest {
     assertEquals(UserActionState.BUILD, gameController.getUserActionState());
     verifyThat(info, imageEquals(ImageLoader.infoNotSelected), collectInfos());
     verifyThat(build, imageEquals(ImageLoader.buildSelected), collectInfos());
+
+    interact(() -> gameController.setUserActionState(UserActionState.BLOCK_ALL));
+    verifyThat(info, imageEquals(ImageLoader.infoNotSelected), collectInfos());
+    verifyThat(build, imageEquals(ImageLoader.buildNotSelected), collectInfos());
   }
 
   private Predicate<ImageView> imageEquals(Image image) {

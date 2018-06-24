@@ -14,7 +14,6 @@ import application.view.popover.GameEndPopOver;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
@@ -84,7 +83,7 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
   }
 
   /** @param actionState the actionState to set */
-  private void setUserActionState(UserActionState actionState) {
+  public void setUserActionState(UserActionState actionState) {
     this.actionState = actionState;
     setButtonSelectedImage(actionState);
   }
@@ -135,7 +134,7 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
               switch (newValue) {
                 case GAMEOVER:
                 case WON:
-                  mazeController.getView().addEventFilter(EventType.ROOT, event -> event.consume());
+                  setUserActionState(UserActionState.BLOCK_ALL);
                   new GameEndPopOver(newValue, view.getScene().getWindow());
                 case RUNNING:
                 case BUILDING:

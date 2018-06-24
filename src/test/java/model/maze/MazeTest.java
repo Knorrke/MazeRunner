@@ -57,6 +57,7 @@ public class MazeTest {
     assertTrue(
         "Should also work with a position a little beside the creature",
         maze.hasCreatureNear(x + 0.1, y + 0.1));
+    assertFalse("Should not work everywhere", maze.hasCreatureNear(x + 1, y));
   }
 
   @Test
@@ -66,8 +67,11 @@ public class MazeTest {
     maze.addCreature(creature);
     assertNotNull("Should have a creature", maze.getCreatureNear(x, y));
     assertEquals("Should be correct object", creature, maze.getCreatureNear(x, y));
-    assertEquals("Should also work with a position a little beside the creature", 
-        creature, maze.getCreatureNear(x+0.1, y+0.1));
+    assertEquals(
+        "Should also work with a position a little beside the creature",
+        creature,
+        maze.getCreatureNear(x + 0.1, y + 0.1));
+    assertNull("Should not work everywhere", maze.getCreatureNear(x + 1, y));
   }
 
   @Test

@@ -6,15 +6,13 @@ import application.model.maze.tower.AbstractTower;
 import application.model.maze.tower.TowerUpgrade;
 import application.util.Util;
 import application.view.maze.WallView;
-import application.view.maze.WallsView;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import jfxtras.scene.layout.VBox;
 
 public class WallInfoPopOver extends PopOver {
 
-  public WallInfoPopOver(Wall wall, WallsView wallsView) {
-    WallView view = wallsView.getWallView(wall);
+  public WallInfoPopOver(Wall wall, WallView view) {
     setAnimated(false);
     HBox box = new HBox(5);
     VBox towerInfos = new VBox(5);
@@ -29,7 +27,7 @@ public class WallInfoPopOver extends PopOver {
             new Label("Total costs: " + Util.moneyString(wall.getCosts())),
             new Label("Upgrade Level: " + tower.getLevel()));
     box.getChildren().add(towerInfos);
-    
+
     TowerUpgrade upgrade = tower.getNextUpgrade();
     if (upgrade != null) {
       VBox upgradeInfos = new VBox(5);
@@ -38,8 +36,12 @@ public class WallInfoPopOver extends PopOver {
           .addAll(
               new Label("Next Upgrade:"),
               new Label("Upgraded damage: " + upgrade.getDamageUpgrader().apply(tower.getDamage())),
-              new Label("Upgraded range: " + upgrade.getVisualRangeUpgrader().apply(tower.getVisualRange())),
-              new Label("Upgraded fire rate: " + upgrade.getFireRateUpgrader().apply(tower.getFireRate())),
+              new Label(
+                  "Upgraded range: "
+                      + upgrade.getVisualRangeUpgrader().apply(tower.getVisualRange())),
+              new Label(
+                  "Upgraded fire rate: "
+                      + upgrade.getFireRateUpgrader().apply(tower.getFireRate())),
               new Label("Costs: " + Util.moneyString(upgrade.getCosts())),
               new Label("Level: " + (tower.getLevel() + 1)));
       box.getChildren().add(upgradeInfos);

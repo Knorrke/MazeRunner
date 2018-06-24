@@ -4,6 +4,8 @@ import static org.junit.Assert.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
 import org.junit.Test;
 import org.testfx.matcher.base.NodeMatchers;
+import application.model.creature.CreatureGroup;
+import application.model.creature.CreatureType;
 import application.view.level.CreatureTimelineView;
 import javafx.scene.layout.VBox;
 import view.AbstractViewTest;
@@ -17,6 +19,14 @@ public class CreaturesTimelineTest extends AbstractViewTest {
         "#creatureTimelineView",
         NodeMatchers.hasChildren(countGroups, ".image-view"),
         collectInfos());
+  }
+
+  @Test
+  public void shouldShowInfoOnClick() {
+    interact(() -> level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 5)));
+    verifyThat(".popover", NodeMatchers.isNull(), collectInfos());
+    clickOn(".wave");
+    verifyThat(".popover", NodeMatchers.isNotNull(), collectInfos());
   }
 
   @Test

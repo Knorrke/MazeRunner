@@ -1,9 +1,12 @@
 package application.controller;
 
+import application.model.creature.Creature;
 import application.model.maze.MazeModelInterface;
 import application.model.maze.Wall;
 import application.model.maze.tower.TowerType;
+import application.view.creatures.CreatureView;
 import application.view.maze.MazeView;
+import application.view.maze.WallView;
 import application.view.popover.CreatureInfoPopOver;
 import application.view.popover.WallInfoPopOver;
 
@@ -47,9 +50,13 @@ public class MazeController implements ModelHolderInterface<MazeModelInterface> 
             }
           } else if (gameController.getUserActionState().equals(UserActionState.INFO)) {
             if (maze.hasWallOn(gameXInt, gameYInt)) {
-              new WallInfoPopOver(maze.getWallOn(gameXInt, gameYInt), view.getWalls());
+              Wall wall = maze.getWallOn(gameXInt, gameYInt);
+              WallView wallView = view.getWalls().getWallView(wall);
+              new WallInfoPopOver(wall, wallView);
             } else if (maze.hasCreatureNear(gameX, gameY)) {
-              new CreatureInfoPopOver(maze.getCreatureNear(gameX, gameY), view.getCreatures());
+              Creature creature = maze.getCreatureNear(gameX, gameY);
+              CreatureView creatureView = view.getCreatures().getCreatureView(creature);
+              new CreatureInfoPopOver(creature, creatureView);
             }
           }
         });
