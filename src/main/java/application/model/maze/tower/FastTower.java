@@ -2,23 +2,22 @@ package application.model.maze.tower;
 
 import java.util.Arrays;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import application.model.creature.Creature;
 import application.model.maze.Wall;
 import application.model.maze.tower.bullet.DamageBullet;
 
-public class NormalTower extends AbstractTower {
-  @JsonCreator
-  public NormalTower(@JsonProperty("wall") Wall wall) {
-    super(1, 3, 5, 2, TowerType.NORMAL, wall);
+public class FastTower extends AbstractTower {
+
+  protected FastTower(
+      Wall wall) {
+    super(4, 1, 15, 2, TowerType.FAST, wall);
     this.getUpgrades()
         .addAll(
             Arrays.asList(
-                new TowerUpgrade(rate -> rate, damage -> damage + 5, range -> range, 10),
-                new TowerUpgrade(rate -> rate, damage -> damage + 15, range -> range + 1, 20),
-                new TowerUpgrade(rate -> rate * 1.5, damage -> damage + 5, range -> range, 40),
-                new TowerUpgrade(rate -> rate, damage -> damage + 40, range -> range + 2, 100)));
+                new TowerUpgrade(rate -> rate+1, damage -> damage, range -> range + 1, 10),
+                new TowerUpgrade(rate -> rate+0.5, damage -> damage+1, range -> range + 1, 20),
+                new TowerUpgrade(rate -> rate+0.5, damage -> damage+2, range -> range, 30),
+                new TowerUpgrade(rate -> rate+1, damage -> damage+2, range -> range, 40)));
   }
 
   @Override

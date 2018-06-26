@@ -1,4 +1,4 @@
-package model.maze;
+package model.maze.tower;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -23,8 +23,8 @@ import application.model.maze.Maze;
 import application.model.maze.MazeModelInterface;
 import application.model.maze.Wall;
 import application.model.maze.tower.AbstractTower;
-import application.model.maze.tower.Bullet;
 import application.model.maze.tower.TowerType;
+import application.model.maze.tower.bullet.Bullet;
 import javafx.collections.FXCollections;
 
 @RunWith(Enclosed.class)
@@ -110,7 +110,7 @@ public class TowerTest {
   }
 
   @RunWith(Parameterized.class)
-  public static class ParameterizedTests {
+  public static class UpgradesTests {
 
     @Parameters(name = "{index}: Shoot test with tower at level {1}")
     public static Object[][] data() {

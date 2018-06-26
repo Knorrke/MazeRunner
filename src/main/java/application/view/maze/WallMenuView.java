@@ -21,8 +21,6 @@ import jfxtras.scene.menu.CirclePopupMenu;
 public class WallMenuView extends CirclePopupMenu {
   private MenuItem sellItem;
   private Label sellItemLabel;
-  private MenuItem normalTowerItem;
-  private Label normalTowerLabel;
   private MenuItem upgradeItem;
   private Label upgradeItemLabel;
 
@@ -35,9 +33,6 @@ public class WallMenuView extends CirclePopupMenu {
     this.scaleY = scaleY;
     sellItemLabel = new FloatingLabel();
     sellItem = createMenuItem("Sell", ImageLoader.sell, sellItemLabel);
-    normalTowerLabel =
-        new FloatingLabel(Util.moneyString(-1 * AbstractTower.create(TowerType.NORMAL).getCosts()));
-    normalTowerItem = createMenuItem("Normal Tower", ImageLoader.normalTower, normalTowerLabel);
     upgradeItemLabel = new FloatingLabel();
     upgradeItem = createMenuItem("Upgrade Tower", ImageLoader.upgrade, upgradeItemLabel);
   }
@@ -59,8 +54,15 @@ public class WallMenuView extends CirclePopupMenu {
     sellItemLabel.setText(Util.moneyString(wall.getCosts()));
     getItems().add(sellItem);
     if (wall.getTower().getType() == TowerType.NO) {
-      normalTowerItem.setOnAction(e -> wallController.buildTower(TowerType.NORMAL));
-      getItems().add(normalTowerItem);
+      for (TowerType type : TowerType.values()) {
+        if (type.equals(TowerType.NO)) continue;
+        
+        Label towerLabel =
+            new FloatingLabel(Util.moneyString(-1 * AbstractTower.create(type).getCosts()));
+        MenuItem towerItem = createMenuItem(type.toString(), ImageLoader.getTowerImage(type), towerLabel);
+        towerItem.setOnAction(e -> wallController.buildTower(type));
+        getItems().add(towerItem);
+      }
     } else {
       TowerUpgrade upgrade = wall.getTower().getNextUpgrade();
       if (upgrade != null) {

@@ -242,6 +242,10 @@ public class Creature implements ActorInterface {
     }
   }
 
+  public void slowdown(double percentage) {
+    this.setVelocity(getVelocity() * (1 - percentage));
+  }
+
   public int getValue() {
     return value;
   }

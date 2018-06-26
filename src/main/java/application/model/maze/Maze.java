@@ -9,6 +9,7 @@ import application.controller.gameloop.ActorInterface;
 import application.model.creature.Creature;
 import application.model.maze.tower.AbstractTower;
 import application.model.maze.tower.TowerType;
+import application.model.maze.tower.TowerUpgrade;
 import application.model.player.PlayerModelInterface;
 import application.util.ObservableCreaturesListDeserializer;
 import application.util.ObservableWallsListDeserializer;
@@ -197,7 +198,8 @@ public class Maze implements MazeModelInterface {
 
   @Override
   public void upgradeTower(Wall wall) {
-    if (payIfEnoughMoney(wall.getTower().getNextUpgrade().getCosts())) {
+    TowerUpgrade nextUpgrade = wall.getTower().getNextUpgrade();
+    if (nextUpgrade != null && payIfEnoughMoney(nextUpgrade.getCosts())) {
       wall.upgradeTower();
     }
   }

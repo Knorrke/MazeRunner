@@ -1,16 +1,13 @@
-package model.maze;
+package model.maze.tower.bullet;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertTrue;
 import java.awt.Point;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
-
 import org.junit.Test;
 import org.mockito.Mockito;
-
 import application.model.creature.Creature;
-import application.model.maze.tower.Bullet;
+import application.model.maze.tower.bullet.Bullet;
 
 public class BulletTest {
   private static Logger LOG = Logger.getLogger(BulletTest.class.getName());
@@ -28,7 +25,7 @@ public class BulletTest {
     double bulletStartX = 0.5, bulletStartY = 0.5;
     int damage = 5;
     double bulletVel = 3;
-    Bullet bullet = new Bullet(bulletStartX, bulletStartY, damage, creature, bulletVel);
+    Bullet bullet = new Bullet(bulletStartX, bulletStartY, c -> c.damage(damage), creature, bulletVel);
 
     // interpolate time till target is hit
     double timeWithOutMovingCreature =
@@ -59,5 +56,13 @@ public class BulletTest {
     }
     assertTrue(stepsPassed.get() > minSteps);
     assertTrue(bullet.hasHitTarget());
+  }
+  
+  @Test
+  public void slowdownTest() {
+    Creature target = Mockito.mock(Creature.class);
+    Bullet bullet = new Bullet(2, 3, c -> c.slowdown(0.5), target, 3);
+    bullet.hitTarget();
+    Mockito.verify(target).slowdown(0.5);
   }
 }

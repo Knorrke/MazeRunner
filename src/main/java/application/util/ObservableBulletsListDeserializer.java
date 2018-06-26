@@ -10,8 +10,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import application.model.maze.tower.Bullet;
+import application.model.maze.tower.bullet.Bullet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

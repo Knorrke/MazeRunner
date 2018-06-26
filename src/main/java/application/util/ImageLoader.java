@@ -22,7 +22,7 @@ public class ImageLoader {
   public static Image wall;
 
   public static Image sell, upgrade;
-  public static Image noTower, normalTower;
+  public static Image noTower, normalTower, slowdownTower,fastTower;
   public static Image[] levels;
   public static Image normalBullet;
 
@@ -56,6 +56,8 @@ public class ImageLoader {
 
     noTower = empty;
     normalTower = loadImage("towers/normal.png");
+    slowdownTower = loadImage("towers/slowdown.png");
+    fastTower = loadImage("towers/fast.png");
     levels = new Image[5];
     levels[0] = empty;
     for (int i = 1; i < levels.length; i++) {
@@ -96,6 +98,10 @@ public class ImageLoader {
 
   public static Image getTowerImage(TowerType towerType) {
     switch (towerType) {
+      case FAST:
+        return ImageLoader.fastTower;
+      case SLOWDOWN:
+        return ImageLoader.slowdownTower;
       case NORMAL:
         return ImageLoader.normalTower;
       case NO:

@@ -70,7 +70,7 @@ public class WallMenuViewTest extends AbstractViewTest {
     selectNormalTower();
     assertFalse(menu.isShown());
     verifyThat(
-        ".wall", NodeMatchers.hasChildren(1, "." + TowerType.NORMAL.toString()), collectInfos());
+        ".wall", NodeMatchers.hasChildren(1, "." + TowerType.NORMAL.name()), collectInfos());
     assertTrue(player.getMoney() == moneyBefore - costs);
     verifyThat(
         "#money", LabeledMatchers.hasText(Util.moneyString(player.getMoney())), collectInfos());
