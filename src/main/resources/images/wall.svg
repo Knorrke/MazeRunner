@@ -12,9 +12,9 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    id="svg3954"
-   width="820.81879"
-   height="241.28345"
-   viewBox="0 0 820.81876 241.28344"
+   width="834.52057"
+   height="518.69629"
+   viewBox="0 0 834.52054 518.69628"
    sodipodi:docname="wall.svg"
    inkscape:version="0.91 r"
    inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\wall.png"
@@ -108,8 +108,8 @@
      inkscape:bbox-nodes="true"
      inkscape:snap-page="true"
      inkscape:zoom="1.1095684"
-     inkscape:cx="488.95226"
-     inkscape:cy="162.42683"
+     inkscape:cx="335.77444"
+     inkscape:cy="293.62492"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -128,7 +128,7 @@
      id="layer1"
      inkscape:label="Wall"
      style="display:inline"
-     transform="translate(-1.7808128e-4,69.823391)">
+     transform="translate(13.701587,69.823391)">
     <g
        style="display:inline"
        id="g956"
@@ -411,7 +411,7 @@
      id="layer4"
      inkscape:label="TowerBackgrounds"
      style="display:none"
-     transform="translate(-4.0640536e-8,69.824518)">
+     transform="translate(13.701767,69.824518)">
     <g
        transform="translate(216.03872,-3.09e-6)"
        id="g980"
@@ -653,33 +653,56 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="Towers"
-     transform="translate(-1.7808128e-4,69.823391)"
+     transform="translate(13.701587,69.823391)"
      style="display:inline">
+    <rect
+       rx="1.4001621"
+       ry="7.4642792"
+       y="375.79486"
+       x="67.344719"
+       height="22.987019"
+       width="61.437733"
+       id="rect918-9"
+       style="display:inline;fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-width:15.07815552;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1" />
+    <rect
+       style="display:inline;fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-width:15.07815552;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1"
+       id="rect4367-2"
+       width="61.437733"
+       height="22.987019"
+       x="67.344719"
+       y="327.46527"
+       ry="7.4642792"
+       rx="1.4001621" />
     <g
-       id="g1058">
+       id="g4313"
+       inkscape:export-filename="/home/knorrke/workspace/MazeRunner/src/main/resources/images/towers/normal.png"
+       inkscape:export-xdpi="28"
+       inkscape:export-ydpi="28">
       <path
-         inkscape:connector-curvature="0"
-         id="path850"
-         d="m 548.51607,45.60997 10e-6,80.625 a 40.330997,40.330997 0 0 0 11.85546,-1.95312 l 10e-6,-76.753905 A 40.330997,40.330997 0 0 0 548.51607,45.60997 Z m -2.0332,0.03516 a 40.330997,40.330997 0 0 0 -11.85742,2.300786 l 0,75.943364 a 40.330997,40.330997 0 0 0 11.85743,2.28125 z m 15.92187,2.625 1e-5,75.33594 a 40.330997,40.330997 0 0 0 11.85742,-7.07226 l 0,-61.273442 A 40.330997,40.330997 0 0 0 562.40474,48.27013 Z m -29.81054,0.451174 a 40.330997,40.330997 0 0 0 -11.85742,7.603512 l 0,59.175784 a 40.330997,40.330997 0 0 0 11.85742,7.64649 z m 43.69922,8.429686 0,57.57813 a 40.330997,40.330997 0 0 0 11.85742,-24.396486 l 0,-8.572268 A 40.330997,40.330997 0 0 0 576.29342,57.150988 Z m -57.58985,1.208981 a 40.330997,40.330997 0 0 0 -10.95508,27.560549 40.330997,40.330997 0 0 0 10.95508,27.59375 z"
-         style="opacity:1;fill:#7c6439;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:8.21385002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         sodipodi:type="star"
+         id="path939"
+         sodipodi:sides="8"
+         sodipodi:cx="85.231171"
+         sodipodi:cy="85.57795"
+         sodipodi:r1="82.108078"
+         sodipodi:r2="41.054035"
+         sodipodi:arg1="0.37206776"
+         sodipodi:arg2="0.76476684"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 161.72122,115.42772 118.21082,160.77156 55.381396,162.068 10.037561,118.5576 8.7411228,55.728175 52.251517,10.38434 115.08095,9.0879017 160.42478,52.598296 Z"
+         style="display:inline;fill:#000000;fill-opacity:0.00392157;stroke:#000000;stroke-width:19.82211304;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0"
+         transform="matrix(0.99790357,0.01742151,-0.01741848,0.99807759,438.69076,-1.1677036)"
          inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\normal.png"
-         inkscape:export-xdpi="47.650002"
-         inkscape:export-ydpi="47.650002" />
+         inkscape:export-xdpi="47"
+         inkscape:export-ydpi="47" />
       <g
          inkscape:export-ydpi="47"
          inkscape:export-xdpi="47"
          inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\normal.png"
          transform="matrix(2.0714342,0,0,2.0714342,-533.83864,-92.252172)"
-         id="g916">
-        <rect
-           style="fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-width:7.27908993;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1"
-           id="rect858"
-           width="29.659538"
-           height="13.707665"
-           x="507.58212"
-           y="68.432777"
-           ry="1.8009291" />
-      </g>
+         id="g916" />
       <g
          inkscape:export-ydpi="47"
          inkscape:export-xdpi="47"
@@ -689,12 +712,21 @@
         <rect
            rx="0.67593849"
            ry="3.6034353"
-           y="68.432777"
+           y="71.043289"
            x="507.58212"
-           height="13.707665"
-           width="29.659538"
+           height="11.097151"
+           width="29.659515"
            id="rect918"
            style="fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-width:7.27908993;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1" />
+        <rect
+           style="fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-width:7.27908993;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1"
+           id="rect4367"
+           width="29.659515"
+           height="11.097151"
+           x="507.58212"
+           y="47.711819"
+           ry="3.6034353"
+           rx="0.67593849" />
       </g>
       <rect
          inkscape:export-ydpi="47"
@@ -716,26 +748,7 @@
          cy="85.730583"
          cx="546.96667"
          id="path883"
-         style="fill:#999999;fill-opacity:1;stroke:none;stroke-width:8.28573704;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1" />
-      <path
-         sodipodi:type="star"
-         id="path939"
-         sodipodi:sides="8"
-         sodipodi:cx="85.231171"
-         sodipodi:cy="85.57795"
-         sodipodi:r1="82.108078"
-         sodipodi:r2="41.054035"
-         sodipodi:arg1="0.37206776"
-         sodipodi:arg2="0.76476684"
-         inkscape:flatsided="true"
-         inkscape:rounded="0"
-         inkscape:randomized="0"
-         d="M 161.72122,115.42772 118.21082,160.77156 55.381396,162.068 10.037561,118.5576 8.7411228,55.728175 52.251517,10.38434 115.08095,9.0879017 160.42478,52.598296 Z"
-         style="display:inline;fill:#1f1200;fill-opacity:0;stroke:#000000;stroke-width:19.82211304;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0"
-         transform="matrix(0.99790357,0.01742151,-0.01741848,0.99807759,438.69076,-1.1677036)"
-         inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\normal.png"
-         inkscape:export-xdpi="47"
-         inkscape:export-ydpi="47" />
+         style="fill:#999999;fill-opacity:1;stroke:#222222;stroke-width:8.28573704;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1" />
     </g>
     <path
        sodipodi:type="star"
@@ -858,10 +871,173 @@
        inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\level4.png"
        inkscape:export-xdpi="47"
        inkscape:export-ydpi="47" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       x="32.831215"
+       y="241.58508"
+       id="text1030-1"><tspan
+         sodipodi:role="line"
+         x="32.831215"
+         y="241.58508"
+         id="tspan4298">Fast</tspan></text>
+    <g
+       id="g4416"
+       inkscape:export-filename="/home/knorrke/workspace/MazeRunner/src/main/resources/images/towers/fast.png"
+       inkscape:export-xdpi="28"
+       inkscape:export-ydpi="28">
+      <path
+         sodipodi:type="star"
+         id="path939-7"
+         sodipodi:sides="8"
+         sodipodi:cx="85.231171"
+         sodipodi:cy="85.57795"
+         sodipodi:r1="82.108078"
+         sodipodi:r2="41.054035"
+         sodipodi:arg1="0.37206776"
+         sodipodi:arg2="0.76476684"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="M 161.72122,115.42772 118.21082,160.77156 55.381396,162.068 10.037561,118.5576 8.7411228,55.728175 52.251517,10.38434 115.08095,9.0879017 160.42478,52.598296 Z"
+         style="display:inline;fill:#000000;fill-opacity:0.00392157;stroke:#000000;stroke-width:19.82211304;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0"
+         transform="matrix(0.99790357,0.01742151,-0.01741848,0.99807759,-11.548928,276.24513)"
+         inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\normal.png"
+         inkscape:export-xdpi="47"
+         inkscape:export-ydpi="47" />
+      <g
+         inkscape:export-ydpi="47"
+         inkscape:export-xdpi="47"
+         inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\normal.png"
+         transform="matrix(2.0714342,0,0,2.0714342,-984.0783,185.16067)"
+         id="g916-2"
+         style="display:inline" />
+      <g
+         inkscape:export-ydpi="47"
+         inkscape:export-xdpi="47"
+         inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\normal.png"
+         transform="matrix(2.0714342,0,0,2.0714342,-984.0783,228.63335)"
+         id="g920-2"
+         style="display:inline" />
+      <rect
+         style="display:inline;fill:#999999;fill-opacity:1;stroke:#222222;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1"
+         id="rect4296"
+         width="55.074562"
+         height="15.804095"
+         x="23.92238"
+         y="354.8439"
+         ry="4.1746693"
+         inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\normal.png"
+         inkscape:export-xdpi="47"
+         inkscape:export-ydpi="47" />
+      <rect
+         inkscape:export-ydpi="47"
+         inkscape:export-xdpi="47"
+         inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\normal.png"
+         ry="9.7591419"
+         y="344.27328"
+         x="49.52169"
+         height="36.945297"
+         width="57.951023"
+         id="rect860-7"
+         style="display:inline;fill:#999999;fill-opacity:1;stroke:#222222;stroke-width:6.32270813;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1" />
+      <ellipse
+         inkscape:export-ydpi="47"
+         inkscape:export-xdpi="47"
+         inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\normal.png"
+         ry="41.071423"
+         rx="21.935875"
+         cy="363.14343"
+         cx="96.726982"
+         id="path883-5"
+         style="display:inline;fill:#999999;fill-opacity:1;stroke:#222222;stroke-width:8.28573704;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1" />
+    </g>
+    <text
+       id="text4323"
+       y="241.58508"
+       x="211.27898"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         id="tspan4325"
+         y="241.58508"
+         x="211.27898"
+         sodipodi:role="line">Slowdown</tspan></text>
+    <g
+       id="g4432"
+       inkscape:export-filename="/home/knorrke/workspace/MazeRunner/src/main/resources/images/towers/slowdown.png"
+       inkscape:export-xdpi="28"
+       inkscape:export-ydpi="28">
+      <rect
+         style="display:inline;fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-width:15.07815552;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1"
+         id="rect918-2"
+         width="61.437733"
+         height="22.987019"
+         x="301.28406"
+         y="372.36243"
+         ry="7.4642792"
+         rx="1.4001621" />
+      <rect
+         rx="1.4001621"
+         ry="7.4642792"
+         y="324.03281"
+         x="301.28406"
+         height="22.987019"
+         width="61.437733"
+         id="rect4367-8"
+         style="display:inline;fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-width:15.07815552;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="47"
+         inkscape:export-xdpi="47"
+         inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\normal.png"
+         transform="matrix(0.99790357,0.01742151,-0.01741848,0.99807759,222.39044,272.8127)"
+         style="display:inline;fill:#000000;fill-opacity:0.00392157;stroke:#000000;stroke-width:19.82211304;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0"
+         d="M 161.72122,115.42772 118.21082,160.77156 55.381396,162.068 10.037561,118.5576 8.7411228,55.728175 52.251517,10.38434 115.08095,9.0879017 160.42478,52.598296 Z"
+         inkscape:randomized="0"
+         inkscape:rounded="0"
+         inkscape:flatsided="true"
+         sodipodi:arg2="0.76476684"
+         sodipodi:arg1="0.37206776"
+         sodipodi:r2="41.054035"
+         sodipodi:r1="82.108078"
+         sodipodi:cy="85.57795"
+         sodipodi:cx="85.231171"
+         sodipodi:sides="8"
+         id="path4349"
+         sodipodi:type="star" />
+      <rect
+         style="fill:#608297;fill-opacity:1;stroke:#222222;stroke-width:8.28573704;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1"
+         id="rect4361"
+         width="105.10619"
+         height="34.982269"
+         x="235.32437"
+         y="341.82236"
+         ry="9.2406054"
+         inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\normal.png"
+         inkscape:export-xdpi="47"
+         inkscape:export-ydpi="47" />
+      <ellipse
+         style="fill:#608297;fill-opacity:1;stroke:#222222;stroke-width:8.28600025;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:99;stroke-opacity:1"
+         id="ellipse4363"
+         cx="330.66635"
+         cy="359.71097"
+         rx="21.935875"
+         ry="41.071423"
+         inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\normal.png"
+         inkscape:export-xdpi="47"
+         inkscape:export-ydpi="47" />
+    </g>
+    <path
+       inkscape:connector-curvature="0"
+       id="path850"
+       d="m 750.00896,304.48797 10e-6,80.625 a 40.330997,40.330997 0 0 0 11.85546,-1.95312 l 10e-6,-76.7539 a 40.330997,40.330997 0 0 0 -11.85548,-1.91798 z m -2.0332,0.0352 a 40.330997,40.330997 0 0 0 -11.85742,2.30079 l 0,75.94336 a 40.330997,40.330997 0 0 0 11.85743,2.28125 z m 15.92187,2.625 10e-6,75.33594 a 40.330997,40.330997 0 0 0 11.85742,-7.07226 l 0,-61.27344 a 40.330997,40.330997 0 0 0 -11.85743,-6.99024 z m -29.81054,0.45117 a 40.330997,40.330997 0 0 0 -11.85742,7.60352 l 0,59.17578 a 40.330997,40.330997 0 0 0 11.85742,7.64649 z m 43.69922,8.42969 0,57.57813 a 40.330997,40.330997 0 0 0 11.85742,-24.39649 l 0,-8.57226 a 40.330997,40.330997 0 0 0 -11.85742,-24.60942 z m -57.58985,1.20898 a 40.330997,40.330997 0 0 0 -10.95508,27.56055 40.330997,40.330997 0 0 0 10.95508,27.59375 z"
+       style="display:inline;opacity:1;fill:#7c6439;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:8.21385002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       inkscape:export-filename="C:\Users\User\workspace\MazeRunner\src\main\resources\images\towers\normal.png"
+       inkscape:export-xdpi="47.650002"
+       inkscape:export-ydpi="47.650002" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Text"
-     transform="translate(-4.0640536e-8,69.824518)" />
+     transform="translate(13.701767,69.824518)" />
 </svg>

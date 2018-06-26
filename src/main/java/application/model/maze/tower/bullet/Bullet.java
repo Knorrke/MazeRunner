@@ -1,30 +1,29 @@
-package application.model.maze.tower;
+package application.model.maze.tower.bullet;
 
 import java.awt.Point;
-
+import java.util.function.Consumer;
 import application.controller.gameloop.ActorInterface;
 import application.model.Position;
 import application.model.creature.Creature;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class Bullet implements ActorInterface {
-  private int damage;
+  private Consumer<Creature> action;
   private final double sourceX, sourceY;
   private ObjectProperty<Position> relativePosition;
   private DoubleProperty dx, dy;
   private Creature target;
   private double vel;
-  private boolean hasHitTarget;
+  private BooleanProperty hasHitTarget;
 
-  public Bullet(double sourceX, double sourceY, int damage, Creature target) {
-    this(sourceX, sourceY, damage, target, 3);
-  }
-
-  public Bullet(double sourceX, double sourceY, int damage, Creature target, double vel) {
+  public Bullet(
+      double sourceX, double sourceY, Consumer<Creature> action, Creature target, double vel) {
     this.sourceX = sourceX;
     this.sourceY = sourceY;
     relativePosition = new SimpleObjectProperty<>(new Position(0, 0));
@@ -33,9 +32,10 @@ public class Bullet implements ActorInterface {
     dx.bind(Bindings.createDoubleBinding(() -> relativePosition.get().getX(), relativePosition));
     dy.bind(Bindings.createDoubleBinding(() -> relativePosition.get().getY(), relativePosition));
 
-    this.damage = damage;
+    this.action = action;
     this.target = target;
     this.vel = vel;
+    this.hasHitTarget = new SimpleBooleanProperty(false);
   }
 
   @Override
@@ -54,8 +54,8 @@ public class Bullet implements ActorInterface {
   }
 
   public void hitTarget() {
-    target.damage(damage);
-    hasHitTarget = true;
+    action.accept(target);
+    setHasHitTarget(true);
   }
 
   /** @return the relative position property */
@@ -96,13 +96,27 @@ public class Bullet implements ActorInterface {
     return sourceY + getDy();
   }
 
-  /** @return true if bullet allready hit the target */
+  /** @return true if bullet already hit the target */
   public boolean hasHitTarget() {
+    return hasHitTarget.get();
+  }
+
+  /** @return hasHitTarget property if bullet has hit the target */
+  public BooleanProperty hasHitTargetProperty() {
     return hasHitTarget;
+  }
+
+  private void setHasHitTarget(boolean newVal) {
+    hasHitTarget.set(newVal);
   }
 
   /** @return the target */
   public Creature getTarget() {
     return target;
+  }
+
+  /** @return true if the action has finished and bullet can be removed from updates */
+  public boolean isOver() {
+    return hasHitTarget();
   }
 }

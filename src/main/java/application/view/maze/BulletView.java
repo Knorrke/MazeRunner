@@ -1,6 +1,6 @@
 package application.view.maze;
 
-import application.model.maze.tower.Bullet;
+import application.model.maze.tower.bullet.Bullet;
 import application.util.ImageLoader;
 import application.util.Util;
 import javafx.animation.RotateTransition;
@@ -32,9 +32,18 @@ public class BulletView extends ImageView {
               rotate.setToAngle(Util.calculateRotation(oldPos, newPos));
               rotate.play();
             });
+
+    bullet
+        .hasHitTargetProperty()
+        .addListener(
+            (obj, oldVal, newVal) -> {
+              if (newVal) {
+                this.setVisible(false);
+              }
+            });
   }
 
-  public Object getBullet() {
+  public Bullet getBullet() {
     return bullet;
   }
 }

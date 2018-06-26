@@ -1,6 +1,19 @@
 package application.model.maze.tower;
 
 public enum TowerType {
-  NO,
-  NORMAL
+  NO("No Tower"),
+  NORMAL("Normal Tower"),
+  FAST("Fast Tower"),
+  SLOWDOWN("Slowdown Tower");
+  
+  private final String description;
+  
+  private TowerType(String description) {
+    this.description = description;
+  }
+  
+  @Override
+  public String toString() {
+    return description;
+  }
 }

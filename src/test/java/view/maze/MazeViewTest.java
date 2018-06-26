@@ -23,7 +23,7 @@ public class MazeViewTest extends AbstractViewTest {
     verifyThat("#maze", NodeMatchers.hasChildren(1, ".wall"), collectInfos());
 
     // third click:
-    moveBy(20, 50);
+    moveBy(200,0);
     clickOn(MouseButton.PRIMARY);
 
     assertEquals("There should be two walls now", 2, maze.getWalls().size());

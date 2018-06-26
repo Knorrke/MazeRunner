@@ -15,8 +15,8 @@ import application.model.creature.CreatureFactory;
 import application.model.creature.CreatureType;
 import application.model.maze.Wall;
 import application.model.maze.tower.AbstractTower;
-import application.model.maze.tower.Bullet;
 import application.model.maze.tower.TowerType;
+import application.model.maze.tower.bullet.Bullet;
 import view.AbstractViewTest;
 
 public class BulletViewTest extends AbstractViewTest {

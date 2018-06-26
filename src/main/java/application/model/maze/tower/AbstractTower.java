@@ -14,6 +14,7 @@ import application.controller.gameloop.ActorInterface;
 import application.model.actions.Action;
 import application.model.creature.Creature;
 import application.model.maze.Wall;
+import application.model.maze.tower.bullet.Bullet;
 import application.util.ObservableBulletsListDeserializer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -74,6 +75,10 @@ public abstract class AbstractTower implements ActorInterface {
 
   public static AbstractTower create(Wall wall, TowerType type) {
     switch (type) {
+      case FAST:
+        return new FastTower(wall);
+      case SLOWDOWN:
+        return new SlowdownTower(wall);
       case NORMAL:
         return new NormalTower(wall);
       case NO:
@@ -97,7 +102,7 @@ public abstract class AbstractTower implements ActorInterface {
     shootingAction.run(dt);
     for (Iterator<Bullet> iterator = bullets.iterator(); iterator.hasNext(); ) {
       Bullet bullet = iterator.next();
-      if (bullet.hasHitTarget()) {
+      if (bullet.isOver()) {
         iterator.remove();
         continue;
       }

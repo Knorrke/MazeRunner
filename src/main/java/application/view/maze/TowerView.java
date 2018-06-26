@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import application.model.maze.tower.AbstractTower;
-import application.model.maze.tower.Bullet;
 import application.model.maze.tower.TowerType;
+import application.model.maze.tower.bullet.Bullet;
 import application.util.ImageLoader;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
@@ -37,7 +37,7 @@ public class TowerView extends StackPane {
     ImageView towerImage = new ImageView(ImageLoader.getTowerImage(towerType));
     towerImage.fitWidthProperty().bind(scaleX);
     towerImage.fitHeightProperty().bind(scaleY);
-    towerImage.getStyleClass().addAll("tower-image", towerType.toString());
+    towerImage.getStyleClass().addAll("tower-image", towerType.name());
 
     ImageView upgradeView = new ImageView(ImageLoader.getLevelImage(tower.getLevel()));
     upgradeView.fitWidthProperty().bind(scaleX);

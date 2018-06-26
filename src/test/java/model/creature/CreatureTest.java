@@ -142,6 +142,13 @@ public class CreatureTest {
     creature.damage(creature.getLifes() + 1);
     assertFalse(maze.getCreatures().contains(creature));
   }
+  
+  @Test
+  public void slowdown() {
+    double velocityBefore = creature.getVelocity();
+    creature.slowdown(0.5);
+    assertEquals(velocityBefore * 0.5, creature.getVelocity(), 0.01);
+  }
 
   /** Helper functions */
   private void moveOneFieldAutonomously(Creature c) {
