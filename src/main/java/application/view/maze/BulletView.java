@@ -32,14 +32,15 @@ public class BulletView extends ImageView {
               rotate.setToAngle(Util.calculateRotation(oldPos, newPos));
               rotate.play();
             });
-    
-    bullet.hasHitTargetProperty().addListener((obj, oldVal, newVal) -> {
-     if (newVal) {
-       this.setVisible(false);
-     } else {
-       this.setVisible(true);
-     }
-    });
+
+    bullet
+        .hasHitTargetProperty()
+        .addListener(
+            (obj, oldVal, newVal) -> {
+              if (newVal) {
+                this.setVisible(false);
+              }
+            });
   }
 
   public Bullet getBullet() {

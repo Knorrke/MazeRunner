@@ -70,4 +70,13 @@ public class FastTowerTest {
     assertEquals(type, tower.getType());
     assertEquals(1, tower.getLevel());
   }
+
+  @Test
+  public void hasFourUpgradesTest() {
+    int upgrades;
+    for (upgrades = 0; upgrades < 4 && tower.getNextUpgrade() != null; upgrades++) {
+      tower = tower.upgrade();
+    }
+    assertEquals("Should have (at least) four upgrades", 4, upgrades);
+  }
 }
