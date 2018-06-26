@@ -3,10 +3,8 @@ package application.view.maze;
 import application.model.maze.tower.bullet.Bullet;
 import application.util.ImageLoader;
 import application.util.Util;
-import javafx.animation.RotateTransition;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.image.ImageView;
-import javafx.util.Duration;
 
 public class BulletView extends ImageView {
   private static final double bulletWidth = 0.2, bulletHeight = 0.1;
@@ -26,12 +24,7 @@ public class BulletView extends ImageView {
     this.getStyleClass().add("bullet");
     bullet
         .relativePositionProperty()
-        .addListener(
-            (obj, oldPos, newPos) -> {
-              RotateTransition rotate = new RotateTransition(new Duration(50), this);
-              rotate.setToAngle(Util.calculateRotation(oldPos, newPos));
-              rotate.play();
-            });
+        .addListener((obj, oldPos, newPos) -> setRotate(Util.calculateRotation(oldPos, newPos)));
 
     bullet
         .hasHitTargetProperty()

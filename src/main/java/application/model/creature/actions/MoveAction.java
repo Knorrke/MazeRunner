@@ -13,9 +13,7 @@ public class MoveAction extends Action {
   private double remainingDist;
 
   public MoveAction(Creature creature, double[] goal) {
-    super(
-        Point.distance(creature.getX(), creature.getY(), goal[0], goal[1])
-            / creature.getVelocity());
+    super(Double.POSITIVE_INFINITY);
     this.goal = goal;
     remainingDist = Point.distance(creature.getX(), creature.getY(), goal[0], goal[1]);
     this.dirNormalized =
@@ -31,6 +29,8 @@ public class MoveAction extends Action {
     if (remainingDist >= ds) {
       creature.moveBy(dirNormalized[0] * ds, dirNormalized[1] * ds);
       remainingDist -= ds;
+    } else {
+      execute();
     }
   }
 

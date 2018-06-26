@@ -1,14 +1,18 @@
 package application.view.creatures;
 
 import application.model.creature.Creature;
+import application.model.creature.CreatureType;
 import application.util.ImageLoader;
 import application.util.Util;
 import javafx.animation.RotateTransition;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 public class CreatureView extends StackPane {
@@ -19,13 +23,21 @@ public class CreatureView extends StackPane {
     this.creature = creature;
     this.getStyleClass().add("creature");
 
-    Image im = ImageLoader.getCreatureImage(creature.getType());
-    ImageView img = new ImageView(im);
-    img.setPreserveRatio(true);
-    img.fitWidthProperty().bind(scaleX.multiply(imageSize));
-    img.fitHeightProperty().bind(scaleY.multiply(imageSize));
+    ImageView img = createImageView(creature.getType(), scaleX, scaleY);
+    ImageView clip = createImageView(creature.getType(), scaleX, scaleY);
+
+    double startVelocity = creature.getVelocity();
+    Rectangle slowdownEffect = new Rectangle();
+    slowdownEffect.widthProperty().bind(scaleX.multiply(imageSize));
+    slowdownEffect.heightProperty().bind(scaleY.multiply(imageSize));
+    slowdownEffect.setClip(clip);
+    slowdownEffect.setFill(Color.rgb(25, 25, 100));
+    slowdownEffect
+        .opacityProperty()
+        .bind(Bindings.subtract(1, creature.velocityProperty().divide(startVelocity)));
 
     this.getChildren().add(img);
+    this.getChildren().add(slowdownEffect);
     this.layoutXProperty().bind(creature.xProperty().subtract(0.5 * imageSize).multiply(scaleX));
     this.layoutYProperty().bind(creature.yProperty().subtract(0.5 * imageSize).multiply(scaleY));
     creature
@@ -49,6 +61,15 @@ public class CreatureView extends StackPane {
               healthBar.setVisible(true);
               healthBar.toFront();
             });
+  }
+
+  private ImageView createImageView(CreatureType type, DoubleBinding scaleX, DoubleBinding scaleY) {
+    Image im = ImageLoader.getCreatureImage(creature.getType());
+    ImageView img = new ImageView(im);
+    img.setPreserveRatio(true);
+    img.fitWidthProperty().bind(scaleX.multiply(imageSize));
+    img.fitHeightProperty().bind(scaleY.multiply(imageSize));
+    return img;
   }
 
   public Creature getCreature() {

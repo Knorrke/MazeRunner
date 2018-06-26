@@ -47,6 +47,7 @@ public class MazeTest {
     assertNull("Shouldn't have a wall yet", maze.getWallOn(x, y));
     maze.buildWall(x, y);
     assertNotNull("Should have a wall", maze.getWallOn(x, y));
+    assertNull("Shouldn't have a wall somewhere else", maze.getWallOn(x + 1, y));
   }
 
   @Test
