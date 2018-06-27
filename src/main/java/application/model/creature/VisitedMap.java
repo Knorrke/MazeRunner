@@ -1,6 +1,7 @@
 package application.model.creature;
 
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class VisitedMap {
@@ -11,6 +12,8 @@ public class VisitedMap {
   }
 
   @JsonProperty private VisitedState[][] map;
+  @JsonIgnore private boolean changed = true;
+  @JsonIgnore private int hash = 0;
 
   public VisitedMap() {
     this(0, 0);
@@ -28,13 +31,23 @@ public class VisitedMap {
   public void markVisited(int x, int y) {
     if (checkBounds(x, y)) {
       map[x][y] = VisitedState.VISITED;
+      changed = true;
     }
   }
 
   public void markWall(int x, int y) {
     if (checkBounds(x, y)) {
       map[x][y] = VisitedState.WALL;
+      changed = true;
     }
+  }
+
+  @Override
+  public int hashCode() {
+    if (changed) {
+      hash = Arrays.deepHashCode(map);
+    }
+    return hash;
   }
 
   public boolean isVisited(int x, int y) {
@@ -79,12 +92,14 @@ public class VisitedMap {
    * @param visitedMap2
    */
   private void merge(VisitedMap visitedMap2) {
-    for (int x = 0; x < map.length; x++) {
-      for (int y = 0; y < map[x].length; y++) {
-        if (this.isWall(x, y)) visitedMap2.markWall(x, y);
-        else if (visitedMap2.isWall(x, y)) this.markWall(x, y);
-        else if (this.isVisited(x, y)) visitedMap2.markVisited(x, y);
-        else if (visitedMap2.isVisited(x, y)) this.markVisited(x, y);
+    if (hashCode() != visitedMap2.hashCode()) {
+      for (int x = 0; x < map.length; x++) {
+        for (int y = 0; y < map[x].length; y++) {
+          if (this.isWall(x, y)) visitedMap2.markWall(x, y);
+          else if (visitedMap2.isWall(x, y)) this.markWall(x, y);
+          else if (this.isVisited(x, y)) visitedMap2.markVisited(x, y);
+          else if (visitedMap2.isVisited(x, y)) this.markVisited(x, y);
+        }
       }
     }
   }

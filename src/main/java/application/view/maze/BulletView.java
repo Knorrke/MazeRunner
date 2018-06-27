@@ -1,9 +1,12 @@
 package application.view.maze;
 
+import application.model.Position;
 import application.model.maze.tower.bullet.Bullet;
 import application.util.ImageLoader;
 import application.util.Util;
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.image.ImageView;
 
 public class BulletView extends ImageView {
@@ -22,9 +25,18 @@ public class BulletView extends ImageView {
     this.translateYProperty()
         .bind(bullet.dyProperty().subtract(0.5 * bulletHeight).multiply(scaleY));
     this.getStyleClass().add("bullet");
+
     bullet
         .relativePositionProperty()
-        .addListener((obj, oldPos, newPos) -> setRotate(Util.calculateRotation(oldPos, newPos)));
+        .addListener(
+            new ChangeListener<Position>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends Position> obj, Position oldPos, Position newPos) {
+                setRotate(Util.calculateRotation(oldPos, newPos));
+                bullet.relativePositionProperty().removeListener(this);
+              }
+            });
 
     bullet
         .hasHitTargetProperty()
