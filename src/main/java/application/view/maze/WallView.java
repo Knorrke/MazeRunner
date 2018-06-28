@@ -88,6 +88,10 @@ public class WallView extends StackPane {
   }
 
   public boolean belongsToWall(Wall wall) {
-    return this.wall == wall;
+    return this.wall.equals(wall);
+  }
+
+  public Wall getWall() {
+    return wall;
   }
 }

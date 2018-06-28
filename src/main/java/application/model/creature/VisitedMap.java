@@ -29,15 +29,22 @@ public class VisitedMap {
   }
 
   public void markVisited(int x, int y) {
-    if (checkBounds(x, y)) {
+    if (checkBounds(x, y) && map[x][y] != VisitedState.VISITED) {
       map[x][y] = VisitedState.VISITED;
       changed = true;
     }
   }
 
   public void markWall(int x, int y) {
-    if (checkBounds(x, y)) {
+    if (checkBounds(x, y) && map[x][y] != VisitedState.WALL) {
       map[x][y] = VisitedState.WALL;
+      changed = true;
+    }
+  }
+
+  public void markUnknown(int x, int y) {
+    if (checkBounds(x, y) && map[x][y] != VisitedState.UNKNOWN) {
+      map[x][y] = VisitedState.UNKNOWN;
       changed = true;
     }
   }

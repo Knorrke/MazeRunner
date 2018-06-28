@@ -1,5 +1,7 @@
 package application.view.maze;
 
+import java.util.ArrayList;
+import java.util.List;
 import application.controller.WallController;
 import application.model.maze.Wall;
 import application.model.maze.tower.AbstractTower;
@@ -23,18 +25,38 @@ public class WallMenuView extends CirclePopupMenu {
   private Label sellItemLabel;
   private MenuItem upgradeItem;
   private Label upgradeItemLabel;
+  private List<MenuItem> towerItems;
 
   private DoubleBinding scaleX, scaleY;
 
   public WallMenuView(WallView view, DoubleBinding scaleX, DoubleBinding scaleY) {
     super(view, null);
-    super.setAnimationDuration(new Duration(200));
+    super.setAnimationDuration(Duration.millis(200));
     this.scaleX = scaleX;
     this.scaleY = scaleY;
+    WallController wallController = view.getController();
+
     sellItemLabel = new FloatingLabel();
     sellItem = createMenuItem("Sell", ImageLoader.sell, sellItemLabel);
+    sellItem.setOnAction(e -> wallController.sell());
+
     upgradeItemLabel = new FloatingLabel();
     upgradeItem = createMenuItem("Upgrade Tower", ImageLoader.upgrade, upgradeItemLabel);
+    upgradeItem.setOnAction(e -> wallController.upgradeTower());
+
+    towerItems = new ArrayList<>();
+    for (TowerType type : TowerType.values()) {
+      if (type.equals(TowerType.NO)) continue;
+
+      Label towerLabel =
+          new FloatingLabel(Util.moneyString(-1 * AbstractTower.create(type).getCosts()));
+      MenuItem towerItem =
+          createMenuItem(type.toString(), ImageLoader.getTowerImage(type), towerLabel);
+      towerItem.setOnAction(e -> wallController.buildTower(type));
+      towerItems.add(towerItem);
+    }
+    this.getItems().addAll(sellItem, upgradeItem);
+    this.getItems().addAll(towerItems);
   }
 
   private MenuItem createMenuItem(String hoverText, Image image, Label label) {
@@ -42,31 +64,21 @@ public class WallMenuView extends CirclePopupMenu {
     String id = hoverText.toLowerCase().replace(' ', '-');
     view.setId(id);
     view.setPreserveRatio(true);
-    view.fitWidthProperty().bind(scaleX.multiply(1.5));
-    view.fitHeightProperty().bind(scaleY.multiply(1.5));
+    view.fitWidthProperty().bind(scaleX.add(10));
+    view.fitHeightProperty().bind(scaleY.add(10));
     label.setId(id + "-label");
     return new MenuItem(hoverText, new StackPane(view, label));
   }
 
   public void show(MouseEvent event, Wall wall, WallController wallController) {
     getItems().clear();
-    sellItem.setOnAction(e -> wallController.sell());
     sellItemLabel.setText(Util.moneyString(wall.getCosts()));
     getItems().add(sellItem);
     if (wall.getTower().getType() == TowerType.NO) {
-      for (TowerType type : TowerType.values()) {
-        if (type.equals(TowerType.NO)) continue;
-        
-        Label towerLabel =
-            new FloatingLabel(Util.moneyString(-1 * AbstractTower.create(type).getCosts()));
-        MenuItem towerItem = createMenuItem(type.toString(), ImageLoader.getTowerImage(type), towerLabel);
-        towerItem.setOnAction(e -> wallController.buildTower(type));
-        getItems().add(towerItem);
-      }
+      getItems().addAll(towerItems);
     } else {
       TowerUpgrade upgrade = wall.getTower().getNextUpgrade();
       if (upgrade != null) {
-        upgradeItem.setOnAction(e -> wallController.upgradeTower());
         upgradeItemLabel.setText(Util.moneyString(-1 * upgrade.getCosts()));
         getItems().add(upgradeItem);
       }
