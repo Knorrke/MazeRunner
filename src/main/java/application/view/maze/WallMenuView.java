@@ -11,6 +11,7 @@ import application.util.ImageLoader;
 import application.util.Util;
 import application.view.FloatingLabel;
 import javafx.beans.binding.DoubleBinding;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
@@ -37,12 +38,15 @@ public class WallMenuView extends CirclePopupMenu {
     WallController wallController = view.getController();
 
     sellItemLabel = new FloatingLabel();
-    sellItem = createMenuItem("Sell", ImageLoader.sell, sellItemLabel);
-    sellItem.setOnAction(e -> wallController.sell());
+    sellItem = createMenuItem("Sell", ImageLoader.sell, sellItemLabel, e -> wallController.sell());
 
     upgradeItemLabel = new FloatingLabel();
-    upgradeItem = createMenuItem("Upgrade Tower", ImageLoader.upgrade, upgradeItemLabel);
-    upgradeItem.setOnAction(e -> wallController.upgradeTower());
+    upgradeItem =
+        createMenuItem(
+            "Upgrade Tower",
+            ImageLoader.upgrade,
+            upgradeItemLabel,
+            e -> wallController.upgradeTower());
 
     towerItems = new ArrayList<>();
     for (TowerType type : TowerType.values()) {
@@ -51,22 +55,28 @@ public class WallMenuView extends CirclePopupMenu {
       Label towerLabel =
           new FloatingLabel(Util.moneyString(-1 * AbstractTower.create(type).getCosts()));
       MenuItem towerItem =
-          createMenuItem(type.toString(), ImageLoader.getTowerImage(type), towerLabel);
-      towerItem.setOnAction(e -> wallController.buildTower(type));
+          createMenuItem(
+              type.toString(),
+              ImageLoader.getTowerImage(type),
+              towerLabel,
+              e -> wallController.buildTower(type));
       towerItems.add(towerItem);
     }
     this.getItems().addAll(sellItem, upgradeItem);
     this.getItems().addAll(towerItems);
   }
 
-  private MenuItem createMenuItem(String hoverText, Image image, Label label) {
+  private MenuItem createMenuItem(
+      String hoverText, Image image, Label label, EventHandler<? super MouseEvent> handler) {
     ImageView view = new ImageView(image);
     String id = hoverText.toLowerCase().replace(' ', '-');
     view.setId(id);
     view.setPreserveRatio(true);
     view.fitWidthProperty().bind(scaleX.add(10));
     view.fitHeightProperty().bind(scaleY.add(10));
+    view.setOnMouseClicked(handler);
     label.setId(id + "-label");
+    label.setMouseTransparent(true);
     return new MenuItem(hoverText, new StackPane(view, label));
   }
 

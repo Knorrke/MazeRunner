@@ -43,8 +43,7 @@ public class WallMenuViewTest extends AbstractViewTest {
 
   @Test
   public void closingMenuByClickingTest() {
-    moveBy(4, 4);
-    clickOn();
+    clickOn(".wall");
     assertFalse(menu.isShown());
     verifyThat(".wall", NodeMatchers.hasChild(".tower .NO"));
   }
