@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import application.controller.gameloop.ActorInterface;
 import application.model.creature.Creature;
+import application.model.creature.VisitedMap;
 import application.model.maze.tower.AbstractTower;
 import application.model.maze.tower.TowerType;
 import application.model.maze.tower.TowerUpgrade;
@@ -74,6 +75,12 @@ public class Maze implements MazeModelInterface {
     if (checkBounds(x, y) && !hasWallOn(x, y)) {
       Wall wall = new Wall(x, y, AbstractTower.create(TowerType.NO));
       if (payIfEnoughMoney(wall.getCosts())) {
+        for (Creature creature : creatures) {
+          VisitedMap map = creature.getVisitedMap();
+          if (map.isVisited(x, y)) {
+            map.markWall(x, y);
+          }
+        }
         this.addWall(wall);
         return wall;
       }
@@ -82,8 +89,7 @@ public class Maze implements MazeModelInterface {
     return null;
   }
 
-  @Override
-  public void removeWall(Wall wall) {
+  private void removeWall(Wall wall) {
     this.walls.remove(wall);
     hasWall[wall.getX()][wall.getY()] = false;
   }
@@ -98,9 +104,8 @@ public class Maze implements MazeModelInterface {
     this.creatures.add(creature);
   }
 
-  @Override
-  public void removeCreature(Creature creature) {
-    this.creatures.remove(creature);
+  private boolean removeCreature(Creature creature) {
+    return this.creatures.remove(creature);
   }
 
   @Override
@@ -174,6 +179,13 @@ public class Maze implements MazeModelInterface {
 
   @Override
   public void sell(Wall wall) {
+    for (Creature creature : creatures) {
+      VisitedMap map = creature.getVisitedMap();
+      if (map.isWall(wall.getX(), wall.getY())) {
+        map.markVisited(wall.getX(), wall.getY());
+      }
+    }
+
     removeWall(wall);
     if (player != null) {
       player.earnMoney(wall.getCosts());
@@ -182,8 +194,7 @@ public class Maze implements MazeModelInterface {
 
   @Override
   public void creatureDied(Creature creature) {
-    removeCreature(creature);
-    if (player != null) {
+    if (removeCreature(creature) && player != null) {
       player.earnMoney(creature.getValue());
     }
   }
@@ -191,7 +202,7 @@ public class Maze implements MazeModelInterface {
   @Override
   public void buildTower(Wall wall, TowerType type) {
     AbstractTower newTower = AbstractTower.create(type);
-    if (payIfEnoughMoney(newTower.getCosts())) {
+    if (wall.canBuildTower(type) && payIfEnoughMoney(newTower.getCosts())) {
       wall.buildTower(type);
     }
   }

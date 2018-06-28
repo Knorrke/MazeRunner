@@ -19,9 +19,7 @@ public class MazeView extends StackPane {
     setWalls(new WallsView());
     setCreatures(new CreaturesView());
     getCreatures().setPickOnBounds(false);
-    //		creatures.widthProperty().bind(getWalls().widthProperty());
-    //		creatures.heightProperty().bind(getWalls().heightProperty());
-    this.getChildren().addAll(getWalls(), getCreatures());
+    this.getChildren().addAll(getCreatures(), getWalls());
   }
 
   /** @return the walls */

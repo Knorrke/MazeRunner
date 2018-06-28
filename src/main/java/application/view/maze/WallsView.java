@@ -1,5 +1,7 @@
 package application.view.maze;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Collectors;
 import application.controller.MazeController;
 import application.controller.WallController;
@@ -14,27 +16,31 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 public class WallsView extends Pane implements Bindable<MazeModelInterface> {
-  private ObservableList<Wall> walls;
   private DoubleBinding scaleX, scaleY;
-  private ListChangeListener<Wall> listener =
+  ListChangeListener<Wall> listener =
       (c) -> {
-        createWalls();
+        while (c.next()) {
+          if (c.wasAdded()) {
+            createWalls(c.getAddedSubList());
+          } else if (c.wasRemoved()) {
+            removeWalls(c.getRemoved());
+          }
+        }
       };
 
   private MazeController controller;
 
   @Override
   public void bind(MazeModelInterface maze) {
-    this.walls = maze.getWalls();
+    ObservableList<Wall> walls = maze.getWalls();
     this.scaleX = widthProperty().divide(maze.getMaxWallX());
     this.scaleY = heightProperty().divide(maze.getMaxWallY());
     walls.addListener(listener);
-    createWalls();
+    createWalls(walls);
   }
 
-  public void createWalls() {
+  public void createWalls(List<? extends Wall> walls) {
     ObservableList<Node> children = getChildren();
-    children.clear();
     children.addAll(
         walls
             .stream()
@@ -45,6 +51,16 @@ public class WallsView extends Pane implements Bindable<MazeModelInterface> {
                   return wallController.getView();
                 })
             .collect(Collectors.toList()));
+  }
+
+  private void removeWalls(List<? extends Wall> removed) {
+    ObservableList<Node> children = getChildren();
+    for (Iterator<Node> iterator = children.iterator(); iterator.hasNext(); ) {
+      Node node = iterator.next();
+      if (node instanceof WallView && removed.contains(((WallView) node).getWall())) {
+        iterator.remove();
+      }
+    }
   }
 
   public void setController(MazeController mazeController) {

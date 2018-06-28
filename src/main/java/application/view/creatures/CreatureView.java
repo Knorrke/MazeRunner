@@ -1,5 +1,6 @@
 package application.view.creatures;
 
+import application.model.Position;
 import application.model.creature.Creature;
 import application.model.creature.CreatureType;
 import application.util.ImageLoader;
@@ -7,6 +8,8 @@ import application.util.Util;
 import javafx.animation.RotateTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,10 +46,27 @@ public class CreatureView extends StackPane {
     creature
         .positionProperty()
         .addListener(
-            (obj, oldPos, newPos) -> {
-              RotateTransition rotate = new RotateTransition(new Duration(50), img);
-              rotate.setToAngle(Util.calculateRotation(oldPos, newPos));
-              rotate.play();
+            new ChangeListener<Position>() {
+              private double lastChange;
+              private double signumX, signumY;
+
+              @Override
+              public void changed(
+                  ObservableValue<? extends Position> obj, Position oldPos, Position newPos) {
+                double dx = oldPos.getX() - newPos.getX();
+                double newSignumX = Math.signum(dx);
+                double dy = oldPos.getY() - newPos.getY();
+                double newSignumY = Math.signum(dy);
+                double change = dx / dy;
+                if (signumX != newSignumX
+                    || signumY != newSignumY
+                    || Math.abs(lastChange - change) > 0.01) {
+                  lastChange = change;
+                  RotateTransition rotate = new RotateTransition(new Duration(50), img);
+                  rotate.setToAngle(Util.calculateRotation(oldPos, newPos));
+                  rotate.play();
+                }
+              }
             });
     ProgressBar healthBar = new ProgressBar();
     this.getChildren().add(healthBar);
@@ -59,6 +79,7 @@ public class CreatureView extends StackPane {
             (obj, oldLifes, newLifes) -> {
               healthBar.setProgress(newLifes.doubleValue() / creature.getStartLifes());
               healthBar.setVisible(true);
+              this.toFront();
               healthBar.toFront();
             });
   }

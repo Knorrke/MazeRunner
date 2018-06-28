@@ -1,14 +1,11 @@
 package model.maze;
 
 import static org.junit.Assert.*;
-
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-
 import application.model.creature.Creature;
 import application.model.creature.CreatureFactory;
 import application.model.creature.CreatureType;
@@ -127,6 +124,29 @@ public class MazeTest {
     maze.sell(wall);
     assertFalse("Maze shouldn't contain the wall after sell", walls.contains(wall));
     Mockito.verify(playerMock, Mockito.times(1)).earnMoney(wall.getCosts());
+  }
+
+  @Test
+  public void sellShouldNotifyCreaturesThatKnowOfTheWall() {
+    Wall wall = maze.buildWall(x, y);
+    Creature creatureWithKnowledge = CreatureFactory.create(maze, CreatureType.NORMAL, x - 1, y);
+    Creature creatureWithoutKnowledge =
+        CreatureFactory.create(maze, CreatureType.NORMAL, x - 1, y - 2);
+    maze.addCreature(creatureWithKnowledge);
+    maze.addCreature(creatureWithoutKnowledge);
+    creatureWithKnowledge.markWalls();
+    assertTrue("Creature should know the wall", creatureWithKnowledge.getVisitedMap().isWall(x, y));
+    assertTrue(
+        "Other creature should have no information",
+        creatureWithoutKnowledge.getVisitedMap().isUnknown(x, y));
+
+    maze.sell(wall);
+    assertTrue(
+        "Creature information should have changed to visited",
+        creatureWithKnowledge.getVisitedMap().isVisited(x, y));
+    assertTrue(
+        "Other creature should still have no information",
+        creatureWithoutKnowledge.getVisitedMap().isUnknown(x, y));
   }
 
   @Test

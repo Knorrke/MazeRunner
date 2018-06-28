@@ -30,9 +30,6 @@ public interface MazeModelInterface extends Updateable, ModelInterface {
    */
   public Wall buildWall(int x, int y);
 
-  /** @param wall the wall to remove */
-  public void removeWall(Wall wall);
-
   /** @return the creatures */
   public ObservableList<Creature> getCreatures();
   /** @param creature the creature to add */
@@ -40,9 +37,6 @@ public interface MazeModelInterface extends Updateable, ModelInterface {
 
   /** @param creatures the list of creatures to add */
   public void addAllCreatures(List<Creature> creatures);
-
-  /** @param creature the creature to remove */
-  public void removeCreature(Creature creature);
 
   /**
    * Checks if there is a wall on a certain position

@@ -56,5 +56,6 @@ public class WallController {
 
   public void showMenu(MouseEvent event) {
     if (!menu.isShown()) menu.show(event, wall, this);
+    else menu.hide();
   }
 }
