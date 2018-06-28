@@ -47,9 +47,11 @@ public class CreatureViewTest extends AbstractViewTest {
     assertEquals(downward, mod(creatureView.getRotate(), 360));
 
     interact(() -> creature.moveBy(0.5, 0.5));
+    WaitForAsyncUtils.waitForFxEvents();
     assertEquals(45, mod(creatureView.getRotate(), 360));
 
     interact(() -> creature.moveBy(Math.cos(60 * Math.PI / 180), Math.sin(60 * Math.PI / 180)));
+    WaitForAsyncUtils.waitForFxEvents();
     assertEquals(60, mod(creatureView.getRotate(), 360), 0.01);
   }
 
