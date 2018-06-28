@@ -42,13 +42,6 @@ public class VisitedMap {
     }
   }
 
-  public void markUnknown(int x, int y) {
-    if (checkBounds(x, y) && map[x][y] != VisitedState.UNKNOWN) {
-      map[x][y] = VisitedState.UNKNOWN;
-      changed = true;
-    }
-  }
-
   @Override
   public int hashCode() {
     if (changed) {

@@ -182,7 +182,7 @@ public class Maze implements MazeModelInterface {
     for (Creature creature : creatures) {
       VisitedMap map = creature.getVisitedMap();
       if (map.isWall(wall.getX(), wall.getY())) {
-        map.markUnknown(wall.getX(), wall.getY());
+        map.markVisited(wall.getX(), wall.getY());
       }
     }
 
