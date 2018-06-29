@@ -8,6 +8,9 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import application.model.creature.Creature;
 import application.model.maze.tower.bullet.Bullet;
+import application.model.maze.tower.bullet.DamageBullet;
+import application.model.maze.tower.bullet.SlowdownBullet;
+import javafx.util.Duration;
 
 public class BulletTest {
   private static Logger LOG = Logger.getLogger(BulletTest.class.getName());
@@ -25,7 +28,7 @@ public class BulletTest {
     double bulletStartX = 0.5, bulletStartY = 0.5;
     int damage = 5;
     double bulletVel = 3;
-    Bullet bullet = new Bullet(bulletStartX, bulletStartY, c -> c.damage(damage), creature, bulletVel);
+    Bullet bullet = new DamageBullet(bulletStartX, bulletStartY, damage, creature, bulletVel);
 
     // interpolate time till target is hit
     double timeWithOutMovingCreature =
@@ -61,7 +64,7 @@ public class BulletTest {
   @Test
   public void slowdownTest() {
     Creature target = Mockito.mock(Creature.class);
-    Bullet bullet = new Bullet(2, 3, c -> c.slowdown(0.5), target, 3);
+    Bullet bullet = new SlowdownBullet(2, 3, 0.5,Duration.millis(1000), target, 3);
     bullet.hitTarget();
     Mockito.verify(target).slowdown(0.5);
   }

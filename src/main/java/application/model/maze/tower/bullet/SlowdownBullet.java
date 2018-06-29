@@ -1,38 +1,49 @@
 package application.model.maze.tower.bullet;
 
+import application.model.baseactions.Action;
+import application.model.baseactions.CountdownAction;
 import application.model.creature.Creature;
 import javafx.util.Duration;
 
 public class SlowdownBullet extends Bullet {
-  private int delay;
+  private Action revertAction;
   private double percentage;
-  
-  public SlowdownBullet(
-      double sourceX, double sourceY, double percentage, Duration duration, Creature target) {
+
+  public SlowdownBullet(double sourceX, double sourceY, double percentage, Duration duration,
+      Creature target) {
     this(sourceX, sourceY, percentage, duration, target, 2);
   }
-  
-  public SlowdownBullet(
-      double sourceX, double sourceY, double percentage, Duration duration, Creature target, double vel) {
-    super(sourceX,sourceY,creature -> creature.slowdown(percentage),target,vel);
+
+  public SlowdownBullet(double sourceX, double sourceY, double percentage, Duration duration,
+      Creature target, double vel) {
+    super(sourceX, sourceY, target, vel);
     this.percentage = percentage;
-    this.delay = (int) duration.toMillis();
+    this.revertAction = new CountdownAction(duration.toMillis()) {
+      @Override
+      protected void onFinish() {
+        double revertSlowdownPercentage = 1 - 1 / (1 - percentage);
+        target.slowdown(revertSlowdownPercentage);
+      }
+    };
   }
 
   @Override
   public void act(double dt) {
     if (super.hasHitTarget()) {
-      delay -= dt;
-    }
-    super.act(dt);
-    if (delay <= 0) {
-      double revertSlowdownPercentage = 1 - 1/(1-percentage);
-      super.getTarget().slowdown(revertSlowdownPercentage);
+      revertAction.act(dt);
+    } else {      
+      super.act(dt);
     }
   }
-  
+
   @Override
   public boolean isOver() {
-    return hasHitTarget() && delay <= 0;
+    return hasHitTarget() && revertAction.isFinished();
+  }
+
+  @Override
+  public void hitTarget() {
+    super.hitTarget();
+    getTarget().slowdown(percentage);
   }
 }

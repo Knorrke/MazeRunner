@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import application.model.actions.Action;
+import application.model.baseactions.CountdownAction;
 import application.model.creature.Creature;
 import application.model.creature.CreatureFactory;
 import application.model.creature.CreatureGroup;
@@ -30,19 +30,19 @@ public class Level implements LevelModelInterface {
 
   @JsonIgnore private MazeModelInterface maze;
 
-  @JsonIgnore private Action action;
+  @JsonIgnore private CountdownAction countdownAction;
 
   @JsonIgnore private NumberBinding passedTimePercentageBinding;
 
   public Level() {
     creatureTimeline = FXCollections.observableArrayList();
     waveNumber = new SimpleIntegerProperty(0);
-    this.action = new CreatureWaveAction(this, WAVE_DURATION, 1);
+    this.countdownAction = new CreatureWaveAction(this, WAVE_DURATION, 1);
     passedTimePercentageBinding =
         Bindings.createFloatBinding(
             this::calculatePassedTimePercentage,
             waveNumber,
-            action.countdownProperty(),
+            countdownAction.countdownProperty(),
             creatureTimeline);
   }
 
@@ -58,7 +58,7 @@ public class Level implements LevelModelInterface {
 
   @Override
   public void update(double dt) {
-    action.run(dt);
+    countdownAction.act(dt);
   }
 
   @Override
@@ -78,7 +78,7 @@ public class Level implements LevelModelInterface {
                       + 0.5 * (1 - streuung));
       maze.addAllCreatures(creatures);
       incrementWaveNumber();
-      action.resetCountdown();
+      countdownAction.resetCountdown();
     }
   }
 
@@ -118,7 +118,7 @@ public class Level implements LevelModelInterface {
   private float calculateRemainingTimePercentage() {
     double remaining = 0;
     remaining += (creatureTimeline.size() - getWaveNumber()) * WAVE_DURATION;
-    if (getWaveNumber() > 0) remaining += action.getCountdown();
+    if (getWaveNumber() > 0) remaining += countdownAction.getCountdown();
     double gameDuration = calculateGameDuration();
     return (float) (gameDuration != 0 ? Util.round(remaining / gameDuration, 5) : 1);
   }
@@ -130,8 +130,8 @@ public class Level implements LevelModelInterface {
         .addListener(
             (Change<? extends Creature> c) -> {
               while (c.next()) {
-                if (c.wasRemoved() && maze.getCreatures().isEmpty() && action.getCountdown() > 1) {
-                  action.run(action.getCountdown() - 1);
+                if (c.wasRemoved() && maze.getCreatures().isEmpty() && countdownAction.getCountdown() > 1) {
+                  countdownAction.act(countdownAction.getCountdown() - 1);
                 }
               }
             });

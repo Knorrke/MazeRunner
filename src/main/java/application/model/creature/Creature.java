@@ -3,15 +3,14 @@ package application.model.creature;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import application.controller.gameloop.ActorInterface;
+import application.model.Moveable;
 import application.model.Position;
-import application.model.actions.Action;
-import application.model.creature.actions.MoveAction;
+import application.model.baseactions.Action;
+import application.model.creature.actions.CreatureMoveAction;
 import application.model.creature.movements.MovementInterface;
 import application.model.creature.movements.NoSightMovement;
 import application.model.creature.vision.Vision;
@@ -25,7 +24,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-public class Creature implements ActorInterface {
+public class Creature implements ActorInterface, Moveable {
   private static final Logger LOG = Logger.getLogger(Creature.class.getName());
 
   private transient ObjectProperty<Position> position;
@@ -201,7 +200,7 @@ public class Creature implements ActorInterface {
 
   @Override
   public void act(double dt) {
-    action.run(dt);
+    action.act(dt);
   }
 
   public ObjectProperty<Position> positionProperty() {
@@ -215,7 +214,7 @@ public class Creature implements ActorInterface {
 
   public void chooseNewAction() {
     double[] goal = movementStrategy.getNextGoal(vision, visitedMap, getX(), getY());
-    setAction(new MoveAction(this, goal));
+    setAction(new CreatureMoveAction(this, goal));
   }
 
   public void setAction(Action action) {
