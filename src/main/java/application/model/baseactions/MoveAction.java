@@ -24,7 +24,11 @@ public class MoveAction extends Action {
     double dirXNormalized = (target.getX() - moveable.getX()) / remainingDist;
     double dirYNormalized = (target.getY() - moveable.getY()) / remainingDist;
     double ds = moveable.getVelocity() * dt;
-    moveable.moveBy(dirXNormalized * ds, dirYNormalized * ds);
+    if (remainingDist < ds) {
+      moveable.moveBy(dirXNormalized * remainingDist, dirYNormalized * remainingDist);
+    } else {
+      moveable.moveBy(dirXNormalized * ds, dirYNormalized * ds);
+    }
     remainingDist -= ds;
   }
 

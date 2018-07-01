@@ -79,9 +79,10 @@ public class VisitedMap {
    *
    * @param visitedMap1
    * @param visitedMap2
+   * @return number of changes
    */
-  public static void merge(VisitedMap visitedMap1, VisitedMap visitedMap2) {
-    visitedMap1.merge(visitedMap2);
+  public static int merge(VisitedMap visitedMap1, VisitedMap visitedMap2) {
+    return visitedMap1.merge(visitedMap2);
   }
 
   /**
@@ -90,18 +91,30 @@ public class VisitedMap {
    * method instead.
    *
    * @param visitedMap2
+   * @return number of changes
    */
-  private void merge(VisitedMap visitedMap2) {
+  private int merge(VisitedMap visitedMap2) {
+    int numberOfChanges = 0;
     if (hashCode() != visitedMap2.hashCode()) {
       for (int x = 0; x < map.length; x++) {
         for (int y = 0; y < map[x].length; y++) {
-          if (this.isWall(x, y)) visitedMap2.markWall(x, y);
-          else if (visitedMap2.isWall(x, y)) this.markWall(x, y);
-          else if (this.isVisited(x, y)) visitedMap2.markVisited(x, y);
-          else if (visitedMap2.isVisited(x, y)) this.markVisited(x, y);
+          if (this.isWall(x, y) && !visitedMap2.isWall(x, y)) {
+            visitedMap2.markWall(x, y);
+            numberOfChanges++;
+          } else if (visitedMap2.isWall(x, y) && !this.isWall(x, y)) {
+            this.markWall(x, y);
+            numberOfChanges++;
+          } else if (this.isVisited(x, y) && !visitedMap2.isVisited(x, y)) {
+            visitedMap2.markVisited(x, y);
+            numberOfChanges++;
+          } else if (visitedMap2.isVisited(x, y) && !this.isVisited(x, y)) {
+            this.markVisited(x, y);
+            numberOfChanges++;
+          }
         }
       }
     }
+    return numberOfChanges;
   }
 
   @Override

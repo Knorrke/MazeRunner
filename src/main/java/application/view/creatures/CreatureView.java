@@ -3,6 +3,7 @@ package application.view.creatures;
 import application.model.Position;
 import application.model.creature.Creature;
 import application.model.creature.CreatureType;
+import application.model.creature.actions.TalkAction;
 import application.util.ImageLoader;
 import application.util.Util;
 import javafx.animation.RotateTransition;
@@ -10,6 +11,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -81,6 +83,25 @@ public class CreatureView extends StackPane {
               healthBar.setVisible(true);
               this.toFront();
               healthBar.toFront();
+            });
+
+    ImageView talkImage = new ImageView(ImageLoader.talking);
+    StackPane.setMargin(
+        talkImage, new Insets(-0.8 * scaleX.doubleValue(), -0.8 * scaleY.doubleValue(), 0, 0));
+    talkImage.setPreserveRatio(true);
+    talkImage.fitWidthProperty().bind(scaleX.multiply(imageSize));
+    talkImage.setVisible(false);
+    this.getChildren().add(talkImage);
+
+    creature
+        .actionProperty()
+        .addListener(
+            (obj, oldAction, newAction) -> {
+              if (newAction instanceof TalkAction) {
+                talkImage.setVisible(true);
+              } else {
+                talkImage.setVisible(false);
+              }
             });
   }
 

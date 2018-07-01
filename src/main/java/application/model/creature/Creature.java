@@ -11,6 +11,7 @@ import application.model.Moveable;
 import application.model.Position;
 import application.model.baseactions.Action;
 import application.model.creature.actions.CreatureMoveAction;
+import application.model.creature.actions.TalkAction;
 import application.model.creature.movements.MovementInterface;
 import application.model.creature.movements.NoSightMovement;
 import application.model.creature.vision.Vision;
@@ -39,7 +40,7 @@ public class Creature implements ActorInterface, Moveable {
   @JsonBackReference private MazeModelInterface maze;
   private Vision vision;
   private VisitedMap visitedMap;
-  @JsonIgnore private Action action;
+  @JsonIgnore private ObjectProperty<Action> action;
 
   /** json entry */
   public Creature() {
@@ -93,6 +94,7 @@ public class Creature implements ActorInterface, Moveable {
     this.visitedMap = new VisitedMap(maze.getMaxWallX(), maze.getMaxWallY());
     visitedMap.visit((int) getX(), (int) getY());
     markWalls();
+    action = new SimpleObjectProperty<>();
     chooseNewAction();
   }
 
@@ -117,11 +119,26 @@ public class Creature implements ActorInterface, Moveable {
                         && Math.abs(creature.getX() - getX()) < 0.5
                         && Math.abs(creature.getY() - getY()) < 0.5)
             .collect(Collectors.toList());
-    creaturesInRange.forEach(this::synchronizeMaps);
+    for (Creature creature : creaturesInRange) {
+      synchronizeMaps(creature);
+    }
   }
 
-  public void synchronizeMaps(Creature creature2) {
-    VisitedMap.merge(visitedMap, creature2.getVisitedMap());
+  public void synchronizeMaps(Creature creature) {
+    int differences = VisitedMap.merge(visitedMap, creature.getVisitedMap());
+    if (differences > 4) {
+      int timeToCommunicate = (differences - 4) * 100;
+      createTalkAction(this, timeToCommunicate);
+      createTalkAction(creature, timeToCommunicate);
+    }
+  }
+
+  private void createTalkAction(Creature creature, int timeToCommunicate) {
+    if (creature.getAction() instanceof TalkAction) {
+      ((TalkAction) creature.getAction()).adjustTalkTime(timeToCommunicate);
+    } else {
+      creature.setAction(new TalkAction(timeToCommunicate, creature));
+    }
   }
 
   /** @return the x value */
@@ -200,7 +217,7 @@ public class Creature implements ActorInterface, Moveable {
 
   @Override
   public void act(double dt) {
-    action.act(dt);
+    getAction().act(dt);
   }
 
   public ObjectProperty<Position> positionProperty() {
@@ -218,7 +235,16 @@ public class Creature implements ActorInterface, Moveable {
   }
 
   public void setAction(Action action) {
-    this.action = action;
+    this.action.set(action);
+  }
+
+  /** return the current action */
+  public Action getAction() {
+    return action.get();
+  }
+
+  public ObjectProperty<Action> actionProperty() {
+    return action;
   }
 
   public void markWalls() {

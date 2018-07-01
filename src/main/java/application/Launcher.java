@@ -70,16 +70,11 @@ public class Launcher extends Application {
     String json = readJson(path);
     LOG.log(Level.FINE, "Trying to deserialize {}", json);
     ObjectMapper serializer = Serializer.create();
-    if (serializer.canDeserialize(serializer.constructType(Game.class))) {
-      try {
-        return serializer.readValue(json, Game.class);
-      } catch (IOException e) {
-        LOG.log(Level.SEVERE, "Failed to convert json to Game", e);
-        return null;
-      }
-    } else {
-      LOG.warning("Game doesn't seem to be deserializeable. Creating a new one.");
-      return new Game();
+    try {
+      return serializer.readValue(json, Game.class);
+    } catch (IOException e) {
+      LOG.log(Level.SEVERE, "Failed to convert json to Game", e);
+      return null;
     }
   }
 

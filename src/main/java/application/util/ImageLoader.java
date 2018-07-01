@@ -18,11 +18,12 @@ public class ImageLoader {
   public static Image money, lifes;
   public static Image play, pause, buildSelected, buildNotSelected, infoSelected, infoNotSelected;
   public static Image normalCreature, toughCreature;
+  public static Image talking;
 
   public static Image wall;
 
   public static Image sell, upgrade;
-  public static Image noTower, normalTower, slowdownTower,fastTower;
+  public static Image noTower, normalTower, slowdownTower, fastTower;
   public static Image[] levels;
   public static Image normalBullet;
 
@@ -50,6 +51,8 @@ public class ImageLoader {
 
     normalCreature = loadImage("creatures/normal.png");
     toughCreature = loadImage("creatures/tough.png");
+
+    talking = loadImage("creatures/talking.png");
 
     sell = loadImage("sell.png");
     upgrade = loadImage("upgrade.png");
