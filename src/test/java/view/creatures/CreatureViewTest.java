@@ -4,11 +4,13 @@ import static org.hamcrest.core.AnyOf.anyOf;
 import static org.junit.Assert.assertEquals;
 import static org.testfx.api.FxAssert.verifyThat;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.util.WaitForAsyncUtils;
 import application.model.creature.Creature;
 import application.model.creature.CreatureFactory;
 import application.model.creature.CreatureType;
+import application.model.creature.actions.TalkAction;
 import javafx.scene.image.ImageView;
 import view.AbstractViewTest;
 
@@ -74,6 +76,15 @@ public class CreatureViewTest extends AbstractViewTest {
     verifyThat(".creature", NodeMatchers.isNotNull(), collectInfos());
     verifyThat(".health-bar", NodeMatchers.isNotNull());
     verifyThat(".health-bar", NodeMatchers.isVisible());
+  }
+
+  @Test
+  public void speechBubbleWhenTalking() {
+    Creature creature = CreatureFactory.create(maze, CreatureType.NORMAL, 3, 3);
+    interact(() -> maze.addCreature(creature));
+    verifyThat(".speech-bubble", NodeMatchers.isInvisible());
+    interact(() -> creature.setAction(new TalkAction(200, Mockito.mock(Creature.class))));
+    verifyThat(".speech-bubble", NodeMatchers.isVisible());
   }
 
   private int mod(double x, int modulo) {
