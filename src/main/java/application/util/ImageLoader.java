@@ -17,7 +17,7 @@ public class ImageLoader {
 
   public static Image money, lifes;
   public static Image play, pause, buildSelected, buildNotSelected, infoSelected, infoNotSelected;
-  public static Image normalCreature, toughCreature;
+  public static Image normalCreature, toughCreature, dumbCreature;
   public static Image talking;
 
   public static Image wall;
@@ -51,6 +51,7 @@ public class ImageLoader {
 
     normalCreature = loadImage("creatures/normal.png");
     toughCreature = loadImage("creatures/tough.png");
+    dumbCreature = loadImage("creatures/dumb.png");
 
     talking = loadImage("creatures/talking.png");
 
@@ -93,6 +94,8 @@ public class ImageLoader {
     switch (type) {
       case TOUGH:
         return ImageLoader.toughCreature;
+      case DUMB:
+        return ImageLoader.dumbCreature;
       case NORMAL:
       default:
         return ImageLoader.normalCreature;

@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
-
 import application.model.creature.movements.MovementInterface;
-import application.model.creature.movements.NoSightMovement;
 import application.model.creature.vision.Vision;
 import application.model.maze.Maze;
 import application.model.maze.MazeModelInterface;
@@ -19,11 +17,11 @@ public class CreatureFactory {
   }
 
   private static Creature create(
-      MazeModelInterface maze, CreatureType type, double x, double y, double toughnessFactor) {
-    double velocity = 1;
-    int lifes = (int) (type.getDefaultLifes() * toughnessFactor);
-    int value = (int) (Math.sqrt(toughnessFactor * 2));
-    MovementInterface movementStrategy = new NoSightMovement();
+      MazeModelInterface maze, CreatureType type, double x, double y, double timeFactor) {
+    double velocity = type.getDefaultVelocity();
+    int lifes = (int) (type.getDefaultLifes() * timeFactor);
+    int value = (int) (type.getDefaultValue() * Math.sqrt(timeFactor * 2));
+    MovementInterface movementStrategy = type.getMovementStrategy();
 
     return new Creature(x, y, velocity, lifes, value, movementStrategy, new Vision(), type, maze);
   }
