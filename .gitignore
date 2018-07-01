@@ -2,3 +2,6 @@
 bin
 failed-test-screenshots
 /target/
+.project
+.classpath
+.settings/
