@@ -19,6 +19,16 @@ public class VisitedMapTest {
   }
 
   @Test
+  public void fieldsOutsideOfMap() {
+    assertTrue(visitedMap.isWall(maxX + 1, 0));
+    assertTrue(visitedMap.isWall(0, maxY + 1));
+    assertTrue(visitedMap.isVisited(maxX + 1, 0));
+    assertTrue(visitedMap.isVisited(0, maxY + 1));
+    assertFalse(visitedMap.isUnknown(maxX + 1, 0));
+    assertFalse(visitedMap.isUnknown(0, maxY + 1));
+  }
+
+  @Test
   public void mergeOnlyVisitedTest() {
     int[][] visitedPos1 = {{0, 4}, {0, 3}, {0, 2}};
     int[][] visitedPos2 = {{4, 4}, {4, 3}, {4, 2}};

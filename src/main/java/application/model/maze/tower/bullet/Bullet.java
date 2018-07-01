@@ -1,9 +1,9 @@
 package application.model.maze.tower.bullet;
 
-import java.awt.Point;
-import java.util.function.Consumer;
 import application.controller.gameloop.ActorInterface;
+import application.model.Moveable;
 import application.model.Position;
+import application.model.baseactions.Action;
 import application.model.creature.Creature;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -13,17 +13,17 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-public class Bullet implements ActorInterface {
-  private Consumer<Creature> action;
+public abstract class Bullet implements Moveable, ActorInterface {
   private final double sourceX, sourceY;
   private ObjectProperty<Position> relativePosition;
   private DoubleProperty dx, dy;
-  private Creature target;
   private double vel;
   private BooleanProperty hasHitTarget;
+  private Action moveAction;
+  private Creature target;
 
-  public Bullet(
-      double sourceX, double sourceY, Consumer<Creature> action, Creature target, double vel) {
+  public Bullet(double sourceX, double sourceY, Creature target,
+      double vel) {
     this.sourceX = sourceX;
     this.sourceY = sourceY;
     relativePosition = new SimpleObjectProperty<>(new Position(0, 0));
@@ -32,30 +32,23 @@ public class Bullet implements ActorInterface {
     dx.bind(Bindings.createDoubleBinding(() -> relativePosition.get().getX(), relativePosition));
     dy.bind(Bindings.createDoubleBinding(() -> relativePosition.get().getY(), relativePosition));
 
-    this.action = action;
-    this.target = target;
     this.vel = vel;
     this.hasHitTarget = new SimpleBooleanProperty(false);
+    moveAction = new BulletMoveAction(this, target);
+    this.target = target;
   }
 
   @Override
   public void act(double dt) {
-    if (!hasHitTarget()) {
-      double remainingDist = Point.distance(getX(), getY(), target.getX(), target.getY());
-      double dirXNormalized = (target.getX() - getX()) / remainingDist;
-      double dirYNormalized = (target.getY() - getY()) / remainingDist;
-      setRelativePosition(
-          new Position(getDx() + dirXNormalized * dt * vel, getDy() + dirYNormalized * dt * vel));
-
-      if (remainingDist < dt * vel) {
-        hitTarget();
-      }
-    }
+    moveAction.act(dt);
   }
 
   public void hitTarget() {
-    action.accept(target);
     setHasHitTarget(true);
+  }
+  
+  public Creature getTarget() {
+    return target;
   }
 
   /** @return the relative position property */
@@ -71,6 +64,7 @@ public class Bullet implements ActorInterface {
   public DoubleProperty dxProperty() {
     return dx;
   }
+
   /** @return the relative x value */
   private double getDx() {
     return dx.get();
@@ -96,6 +90,13 @@ public class Bullet implements ActorInterface {
     return sourceY + getDy();
   }
 
+  /**
+   * @return true if bullet is completely finished and can be removed from updates
+   */
+  public boolean isOver() {
+    return hasHitTarget();
+  }
+  
   /** @return true if bullet already hit the target */
   public boolean hasHitTarget() {
     return hasHitTarget.get();
@@ -110,13 +111,18 @@ public class Bullet implements ActorInterface {
     hasHitTarget.set(newVal);
   }
 
-  /** @return the target */
-  public Creature getTarget() {
-    return target;
+  @Override
+  public double getVelocity() {
+    return vel;
   }
 
-  /** @return true if the action has finished and bullet can be removed from updates */
-  public boolean isOver() {
-    return hasHitTarget();
+  @Override
+  public void moveBy(double dx, double dy) {
+    setRelativePosition(new Position(getDx() + dx, getDy() + dy));
+  }
+
+  @Override
+  public void moveTo(double x, double y) {
+    setRelativePosition(new Position(x,y));
   }
 }

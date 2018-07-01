@@ -3,15 +3,15 @@ package application.model.creature;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import application.controller.gameloop.ActorInterface;
+import application.model.Moveable;
 import application.model.Position;
-import application.model.actions.Action;
-import application.model.creature.actions.MoveAction;
+import application.model.baseactions.Action;
+import application.model.creature.actions.CreatureMoveAction;
+import application.model.creature.actions.TalkAction;
 import application.model.creature.movements.MovementInterface;
 import application.model.creature.movements.NoSightMovement;
 import application.model.creature.vision.Vision;
@@ -25,7 +25,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-public class Creature implements ActorInterface {
+public class Creature implements ActorInterface, Moveable {
   private static final Logger LOG = Logger.getLogger(Creature.class.getName());
 
   private transient ObjectProperty<Position> position;
@@ -40,7 +40,7 @@ public class Creature implements ActorInterface {
   @JsonBackReference private MazeModelInterface maze;
   private Vision vision;
   private VisitedMap visitedMap;
-  @JsonIgnore private Action action;
+  @JsonIgnore private ObjectProperty<Action> action;
 
   /** json entry */
   public Creature() {
@@ -94,6 +94,7 @@ public class Creature implements ActorInterface {
     this.visitedMap = new VisitedMap(maze.getMaxWallX(), maze.getMaxWallY());
     visitedMap.visit((int) getX(), (int) getY());
     markWalls();
+    action = new SimpleObjectProperty<>();
     chooseNewAction();
   }
 
@@ -118,11 +119,26 @@ public class Creature implements ActorInterface {
                         && Math.abs(creature.getX() - getX()) < 0.5
                         && Math.abs(creature.getY() - getY()) < 0.5)
             .collect(Collectors.toList());
-    creaturesInRange.forEach(this::synchronizeMaps);
+    for (Creature creature : creaturesInRange) {
+      synchronizeMaps(creature);
+    }
   }
 
-  public void synchronizeMaps(Creature creature2) {
-    VisitedMap.merge(visitedMap, creature2.getVisitedMap());
+  public void synchronizeMaps(Creature creature) {
+    int differences = VisitedMap.merge(visitedMap, creature.getVisitedMap());
+    if (differences > 4) {
+      int timeToCommunicate = (differences - 4) * 100;
+      createTalkAction(this, timeToCommunicate);
+      createTalkAction(creature, timeToCommunicate);
+    }
+  }
+
+  private void createTalkAction(Creature creature, int timeToCommunicate) {
+    if (creature.getAction() instanceof TalkAction) {
+      ((TalkAction) creature.getAction()).adjustTalkTime(timeToCommunicate);
+    } else {
+      creature.setAction(new TalkAction(timeToCommunicate, creature));
+    }
   }
 
   /** @return the x value */
@@ -201,7 +217,7 @@ public class Creature implements ActorInterface {
 
   @Override
   public void act(double dt) {
-    action.run(dt);
+    getAction().act(dt);
   }
 
   public ObjectProperty<Position> positionProperty() {
@@ -215,11 +231,20 @@ public class Creature implements ActorInterface {
 
   public void chooseNewAction() {
     double[] goal = movementStrategy.getNextGoal(vision, visitedMap, getX(), getY());
-    setAction(new MoveAction(this, goal));
+    setAction(new CreatureMoveAction(this, goal));
   }
 
   public void setAction(Action action) {
-    this.action = action;
+    this.action.set(action);
+  }
+
+  /** return the current action */
+  public Action getAction() {
+    return action.get();
+  }
+
+  public ObjectProperty<Action> actionProperty() {
+    return action;
   }
 
   public void markWalls() {

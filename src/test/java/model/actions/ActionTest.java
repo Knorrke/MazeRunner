@@ -6,8 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
-
-import application.model.actions.Action;
+import application.model.baseactions.CountdownAction;
 
 public class ActionTest {
 
@@ -18,25 +17,25 @@ public class ActionTest {
     AtomicBoolean updateHookCalled = new AtomicBoolean(false);
     AtomicBoolean executeCalled = new AtomicBoolean(false);
 
-    Action action =
-        new Action((shortTime + longTime) / 2) {
+    CountdownAction countdownAction =
+        new CountdownAction((shortTime + longTime) / 2) {
           @Override
           public void updateHook(double dt) {
             updateHookCalled.set(true);
           }
 
           @Override
-          public void execute() {
+          public void onFinish() {
             executeCalled.set(true);
           }
         };
-    action.run(shortTime);
+    countdownAction.act(shortTime);
     assertTrue(updateHookCalled.get());
     assertFalse("execute shouldn't be called before countdown", executeCalled.get());
 
     updateHookCalled.set(false);
     executeCalled.set(false);
-    action.run(longTime);
+    countdownAction.act(longTime);
     assertTrue(updateHookCalled.get());
     assertTrue(executeCalled.get());
   }
@@ -47,35 +46,35 @@ public class ActionTest {
     AtomicInteger callsToExecuteWithoutReset = new AtomicInteger(0);
     AtomicInteger callsToExecuteWithReset = new AtomicInteger(0);
 
-    Action actionWithoutReset =
-        new Action(countdown) {
+    CountdownAction actionWithoutReset =
+        new CountdownAction(countdown) {
           @Override
-          public void execute() {
+          public void onFinish() {
             callsToExecuteWithoutReset.getAndIncrement();
           }
         };
 
-    Action actionWithReset =
-        new Action(countdown) {
+    CountdownAction actionWithReset =
+        new CountdownAction(countdown) {
           @Override
-          public void execute() {
+          public void onFinish() {
             resetCountdown();
             callsToExecuteWithReset.getAndIncrement();
           }
         };
 
-    actionWithoutReset.run(countdown / 2);
-    actionWithReset.run(countdown / 2);
+    actionWithoutReset.act(countdown / 2);
+    actionWithReset.act(countdown / 2);
     assertEquals("Execute shouldn't be called yet", 0, callsToExecuteWithoutReset.get());
     assertEquals("Execute shouldn't be called yet", 0, callsToExecuteWithReset.get());
 
-    actionWithoutReset.run(countdown);
-    actionWithReset.run(countdown);
+    actionWithoutReset.act(countdown);
+    actionWithReset.act(countdown);
     assertEquals("Execute should be called now", 1, callsToExecuteWithoutReset.get());
     assertEquals("Execute should be called now", 1, callsToExecuteWithReset.get());
 
-    actionWithoutReset.run(countdown);
-    actionWithReset.run(countdown);
+    actionWithoutReset.act(countdown);
+    actionWithReset.act(countdown);
     assertEquals("Execute should still be called only once", 1, callsToExecuteWithoutReset.get());
     assertEquals("Execute should be called twice now", 2, callsToExecuteWithReset.get());
   }

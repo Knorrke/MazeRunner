@@ -1,8 +1,8 @@
 package application.model.level;
 
-import application.model.actions.Action;
+import application.model.baseactions.CountdownAction;
 
-public class CreatureWaveAction extends Action {
+public class CreatureWaveAction extends CountdownAction {
 
   private LevelModelInterface level;
 
@@ -11,13 +11,12 @@ public class CreatureWaveAction extends Action {
   }
 
   public CreatureWaveAction(LevelModelInterface level, double waveDuration, double startDelay) {
-    super(waveDuration);
-    super.setCountdown(startDelay);
+    super(waveDuration, startDelay);
     this.level = level;
   }
 
   @Override
-  protected void execute() {
+  protected void onFinish() {
     level.sendNextCreatureWave();
     resetCountdown();
   }

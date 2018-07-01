@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import application.controller.gameloop.ActorInterface;
-import application.model.actions.Action;
+import application.model.baseactions.CountdownAction;
 import application.model.creature.Creature;
 import application.model.maze.Wall;
 import application.model.maze.tower.bullet.Bullet;
@@ -27,7 +27,7 @@ public abstract class AbstractTower implements ActorInterface {
   @JsonIgnore protected int costs;
   @JsonIgnore protected double visualRange;
 
-  @JsonIgnore private Action shootingAction;
+  @JsonIgnore private CountdownAction shootingAction;
   @JsonIgnore protected int x, y;
 
   @JsonIgnore private List<TowerUpgrade> upgrades;
@@ -47,9 +47,9 @@ public abstract class AbstractTower implements ActorInterface {
     this.type = type;
     setWall(wall);
     shootingAction =
-        new Action(1 / getFireRate()) { // Infinity if fireRate==0.0
+        new CountdownAction(1 / getFireRate()) { // Infinity if fireRate==0.0
           @Override
-          protected void execute() {
+          protected void onFinish() {
             shoot();
             resetCountdown();
           }
@@ -99,7 +99,7 @@ public abstract class AbstractTower implements ActorInterface {
 
   @Override
   public void act(double dt) {
-    shootingAction.run(dt);
+    shootingAction.act(dt);
     for (Iterator<Bullet> iterator = bullets.iterator(); iterator.hasNext(); ) {
       Bullet bullet = iterator.next();
       if (bullet.isOver()) {

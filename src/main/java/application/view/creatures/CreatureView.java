@@ -3,6 +3,7 @@ package application.view.creatures;
 import application.model.Position;
 import application.model.creature.Creature;
 import application.model.creature.CreatureType;
+import application.model.creature.actions.TalkAction;
 import application.util.ImageLoader;
 import application.util.Util;
 import javafx.animation.RotateTransition;
@@ -10,7 +11,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.ProgressBar;
+import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -68,11 +69,9 @@ public class CreatureView extends StackPane {
                 }
               }
             });
-    ProgressBar healthBar = new ProgressBar();
+    HealthBar healthBar = new HealthBar(img.fitWidthProperty());
     this.getChildren().add(healthBar);
-    healthBar.setVisible(false);
-    healthBar.getStyleClass().add("health-bar");
-    healthBar.maxWidthProperty().bind(img.fitWidthProperty());
+
     creature
         .lifesProperty()
         .addListener(
@@ -81,6 +80,22 @@ public class CreatureView extends StackPane {
               healthBar.setVisible(true);
               this.toFront();
               healthBar.toFront();
+            });
+
+    SpeechBubble speechBubble = new SpeechBubble(scaleX.multiply(imageSize));
+    this.getChildren().add(speechBubble);
+    StackPane.setMargin(
+        speechBubble, new Insets(-0.8 * scaleX.doubleValue(), -0.8 * scaleY.doubleValue(), 0, 0));
+
+    creature
+        .actionProperty()
+        .addListener(
+            (obj, oldAction, newAction) -> {
+              if (newAction instanceof TalkAction) {
+                speechBubble.setVisible(true);
+              } else {
+                speechBubble.setVisible(false);
+              }
             });
   }
 

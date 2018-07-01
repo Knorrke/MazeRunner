@@ -1,29 +1,37 @@
-package application.model.actions;
+package application.model.baseactions;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public abstract class Action {
+public abstract class CountdownAction extends Action {
   private double countdown;
   private double defaultCountdown;
   private DoubleProperty lazyCountdownProperty;
 
-  public Action(double defaultCountdown) {
+  public CountdownAction(double defaultCountdown, double delay) {
+    this(defaultCountdown);
+    setCountdown(delay);
+  }
+
+  public CountdownAction(double defaultCountdown) {
     this.defaultCountdown = defaultCountdown;
     this.setCountdown(defaultCountdown);
   }
 
-  public void run(double dt) {
+  @Override
+  public final void update(double dt) {
     updateHook(dt);
-    if (getCountdown() >= 0 && getCountdown() <= dt) {
-      execute();
-    }
     setCountdown(getCountdown() - dt);
+  }
+
+  @Override
+  public boolean isFinished() {
+    return getCountdown() <= 0;
   }
 
   protected void updateHook(double dt) {}
 
-  protected abstract void execute();
+  protected abstract void onFinish();
 
   public void resetCountdown() {
     setCountdown(defaultCountdown);

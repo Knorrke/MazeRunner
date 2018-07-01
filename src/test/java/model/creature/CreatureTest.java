@@ -1,13 +1,18 @@
 package model.creature;
 
 import static org.junit.Assert.*;
-
+import static org.hamcrest.core.IsEqual.*;
+import static org.hamcrest.core.IsInstanceOf.*;
+import static org.hamcrest.core.Is.*;
 import org.junit.Before;
 import org.junit.Test;
-
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
+import application.model.baseactions.Action;
 import application.model.creature.Creature;
 import application.model.creature.CreatureFactory;
 import application.model.creature.CreatureType;
+import application.model.creature.actions.TalkAction;
 import application.model.maze.Maze;
 import application.model.maze.MazeModelInterface;
 
@@ -142,12 +147,43 @@ public class CreatureTest {
     creature.damage(creature.getLifes() + 1);
     assertFalse(maze.getCreatures().contains(creature));
   }
-  
+
   @Test
   public void slowdown() {
     double velocityBefore = creature.getVelocity();
     creature.slowdown(0.5);
     assertEquals(velocityBefore * 0.5, creature.getVelocity(), 0.01);
+  }
+
+  @Test
+  public void resetActionAfterTalking() {
+    Action previous = creature.getAction();
+    creature.setAction(new TalkAction(500, creature));
+    Action talkingAction = creature.getAction();
+    assertThat(
+        "Should have set the correct Action", talkingAction, is(instanceOf(TalkAction.class)));
+    creature.act(400.0 / 1000);
+    assertThat("Should not changed the action", creature.getAction(), is(equalTo(talkingAction)));
+    assertFalse("Should not be finished", talkingAction.isFinished());
+    creature.act(100.0 / 1000);
+    assertTrue("Should be finished now", talkingAction.isFinished());
+    assertThat("Should have changed the action back", creature.getAction(), is(equalTo(previous)));
+  }
+
+  @Test
+  public void updateTalkActionInsteadOfReplacing() {
+    int fieldsBetweenCreatures = 5;
+    double x2 = startX, y2 = startY + fieldsBetweenCreatures;
+    Creature talking = Mockito.spy(CreatureFactory.create(maze, CreatureType.NORMAL, x2, y2));
+    TalkAction talkAction = Mockito.mock(TalkAction.class);
+    talking.setAction(talkAction);
+    maze.addCreature(talking);
+
+    for (int i = 0; i < fieldsBetweenCreatures; i++) {
+      creature.moveBy(0, 1);
+    }
+    Mockito.verify(talking, Mockito.atLeastOnce()).getAction();
+    Mockito.verify(talkAction).adjustTalkTime(ArgumentMatchers.anyInt());
   }
 
   /** Helper functions */
