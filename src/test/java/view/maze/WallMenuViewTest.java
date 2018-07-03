@@ -18,6 +18,7 @@ import application.view.maze.TowerView;
 import application.view.maze.WallMenuView;
 import application.view.maze.WallView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import view.AbstractViewTest;
 
 public class WallMenuViewTest extends AbstractViewTest {
@@ -39,13 +40,6 @@ public class WallMenuViewTest extends AbstractViewTest {
   public void closingMenuByMovingTest() {
     moveTo(0, 0);
     assertFalse(menu.isShown());
-  }
-
-  @Test
-  public void closingMenuByClickingTest() {
-    clickOn(".wall");
-    assertFalse(menu.isShown());
-    verifyThat(".wall", NodeMatchers.hasChild(".tower .NO"));
   }
 
   @Test
@@ -127,6 +121,21 @@ public class WallMenuViewTest extends AbstractViewTest {
   }
 
   @Test
+  public void closingMenuByClickingTest() {
+    WallView wall = lookup(".wall").query();
+    // redirect events on Popup to wall...
+    interact(
+        () -> {
+          window(1)
+              .addEventHandler(
+                  MouseEvent.MOUSE_CLICKED, event -> wall.getController().showMenu(event));
+        });
+    clickOn(".wall");
+    assertFalse(menu.isShown());
+    verifyThat(".wall", NodeMatchers.hasChild(".tower .NO"));
+  }
+
+  @Test
   public void dontOpenWhenInfoTest() {
     selectNormalTower();
     waitForAnimation();
@@ -160,7 +169,6 @@ public class WallMenuViewTest extends AbstractViewTest {
     clickOn(".wall", MouseButton.PRIMARY);
     WallView wall = this.lookup(".wall").query();
     menu = wall.getController().getMenu();
-
     waitForAnimation();
   }
 

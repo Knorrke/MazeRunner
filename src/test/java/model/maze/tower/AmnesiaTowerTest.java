@@ -2,6 +2,8 @@ package model.maze.tower;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -19,6 +21,7 @@ import application.model.maze.tower.TowerType;
 import application.model.maze.tower.bullet.AmnesiaBullet;
 import application.model.maze.tower.bullet.Bullet;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class AmnesiaTowerTest {
   private Wall wallMock;
@@ -51,6 +54,25 @@ public class AmnesiaTowerTest {
     tower.shoot();
     Bullet bullet = tower.getBullets().get(0);
     assertThat(bullet, is(instanceOf(AmnesiaBullet.class)));
+  }
+
+  @Test
+  public void prefersCreaturesThatArentShotYet() {
+    tower.shoot();
+    Creature secondCreatureInRange =
+        Mockito.spy(CreatureFactory.create(Mockito.mock(Maze.class), CreatureType.NORMAL, 0, 0));
+    Mockito.doReturn(FXCollections.observableArrayList(creatureInRange, secondCreatureInRange))
+        .when(wallMock)
+        .getCreaturesMatchingCondition(ArgumentMatchers.any());
+    tower.shoot();
+    ObservableList<Bullet> bullets = tower.getBullets();
+    assertEquals(2, bullets.size());
+    assertNotEquals(bullets.get(0).getTarget(), bullets.get(1).getTarget());
+    assertEquals(bullets.get(0).getTarget(), creatureInRange);
+    assertEquals(bullets.get(1).getTarget(), secondCreatureInRange);
+
+    tower.shoot();
+    assertEquals("Should shoot even when all creatures are already shot at", 3, bullets.size());
   }
 
   @Test

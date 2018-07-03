@@ -13,9 +13,7 @@ import javafx.scene.image.ImageView;
 import view.AbstractViewTest;
 
 public class GameControllerTest extends AbstractViewTest {
-  private static final String build = "#buildButton",
-      info = "#infoButton",
-      playPause = "#playPauseButton";
+  private final String build = "#buildButton", info = "#infoButton", playPause = "#playPauseButton";
 
   @Test
   public void playPauseButtonTest() {

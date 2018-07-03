@@ -9,7 +9,6 @@ import javafx.util.Duration;
 
 public class AmnesiaBullet extends Bullet {
   private Action revertAction;
-  private Duration duration;
 
   public AmnesiaBullet(double sourceX, double sourceY, Duration duration, Creature target) {
     this(sourceX, sourceY, duration, target, 3);
@@ -18,7 +17,6 @@ public class AmnesiaBullet extends Bullet {
   public AmnesiaBullet(
       double sourceX, double sourceY, Duration duration, Creature target, double vel) {
     super(sourceX, sourceY, target, vel);
-    this.duration = duration;
     MovementInterface saved = target.getMovementStrategy();
     this.revertAction =
         new CountdownAction(duration.toMillis()) {
@@ -47,9 +45,5 @@ public class AmnesiaBullet extends Bullet {
   public void hitTarget() {
     super.hitTarget();
     getTarget().setMovementStrategy(new RandomMovement());
-  }
-
-  public Duration getDuration() {
-    return duration;
   }
 }
