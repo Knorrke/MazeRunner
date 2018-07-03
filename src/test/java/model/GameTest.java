@@ -1,18 +1,18 @@
 package model;
 
-import static application.model.GameState.BUILDING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mazerunner.model.GameState.BUILDING;
 import org.junit.Before;
 import org.junit.Test;
-import application.model.Game;
-import application.model.GameState;
-import application.model.creature.CreatureFactory;
-import application.model.creature.CreatureGroup;
-import application.model.creature.CreatureType;
-import application.model.level.LevelModelInterface;
-import application.model.maze.MazeModelInterface;
-import application.model.player.PlayerModelInterface;
+import org.mazerunner.model.Game;
+import org.mazerunner.model.GameState;
+import org.mazerunner.model.creature.CreatureFactory;
+import org.mazerunner.model.creature.CreatureGroup;
+import org.mazerunner.model.creature.CreatureType;
+import org.mazerunner.model.level.LevelModelInterface;
+import org.mazerunner.model.maze.MazeModelInterface;
+import org.mazerunner.model.player.PlayerModelInterface;
 
 public class GameTest {
 

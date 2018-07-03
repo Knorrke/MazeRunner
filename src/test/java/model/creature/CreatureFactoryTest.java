@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
-import application.model.creature.Creature;
-import application.model.creature.CreatureFactory;
-import application.model.creature.CreatureGroup;
-import application.model.creature.CreatureType;
-import application.model.maze.Maze;
-import application.model.maze.MazeModelInterface;
+import org.mazerunner.model.creature.Creature;
+import org.mazerunner.model.creature.CreatureFactory;
+import org.mazerunner.model.creature.CreatureGroup;
+import org.mazerunner.model.creature.CreatureType;
+import org.mazerunner.model.maze.Maze;
+import org.mazerunner.model.maze.MazeModelInterface;
 
 public class CreatureFactoryTest {
 

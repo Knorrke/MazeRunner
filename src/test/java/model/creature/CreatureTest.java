@@ -6,15 +6,15 @@ import static org.hamcrest.core.IsInstanceOf.*;
 import static org.hamcrest.core.Is.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.mazerunner.model.baseactions.Action;
+import org.mazerunner.model.creature.Creature;
+import org.mazerunner.model.creature.CreatureFactory;
+import org.mazerunner.model.creature.CreatureType;
+import org.mazerunner.model.creature.actions.TalkAction;
+import org.mazerunner.model.maze.Maze;
+import org.mazerunner.model.maze.MazeModelInterface;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import application.model.baseactions.Action;
-import application.model.creature.Creature;
-import application.model.creature.CreatureFactory;
-import application.model.creature.CreatureType;
-import application.model.creature.actions.TalkAction;
-import application.model.maze.Maze;
-import application.model.maze.MazeModelInterface;
 
 public class CreatureTest {
 

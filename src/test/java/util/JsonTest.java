@@ -10,26 +10,25 @@ import java.util.logging.Logger;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mazerunner.model.Game;
+import org.mazerunner.model.GameModelInterface;
+import org.mazerunner.model.creature.Creature;
+import org.mazerunner.model.creature.CreatureFactory;
+import org.mazerunner.model.creature.CreatureGroup;
+import org.mazerunner.model.creature.CreatureType;
+import org.mazerunner.model.creature.movements.NoSightMovement;
+import org.mazerunner.model.maze.Maze;
+import org.mazerunner.model.maze.MazeModelInterface;
+import org.mazerunner.model.maze.Wall;
+import org.mazerunner.model.maze.tower.AbstractTower;
+import org.mazerunner.model.maze.tower.NoTower;
+import org.mazerunner.model.maze.tower.TowerType;
+import org.mazerunner.model.player.Player;
+import org.mazerunner.model.player.PlayerModelInterface;
+import org.mazerunner.util.Serializer;
 import org.mockito.Mockito;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import application.model.Game;
-import application.model.GameModelInterface;
-import application.model.creature.Creature;
-import application.model.creature.CreatureFactory;
-import application.model.creature.CreatureGroup;
-import application.model.creature.CreatureType;
-import application.model.creature.movements.NoSightMovement;
-import application.model.maze.Maze;
-import application.model.maze.MazeModelInterface;
-import application.model.maze.Wall;
-import application.model.maze.tower.AbstractTower;
-import application.model.maze.tower.NoTower;
-import application.model.maze.tower.TowerType;
-import application.model.player.Player;
-import application.model.player.PlayerModelInterface;
-import application.util.Serializer;
 
 public class JsonTest {
 

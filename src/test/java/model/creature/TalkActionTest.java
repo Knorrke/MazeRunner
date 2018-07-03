@@ -3,10 +3,10 @@ package model.creature;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
+import org.mazerunner.model.baseactions.Action;
+import org.mazerunner.model.creature.Creature;
+import org.mazerunner.model.creature.actions.TalkAction;
 import org.mockito.Mockito;
-import application.model.baseactions.Action;
-import application.model.creature.Creature;
-import application.model.creature.actions.TalkAction;
 
 public class TalkActionTest {
 

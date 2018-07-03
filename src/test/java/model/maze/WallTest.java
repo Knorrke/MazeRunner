@@ -4,12 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mazerunner.model.maze.Wall;
+import org.mazerunner.model.maze.tower.AbstractTower;
+import org.mazerunner.model.maze.tower.NoTower;
+import org.mazerunner.model.maze.tower.TowerType;
 import org.mockito.Mockito;
-
-import application.model.maze.Wall;
-import application.model.maze.tower.AbstractTower;
-import application.model.maze.tower.NoTower;
-import application.model.maze.tower.TowerType;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 

@@ -9,11 +9,11 @@ import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mazerunner.util.FXMLLoaderUtil;
+import org.mazerunner.util.FXMLLoaderUtil.ErrorView;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.testfx.framework.junit.ApplicationTest;
-import application.util.FXMLLoaderUtil;
-import application.util.FXMLLoaderUtil.ErrorView;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 

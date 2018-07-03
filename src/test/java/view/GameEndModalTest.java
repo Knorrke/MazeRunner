@@ -11,11 +11,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
+import org.mazerunner.model.GameState;
+import org.mazerunner.view.popover.GameEndPopOver;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.control.LabeledMatchers;
-import application.model.GameState;
-import application.view.popover.GameEndPopOver;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 

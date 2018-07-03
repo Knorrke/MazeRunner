@@ -5,12 +5,11 @@ import static org.junit.Assert.*;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
+import org.mazerunner.controller.gameloop.GameLoop;
+import org.mazerunner.controller.gameloop.Updateable;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.testfx.util.WaitForAsyncUtils;
-
-import application.controller.gameloop.GameLoop;
-import application.controller.gameloop.Updateable;
 import view.AbstractViewTest;
 
 public class GameLoopTest extends AbstractViewTest {

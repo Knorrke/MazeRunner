@@ -3,8 +3,8 @@ package view;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import application.model.GameState;
-import application.view.popover.GameEndPopOver;
+import org.mazerunner.model.GameState;
+import org.mazerunner.view.popover.GameEndPopOver;
 import javafx.stage.Window;
 
 public class GameEndModalIntegrationTest extends AbstractViewTest {

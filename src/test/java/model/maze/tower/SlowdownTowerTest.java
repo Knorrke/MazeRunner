@@ -9,17 +9,17 @@ import static org.hamcrest.core.IsInstanceOf.*;
 import static org.hamcrest.core.Is.*;
 
 import org.junit.Test;
+import org.mazerunner.model.creature.Creature;
+import org.mazerunner.model.creature.CreatureFactory;
+import org.mazerunner.model.creature.CreatureType;
+import org.mazerunner.model.maze.Maze;
+import org.mazerunner.model.maze.Wall;
+import org.mazerunner.model.maze.tower.AbstractTower;
+import org.mazerunner.model.maze.tower.TowerType;
+import org.mazerunner.model.maze.tower.bullet.Bullet;
+import org.mazerunner.model.maze.tower.bullet.SlowdownBullet;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import application.model.creature.Creature;
-import application.model.creature.CreatureFactory;
-import application.model.creature.CreatureType;
-import application.model.maze.Maze;
-import application.model.maze.Wall;
-import application.model.maze.tower.AbstractTower;
-import application.model.maze.tower.TowerType;
-import application.model.maze.tower.bullet.Bullet;
-import application.model.maze.tower.bullet.SlowdownBullet;
 import javafx.collections.FXCollections;
 
 public class SlowdownTowerTest {

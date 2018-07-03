@@ -3,13 +3,13 @@ package model.maze.tower.bullet;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+import org.mazerunner.model.creature.Creature;
+import org.mazerunner.model.creature.movements.MovementInterface;
+import org.mazerunner.model.creature.movements.RandomMovement;
+import org.mazerunner.model.maze.tower.bullet.AmnesiaBullet;
+import org.mazerunner.model.maze.tower.bullet.Bullet;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import application.model.creature.Creature;
-import application.model.creature.movements.MovementInterface;
-import application.model.creature.movements.RandomMovement;
-import application.model.maze.tower.bullet.AmnesiaBullet;
-import application.model.maze.tower.bullet.Bullet;
 import javafx.util.Duration;
 
 public class AmnesiaBulletTest {

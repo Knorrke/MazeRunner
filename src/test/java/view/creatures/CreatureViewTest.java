@@ -4,13 +4,13 @@ import static org.hamcrest.core.AnyOf.anyOf;
 import static org.junit.Assert.assertEquals;
 import static org.testfx.api.FxAssert.verifyThat;
 import org.junit.Test;
+import org.mazerunner.model.creature.Creature;
+import org.mazerunner.model.creature.CreatureFactory;
+import org.mazerunner.model.creature.CreatureType;
+import org.mazerunner.model.creature.actions.TalkAction;
 import org.mockito.Mockito;
 import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.util.WaitForAsyncUtils;
-import application.model.creature.Creature;
-import application.model.creature.CreatureFactory;
-import application.model.creature.CreatureType;
-import application.model.creature.actions.TalkAction;
 import javafx.scene.image.ImageView;
 import view.AbstractViewTest;
 

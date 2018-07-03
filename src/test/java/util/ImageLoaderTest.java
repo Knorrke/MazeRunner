@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import application.model.creature.CreatureType;
-import application.model.maze.tower.TowerType;
-import application.util.ImageLoader;
+import org.mazerunner.model.creature.CreatureType;
+import org.mazerunner.model.maze.tower.TowerType;
+import org.mazerunner.util.ImageLoader;
 
 public class ImageLoaderTest {
 

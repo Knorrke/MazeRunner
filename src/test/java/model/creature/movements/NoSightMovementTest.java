@@ -6,12 +6,11 @@ import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import application.model.creature.VisitedMap;
-import application.model.creature.movements.MovementInterface;
-import application.model.creature.movements.NoSightMovement;
-import application.model.creature.vision.Vision;
-import application.model.maze.MazeModelInterface;
+import org.mazerunner.model.creature.VisitedMap;
+import org.mazerunner.model.creature.movements.MovementInterface;
+import org.mazerunner.model.creature.movements.NoSightMovement;
+import org.mazerunner.model.creature.vision.Vision;
+import org.mazerunner.model.maze.MazeModelInterface;
 
 public class NoSightMovementTest {
   int maxX = 5, maxY = 5;

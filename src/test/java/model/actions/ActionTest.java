@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
-import application.model.baseactions.CountdownAction;
+import org.mazerunner.model.baseactions.CountdownAction;
 
 public class ActionTest {
 
