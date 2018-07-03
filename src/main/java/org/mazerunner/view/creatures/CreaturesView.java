@@ -46,10 +46,9 @@ public class CreaturesView extends Pane implements Bindable<MazeModelInterface> 
 
   public void createCreatures(List<? extends Creature> list) {
     ObservableList<Node> children = getChildren();
-    children.addAll(
-        list.stream()
-            .map(creature -> new CreatureView(creature, scaleX, scaleY))
-            .collect(Collectors.toList()));
+    for (Creature creature : list) {
+      children.add(new CreatureView(creature, scaleX, scaleY));
+    }
   }
 
   private void removeCreatures(List<? extends Creature> removed) {

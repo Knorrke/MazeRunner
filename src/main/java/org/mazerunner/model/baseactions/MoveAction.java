@@ -1,8 +1,8 @@
 package org.mazerunner.model.baseactions;
 
-import java.awt.Point;
 import org.mazerunner.model.Moveable;
 import org.mazerunner.model.PositionAware;
+import org.mazerunner.util.Util;
 
 public class MoveAction extends Action {
 
@@ -14,13 +14,12 @@ public class MoveAction extends Action {
     this.target = positionAware;
     this.moveable = moveable;
     remainingDist =
-        Point.distance(
-            moveable.getX(), moveable.getY(), positionAware.getX(), positionAware.getY());
+        Util.distance(moveable.getX(), moveable.getY(), positionAware.getX(), positionAware.getY());
   }
 
   @Override
   public void update(double dt) {
-    remainingDist = Point.distance(moveable.getX(), moveable.getY(), target.getX(), target.getY());
+    remainingDist = Util.distance(moveable.getX(), moveable.getY(), target.getX(), target.getY());
     double dirXNormalized = (target.getX() - moveable.getX()) / remainingDist;
     double dirYNormalized = (target.getY() - moveable.getY()) / remainingDist;
     double ds = moveable.getVelocity() * dt;

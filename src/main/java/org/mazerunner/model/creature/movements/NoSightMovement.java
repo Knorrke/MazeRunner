@@ -2,6 +2,7 @@ package org.mazerunner.model.creature.movements;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,9 +37,13 @@ public class NoSightMovement implements MovementInterface {
     next.add(start);
     Node found = null;
     while (found == null && !next.isEmpty()) {
-      next.sort(
-          (n1, n2) ->
-              dist.getOrDefault(n1, Integer.MAX_VALUE) - dist.getOrDefault(n2, Integer.MAX_VALUE));
+      Collections.sort(
+          next,
+          (n1, n2) -> {
+            int dist1 = dist.containsKey(n1) ? dist.get(n1) : Integer.MAX_VALUE;
+            int dist2 = dist.containsKey(n2) ? dist.get(n2) : Integer.MAX_VALUE;
+            return dist1 - dist2;
+          });
       Node nextEl = next.remove(0);
       closed.add(nextEl);
       Node left = new Node(nextEl.x - 1, nextEl.y);
@@ -53,9 +58,9 @@ public class NoSightMovement implements MovementInterface {
         } else {
           if (!next.contains(neighbor)) next.add(neighbor);
 
-          if (dist.getOrDefault(nextEl, Integer.MAX_VALUE) + 1
-              < dist.getOrDefault(neighbor, Integer.MAX_VALUE)) {
-            dist.put(neighbor, dist.getOrDefault(nextEl, Integer.MAX_VALUE) + 1);
+          if (dist.containsKey(nextEl)
+              && (!dist.containsKey(neighbor) || dist.get(nextEl) + 1 < dist.get(neighbor))) {
+            dist.put(neighbor, dist.get(nextEl) + 1);
             previous.put(neighbor, nextEl);
           }
 

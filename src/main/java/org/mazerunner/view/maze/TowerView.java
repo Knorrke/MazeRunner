@@ -50,10 +50,9 @@ public class TowerView extends StackPane {
 
   public void createBullets(List<? extends Bullet> list) {
     ObservableList<Node> children = this.getChildren();
-    children.addAll(
-        list.stream()
-            .map(bullet -> new BulletView(bullet, scaleX, scaleY))
-            .collect(Collectors.toList()));
+    for (Bullet bullet : list) {
+      children.add(new BulletView(bullet, scaleX, scaleY));
+    }
   }
 
   private void removeBullets(List<? extends Bullet> removed) {

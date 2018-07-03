@@ -1,5 +1,6 @@
 package org.mazerunner.model.maze;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import org.mazerunner.controller.gameloop.ActorInterface;
@@ -109,7 +110,13 @@ public class Wall implements ActorInterface {
   }
 
   public List<Creature> getCreaturesMatchingCondition(Predicate<Creature> pred) {
-    return maze.getCreatures().filtered(pred);
+    List<Creature> filtered = new ArrayList<>();
+    for (Creature creature : maze.getCreatures()) {
+      if (pred.test(creature)) {
+        filtered.add(creature);
+      }
+    }
+    return filtered;
   }
 
   public void setMaze(MazeModelInterface maze) {

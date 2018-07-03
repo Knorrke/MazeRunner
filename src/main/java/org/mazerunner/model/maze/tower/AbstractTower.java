@@ -1,6 +1,5 @@
 package org.mazerunner.model.maze.tower;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -10,6 +9,7 @@ import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.maze.Wall;
 import org.mazerunner.model.maze.tower.bullet.Bullet;
 import org.mazerunner.util.ObservableBulletsListDeserializer;
+import org.mazerunner.util.Util;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonGetter;
@@ -114,7 +114,7 @@ public abstract class AbstractTower implements ActorInterface {
 
   public List<Creature> findCreaturesInRange() {
     return wall.getCreaturesMatchingCondition(
-        c -> Point.distance(c.getX(), c.getY(), x + 0.5, y + 0.5) <= getVisualRange());
+        c -> Util.distance(c.getX(), c.getY(), x + 0.5, y + 0.5) <= getVisualRange());
   }
 
   public AbstractTower upgrade() {
