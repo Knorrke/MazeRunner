@@ -8,6 +8,7 @@ import application.model.maze.tower.AbstractTower;
 import application.model.maze.tower.TowerType;
 import application.model.maze.tower.TowerUpgrade;
 import application.util.ImageLoader;
+import application.util.ScaleUtil;
 import application.util.Util;
 import application.view.FloatingLabel;
 import javafx.beans.binding.DoubleBinding;
@@ -72,11 +73,13 @@ public class WallMenuView extends CirclePopupMenu {
     String id = hoverText.toLowerCase().replace(' ', '-');
     view.setId(id);
     view.setPreserveRatio(true);
-    view.fitWidthProperty().bind(scaleX.add(10));
-    view.fitHeightProperty().bind(scaleY.add(10));
+    view.fitWidthProperty().bind(scaleX.add(10).multiply(ScaleUtil.getScale().xProperty()));
+    view.fitHeightProperty().bind(scaleY.add(10).multiply(ScaleUtil.getScale().yProperty()));
     view.setOnMouseClicked(handler);
     label.setId(id + "-label");
     label.setMouseTransparent(true);
+    label.scaleXProperty().bind(ScaleUtil.getScale().xProperty());
+    label.scaleYProperty().bind(ScaleUtil.getScale().yProperty());
     return new MenuItem(hoverText, new StackPane(view, label));
   }
 

@@ -6,15 +6,17 @@ import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import application.controller.GameController;
 import application.model.Game;
 import application.util.ImageLoader;
+import application.util.ScaleUtil;
 import application.util.Serializer;
 import javafx.application.Application;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 public class Launcher extends Application {
@@ -51,7 +53,16 @@ public class Launcher extends Application {
   }
 
   public static Scene startScene(GameController gameController, Stage primaryStage) {
-    Scene scene = new Scene(gameController.getView());
+    Parent view = gameController.getView();
+    int prefWidth = 800, prefHeight = 500;
+    Pane pane = new Pane(view);
+    Scene scene = new Scene(pane, prefWidth, prefHeight);
+    Scale scale = ScaleUtil.getScale();
+    scale.setPivotX(0);
+    scale.setPivotY(0);
+    scale.xProperty().bind(scene.widthProperty().divide(prefWidth));
+    scale.yProperty().bind(scene.heightProperty().divide(prefHeight));
+    view.getTransforms().add(scale);
     LOG.fine("loading stylesheet");
     scene
         .getStylesheets()
