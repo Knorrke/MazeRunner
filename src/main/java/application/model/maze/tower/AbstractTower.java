@@ -75,6 +75,8 @@ public abstract class AbstractTower implements ActorInterface {
 
   public static AbstractTower create(Wall wall, TowerType type) {
     switch (type) {
+      case AMNESIA:
+        return new AmnesiaTower(wall);
       case FAST:
         return new FastTower(wall);
       case SLOWDOWN:

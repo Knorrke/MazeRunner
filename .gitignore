@@ -5,3 +5,5 @@ failed-test-screenshots
 .project
 .classpath
 .settings/
+/.gradle/
+build

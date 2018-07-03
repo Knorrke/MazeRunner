@@ -13,13 +13,15 @@ public class RandomMovement implements MovementInterface {
     List<double[]> directions = new ArrayList<>(4);
     Collections.addAll(directions, new double[][] {{1, 0}, {0, 1}, {0, -1}, {-1, 0}});
     Collections.shuffle(directions);
+    double[] result = {currentX + 1, currentY}; // default
     for (double[] direction : directions) {
       double x = currentX + direction[0];
       double y = currentY + direction[1];
       if (x >= 0 && y >= 0 && !visited.isWall((int) x, (int) y)) {
-        return new double[] {x, y};
+        result = new double[] {x, y};
+        break;
       }
     }
-    return new double[] {currentX + 1, currentY};
+    return result;
   }
 }

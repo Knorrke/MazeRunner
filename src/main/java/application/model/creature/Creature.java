@@ -209,6 +209,11 @@ public class Creature implements ActorInterface, Moveable {
     this.movementStrategy = movementStrategy;
   }
 
+  /** @return the movementStrategy */
+  public MovementInterface getMovementStrategy() {
+    return movementStrategy;
+  }
+
   /** @return the type */
   public CreatureType getType() {
     return type;
