@@ -15,7 +15,6 @@ public class AmnesiaTower extends AbstractTower {
 
   protected AmnesiaTower(Wall wall) {
     super(1, 0, 20, 2, TowerType.AMNESIA, wall);
-    this.getUpgrades().add(new TowerUpgrade(rate -> rate, damage -> damage, range -> range, 15));
   }
 
   @Override
@@ -39,10 +38,7 @@ public class AmnesiaTower extends AbstractTower {
   public void shoot(AbstractTower shooting, Creature target) {
     shooting.addBullet(
         new AmnesiaBullet(
-            shooting.getX() + 0.5,
-            shooting.getY() + 0.5,
-            Duration.millis(5000 + 3000 * shooting.getLevel()),
-            target));
+            shooting.getX() + 0.5, shooting.getY() + 0.5, Duration.millis(5000), target));
     shotAt.add(target);
   }
 }

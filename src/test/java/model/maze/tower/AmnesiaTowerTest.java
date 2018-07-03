@@ -2,8 +2,6 @@ package model.maze.tower;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -56,27 +54,7 @@ public class AmnesiaTowerTest {
   }
 
   @Test
-  public void amnesiaTowerUpgradeTest() {
-    tower.shoot();
-    Bullet bulletBeforeUpgrade = tower.getBullets().get(0);
-    tower.getBullets().clear();
-    AbstractTower upgraded = tower.upgrade();
-    upgraded.shoot();
-    Bullet bulletAfterUpgrade = upgraded.getBullets().get(0);
-
-    assertThat(bulletBeforeUpgrade, is(instanceOf(AmnesiaBullet.class)));
-    assertThat(bulletAfterUpgrade, is(instanceOf(AmnesiaBullet.class)));
-    assertNotEquals(bulletBeforeUpgrade, bulletAfterUpgrade);
-
-    assertNotEquals(
-        ((AmnesiaBullet) bulletBeforeUpgrade).getDuration(),
-        ((AmnesiaBullet) bulletAfterUpgrade).getDuration());
-  }
-
-  @Test
-  public void hasOneUpgradeTest() {
-    assertNotNull("Should have one upgrade", tower.getNextUpgrade());
-    tower = tower.upgrade();
-    assertNull("Shouldn't have more than one", tower.getNextUpgrade());
+  public void hasNoUpgradeTest() {
+    assertNull("Shouldn't have upgrades", tower.getNextUpgrade());
   }
 }
