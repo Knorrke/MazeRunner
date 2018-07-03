@@ -3,11 +3,10 @@ package view;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+import org.mazerunner.Launcher;
+import org.mazerunner.controller.GameController;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-
-import application.Launcher;
-import application.controller.GameController;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

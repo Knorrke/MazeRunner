@@ -4,15 +4,14 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mazerunner.model.creature.CreatureGroup;
+import org.mazerunner.model.creature.CreatureType;
+import org.mazerunner.model.level.Level;
+import org.mazerunner.model.level.LevelModelInterface;
+import org.mazerunner.model.maze.Maze;
+import org.mazerunner.model.maze.MazeModelInterface;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-
-import application.model.creature.CreatureGroup;
-import application.model.creature.CreatureType;
-import application.model.level.Level;
-import application.model.level.LevelModelInterface;
-import application.model.maze.Maze;
-import application.model.maze.MazeModelInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;

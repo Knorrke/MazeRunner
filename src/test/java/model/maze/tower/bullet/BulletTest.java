@@ -5,11 +5,11 @@ import java.awt.Point;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 import org.junit.Test;
+import org.mazerunner.model.creature.Creature;
+import org.mazerunner.model.maze.tower.bullet.Bullet;
+import org.mazerunner.model.maze.tower.bullet.DamageBullet;
+import org.mazerunner.model.maze.tower.bullet.SlowdownBullet;
 import org.mockito.Mockito;
-import application.model.creature.Creature;
-import application.model.maze.tower.bullet.Bullet;
-import application.model.maze.tower.bullet.DamageBullet;
-import application.model.maze.tower.bullet.SlowdownBullet;
 import javafx.util.Duration;
 
 public class BulletTest {

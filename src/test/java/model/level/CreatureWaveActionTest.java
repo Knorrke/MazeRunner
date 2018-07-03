@@ -1,10 +1,10 @@
 package model.level;
 
 import org.junit.Test;
+import org.mazerunner.model.level.CreatureWaveAction;
+import org.mazerunner.model.level.Level;
+import org.mazerunner.model.level.LevelModelInterface;
 import org.mockito.Mockito;
-import application.model.level.CreatureWaveAction;
-import application.model.level.Level;
-import application.model.level.LevelModelInterface;
 
 public class CreatureWaveActionTest {
   @Test

@@ -7,16 +7,15 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mazerunner.model.creature.Creature;
+import org.mazerunner.model.creature.CreatureFactory;
+import org.mazerunner.model.creature.CreatureType;
+import org.mazerunner.model.maze.Wall;
+import org.mazerunner.model.maze.tower.AbstractTower;
+import org.mazerunner.model.maze.tower.TowerType;
+import org.mazerunner.model.maze.tower.bullet.Bullet;
 import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.util.WaitForAsyncUtils;
-
-import application.model.creature.Creature;
-import application.model.creature.CreatureFactory;
-import application.model.creature.CreatureType;
-import application.model.maze.Wall;
-import application.model.maze.tower.AbstractTower;
-import application.model.maze.tower.TowerType;
-import application.model.maze.tower.bullet.Bullet;
 import view.AbstractViewTest;
 
 public class BulletViewTest extends AbstractViewTest {

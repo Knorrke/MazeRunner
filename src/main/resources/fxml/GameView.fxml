@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import application.controller.PlayerController?>
-<?import application.view.maze.MazeView?>
-<?import application.view.level.CreatureTimelineView?>
+<?import org.mazerunner.controller.PlayerController?>
+<?import org.mazerunner.view.maze.MazeView?>
+<?import org.mazerunner.view.level.CreatureTimelineView?>
 
 <BorderPane id="main" maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"

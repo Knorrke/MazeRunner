@@ -13,10 +13,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
+import org.mazerunner.Launcher;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
-
-import application.Launcher;
 
 @RunWith(Parameterized.class)
 public class LauncherTest {
@@ -45,7 +44,7 @@ public class LauncherTest {
               } catch (Throwable e) {
                 if (e.getCause() != null
                     && e.getCause().getClass().equals(InterruptedException.class)) {
-                  // We expect to get this exception since we interrupted the JavaFX application.
+                  // We expect to get this exception since we interrupted the JavaFX org.mazerunner.
                   success.set(true);
                   return;
                 }
@@ -55,7 +54,7 @@ public class LauncherTest {
             });
     thread.start();
     try {
-      Thread.sleep(5000); // Wait for 5 seconds before interrupting JavaFX application
+      Thread.sleep(5000); // Wait for 5 seconds before interrupting JavaFX org.mazerunner
     } catch (InterruptedException ignore) {
     }
     thread.interrupt();

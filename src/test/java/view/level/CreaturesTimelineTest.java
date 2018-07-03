@@ -3,10 +3,10 @@ package view.level;
 import static org.junit.Assert.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
 import org.junit.Test;
+import org.mazerunner.model.creature.CreatureGroup;
+import org.mazerunner.model.creature.CreatureType;
+import org.mazerunner.view.level.CreatureTimelineView;
 import org.testfx.matcher.base.NodeMatchers;
-import application.model.creature.CreatureGroup;
-import application.model.creature.CreatureType;
-import application.view.level.CreatureTimelineView;
 import javafx.scene.layout.VBox;
 import view.AbstractViewTest;
 

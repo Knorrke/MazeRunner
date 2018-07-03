@@ -3,18 +3,16 @@ package view;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
-
+import org.mazerunner.Launcher;
+import org.mazerunner.controller.GameController;
+import org.mazerunner.controller.gameloop.GameLoop;
+import org.mazerunner.model.GameModelInterface;
+import org.mazerunner.model.level.LevelModelInterface;
+import org.mazerunner.model.maze.MazeModelInterface;
+import org.mazerunner.model.player.PlayerModelInterface;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.util.DebugUtils;
-
-import application.Launcher;
-import application.controller.GameController;
-import application.controller.gameloop.GameLoop;
-import application.model.GameModelInterface;
-import application.model.level.LevelModelInterface;
-import application.model.maze.MazeModelInterface;
-import application.model.player.PlayerModelInterface;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 

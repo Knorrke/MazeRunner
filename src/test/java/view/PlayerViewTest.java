@@ -3,7 +3,7 @@ package view;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 import org.junit.Test;
-import application.util.Util;
+import org.mazerunner.util.Util;
 
 public class PlayerViewTest extends AbstractViewTest {
 

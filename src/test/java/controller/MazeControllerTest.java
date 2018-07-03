@@ -4,9 +4,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
 import org.junit.Test;
+import org.mazerunner.model.creature.CreatureFactory;
+import org.mazerunner.model.creature.CreatureType;
 import org.testfx.matcher.base.NodeMatchers;
-import application.model.creature.CreatureFactory;
-import application.model.creature.CreatureType;
 import view.AbstractViewTest;
 
 public class MazeControllerTest extends AbstractViewTest {
