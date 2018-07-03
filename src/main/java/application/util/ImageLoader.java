@@ -17,13 +17,13 @@ public class ImageLoader {
 
   public static Image money, lifes;
   public static Image play, pause, buildSelected, buildNotSelected, infoSelected, infoNotSelected;
-  public static Image normalCreature, toughCreature;
+  public static Image normalCreature, toughCreature, dumbCreature;
   public static Image talking;
 
   public static Image wall;
 
   public static Image sell, upgrade;
-  public static Image noTower, normalTower, slowdownTower, fastTower;
+  public static Image noTower, normalTower, slowdownTower, fastTower, amnesiaTower;
   public static Image[] levels;
   public static Image normalBullet;
 
@@ -51,6 +51,7 @@ public class ImageLoader {
 
     normalCreature = loadImage("creatures/normal.png");
     toughCreature = loadImage("creatures/tough.png");
+    dumbCreature = loadImage("creatures/dumb.png");
 
     talking = loadImage("creatures/talking.png");
 
@@ -61,6 +62,7 @@ public class ImageLoader {
     normalTower = loadImage("towers/normal.png");
     slowdownTower = loadImage("towers/slowdown.png");
     fastTower = loadImage("towers/fast.png");
+    amnesiaTower = loadImage("towers/amnesia.png");
     levels = new Image[5];
     levels[0] = empty;
     for (int i = 1; i < levels.length; i++) {
@@ -93,6 +95,8 @@ public class ImageLoader {
     switch (type) {
       case TOUGH:
         return ImageLoader.toughCreature;
+      case DUMB:
+        return ImageLoader.dumbCreature;
       case NORMAL:
       default:
         return ImageLoader.normalCreature;
@@ -101,6 +105,8 @@ public class ImageLoader {
 
   public static Image getTowerImage(TowerType towerType) {
     switch (towerType) {
+      case AMNESIA:
+        return ImageLoader.amnesiaTower;
       case FAST:
         return ImageLoader.fastTower;
       case SLOWDOWN:

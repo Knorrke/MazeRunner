@@ -10,7 +10,7 @@ import application.model.creature.CreatureType;
 import view.AbstractViewTest;
 
 public class MazeControllerTest extends AbstractViewTest {
-  private static final String mazeSelector = "#maze",
+  private final String mazeSelector = "#maze",
       buildSelector = "#buildButton",
       infoSelector = "#infoButton";
 
@@ -43,7 +43,7 @@ public class MazeControllerTest extends AbstractViewTest {
     clickOn(".wall");
     verifyThat(".popover", NodeMatchers.isNotNull(), collectInfos());
   }
-  
+
   @Test
   public void creatureInfoNotTriggeredInBuildMode() {
     interact(() -> maze.addCreature(CreatureFactory.create(maze, CreatureType.NORMAL, 2, 3)));
@@ -51,7 +51,7 @@ public class MazeControllerTest extends AbstractViewTest {
     clickOn(".creature");
     verifyThat(".popover", NodeMatchers.isNull(), collectInfos());
   }
-  
+
   @Test
   public void creatureInfoTriggeredInInfoMode() {
     interact(() -> maze.addCreature(CreatureFactory.create(maze, CreatureType.NORMAL, 2, 3)));
