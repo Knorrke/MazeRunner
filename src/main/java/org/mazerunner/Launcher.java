@@ -12,13 +12,18 @@ import org.mazerunner.util.ImageLoader;
 import org.mazerunner.util.ScaleUtil;
 import org.mazerunner.util.Serializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.javafx.PlatformUtil;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Scale;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+@SuppressWarnings("restriction")
 public class Launcher extends Application {
   private static final Logger LOG = Logger.getLogger(Launcher.class.getName());
 
@@ -56,13 +61,17 @@ public class Launcher extends Application {
     Parent view = gameController.getView();
     int prefWidth = 800, prefHeight = 500;
     Pane pane = new Pane(view);
-    Scene scene = new Scene(pane, prefWidth, prefHeight);
+
+    Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
+    double width = isMobile() ? bounds.getWidth() : prefWidth;
+    double height = isMobile() ? bounds.getHeight() : prefHeight;
+    Scene scene = new Scene(pane, width, height);
+
     Scale scale = ScaleUtil.getScale();
-    scale.setPivotX(0);
-    scale.setPivotY(0);
     scale.xProperty().bind(scene.widthProperty().divide(prefWidth));
     scale.yProperty().bind(scene.heightProperty().divide(prefHeight));
     view.getTransforms().add(scale);
+
     LOG.fine("loading stylesheet");
     scene
         .getStylesheets()
@@ -75,6 +84,10 @@ public class Launcher extends Application {
     primaryStage.setScene(scene);
     primaryStage.show();
     return scene;
+  }
+
+  private static boolean isMobile() {
+    return PlatformUtil.isAndroid() || PlatformUtil.isIOS();
   }
 
   private static Game createGamefromJsonFile(String path) {
