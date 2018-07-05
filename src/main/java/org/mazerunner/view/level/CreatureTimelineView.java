@@ -60,9 +60,9 @@ public class CreatureTimelineView extends StackPane implements Bindable<LevelMod
 
   public void createCreatureTimeline(List<? extends CreatureGroup> timeline) {
     creatureTimeline.getChildren().clear();
-    creatureTimeline
-        .getChildren()
-        .addAll(timeline.stream().map(CreatureTimelineImage::new).collect(Collectors.toList()));
+    for (CreatureGroup group : timeline) {
+      creatureTimeline.getChildren().add(new CreatureTimelineImage(group));
+    }
   }
 
   public VBox getTimeline() {

@@ -30,4 +30,8 @@ public final class Util {
         decimalPlaces < factors.length ? factors[decimalPlaces] : Math.pow(10, decimalPlaces);
     return Math.round(val * factor) / factor;
   }
+
+  public static double distance(double x1, double y1, double x2, double y2) {
+    return Math.hypot(x2 - x1, y2 - y1);
+  }
 }

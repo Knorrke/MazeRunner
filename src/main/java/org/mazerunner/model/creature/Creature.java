@@ -111,18 +111,13 @@ public class Creature implements ActorInterface, Moveable {
   private void communicateWithOthers() {
     if (getType().canCommunicate()) {
       List<Creature> allCreatures = maze.getCreatures();
-      List<Creature> creaturesInRange =
-          allCreatures
-              .stream()
-              .filter(
-                  creature ->
-                      creature != this
-                          && creature.getType().canCommunicate()
-                          && Math.abs(creature.getX() - getX()) < 0.5
-                          && Math.abs(creature.getY() - getY()) < 0.5)
-              .collect(Collectors.toList());
-      for (Creature creature : creaturesInRange) {
-        synchronizeMaps(creature);
+      for (Creature creature : allCreatures) {
+        if (creature != this
+            && creature.getType().canCommunicate()
+            && Math.abs(creature.getX() - getX()) < 0.5
+            && Math.abs(creature.getY() - getY()) < 0.5) {
+          synchronizeMaps(creature);
+        }
       }
     }
   }

@@ -41,16 +41,11 @@ public class WallsView extends Pane implements Bindable<MazeModelInterface> {
 
   public void createWalls(List<? extends Wall> walls) {
     ObservableList<Node> children = getChildren();
-    children.addAll(
-        walls
-            .stream()
-            .map(
-                wall -> {
-                  WallController wallController = new WallController(controller);
-                  wallController.init(wall, scaleX, scaleY);
-                  return wallController.getView();
-                })
-            .collect(Collectors.toList()));
+    for (Wall wall : walls) {
+      WallController wallController = new WallController(controller);
+      wallController.init(wall, scaleX, scaleY);
+      children.add(wallController.getView());
+    }
   }
 
   private void removeWalls(List<? extends Wall> removed) {

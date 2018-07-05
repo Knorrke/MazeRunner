@@ -1,6 +1,5 @@
 package org.mazerunner.model.maze;
 
-import java.awt.Point;
 import java.util.Iterator;
 import java.util.List;
 import org.mazerunner.controller.gameloop.ActorInterface;
@@ -12,6 +11,7 @@ import org.mazerunner.model.maze.tower.TowerUpgrade;
 import org.mazerunner.model.player.PlayerModelInterface;
 import org.mazerunner.util.ObservableCreaturesListDeserializer;
 import org.mazerunner.util.ObservableWallsListDeserializer;
+import org.mazerunner.util.Util;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import javafx.collections.FXCollections;
@@ -138,7 +138,7 @@ public class Maze implements MazeModelInterface {
   @Override
   public Creature getCreatureNear(double x, double y) {
     for (Creature creature : creatures) {
-      if (Point.distance(creature.getX(), creature.getY(), x, y) < 0.3) {
+      if (Util.distance(creature.getX(), creature.getY(), x, y) < 0.3) {
         return creature;
       }
     }
