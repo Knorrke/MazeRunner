@@ -1,0 +1,60 @@
+\documentclass[parskip=half*,fontsize=12pt,abstract]{scrartcl}
+\usepackage{scrhack}
+\usepackage{geometry}
+\geometry{a4paper, top=2cm, left=2.5cm, right=3cm, bottom=2cm,footskip=1cm}
+\usepackage{setspace}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage[ngerman=ngerman-x-latest]{hyphsubst}
+\usepackage{amsmath}
+\usepackage[autostyle=true, german=quotes]{csquotes}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[pdfpagelabels]{hyperref}
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+%\usepackage[htt]{hyphenat} 
+
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{tikz}
+\usepackage{todonotes}
+\usepackage{mdframed}
+\usepackage{changepage}
+\usepackage{listings} %Für Code
+\usepackage[german,onelanguage,boxed]{algorithm2e}%Für Pseudocode
+\usepackage{enumitem}
+\usepackage{mdwlist}
+\usepackage{tcolorbox}
+\usepackage{tabularx}
+\usepackage{longtable}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}} % linksbündig mit Breitenangabe
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}} % zentriert mit Breitenangabe
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}} % rechtsbündig mit Breitenangabe
+
+\newenvironment{heft}[1]{\begin{mdframed}\textbf{Hefteintrag: #1}\newline}{\end{mdframed}}
+\newenvironment{tafel}[1]{\begin{mdframed}\textbf{Tafelanschrieb: #1}\newline}{\end{mdframed}}
+\newenvironment{pseudocode}{\begin{algorithm}[H]
+\SetKwFor{ForEach}{Wiederhole für alle}{}{Ende}
+}{
+\end{algorithm}}
+
+\newcommand{\syso}[1]{\texttt{#1}}
+\newcommand{\zitat}[1]{\enquote{\textit{#1}}}
+
+\begin{document}
+\onehalfspacing
+\pagestyle{empty}
+\input{structural/frontpage}
+\tableofcontents 
+\newpage
+\pagestyle{plain}
+
+\input{content/project-idea}
+\input{content/development}
+\newpage
+\thispagestyle{empty}
+\input{structural/eidesstattliche-erklaerung}
+\end{document}

@@ -1,0 +1,41 @@
+\section{Projektidee} % (fold)
+\label{sec:projektidee}
+
+
+
+\subsection{Bisherige Tower Defense Spiele}
+
+Das Tower Defense Genre..... Das Grundkonzept ist dabei immer, dass der Spieler mehrere Wellen an KI-Gegnern, sogenannte \enquote{Creeps}, auf einer Karte davon abhalten muss, bestimmte Ziele zu erreichen. Dazu kann er Türme platzieren, die die Creeps töten. In den meisten Fällen handelt es sich um eher kleinere Spiele, wie Browser-, Flash- oder Mobile Games und auch die ersten bekannteren TD Spiele sind als Custom Maps im Warcraft oder StarCraft MapEditor entstanden und haben daher kein großes Entwicklerteam im Hintergrund. Der Umfang war damit für das eigene Projekt gut abschätzbar und der vorgesehenen Bearbeitungszeit angemessen. Vereinzelt wurde das Spielprinzip aber auch in größeren Produktionen, wie \todo{\dots}, aufgegriffen, was die Erweiterbarkeit des Ansatzes zeigt. Es existieren bereits einige Spielvariationen, über die im Folgenden exemplarisch ein Überblick gegeben werden soll.
+
+\paragraph{Klassisches Spiel}
+In der häufigsten (da einfachsten) Spielimplementierung bewegen sich die Creeps auf einem vordefinierten Pfad und die Türme werden entlang des Pfades frei oder auf bestimmten Knotenpunkten positioniert.Typischer Weise gibt es unterschiedliche Türme und verschiedene Creep-Arten. Zum Teil haben diese auch Spezialfähigkeiten, wie fliegende Creeps (folgen also nicht dem Pfad, sondern bewegen sich auf direkter Linie zum Ziel) bzw. Türme, die besonders gut gegen Bodeneinheiten oder gegen fliegende Einheiten sind. Häufig werden die Creeps auch in ihrer Geschwindigkeit variiert und es existieren Türme, die Creeps verlangsamen sowie Creeps die dagegen immun sind.  Diese Spiele rücken besonders das taktisch geschickte Kombinieren der verschiedenen Türme und das Aufrüsten an entscheidenden Knotenpunkten in den Fokus des Spielerlebnisses.
+
+\missingfigure{Screenshot of normal Game}
+
+\paragraph{Mazing Tower Defense}
+Eine weitere Variante sind die \enquote{Mazing Tower Defense Spiele}, in denen die Creeps sich nicht auf einem vordefinierten Pfad bewegen, sondern der Spieler mit den Türmen eine Labyrinth artige Struktur baut, durch die die Creeps dann durchlaufen. Das erste Spiel dieser Art und daher prototypisch ist \enquote{Desktop Tower Defense} aus dem Jahr 2007 von Paul Preece, das bereits in den ersten zwei Monaten 15 Millionen Mal gespielt wurde und inzwischen durch eine Erneuerung als Facebook Anwendung noch populärer geworden. Das Spielprinzip erweitert das normale Spiel um eine strategische Planung der Kreaturenführung durch das Labyrinth um die Türme möglichst effektiv aufrüsten zu können. Die Spielelemente sind dabei weiterhin die klassischen Kreaturenarten und Turmvarianten.
+
+\missingfigure{Screenshot of Desktop Tower Defense}
+
+\paragraph{Andere Varianten} Es existieren noch viele weitere Varianten wie das sehr erfolgreiche Plants vs Zombies, bei dem die Creeps (=Zombies) die Türme angreifen und keine Wegfindung implementiert ist, das aber eine sehr große Vielfalt an verschiedenen Gegnern und Strategien einbringt, oder auch Multiplayer Spiele. Diese waren jedoch keine Inspirationsquelle für das eigene Projekt und werden daher nicht genauer betrachtet.
+
+\subsection{Neuer Ansatz im eigenen Projekt}
+
+Mazing Tower Defense erweiterte das klassische Spiel um die Herausforderung ein möglichst effektives Labyrinth zu bauen. Dabei ist jedoch die Wegsuche der Creeps optimal, wodurch zwar Labyrinthe aber keine Irrgärten entstehen. Denn Verzweigungen und Sackgassen nehmen nur unnötigen Platz weg und die Creeps werden nie in diese Bereiche hineinlaufen. Die Spielidee für dieses Projekt ist, dass die Anlage eines komplizierten Irrgartens dem Spieler einen Vorteil für das Spiel bringen soll. Um dies zu ermöglichen wurde die Prämisse aus dem Spiel genommen, dass die Kreaturen einen allwissenden Überblick über das Labyrinth haben. Stattdessen sollten sie das Labyrinth erkunden müssen. Diese Variation hatte viele Designentscheidungen zur Folge, die im Folgenden kurz vorgestellt werden.
+
+\missingfigure{Vergleich Labyrinth in Tower Defense vs. Irrgarten}
+
+\paragraph{State der Kreaturen} In den bisherigen Spielvarianten benötigten die Kreaturen keine eigene Repräsentation der Welt. Dagegen müssen die Creeps sich nun individuell auf Grundlage ihres bisherigen Wissens über die Welt bewegen. Ein wichtiges Spielelement ist daher die Klasse \lstinline{VisitedMap}, mit der jede Kreatur in einem zweidimensionalen Enum-Array dieses Wissen speichert. Andererseits sollen die Kreaturen auch über eine gewisse Intelligenz verfügen und nicht alle in die selbe Sackgasse laufen. Das gelingt durch simulierte Besprechungen zwischen den Kreaturen Die Karten müssen also effizient synchronisierbar sein. \todo{Link auf später}
+
+\paragraph{Wegfindung} Die effiziente Wegfindung ist ebenfalls schwieriger: Während bei normalen TD Spielen gar keine Berechnung notwendig ist und bei Mazing TD ein A*-Algorithmus effizient den kürzesten Weg von allen Kartenpunkten zum Ziel berechnen kann, muss der Algorithmus hier noch weiter abgewandelt werden, da die Creeps nicht nur ein Ziel haben. Es muss daher für jeden Creep ein eigenes Ziel ausgewählt werden, was zum Beispiel durch wiederholte Nearest-Neighbor-Suche umgesetzt werden kann.
+
+\paragraph{Variationsmöglichkeiten} Dadurch, dass die Kreaturen ihre eigene Wegfindung haben und Absprachen treffen, ergeben sich neue Möglichkeiten der Variation der Creeps. Beispielsweise wurden Figuren implementiert, die sich nur zufällig bewegen, andere versuchen jedes Feld der Welt zu besuchen. Weitere Möglichkeiten wären Kreaturen, die tatsächlich sehen können und damit z.B. größere Flächen direkt durchqueren, oder Kreaturen die andere dirigieren. Auch neue Turmarten, die auf diese Wegfindung Einfluss haben, sind möglich. Als Beispiel wurde dafür ein Amnesie-Turm programmiert, der die Wegsuche der abgeschossenen Creeps eine gewisse Zeit lang zu zufällig ändert.
+
+\paragraph{Labyrinthänderungen} Die für das Genre typischen Echtzeit-Änderungen des Labyrinths sind in der Variante schwieriger an Kreaturen zu kommunizieren. Da die Creeps den Zustand ihrer erkundeten Welt speichern, sind Änderungen in bereits erkundeten Bereichen problematisch. Es gibt mehrere Möglichkeiten damit umzugehen, die in der Entwicklung abgewogen und mit User-Testings betrachtet wurden:
+\begin{itemize}
+	\item Kreaturen erhalten kein Update über die Welt. Bei dieser Lösung musste ein Verhalten implementiert werden, falls Creeps denken es gäbe keinen Ausweg. Typischer weise greifen eingesperrte Figuren die Türme an oder rennen darüber, was in der eigenen Variante so implementiert wurde. Das User Feedback zeigte, dass das Verhalten der Creeps insb. wegen der Kommunikation nicht nachvollziehbar ist.
+	\item Kreaturen erhalten ein Update, falls sie den Bereich bereits erkundet hatten. Dies führte in User-Testings zu Strategien gegen das Spielprinzip, bei denen zwei Türme auf verschieden Seiten der Karte immer abwechselnd neu gebaut und später wieder abgerissen wurden, sodass die Kreaturen immer von einem Ende zum anderen laufen mussten.
+	\item Türme können gar nicht abgerissen werden, oder nur wenn kein lebender Creep diesen erkundet hat. Dies schränkt die Möglichkeiten der Spieler zwar ein, ist aber besser verständlich und bleibt dem Spielprinzip treu.
+\end{itemize}
+
+% section projektidee (end)
