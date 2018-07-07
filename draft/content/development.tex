@@ -1,5 +1,42 @@
 \section{Entwicklungsprozess} % (fold)
 \label{sec:entwicklungsprozess}
 
-Bei dem Entwicklungsprozess wurde auf mehrere 
+Bei dem Entwicklungsprozess wurde auf mehrere professionelle Elemente besonderen Wert gelegt. Diese sollen im Folgenden kurz erläutert werden.
+\subsection{Werkzeuge} % (fold)
+\label{sub:werkzeuge}
+\paragraph{Versionsverwaltung} % (fold)
+\label{par:versionsverwaltung}
+Eine der grundlegendsten Dinge bei der Softwareentwicklung ist ein Versionskontrollsystem. In diesem Projekt wurde dafür \emph{Git} verwendet und in einem Repository auf Github (\url{https://github.com/Knorrke/MazeRunner}) veröffentlicht. Dies ermöglichte zum einen unkompliziert das Arbeiten auf mehreren Geräten. Zum anderen konnte durch das Erstellen neuer Branches seperat an Features entwickelt werden, ohne die Hauptversion während dem Entwicklungsprozess zu verändern. Über Pull Requests wurden die Features dann in den Hauptzweig gemerget.
+% paragraph versionsverwaltung (end)
+
+\paragraph{Dependency Managagement} % (fold)
+\label{par:dependency_managagement}
+Um nicht jedes Mal das Rad neu zu erfinden, ist es oft sinnvoll existierende Bibliotheken zu verwenden. Damit das Projekt leicht auf anderen PCs eingerichtet werden kann, sollte das Einbinden von solchen Abhängigkeiten durch ein Verwaltungssystem geschehen. Dafür wurde \emph{Maven} verwendet, das ebenfalls eine Buildautomatisierung ermöglichte.
+% paragraph dependency_managagement (end)
+
+\paragraph{Continuous Integration} % (fold)
+\label{par:continuous_integration}
+Mit einem Continuous Integration Service (in diesem Fall \emph{Travis CI}) konnte sichergestellt werden, dass die Tests nicht nur auf dem eigenen Gerät funktionieren, sowie dass Pull Requests vollständig funktionsfähig sind bevor sie in den Hauptzweig eingebunden werden. Des Weiteren ließ sich dadurch das Testcoverage Tool \emph{JaCoCo} integrieren (Genaueres siehe \ref{sub:testgetriebene_entwicklung}).
+% paragraph continuous_integration (end)
+% subsection werkzeuge (end)
+
+\subsection{Testgetriebene Entwicklung} % (fold)
+\label{sub:testgetriebene_entwicklung}
+
+Für die Gewährleistung der Funktionalität und Absicherung für Änderungen sind Unit-Tests enorm hilfreich. Sie verkürzen die Zeit zur Fehlersuche, da Fehler direkt mit einem Knopfdruck angezeigt werden können. Außerdem geben sie dem Entwickler Sicherheit bei größeren Strukturänderungen, dass das System danach noch die Anforderungen erfüllt. Das Projekt wurde komplett testgetrieben entwickelt. Diese Methode beschreibt das Vorgehen, vor der Implementierung bereits den Test zu schreiben, also zu definieren wie der Code sich verhalten soll. Anschließend wird dieser Test so einfach wie möglich erfüllt. Dadurch wird sichergestellt, dass nur Code geschrieben wird, der auch wirklich notwendig ist. In einer dritten Phase, dem Refactoring, wird der Code anschließend nochmal bzgl Code-Qualität überarbeitet. Dabei hilft der bereits definierte Test zu überprüfen, ob die Funktionalität nach dem Refactoring immer noch gegeben ist. 
+
+Ein Testcoverage Tool ermöglicht anschließend zu überprüfen, ob auch alle Teile des Codes durch Tests abgedeckt sind. In diesem Projekt liegt die Testabdeckung zur Zeit der Abgabe bei 98\%. Die restlichen 2\% betreffen überwiegend das Loggen von evtl. auftretenden \class{IOExceptions}, die nicht extra für Tests erzeugt wurden.
+
+Um die Tests eines Codeteiles besser von dem Verhalten des restlichen Codes trennen zu können, wurde zudem das Mocking Framework \emph{Mockito} verwendet. Das ermöglicht es, für Klassen und Interfaces eine Art Attrappe zu erzeugen, für die dann konfiguriert werden kann, wie er auf bestimmte Methodenaufrufe mit den korrekten Argumenten reagiert. Zum Einen kann dadurch der zu testende Code besser isoliert werden, weil keine Abhängigkeiten zu anderen Klassen existieren. Es kann aber auch überprüft werden, ob die Aufrufe richtig stattgefunden haben, ob also die Interaktion mit dem Mock-Objekt so ablief, wie erwartet. Dadurch lässt sich auch die Integration in den restlichen Softwareaufbau gut testen.
+\missingfigure{Beispielcode von Mockito}
+% subsection testgetriebene_entwicklung (end)
+
+
+\subsection{JavaFX} % (fold)
+\label{sub:javafx}
+Für die Umsetzung der Benutzeroberfläche wurde JavaFX verwendet, das durch die Abwandlung des Observer-Patterns auch viel Einfluss auf den Softwareentwurf hatte (siehe Kapitel \ref{sub:observer}). Das Framework ermöglichte eine modern wirkende Oberfläche durch viele vorgefertigte Komponenten und zahlreiche verfügbare Erweiterungen, wie z. B. ein Popup-Menü. Dabei wird die Komplexität von Swing für ansprechende Layouts deutlich reduziert und das meiste geschieht für den Programmierer unsichtbar im Hintergrund. Zudem existiert für JavaFX Anwendungen das Projekt \emph{javafxports}, das ermöglicht den gesamten Code ohne große Anpassungen direkt in Mobile Apps zu packen.
+
+Für die testgetriebene Entwicklung ist die View-Programmierung eine Herausforderung. Hierfür konnte jedoch mit \emph{TestFX} (\url{https://github.com/TestFX/TestFX}) ein gutes Framework verwendet werden, das eine schnelle und anschauliche Implementierung von Unit-Tests für JavaFX ermöglicht. Dadurch konnte auch die korrekte Reaktion auf (erwartete) Userinteraktionen überprüft werden.
+\missingfigure{Beispielcode von TestFX}
+% subsection javafx (end)
 % section entwicklungsprozess (end)

@@ -1,0 +1,16 @@
+\section{Softwaredesign} % (fold)
+\label{sec:softwaredesign}
+
+Um den Code leicht erweitern zu können und Fehlern vorzubeugen, ist es wichtig, den Aufbau der Software gut zu strukturieren. Dabei gibt es einige typische Probleme, für die bereits etablierte Lösungen existieren. Diese Design Pattern helfen nicht nur dabei, den Code wartbar zu halten, sondern helfen auch in der Kommunikation mit anderen Entwicklern bei strukturellen Problemen.
+
+\subsection{Model View Controller} % (fold)
+\label{sub:model_view_controller}
+Eines der wohl am weitesten verbreitete Entwurfsmuster ist das Model View Controller Pattern, das auch in dieser Arbeit umgesetzt wurde. Es trennt die verschiedenen Aufgaben einer Software in drei Bereiche auf: Daten und Spiellogik bilden das Modell, das in sich funktioniert und nach außen Schnittstellen bietet, die dann interne Spielprozesse auslösen. Getrennt davon ist die View, deren Aufgabe einzig darin besteht, die Daten aus dem Modell (evtl. gefiltert) dem Spieler anzuzeigen. Diese View ist mit JavaFX geschrieben ist, wobei die Trennung vom restlichen Code teilweise durch die Verwendung von \emph{FXML}besonders deutlich wird. Die View muss dabei Änderungen aus dem Modell mitbekommen und daraufhin entsprechend anzeigen. Die View stellt zudem Schnittstellen zur Verfügung, auf bestimmte Useraktivitäten zu reagieren. Diese Schnittstellen verwendet der Controller. Er setzt also Listener auf Komponenten der View für verschiedene User Interaktionen wie Mausklicks, Hovering oder Tastatureingaben. Die Listener werden sind größtenteils als anonyme Klassen implementiert und rufen bei einer Aktion die entsprechenden Schnittstellen des Modells auf.  
+% subsection model_view_controller (end)
+
+\subsection{Observer} % (fold)
+\label{sub:observer}
+
+% subsection observer (end)
+
+% section softwaredesign (end)
