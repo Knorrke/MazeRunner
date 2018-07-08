@@ -1,10 +1,14 @@
 package org.mazerunner.model.creature;
 
 import java.util.Arrays;
+import java.util.Random;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class VisitedMap {
+  private static int[][][] bitStrings;
+
   public enum VisitedState {
     UNKNOWN,
     VISITED,
@@ -20,33 +24,47 @@ public class VisitedMap {
   }
 
   public VisitedMap(int maxX, int maxY) {
+    initializeBitStrings(maxX, maxY);
     map = new VisitedState[maxX][maxY];
     for (int x = 0; x < map.length; x++) {
       for (int y = 0; y < map[x].length; y++) {
         map[x][y] = VisitedState.UNKNOWN;
+        hash ^= bitStrings[x][y][VisitedState.UNKNOWN.ordinal()];
+      }
+    }
+  }
+
+  private void initializeBitStrings(int maxX, int maxY) {
+    if (bitStrings == null) {
+      bitStrings = new int[maxX][maxY][VisitedState.values().length];
+      for (int x = 0; x < maxX; x++) {
+        for (int y = 0; y < maxY; y++) {
+          for (int j = 0; j < VisitedState.values().length; j++) {
+            bitStrings[x][y][j] = new Random().nextInt();
+          }
+        }
       }
     }
   }
 
   public void markVisited(int x, int y) {
     if (checkBounds(x, y) && map[x][y] != VisitedState.VISITED) {
+      VisitedState old = map[x][y];
+      hash ^= bitStrings[x][y][old.ordinal()] ^ bitStrings[x][y][VisitedState.VISITED.ordinal()];
       map[x][y] = VisitedState.VISITED;
-      changed = true;
     }
   }
 
   public void markWall(int x, int y) {
     if (checkBounds(x, y) && map[x][y] != VisitedState.WALL) {
+      VisitedState old = map[x][y];
+      hash ^= bitStrings[x][y][old.ordinal()] ^ bitStrings[x][y][VisitedState.WALL.ordinal()];
       map[x][y] = VisitedState.WALL;
-      changed = true;
     }
   }
 
   @Override
   public int hashCode() {
-    if (changed) {
-      hash = Arrays.deepHashCode(map);
-    }
     return hash;
   }
 
