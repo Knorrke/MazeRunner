@@ -1,9 +1,11 @@
 package org.mazerunner.view.maze;
 
 import java.util.logging.Logger;
+
 import org.mazerunner.controller.MazeController;
 import org.mazerunner.model.maze.MazeModelInterface;
 import org.mazerunner.view.creatures.CreaturesView;
+
 import javafx.scene.layout.StackPane;
 
 public class MazeView extends StackPane {
@@ -18,7 +20,7 @@ public class MazeView extends StackPane {
     setWalls(new WallsView());
     setCreatures(new CreaturesView());
     getCreatures().setPickOnBounds(false);
-    this.getChildren().addAll(getCreatures(), getWalls());
+    this.getChildren().addAll(getWalls(), getCreatures());
   }
 
   /** @return the walls */

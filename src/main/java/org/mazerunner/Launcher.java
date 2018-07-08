@@ -6,15 +6,17 @@ import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.mazerunner.controller.GameController;
 import org.mazerunner.model.Game;
 import org.mazerunner.util.ImageLoader;
 import org.mazerunner.util.ScaleUtil;
 import org.mazerunner.util.Serializer;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.javafx.PlatformUtil;
+
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

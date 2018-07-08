@@ -21,7 +21,7 @@ import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 
 public class Level implements LevelModelInterface {
-  public static final double WAVE_DURATION = 20;
+  public static final double WAVE_DURATION = 15;
 
   @JsonDeserialize(using = ObservableCreatureGroupListDeserializer.class)
   private ObservableList<CreatureGroup> creatureTimeline;
