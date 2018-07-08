@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+
 import org.mazerunner.model.creature.VisitedMap;
 import org.mazerunner.model.creature.vision.Vision;
 
@@ -15,7 +16,10 @@ public class NoSightMovement implements MovementInterface {
 
   @Override
   public double[] getNextGoal(Vision vision, VisitedMap visited, double currentX, double currentY) {
-    double[][] directions = {{1, 0}, {0, 1}, {0, -1}, {-1, 0}};
+    double[][] directions =
+        System.currentTimeMillis()/1000 % 2 == 0 //randomize a bit over time
+            ? new double[][] {{1, 0}, {0, 1}, {0, -1}, {-1, 0}}
+            : new double[][] {{1, 0}, {0, -1}, {0, 1}, {-1, 0}};
     for (double[] direction : directions) {
       int x = (int) (currentX + direction[0]);
       int y = (int) (currentY + direction[1]);
