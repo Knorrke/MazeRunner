@@ -2,9 +2,8 @@
 \label{sec:projektidee}
 
 
-
-\subsection{Bisherige Tower Defense Spiele}
-
+\subsection{Bisherige Tower Defense Spiele} % (fold)
+\label{sub:bisherige_tower_defense_spiele}
 Das Tower Defense Genre..... Das Grundkonzept ist dabei immer, dass der Spieler mehrere Wellen an KI-Gegnern, sogenannte \enquote{Creeps}, auf einer Karte davon abhalten muss, bestimmte Ziele zu erreichen. Dazu kann er Türme platzieren, die die Creeps töten. In den meisten Fällen handelt es sich um eher kleinere Spiele, wie Browser-, Flash- oder Mobile Games und auch die ersten bekannteren TD Spiele sind als Custom Maps im Warcraft oder StarCraft MapEditor entstanden und haben daher kein großes Entwicklerteam im Hintergrund. Der Umfang war damit für das eigene Projekt gut abschätzbar und der vorgesehenen Bearbeitungszeit angemessen. Vereinzelt wurde das Spielprinzip aber auch in größeren Produktionen, wie \todo{\dots}, aufgegriffen, was die Erweiterbarkeit des Ansatzes zeigt. Es existieren bereits einige Spielvariationen, über die im Folgenden exemplarisch ein Überblick gegeben werden soll.
 
 \paragraph{Klassisches Spiel}
@@ -19,7 +18,10 @@ Eine weitere Variante sind die \enquote{Mazing Tower Defense Spiele}, in denen d
 
 \paragraph{Andere Varianten} Es existieren noch viele weitere Varianten wie das sehr erfolgreiche Plants vs Zombies, bei dem die Creeps (=Zombies) die Türme angreifen und keine Wegfindung implementiert ist, das aber eine sehr große Vielfalt an verschiedenen Gegnern und Strategien einbringt, oder auch Multiplayer Spiele. Diese waren jedoch keine Inspirationsquelle für das eigene Projekt und werden daher nicht genauer betrachtet.
 
-\subsection{Neuer Ansatz im eigenen Projekt}
+% subsection bisherige_tower_defense_spiele (end)
+
+\subsection{Neuer Ansatz im eigenen Projekt} % (fold)
+\label{sub:neuer_ansatz_im_eigenen_projekt}
 
 Mazing Tower Defense erweiterte das klassische Spiel um die Herausforderung ein möglichst effektives Labyrinth zu bauen. Dabei ist jedoch die Wegsuche der Creeps optimal, wodurch zwar Labyrinthe aber keine Irrgärten entstehen. Denn Verzweigungen und Sackgassen nehmen nur unnötigen Platz weg und die Creeps werden nie in diese Bereiche hineinlaufen. Die Spielidee für dieses Projekt ist, dass die Anlage eines komplizierten Irrgartens dem Spieler einen Vorteil für das Spiel bringen soll. Um dies zu ermöglichen wurde die Prämisse aus dem Spiel genommen, dass die Kreaturen einen allwissenden Überblick über das Labyrinth haben. Stattdessen sollten sie das Labyrinth erkunden müssen. Diese Variation hatte viele Designentscheidungen zur Folge, die im Folgenden kurz vorgestellt werden.
 
@@ -37,5 +39,5 @@ Mazing Tower Defense erweiterte das klassische Spiel um die Herausforderung ein 
 	\item Kreaturen erhalten ein Update, falls sie den Bereich bereits erkundet hatten. Dies führte in User-Testings zu Strategien gegen das Spielprinzip, bei denen zwei Türme auf verschieden Seiten der Karte immer abwechselnd neu gebaut und später wieder abgerissen wurden, sodass die Kreaturen immer von einem Ende zum anderen laufen mussten.
 	\item Türme können gar nicht abgerissen werden, oder nur wenn kein lebender Creep diesen erkundet hat. Dies schränkt die Möglichkeiten der Spieler zwar ein, ist aber besser verständlich und bleibt dem Spielprinzip treu.
 \end{itemize}
-
+% subsection neuer_ansatz_im_eigenen_projekt (end)
 % section projektidee (end)
