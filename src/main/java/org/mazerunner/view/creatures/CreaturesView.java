@@ -2,12 +2,13 @@ package org.mazerunner.view.creatures;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
+
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.maze.MazeModelInterface;
 import org.mazerunner.util.Util;
 import org.mazerunner.view.Bindable;
 import org.mazerunner.view.FloatingLabel;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;

@@ -2,12 +2,13 @@ package org.mazerunner.view.maze;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
+
 import org.mazerunner.controller.MazeController;
 import org.mazerunner.controller.WallController;
 import org.mazerunner.model.maze.MazeModelInterface;
 import org.mazerunner.model.maze.Wall;
 import org.mazerunner.view.Bindable;
+
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;

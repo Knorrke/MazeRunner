@@ -2,7 +2,7 @@ package org.mazerunner.model.creature;
 
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
+
 import org.mazerunner.controller.gameloop.ActorInterface;
 import org.mazerunner.model.Moveable;
 import org.mazerunner.model.Position;
@@ -14,9 +14,11 @@ import org.mazerunner.model.creature.movements.NoSightMovement;
 import org.mazerunner.model.creature.vision.Vision;
 import org.mazerunner.model.maze.Maze;
 import org.mazerunner.model.maze.MazeModelInterface;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -125,7 +127,7 @@ public class Creature implements ActorInterface, Moveable {
   public void synchronizeMaps(Creature creature) {
     int differences = VisitedMap.merge(visitedMap, creature.getVisitedMap());
     if (differences > 4) {
-      int timeToCommunicate = (differences - 4) * 100;
+      int timeToCommunicate = Math.min(differences - 4, 30) * 100;
       createTalkAction(this, timeToCommunicate);
       createTalkAction(creature, timeToCommunicate);
     }

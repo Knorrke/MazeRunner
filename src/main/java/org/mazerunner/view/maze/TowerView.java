@@ -2,11 +2,12 @@ package org.mazerunner.view.maze;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
+
 import org.mazerunner.model.maze.tower.AbstractTower;
 import org.mazerunner.model.maze.tower.TowerType;
 import org.mazerunner.model.maze.tower.bullet.Bullet;
 import org.mazerunner.util.ImageLoader;
+
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;

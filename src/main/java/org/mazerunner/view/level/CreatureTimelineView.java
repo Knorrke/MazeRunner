@@ -1,10 +1,11 @@
 package org.mazerunner.view.level;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 import org.mazerunner.model.creature.CreatureGroup;
 import org.mazerunner.model.level.LevelModelInterface;
 import org.mazerunner.view.Bindable;
+
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
