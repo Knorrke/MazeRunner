@@ -9,6 +9,7 @@ public class MoveAction extends Action {
   private Moveable moveable;
   private PositionAware target;
   private double remainingDist;
+  private double oldTargetX = -1, oldTargetY = -1;
 
   public MoveAction(Moveable moveable, PositionAware positionAware) {
     this.target = positionAware;
@@ -19,7 +20,11 @@ public class MoveAction extends Action {
 
   @Override
   public void update(double dt) {
-    remainingDist = Util.distance(moveable.getX(), moveable.getY(), target.getX(), target.getY());
+	if (target.getX() != oldTargetX || target.getY() != oldTargetY) {
+		remainingDist = Util.distance(moveable.getX(), moveable.getY(), target.getX(), target.getY());
+		oldTargetX = target.getX();
+		oldTargetY = target.getY();
+	}
     double dirXNormalized = (target.getX() - moveable.getX()) / remainingDist;
     double dirYNormalized = (target.getY() - moveable.getY()) / remainingDist;
     double ds = moveable.getVelocity() * dt;
