@@ -173,6 +173,6 @@ public class WallMenuViewTest extends AbstractViewTest {
   }
 
   private void waitForAnimation() {
-    WaitForAsyncUtils.sleep((long) menu.getAnimationDuration().toMillis(), TimeUnit.MILLISECONDS);
+    WaitForAsyncUtils.sleep((long) menu.getAnimationDuration().toMillis()+100, TimeUnit.MILLISECONDS);
   }
 }
