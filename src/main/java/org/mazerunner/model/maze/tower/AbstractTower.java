@@ -3,6 +3,8 @@ package org.mazerunner.model.maze.tower;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.mazerunner.controller.gameloop.ActorInterface;
 import org.mazerunner.model.baseactions.CountdownAction;
 import org.mazerunner.model.creature.Creature;
@@ -12,15 +14,14 @@ import org.mazerunner.util.ObservableBulletsListDeserializer;
 import org.mazerunner.util.Util;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public abstract class AbstractTower implements ActorInterface {
-
+public abstract class AbstractTower implements ActorInterface, Cloneable {
+  private static final Logger LOG = Logger.getLogger(AbstractTower.class.getName());
   @JsonProperty protected final TowerType type;
   @JsonIgnore protected double fireRate;
   @JsonIgnore protected int damage;
@@ -37,6 +38,7 @@ public abstract class AbstractTower implements ActorInterface {
 
   @JsonDeserialize(using = ObservableBulletsListDeserializer.class)
   protected ObservableList<Bullet> bullets;
+  private int level = 0;
 
   protected AbstractTower(
       double fireRate, int damage, int costs, double visualRange, TowerType type, Wall wall) {
@@ -89,12 +91,8 @@ public abstract class AbstractTower implements ActorInterface {
     }
   }
 
-  public abstract Runnable createShooter(AbstractTower shooting);
-
-  public void shoot() {
-    createShooter(this).run();
-  }
-
+  public abstract void shoot();
+  
   protected void addBullet(Bullet bullet) {
     bullets.add(bullet);
   }
@@ -120,10 +118,20 @@ public abstract class AbstractTower implements ActorInterface {
   public AbstractTower upgrade() {
     if (upgrades.size() > getLevel()) {
       TowerUpgrade upgrade = upgrades.get(getLevel());
-      return upgrade.createDecoratedTower(this);
-    } else {
-      return this;
+      try {
+        AbstractTower clone = (AbstractTower) this.clone();
+        clone.fireRate = upgrade.getFireRateUpgrader().apply(getFireRate());
+        clone.damage = upgrade.getDamageUpgrader().apply(getDamage());
+        clone.visualRange = upgrade.getVisualRangeUpgrader().apply(getVisualRange());
+        clone.costs = this.costs + upgrade.getCosts();
+        clone.level = level +1;
+        return clone;
+      } catch (CloneNotSupportedException e) {
+        LOG.log(Level.SEVERE,"couldn't clone tower", e);
+      }
     }
+    
+    return this; //if something went wrong
   }
 
   /** @return the fireRate */
@@ -175,11 +183,6 @@ public abstract class AbstractTower implements ActorInterface {
     return bullets;
   }
 
-  /* package private access for decorators */
-  Wall getWall() {
-    return wall;
-  }
-
   @JsonIgnore
   public TowerUpgrade getNextUpgrade() {
     if (upgrades.size() > getLevel()) {
@@ -188,13 +191,16 @@ public abstract class AbstractTower implements ActorInterface {
     return null;
   }
 
-  /* package private for decorators */
-  List<TowerUpgrade> getUpgrades() {
+  protected List<TowerUpgrade> getUpgrades() {
     return upgrades;
   }
 
-  @JsonGetter
   public int getLevel() {
-    return 0;
+    return level;
+  }
+
+  @Override
+  protected Object clone() throws CloneNotSupportedException {
+    return super.clone();
   }
 }

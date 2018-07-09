@@ -47,10 +47,8 @@ public class TowerTest {
       tower =
           new AbstractTower(fireRate, 0, 0, 0, TowerType.NO, null) {
             @Override
-            public Runnable createShooter(AbstractTower tower) {
-              return () -> {
-                called.set(true);
-              };
+            public void shoot() {
+              called.set(true);
             }
           };
       double delayBetweenShots = 1 / fireRate;

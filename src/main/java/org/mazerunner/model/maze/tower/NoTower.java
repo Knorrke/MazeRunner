@@ -12,7 +12,5 @@ public class NoTower extends AbstractTower {
   }
 
   @Override
-  public Runnable createShooter(AbstractTower shooting) {
-    return () -> {};
-  }
+  public void shoot() {}
 }
