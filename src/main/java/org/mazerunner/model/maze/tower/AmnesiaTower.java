@@ -18,27 +18,23 @@ public class AmnesiaTower extends AbstractTower {
   }
 
   @Override
-  public Runnable createShooter(AbstractTower shooting) {
-    return () -> {
-      List<Creature> creatures = shooting.findCreaturesInRange();
+  public void shoot() {
+      List<Creature> creatures = findCreaturesInRange();
       if (!creatures.isEmpty()) {
         for (Creature target : creatures) {
           if (!shotAt.contains(target)) {
-            shoot(shooting, target);
+            shoot(target);
             return;
           }
         }
         Creature target = creatures.get(new Random().nextInt(creatures.size()));
-        shoot(shooting, target);
+        shoot(target);
         return;
       }
-    };
   }
 
-  public void shoot(AbstractTower shooting, Creature target) {
-    shooting.addBullet(
-        new AmnesiaBullet(
-            shooting.getX() + 0.5, shooting.getY() + 0.5, Duration.millis(5000), target));
+  public void shoot(Creature target) {
+    addBullet(new AmnesiaBullet(getX() + 0.5, getY() + 0.5, Duration.millis(5000), target));
     shotAt.add(target);
   }
 }

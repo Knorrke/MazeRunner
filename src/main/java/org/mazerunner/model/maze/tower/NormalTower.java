@@ -22,17 +22,15 @@ public class NormalTower extends AbstractTower {
   }
 
   @Override
-  public Runnable createShooter(AbstractTower shooting) {
-    return () -> {
-      List<Creature> creatures = shooting.findCreaturesInRange();
-      if (!creatures.isEmpty()) {
-        shooting.addBullet(
-            new DamageBullet(
-                shooting.getX() + 0.5,
-                shooting.getY() + 0.5,
-                shooting.getDamage(),
-                creatures.get(0)));
-      }
-    };
+  public void shoot() {
+    List<Creature> creatures = findCreaturesInRange();
+    if (!creatures.isEmpty()) {
+      addBullet(
+          new DamageBullet(
+              getX() + 0.5,
+              getY() + 0.5,
+              getDamage(),
+              creatures.get(0)));
+    }
   }
 }

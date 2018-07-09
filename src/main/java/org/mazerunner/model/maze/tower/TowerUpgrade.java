@@ -19,10 +19,6 @@ public class TowerUpgrade {
     this.costs = costs;
   }
 
-  public AbstractTower createDecoratedTower(AbstractTower abstractTower) {
-    return new UpgradedTower(abstractTower, this);
-  }
-
   /** @return the fireRateUpgrader */
   public Function<Double, Double> getFireRateUpgrader() {
     return fireRateUpgrader;
