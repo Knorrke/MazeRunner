@@ -183,11 +183,6 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
     return bullets;
   }
 
-  /* package private access for decorators */
-  Wall getWall() {
-    return wall;
-  }
-
   @JsonIgnore
   public TowerUpgrade getNextUpgrade() {
     if (upgrades.size() > getLevel()) {
@@ -196,8 +191,7 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
     return null;
   }
 
-  /* package private for decorators */
-  List<TowerUpgrade> getUpgrades() {
+  protected List<TowerUpgrade> getUpgrades() {
     return upgrades;
   }
 
