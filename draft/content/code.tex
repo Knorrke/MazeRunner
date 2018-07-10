@@ -5,7 +5,7 @@ Im Folgenden wird auf die wichtigsten Teile des Programms nochmal genauer eingeg
 
 \subsection{Model} % (fold)
 \label{sub:model}
-Das Model teilt sich in drei Hauptkomponenten auf: Die Spielerverwaltung (Leben und Geld) im Paket \class{model.player}, die Levelverwaltung (Zeitlicher Ablauf der Wellen) im Paket \class{model.level} und die Welt an sich im Paket \class{model.maze} mit Kreaturen und Türmen. Das \class{PlayerModelInterface} und die implementierende Klasse \class{Player} sind sehr einfach (eigentlich nur Resourcen erhöhen / verringern) und werden daher nicht genauer betrachtet. Auf die anderen beiden Teile wird dagegen im Folgenden noch genauer eingegangen, wobei die Welt aufgrund der Komplexität noch weiter unterteilt wird. Grundlegend für beide sind Aktionen, die zunächst kurz erklärt werden.
+Das Model teilt sich in drei Hauptkomponenten auf: Die Spielerverwaltung (Leben und Geld) im Paket \class{model.player}, die Levelverwaltung (Zeitlicher Ablauf der Wellen) im Paket \class{model.level} und die Spielwelt an sich im Paket \class{model.maze} mit Kreaturen und Türmen. Das \class{PlayerModelInterface} und die implementierende Klasse \class{Player} sind sehr einfach (eigentlich nur Resourcen erhöhen / verringern) und werden daher nicht genauer betrachtet. Auf die anderen beiden Teile wird dagegen im Folgenden noch genauer eingegangen, wobei die Spielwelt aufgrund der Komplexität noch weiter unterteilt wird. Grundlegend für beide sind Aktionen, die zunächst kurz erklärt werden.
 
 \subsubsection{Akteure und Aktionen} % (fold)
 \label{ssub:aktionen}
@@ -17,34 +17,44 @@ Alle Objekte, die im Rahmen der Spielzeit agieren, implementieren das \class{Act
 Die Aufgabe des Level Pakets ist wie gesagt die zeitliche Steuerung der Creep-Wellen. Sie bietet nach außen für die View ein Binding, wie viel Prozent des Spiels schon vergangen sind. Nach einem gewissen Countdown erstellt sie -- entsprechend der Konfiguration des aktuellen Levels -- eine Liste von Kreaturen in der \class{CreatureFactory} und beauftragt das \class{MazeModelInterface} diese in das Spiel einzufügen. Anschließend wird der Countdown neu gestartet.
 % subsubsection level (end)
 
-\missingfigure{Klassendiagramm Level}
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=\linewidth]{images/level-package.png}
+  \caption{Das Klassendiagramm des \texttt{level} Packages (vereinfachte Darstellung).}
+\end{figure}
 
 \subsubsection{Das Paket \texttt{maze} -- Kreaturen} % (fold)
 \label{ssub:maze_kreaturen}
-Vieles zu den Kreaturen wurde bereits in den vorherigen Kapiteln (insb \ref{sub:strategy_pattern}) erklärt. Im Folgenden wird sich daher auf die Struktur fokusiert, die bisher noch nicht erwähnt wurde.
+Vieles zu den Kreaturen wurde bereits in den vorherigen Kapiteln (insb \ref{sub:strategy_pattern}) erklärt. Im Folgenden wird sich daher auf bisher noch nicht erwähnte Strukturen fokusiert.
 
 Es gibt verschiedene Kreaturenarten, die in einem Enum \class{CreatureType} spezifiziert sind. Dieses Enum enthält auch die Default-Werte der Typen für die Leben, Geschwindigkeit, Wert und Bewegungsalgorithmus. Ausgehend von diesen Default-Werten werden die Creeps in der \class{CreatureFactory} mit einem bestimmten Zeitfaktor abgewandelt (Kreaturen werden mit der Zeit stärker, geben aber auch etwas mehr Geld).
 
-\begin{lstlisting}[language=Java]
+\begin{lstlisting}[caption={Enum der Kreaturen Arten mit Konfiguration der default Werte (gekürzt).}, captionpos=b]
 public enum CreatureType {
   DUMB(3, 10, 1, new RandomMovement()),
   NORMAL(1, 10, 1, new NoSightMovement()),
   TOUGH(0.8, 30, 3, new NoSightMovement());
   //... Attribute mit Gettern
-  private CreatureType(double defaultVelocity, int defaultLifes,
-   int defaultValue, MovementInterface defaultMovement) {
+  private CreatureType(double defaultVelocity, int defaultLifes, int defaultValue, MovementInterface defaultMovement) {
    //... Zuweisung
   }
 }
 \end{lstlisting}
 
-Die Kreaturen sind Akteure und werden daher von der GameLoop aktualisiert. Sie besitzen eine aktuelle \class{Action}, die z.B. eine \class{MoveAction} zu einem bestimmten Ziel ist. Ist dieses Ziel erreicht, sucht die Kreatur mit dem gesetzten Bewegungsalgorithmus das nächste Ziel und erstellt dafür eine neue MoveAction. Zusätzlich wird bei jeder Positionsänderung überprüft, ob Kreaturen in der Reichweite sind, die andere Informationen über die Welt haben (\class{VisitedMap}). Falls das der Fall ist, wird die Bewegungsaktion durch eine \class{CountdownAction} vorübergehend unterbrechen, um sich mit der anderen Kreatur zu unterhalten. Danach wird die Bewegung fortgesetzt.
+Die Kreaturen sind Akteure und werden daher von der GameLoop aktualisiert. Sie besitzen eine aktuelle \class{Action}, die z.B. eine \class{MoveAction} zu einem bestimmten Ziel ist. Ist dieses Ziel erreicht, sucht die Kreatur mit dem gesetzten Bewegungsalgorithmus das nächste Ziel und erstellt dafür eine neue MoveAction. Zusätzlich wird bei jeder Positionsänderung überprüft, ob Kreaturen in der Reichweite sind, die andere Informationen über die Spielwelt haben (\class{VisitedMap}). Falls das der Fall ist, wird die Bewegungsaktion durch eine \class{CountdownAction} vorübergehend unterbrechen, um sich mit der anderen Kreatur zu unterhalten. Danach wird die Bewegung fortgesetzt.
 
-\paragraph{VisitedMap} Wie bereits in Kapitel~\ref{sub:neuer_ansatz_im_eigenen_projekt} erwähnt, ist die VisitedMap zentraler Bestandteil der scheinbaren Intelligenz der Kreaturen. Da diese sehr oft verglichen wird, war hier eine effiziente Implementierung notwendig. Die Speicherkomplexität der Map liegt in \(O (c\cdot n \cdot m)\), wobei \(c\) die Anzahl der Creeps, und \(n\times m\) die Abmessung der Welt ist (im aktuellen Spiel \(10\times20\)). Sind jedoch alle \(c\) Kreaturen nah zusammen, versucht jede Kreatur mit jeder anderen zu kommunizieren, also \(c\cdot (c-1)\) und jeder Vergleich der Arrays benötigt \(O(n\cdot m)\) Schritte \(\Rightarrow O(c^2\cdot n\cdot m)\). Eine Optimierung gelingt dadurch, dass für die Arrays ein Hash-Wert erstellt wird und für den Vergleich herangezogen wird. Nur wenn die Hash-Werte unterschiedlich sind, wird über das gesamte zweidimensionale Array iteriert und die Informationen zusammengefügt. Dadurch muss in dem gleichen Fall nur eine Kreatur mit allen anderen den Zustand synchronisieren -- alle anderen Vergleiche sind unabhängig von der Spielfeldgröße \(\Rightarrow O(c\cdot n \cdot m + (c-1)\cdot(c-1)\cdot1) = O(c \cdot n \cdot m + c^2) \). Da sich die Figuren in der Regel eine längere Zeit in der Gruppe bewegen, unterscheidet sich der State auch seltener, wodurch der Vorteil des Hashwertes noch deutlich wird. Nicht beachtet wurde dabei bisher die Komplexität zur Berechnung des Hash-Wertes. Zunächst wurde die Methode \class{Arrays.deepHashCode(Object[] a)} zur Berechnung verwendet, die allerdings in Benchmarks immer noch eine hohe Auslastung anzeigte. Stattdessen wurde anschließend das Zobrist Hashing \todo{Referenz} verwendet (genaueres siehe nächster Abschnitt). Das ermöglichte, den Hash-Wert bei Änderungen direkt mit einer einfachen Bit-Operation anzupassen, statt ihn mit dem gesamten Array neu zu berechnen. Dies führte zu einem vernachlässigbaren Aufwand zur Hashberechnung und der Vergleich war effizient genug, dass dies kein Problem mehr darstellte. Die tatsächlich gemessenen Laufzeitergebnisse sind in Abbildung~\ref{fig:benchmark} dargestellt.
-\begin{figure}[tb]
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=\linewidth]{images/creature-classdiagram.png}
+  \caption{Das Klassendiagramm der Creature Klassen (vereinfachte Darstellung). Anm.: Die Darstellung der \class{MovementInterface} Implementierungen veranschaulicht das Strategy-Pattern.}
+\end{figure}
+\paragraph{VisitedMap} % (fold)
+\label{par:visitedmap}
+Wie bereits in Kapitel~\ref{sub:neuer_ansatz_im_eigenen_projekt} erwähnt, ist die VisitedMap zentraler Bestandteil der scheinbaren Intelligenz der Kreaturen. Da diese sehr oft verglichen wird, war hier eine effiziente Implementierung notwendig. Die Speicherkomplexität der Map liegt in \(O (c\cdot n \cdot m)\), wobei \(c\) die Anzahl der Creeps, und \(n\times m\) die Abmessung der Spielwelt ist (im aktuellen Spiel \(10\times20\)). Sind jedoch alle \(c\) Kreaturen nah zusammen, versucht jede Kreatur mit jeder anderen zu kommunizieren, also \(c\cdot (c-1)\) und jeder Vergleich der Arrays benötigt \(O(n\cdot m)\) Schritte \(\Rightarrow O(c^2\cdot n\cdot m)\). Eine Optimierung gelingt dadurch, dass für die Arrays ein Hash-Wert erstellt wird und für den Vergleich herangezogen wird. Nur wenn die Hash-Werte unterschiedlich sind, wird über das gesamte zweidimensionale Array iteriert und die Informationen zusammengefügt. Dadurch muss in dem gleichen Fall nur eine Kreatur mit allen anderen den Zustand synchronisieren -- alle anderen Vergleiche sind unabhängig von der Spielfeldgröße \(\Rightarrow O(c\cdot n \cdot m + (c-1)\cdot(c-1)\cdot1) = O(c \cdot n \cdot m + c^2) \). Da sich die Figuren in der Regel eine längere Zeit in der Gruppe bewegen, unterscheidet sich der State auch seltener, wodurch der Vorteil des Hashwertes noch deutlich wird. Nicht beachtet wurde dabei bisher die Komplexität zur Berechnung des Hash-Wertes. Zunächst wurde die Methode \class{Arrays.deepHashCode(Object[] a)} zur Berechnung verwendet, die allerdings in Benchmarks immer noch eine hohe Auslastung anzeigte. Stattdessen wurde anschließend das Zobrist Hashing \cite{zobrist1970new} verwendet (genaueres siehe nächster Abschnitt). Das ermöglichte, den Hash-Wert bei Änderungen direkt mit einer einfachen Bit-Operation anzupassen, statt ihn mit dem gesamten Array neu zu berechnen. Dies führte zu einem vernachlässigbaren Aufwand zur Hashberechnung und der Vergleich war effizient genug, dass dies kein Problem mehr darstellte. Die tatsächlich gemessenen Laufzeitergebnisse sind in Abbildung~\ref{fig:benchmark} dargestellt.
+\begin{figure}[htb]
 	\centering
-	\includegraphics{images/benchmark.png}
-	\caption{Laufzeitanalyse der drei Implementierungen der Merge-Methode. Die Daten wurden mit Java Visual VM aufgenommen und zeigen einen Ausschnitt der rechenintensivsten Methoden gemessen zur Laufzeit mit 600 Kreaturen und dem gleichen Labyrinth Setup. Die erste Tabelle zeigt die Laufzeit ohne Hashing, die zweite mit \lstinline{Arrays.deepHashCode}, die dritte die letztliche Programmierung mit Zobrist Hashing.}
+	\includegraphics[width=0.8\linewidth]{images/benchmark.png}
+	\caption{Laufzeitanalyse der drei Implementierungen der Merge-Methode mit JavaVisualVM. Die Daten zeigen einen Ausschnitt der rechenintensivsten Methoden gemessen zur Laufzeit mit 600 Kreaturen und dem gleichen Labyrinth Setup. Die erste Tabelle zeigt die Laufzeit ohne Hashing, die zweite mit \lstinline{Arrays.deepHashCode}, die dritte die letztliche Programmierung mit Zobrist Hashing.}
 	\label{fig:benchmark}
 \end{figure}
 
@@ -96,6 +106,7 @@ private void setNewStateOnPosition(int x, int y, VisitedState newState) {
 }
 \end{lstlisting}
  % subparagraph ablauf_des_zobrist_hashing (end)
+% paragraph visitedmap (end)
 
 \paragraph{Wegsuche} Von der konkreten Algorithmik interessant ist bei der Pfadfindung nur die Klasse \class{NoSightMovement}. Das Vorgehen wurde schon in Kapitel~\ref{sub:strategy_pattern} kurz beschrieben. Die Aufgabe des Algorithmus ist es, aus der aktuellen \class{VisitedMap} und der aktuellen Position ein nächstes Ziel zu bestimmen. In Betracht gezogen wurden dafür alle noch unbekannten Felder, also ist das naheste, unbekannte Feld gesucht. Die einfachste Implementierung war, eine Breitensuche wie im Dijkstra-Algorithmus zu beginnen und bei dem ersten unbekannten Feld abzubrechen. Da diese Berechnung nicht in jedem Tick ausgeführt wird, sondern nur wenn eine neue Aktion berechnet wird (bei den normalen Kreaturen also einmal pro Sekunde), ist die Performanz hiervon auch kein Problem gewesen. Tatsächlich ist eine Verbesserung hier gar nicht so leicht: Überlegt war zum Beispiel, ob der Algorithmus beschleunigt werden kann, indem für das gesamte Labyrinth einmalig z.B. mit dem Floyd-Warshall-Algorithmus von allen Punkten aus der kürzeste Weg zu allen anderen Punkten berechnet wird. Statt für jede Aktion den Dijkstra-Algorithmus erneut auszuführen, müsste so nur bei einer Änderung des Labyrinths neuberechnet werden. Das Problem ist allerdings, dass den Kreaturen diese Tabelle nicht so viel nützt, weil sie ihr Ziel nicht kennen, sondern anhand der bereits bekannten Felder ein weiteres suchen wollen. Ebenso ist die Suche mit Dijkstra für diese Aufgabe sehr gut geeignet. Eine algorithmische Verbesserung in diesem Bereich schien also bisher nicht notwendig und konnte von mir auch noch nicht gefunden werden.
 
@@ -119,10 +130,173 @@ Der normale Turm ist auch die Orientierung für Game Balancing Überlegungen wie
 
 Die Implementierung der Türme verwendet eine \class{CountdownAction}, die das Schießen nach dem entsprechenden Intervall triggert. Da wird zunächst mit einer Bereichsanfragen auf die Kreaturen ein Ziel ausgewählt. Anschließend wird eine Kugel erzeugt, die sich wiederum mit einer \class{MoveAction} zunächst zum Ziel bewegen muss, bevor sie ihre Wirkung entfaltet. Vor allem Letzteres ist wichtig, um den Effekt der Kugel bis zum tatsächlichen Treffen verzögern zu können und nicht direkt in der Schießen-Methode auszuführen. Dadurch ist der Ablauf für den User besser sichtbar und nachvollziehbar.
 
-\missingfigure{UML Klassendiagramm von Tower package}
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=\linewidth]{images/tower-class-diagramm.png}
+  \caption{Das Klassendiagramm der Tower Klassen (vereinfachte Darstellung).}
+\end{figure}
+
+
+\paragraph{Upgrades}
+Die Upgrades werden definiert über drei Implementierungen eines Funktionalen Interfaces, das die Schussgeschwindigkeit, den Schaden bzw. den Sichtradius anpasst. Um die \class{ObjectProperty} zu nutzen, wird nicht der aktuelle Turm verändert, sondern ein Klon erzeugt, dessen Werte angepasst und der anschließend an den Aufrufer zurückgegeben wird. 
+\begin{figure}[htb]
+\begin{lstlisting}
+public class Wall implements ActorInterface {
+  /* ... */
+  public void upgradeTower() {
+    setTower(getTower().upgrade());
+  }
+}
+
+public abstract class AbstractTower implements ActorInterface, Cloneable {
+  /* ... */ 
+  public AbstractTower upgrade() {
+    if (upgrades.size() > getLevel()) {
+      TowerUpgrade upgrade = upgrades.get(getLevel());
+      try {
+        AbstractTower clone = (AbstractTower) this.clone();
+        clone.fireRate = upgrade.getFireRateUpgrader().apply(getFireRate());
+        clone.damage = upgrade.getDamageUpgrader().apply(getDamage());
+        clone.visualRange = upgrade.getVisualRangeUpgrader().apply(getVisualRange());
+        clone.costs = this.costs + upgrade.getCosts();
+        clone.level = level +1;
+        return clone;
+      } catch (CloneNotSupportedException e) {
+        LOG.log(Level.SEVERE,"couldn't clone tower", e);
+      }
+    }
+    
+    return this; //if something went wrong
+  }
+}
+\end{lstlisting}
+\end{figure}
 
 \paragraph{Datenstruktur der Mauern} Die Datenstruktur im \class{Maze}, die die Mauern hält, ist wie bei den Kreaturen eine \class{ObservableList}. Dadurch kann die View wieder einen Listener auf die Änderungen registrieren. Da die Kreaturen oft anfragen müssen, ob auf einem Feld eine Mauer den Weg blockiert, wurde zusätzlich noch ein zweidimensionales Boolean-Array gespeichert, das allerdings nur intern verwendet wird. Der zusätzliche Speicheraufwand ist zu vernachlässigen, da nur ein einzelnes Maze existiert und somit nur ein Boolean-Array in der Größe des Spielfeldes gespeichert wird. Die Anfragezeit, ob ein Feld belegt ist, konnte dagegen dadurch auf konstante Zeit \(O(1)\) im Gegensatz zu linearer Zeit \(O(w)\) (\(w\) Anzahl der \class{Wall} Objekte) reduziert werden. 
 
 % subsubsection maze_türme (end)
+\subsubsection{Die Klasse \texttt{Game}}
+Das Interface \class{GameModelInterface} und die implementierende Klasse \class{Game} ist der Einstiegspunkt im Model, der das Player-, Level- und Maze-System initialisiert und miteinander verbindet. Zusätzlich verwaltet es einen \class{GameState}, der beschreibt ob das Spiel noch in der BauPhase vor dem Start ist, gerade läuft, oder bereits beendet (gewonnen / verloren) ist.
 % subsection model (end)
+
+\subsection{View und Controller} % (fold)
+\label{sub:view}
+
+Das Grundlayout der View wurde in \emph{FXML} erstellt und besteht aus den folgenden Bereichen: Links Die Level Timeline mit den Kreaturen Wellen, daneben ein weiterer unterteilter Bereich mit den Spielerinformationen (oben), der Labyrinthfläche (Mitte) und den Kontrollbuttons (unten).
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=\linewidth]{images/layout.png}
+  \caption{Grundaufbau der Oberfläche, wie in fxml spezifiziert. Die Aufteilung gelang mit zwei geschachtelten \class{BorderLayout}s.}
+\end{figure}
+
+\subsubsection{CreatureTimeline} % (fold)
+\label{ssub:creaturetimeline}
+Die CreatureTimeline hat einen interessanten Aspekt, nämlich das scrollen mit der Spielzeit. Dafür verwendet sie das \class{passedTimePercentageBinding} aus dem LevelModelInterface und bindet an die \class{translateYProperty} aus der VBox, die die Kreaturen Gruppen enthält. Beim Klicken auf eine Kreatur der Timeline wird ein Popup mit den entsprechenden Informationen über die Kreaturen der Welle erzeugt
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=3cm]{images/timeline.png}
+  \caption{Popup mit Informationen über kommende Kreaturen.}
+\end{figure}
+
+
+% subsubsection creaturetimeline (end)
+
+\subsubsection{PlayerView} % (fold)
+\label{ssub:playerview}
+Die PlayerView ist ebenfalls in fxml geschrieben und bindet die \class{lifesProperty} und die \class{moneyProperty} (als Geld-Text formatiert) an die Labels. 
+\begin{lstlisting}
+public void initModel(PlayerModelInterface player) {
+  this.player = player;
+  money.textProperty().bind(Util.moneyString(this.player.moneyProperty()));
+  lifes.textProperty().bind(Bindings.max(0, this.player.lifesProperty()).asString());
+}
+\end{lstlisting}
+% subsubsection playerview (end)
+
+\subsubsection{Controls} % (fold)
+\label{ssub:controls}
+Die Controls sind direkt in der \texttt{GameView.fxml} enthalten, da sie keinerlei View-Aufgaben haben. Drücken des Play/Pause-Buttons ruft eine Methode auf dem GameController auf, der die GameLoop startet bzw. stoppt. Ebenso rufen die Bauen- und Info Buttons Methoden auf, die den Modus entsprechend wechseln. Im Bauen Modus werden alle Aktionen von den Controllern als Bau-aktionen interpretiert (Klick in Labyrinthfläche baut Mauer), im Informationsmodus werden keine Bauaktivitäten durchgeführt sondern wenn möglich weitere Informationen angezeigt (Klick auf Turm zeigt Informationen statt Buttons zum Abreisen).
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=3cm]{images/klick-bauen.png}\hspace{1cm}\includegraphics[width=3cm]{images/klick-informationen.png}
+  \caption{Klick auf Turm im Bauen Modus (links) und Informationsmodus (rechts)}
+\end{figure}
+% subsubsection controls (end)
+
+\subsubsection{MazeView} % (fold)
+\label{ssub:mazeview}
+Die MazeView enthält eine \class{Pane} für die Kreaturen zur beliebigen Positionierung und eine \class{StackPane} für die Türme. Dies ist leider nicht optimal, da dann entweder die KreaturenEbene unter der Turmebene oder andersrum liegen muss. Dadurch wird entweder die Lebensanzeigen und Sprechblasen der Kreaturen (in Kreaturenebene) von Türmen verdeckt werden, oder die Kugeln der Türme (in Turmebene) unter den Kreaturen durch fliegen. Hier wäre eine Neustrukturierung gut.
+
+Von der Implementierung her arbeiten die beiden Ebenen recht ähnlich: Sie haben einen Listener auf der Liste der Creeps bzw. Mauern im Model und erstellen bzw. entfernen dementsprechend \class{CreatureView} bzw. \class{WallView}, die sie als Kinder verwalten.
+
+\begin{lstlisting}
+public class CreaturesView extends Pane implements Bindable<MazeModelInterface> {
+    ListChangeListener<Creature> listener =
+      (c) -> {
+        while (c.next()) {
+          if (c.wasAdded()) {
+            createCreatures(c.getAddedSubList());
+          } else if (c.wasRemoved()) {
+            removeCreatures(c.getRemoved());
+          }
+        }
+      };
+
+  @Override
+  public void bind(MazeModelInterface maze) {
+    /* ... */
+    creatures.addListener(listener);
+  }
+  /* ... */
+}
+\end{lstlisting}
+Wird eine Kreatur entfernt, erstellt die Kreaturenebene ein Label für das gewonnene Geld, zeigt es kurz an und entfernt es dann wieder.
+
+\paragraph{CreatureView}
+Die Klasse \class{CreatureView}, die für die Anzeige einer einzelnen Kreatur zuständig ist, hat folgende interessante Aspekte:
+\begin{itemize}
+  \item Ein Listener auf den Leben der Kreatur zeigt einen Fortschrittsbalken an, sobald die Kreatur Schaden nimmt. 
+  \item Ein Listener auf der Position wird verwendet um aus der Änderung die aktuelle Drehung der Kreatur zu berechnen. 
+  \item Ein Listener auf der Aktion der Kreatur zeigt eine Sprechblase an, sobald die Kreatur eine \class{TalkAction} anfängt.
+\end{itemize}
+
+\paragraph{TowerView}
+Die \class{WallView} ist für die Anzeige einer Mauer zuständig und verwendet intern nochmal eine \class{TowerView} für die Anzeige des Turms und der Kugeln. Der Code ist sehr einfach, das einzige spannende ist das Menü zum Turmbau und -upgrade, wenn man eine Mauer anklickt. Dafür wurde das \class{CirclePopupMenu} aus der Bibliothek \emph{jfxtras} verwendet, das die Elemente gleichmäßig in einem Kreis anordnet und auf- und zuklappen animiert.
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=4cm]{images/klick-turm.png}
+  \caption{Popup-Menü mit der externen Klasse \class{CirclePopupMenu} zum Bauen von Türmen.}
+\end{figure}
+% subsubsection mazeview (end)
+% subsection view (end)
+\subsection{Weitere Klassen} % (fold)
+\label{sub:weitere_klassen}
+Für das Projekt wurden noch einzelne Hilfsklassen programmiert, die größtenteils statisch verwendet werden. Beispielsweise bietet \class{Util} Methoden zur Berechnung der Distanz zwischen zwei Punkten, oder zur Berechnung des Winkels eines Vektors. Besonders elegant ist der \class{ImageLoader}. Dieser bietet einen statischen Zugriff auf die Bilder und verhindert so, dass diese mehrmals geladen werden oder die Logik zum Laden von Bildern sich im Code verteilt. Die Bilder werden dort versucht zu laden, wobei nicht existierende Bilder durch einen Platzhalter ersetzt werden. Das ermöglichte die Grafiken unabhängig von den Features zu entwickeln.
+\begin{lstlisting}
+public class ImageLoader {  
+  private static final String basePath = "images/";
+  private static Image placeholder = loadImage("placeholder.png");
+  private static Image normalCreature;
+  /* ... */
+
+  public static void loadGameImages() {
+    normalCreature = loadImage("creatures/normal.png");    /* ... */
+  }
+
+  private static Image loadImage(String src) {
+    InputStream resourceStream =
+        ImageLoader.class.getClassLoader().getResourceAsStream(basePath + src);
+    if (resourceStream != null) {
+      return new Image(resourceStream);
+    } else if (placeholder != null) {
+      return placeholder;
+    }
+
+    LOG.severe("Image loading unsuccessfull!");
+    throw new Error("Failed loading Image " + src);
+  }
+}
+\end{lstlisting}
+% subsection weitere_klassen (end)
 % section überblick_der_wichtigsten_programmteile (end)
