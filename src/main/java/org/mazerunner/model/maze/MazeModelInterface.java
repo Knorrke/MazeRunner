@@ -2,6 +2,7 @@ package org.mazerunner.model.maze;
 
 import java.util.List;
 import org.mazerunner.controller.gameloop.Updateable;
+import org.mazerunner.model.GameError;
 import org.mazerunner.model.ModelInterface;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.maze.tower.TowerType;
@@ -9,6 +10,7 @@ import org.mazerunner.model.player.PlayerModelInterface;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
@@ -106,4 +108,8 @@ public interface MazeModelInterface extends Updateable, ModelInterface {
   public void upgradeTower(Wall wall);
 
   public void creatureDied(Creature creature);
+
+  public ObjectProperty<GameError> errorProperty();
+
+  public void sellTower(Wall wall);
 }

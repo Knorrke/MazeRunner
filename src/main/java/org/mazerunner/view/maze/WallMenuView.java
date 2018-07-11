@@ -85,7 +85,8 @@ public class WallMenuView extends CirclePopupMenu {
 
   public void show(MouseEvent event, Wall wall, WallController wallController) {
     getItems().clear();
-    sellItemLabel.setText(Util.moneyString(wall.getCosts()));
+    sellItemLabel.setText(
+        Util.moneyString(wall.hasTower() ? wall.getTower().getCosts() : wall.getCosts()));
     getItems().add(sellItem);
     if (wall.getTower().getType() == TowerType.NO) {
       getItems().addAll(towerItems);

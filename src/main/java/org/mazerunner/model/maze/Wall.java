@@ -131,6 +131,10 @@ public class Wall implements ActorInterface {
     return getTower().getType().equals(TowerType.NO);
   }
 
+  public boolean hasTower() {
+    return !getTower().getType().equals(TowerType.NO);
+  }
+
   public void upgradeTower() {
     setTower(getTower().upgrade());
   }

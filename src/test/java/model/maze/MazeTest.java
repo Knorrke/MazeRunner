@@ -127,7 +127,7 @@ public class MazeTest {
   }
 
   @Test
-  public void sellShouldNotifyCreaturesThatKnowOfTheWall() {
+  public void sellShouldNotWorkIfCreaturesKnowOfTheWall() {
     Wall wall = maze.buildWall(x, y);
     Creature creatureWithKnowledge = CreatureFactory.create(maze, CreatureType.NORMAL, x - 1, y);
     Creature creatureWithoutKnowledge =
@@ -141,12 +141,10 @@ public class MazeTest {
         creatureWithoutKnowledge.getVisitedMap().isUnknown(x, y));
 
     maze.sell(wall);
-    assertTrue(
-        "Creature information should have changed to visited",
-        creatureWithKnowledge.getVisitedMap().isVisited(x, y));
-    assertTrue(
-        "Other creature should still have no information",
-        creatureWithoutKnowledge.getVisitedMap().isUnknown(x, y));
+    assertTrue("Wall should still be there", maze.hasWallOn(x, y));
+    maze.creatureDied(creatureWithKnowledge);
+    maze.sell(wall);
+    assertFalse("Wall should now be gone", maze.hasWallOn(x, y));
   }
 
   @Test

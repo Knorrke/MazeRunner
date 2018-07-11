@@ -3,6 +3,7 @@ package org.mazerunner.view.popover;
 import org.controlsfx.control.PopOver;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.util.Util;
+import org.mazerunner.view.creatures.CreatureView;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
@@ -25,5 +26,8 @@ public class CreatureInfoPopOver extends PopOver {
 
     this.setContentNode(box);
     this.show(view);
+    if (view instanceof CreatureView) {
+      ((CreatureView) view).showSelection();
+    }
   }
 }

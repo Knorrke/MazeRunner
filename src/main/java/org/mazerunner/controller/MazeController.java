@@ -64,7 +64,11 @@ public class MazeController implements ModelHolderInterface<MazeModelInterface> 
   }
 
   public void sell(Wall wall) {
-    maze.sell(wall);
+    if (wall.hasTower()) {
+      maze.sellTower(wall);
+    } else {
+      maze.sell(wall);
+    }
   }
 
   public void buildTower(Wall wall, TowerType type) {
