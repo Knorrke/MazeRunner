@@ -36,7 +36,7 @@ public class Game implements GameModelInterface {
     connectModels();
     for (int i = 0; i < 4; i++) {
       for (int j = 0; j < 3; j++) {
-        if ((i + j) % 2 == 0) {
+        if (i != 0 && (i + j) % 2 == 0) {
           level.addCreatureToTimeline(new CreatureGroup(CreatureType.DUMB, 30));
         }
         level.addCreatureToTimeline(

@@ -279,10 +279,11 @@ public class Maze implements MazeModelInterface {
     List<Node> closed = new ArrayList<>();
     List<Node> next = new ArrayList<>();
     Node fictiveGoal = new Node(-1, -1);
-    fictiveGoal.neighbors =
-        IntStream.range(0, maxWallY)
-            .mapToObj(y -> new Node(maxWallX - 1, y))
-            .collect(Collectors.toList());
+
+    fictiveGoal.neighbors = new ArrayList<>();
+    for (int y = 0; y < maxWallY; y++) {
+      fictiveGoal.neighbors.add(new Node(maxWallX - 1, 0));
+    }
     dist.put(fictiveGoal, 0);
     next.add(fictiveGoal);
     while (!next.isEmpty()) {
