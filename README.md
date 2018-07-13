@@ -1,5 +1,9 @@
 [![Build Status](https://img.shields.io/travis/Knorrke/MazeRunner/master.svg)](https://travis-ci.org/Knorrke/MazeRunner/branches)
 [![Coverage Status](https://img.shields.io/coveralls/github/Knorrke/MazeRunner/master.svg)](https://coveralls.io/github/Knorrke/MazeRunner?branch=master)
+[![SonarCloud Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=MazeRunner%3AMazeRunner&metric=alert_status)](https://sonarcloud.io/dashboard?id=MazeRunner%3AMazeRunner)
+[![SonarCloud Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=MazeRunner%3AMazeRunner&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=MazeRunner%3AMazeRunner)
+[![SonarCloud Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=MazeRunner%3AMazeRunner&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=MazeRunner%3AMazeRunner)
+
 # MazeRunner
 A tower defense game, where you really have to create mazes with dead ends. 
 The creatures search their way through the maze wave by wave, splitting up at crossings. 
