@@ -1,7 +1,10 @@
 language: java
 install:
   - mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+addons:
+  sonarcloud:
+    organization: "knorrke-github"
 script: 
-  - mvn clean test jacoco:report -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Djava.awt.headless=true -Dtestfx.setup.timeout=10000
+  - mvn clean test jacoco:report sonar:sonar -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k -Djava.awt.headless=true -Dtestfx.setup.timeout=10000
 after_success:
   - mvn coveralls:report
