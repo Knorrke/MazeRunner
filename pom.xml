@@ -5,7 +5,7 @@
 
 	<groupId>MazeRunner</groupId>
 	<artifactId>MazeRunner</artifactId>
-	<version>0.2</version>
+	<version>0.3</version>
 	<packaging>jar</packaging>
 
 	<name>MazeRunner</name>
@@ -283,7 +283,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13</version>
+			<version>[4.13.1,)</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- Mockito: mocking test objects for integration tests -->
