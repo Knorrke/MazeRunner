@@ -125,6 +125,15 @@
 				<configuration>
 					<repoToken>${env.repoToken}</repoToken>
 				</configuration>
+				<!-- TODO: Remove this after following issue is closed: 
+					 https://github.com/trautonen/coveralls-maven-plugin/issues/141 -->
+                <dependencies>
+                    <dependency>
+                        <groupId>javax.xml.bind</groupId>
+                        <artifactId>jaxb-api</artifactId>
+                        <version>2.3.0</version>
+                    </dependency>
+                </dependencies>
 			</plugin>
 
 			<plugin>
