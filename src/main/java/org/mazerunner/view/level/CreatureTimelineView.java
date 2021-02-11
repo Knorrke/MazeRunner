@@ -1,11 +1,6 @@
 package org.mazerunner.view.level;
 
 import java.util.List;
-
-import org.mazerunner.model.creature.CreatureGroup;
-import org.mazerunner.model.level.LevelModelInterface;
-import org.mazerunner.view.Bindable;
-
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,6 +10,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
+import org.mazerunner.model.creature.CreatureGroup;
+import org.mazerunner.model.level.LevelModelInterface;
+import org.mazerunner.view.Bindable;
 
 public class CreatureTimelineView extends StackPane implements Bindable<LevelModelInterface> {
   private VBox creatureTimeline;

@@ -2,9 +2,9 @@ package org.mazerunner.util;
 
 import java.io.InputStream;
 import java.util.logging.Logger;
+import javafx.scene.image.Image;
 import org.mazerunner.model.creature.CreatureType;
 import org.mazerunner.model.maze.tower.TowerType;
-import javafx.scene.image.Image;
 
 public class ImageLoader {
   private ImageLoader() {}

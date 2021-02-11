@@ -1,16 +1,17 @@
 package model.maze.tower.bullet;
 
 import static org.junit.Assert.assertTrue;
+
 import java.awt.Point;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
+import javafx.util.Duration;
 import org.junit.Test;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.maze.tower.bullet.Bullet;
 import org.mazerunner.model.maze.tower.bullet.DamageBullet;
 import org.mazerunner.model.maze.tower.bullet.SlowdownBullet;
 import org.mockito.Mockito;
-import javafx.util.Duration;
 
 public class BulletTest {
   private static Logger LOG = Logger.getLogger(BulletTest.class.getName());
@@ -60,11 +61,11 @@ public class BulletTest {
     assertTrue(stepsPassed.get() > minSteps);
     assertTrue(bullet.hasHitTarget());
   }
-  
+
   @Test
   public void slowdownTest() {
     Creature target = Mockito.mock(Creature.class);
-    Bullet bullet = new SlowdownBullet(2, 3, 0.5,Duration.millis(1000), target, 3);
+    Bullet bullet = new SlowdownBullet(2, 3, 0.5, Duration.millis(1000), target, 3);
     bullet.hitTarget();
     Mockito.verify(target).slowdown(0.5);
   }

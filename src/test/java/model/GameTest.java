@@ -3,6 +3,7 @@ package model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mazerunner.model.GameState.BUILDING;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mazerunner.model.Game;

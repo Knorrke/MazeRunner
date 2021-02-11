@@ -1,15 +1,15 @@
 package org.mazerunner.view.maze;
 
-import org.mazerunner.controller.WallController;
-import org.mazerunner.model.maze.Wall;
-import org.mazerunner.model.maze.tower.AbstractTower;
-import org.mazerunner.util.ImageLoader;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
+import org.mazerunner.controller.WallController;
+import org.mazerunner.model.maze.Wall;
+import org.mazerunner.model.maze.tower.AbstractTower;
+import org.mazerunner.util.ImageLoader;
 
 public class WallView extends StackPane {
   private ImageView imgView;

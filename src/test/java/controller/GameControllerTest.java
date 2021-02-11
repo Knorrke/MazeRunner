@@ -4,12 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
+
 import java.util.function.Predicate;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.junit.Test;
 import org.mazerunner.controller.UserActionState;
 import org.mazerunner.util.ImageLoader;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import view.AbstractViewTest;
 
 public class GameControllerTest extends AbstractViewTest {

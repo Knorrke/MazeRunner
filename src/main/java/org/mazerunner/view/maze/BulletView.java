@@ -1,13 +1,13 @@
 package org.mazerunner.view.maze;
 
-import org.mazerunner.model.Position;
-import org.mazerunner.model.maze.tower.bullet.Bullet;
-import org.mazerunner.util.ImageLoader;
-import org.mazerunner.util.Util;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.ImageView;
+import org.mazerunner.model.Position;
+import org.mazerunner.model.maze.tower.bullet.Bullet;
+import org.mazerunner.util.ImageLoader;
+import org.mazerunner.util.Util;
 
 public class BulletView extends ImageView {
   private static final double bulletWidth = 0.2, bulletHeight = 0.1;

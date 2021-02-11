@@ -1,21 +1,13 @@
 package org.mazerunner;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.javafx.PlatformUtil;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.mazerunner.controller.GameController;
-import org.mazerunner.model.Game;
-import org.mazerunner.util.ImageLoader;
-import org.mazerunner.util.ScaleUtil;
-import org.mazerunner.util.Serializer;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.javafx.PlatformUtil;
-
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
@@ -24,8 +16,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.mazerunner.controller.GameController;
+import org.mazerunner.model.Game;
+import org.mazerunner.util.ImageLoader;
+import org.mazerunner.util.ScaleUtil;
+import org.mazerunner.util.Serializer;
 
-@SuppressWarnings("restriction")
 public class Launcher extends Application {
   private static final Logger LOG = Logger.getLogger(Launcher.class.getName());
 

@@ -1,15 +1,15 @@
 package org.mazerunner.model.level;
 
-import org.mazerunner.controller.gameloop.Updateable;
-import org.mazerunner.model.ModelInterface;
-import org.mazerunner.model.creature.CreatureGroup;
-import org.mazerunner.model.maze.MazeModelInterface;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.ObservableList;
+import org.mazerunner.controller.gameloop.Updateable;
+import org.mazerunner.model.ModelInterface;
+import org.mazerunner.model.creature.CreatureGroup;
+import org.mazerunner.model.maze.MazeModelInterface;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
 @JsonSubTypes({

@@ -1,10 +1,5 @@
 package org.mazerunner.model.maze.tower.bullet;
 
-import org.mazerunner.controller.gameloop.ActorInterface;
-import org.mazerunner.model.Moveable;
-import org.mazerunner.model.Position;
-import org.mazerunner.model.baseactions.Action;
-import org.mazerunner.model.creature.Creature;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -12,6 +7,11 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import org.mazerunner.controller.gameloop.ActorInterface;
+import org.mazerunner.model.Moveable;
+import org.mazerunner.model.Position;
+import org.mazerunner.model.baseactions.Action;
+import org.mazerunner.model.creature.Creature;
 
 public abstract class Bullet implements Moveable, ActorInterface {
   private final double sourceX, sourceY;
@@ -22,8 +22,7 @@ public abstract class Bullet implements Moveable, ActorInterface {
   private Action moveAction;
   private Creature target;
 
-  public Bullet(double sourceX, double sourceY, Creature target,
-      double vel) {
+  public Bullet(double sourceX, double sourceY, Creature target, double vel) {
     this.sourceX = sourceX;
     this.sourceY = sourceY;
     relativePosition = new SimpleObjectProperty<>(new Position(0, 0));
@@ -46,7 +45,7 @@ public abstract class Bullet implements Moveable, ActorInterface {
   public void hitTarget() {
     setHasHitTarget(true);
   }
-  
+
   public Creature getTarget() {
     return target;
   }
@@ -90,13 +89,11 @@ public abstract class Bullet implements Moveable, ActorInterface {
     return sourceY + getDy();
   }
 
-  /**
-   * @return true if bullet is completely finished and can be removed from updates
-   */
+  /** @return true if bullet is completely finished and can be removed from updates */
   public boolean isOver() {
     return hasHitTarget();
   }
-  
+
   /** @return true if bullet already hit the target */
   public boolean hasHitTarget() {
     return hasHitTarget.get();
@@ -123,6 +120,6 @@ public abstract class Bullet implements Moveable, ActorInterface {
 
   @Override
   public void moveTo(double x, double y) {
-    setRelativePosition(new Position(x,y));
+    setRelativePosition(new Position(x, y));
   }
 }

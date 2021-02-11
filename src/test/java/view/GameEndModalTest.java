@@ -5,6 +5,8 @@ import static org.testfx.api.FxAssert.verifyThat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +18,6 @@ import org.mazerunner.view.popover.GameEndPopOver;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.control.LabeledMatchers;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 
 @RunWith(Parameterized.class)
 public class GameEndModalTest extends ApplicationTest {

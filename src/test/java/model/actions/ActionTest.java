@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import org.junit.Test;
 import org.mazerunner.model.baseactions.CountdownAction;
 

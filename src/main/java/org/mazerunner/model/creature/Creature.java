@@ -1,8 +1,17 @@
 package org.mazerunner.model.creature;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.logging.Logger;
-
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import org.mazerunner.controller.gameloop.ActorInterface;
 import org.mazerunner.model.Moveable;
 import org.mazerunner.model.Position;
@@ -14,18 +23,6 @@ import org.mazerunner.model.creature.movements.NoSightMovement;
 import org.mazerunner.model.creature.vision.Vision;
 import org.mazerunner.model.maze.Maze;
 import org.mazerunner.model.maze.MazeModelInterface;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 
 public class Creature implements ActorInterface, Moveable {
   private static final Logger LOG = Logger.getLogger(Creature.class.getName());

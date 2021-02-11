@@ -20,11 +20,11 @@ public class MoveAction extends Action {
 
   @Override
   public void update(double dt) {
-	if (target.getX() != oldTargetX || target.getY() != oldTargetY) {
-		remainingDist = Util.distance(moveable.getX(), moveable.getY(), target.getX(), target.getY());
-		oldTargetX = target.getX();
-		oldTargetY = target.getY();
-	}
+    if (target.getX() != oldTargetX || target.getY() != oldTargetY) {
+      remainingDist = Util.distance(moveable.getX(), moveable.getY(), target.getX(), target.getY());
+      oldTargetX = target.getX();
+      oldTargetY = target.getY();
+    }
     double dirXNormalized = (target.getX() - moveable.getX()) / remainingDist;
     double dirYNormalized = (target.getY() - moveable.getY()) / remainingDist;
     double ds = moveable.getVelocity() * dt;

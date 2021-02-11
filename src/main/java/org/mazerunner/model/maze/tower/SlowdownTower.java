@@ -3,10 +3,10 @@ package org.mazerunner.model.maze.tower;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import javafx.util.Duration;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.maze.Wall;
 import org.mazerunner.model.maze.tower.bullet.SlowdownBullet;
-import javafx.util.Duration;
 
 public class SlowdownTower extends AbstractTower {
 

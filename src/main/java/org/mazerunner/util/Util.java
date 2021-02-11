@@ -1,9 +1,9 @@
 package org.mazerunner.util;
 
-import org.mazerunner.model.Position;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.IntegerProperty;
+import org.mazerunner.model.Position;
 
 public final class Util {
   private Util() {}

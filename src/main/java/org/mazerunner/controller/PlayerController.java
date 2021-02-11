@@ -1,14 +1,14 @@
 package org.mazerunner.controller;
 
 import java.util.logging.Logger;
-import org.mazerunner.model.player.PlayerModelInterface;
-import org.mazerunner.util.ImageLoader;
-import org.mazerunner.util.Util;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import org.mazerunner.model.player.PlayerModelInterface;
+import org.mazerunner.util.ImageLoader;
+import org.mazerunner.util.Util;
 
 public class PlayerController extends HBox implements ModelHolderInterface<PlayerModelInterface> {
 

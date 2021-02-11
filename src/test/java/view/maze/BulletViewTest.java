@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
 
 import java.util.concurrent.TimeUnit;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mazerunner.model.creature.Creature;
@@ -16,6 +15,7 @@ import org.mazerunner.model.maze.tower.TowerType;
 import org.mazerunner.model.maze.tower.bullet.Bullet;
 import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.util.WaitForAsyncUtils;
+import util.TestFXHelper;
 import view.AbstractViewTest;
 
 public class BulletViewTest extends AbstractViewTest {
@@ -35,14 +35,14 @@ public class BulletViewTest extends AbstractViewTest {
   @Test
   public void bulletVisibleTest() {
     simulateShoot();
-    verifyThat(".bullet", NodeMatchers.isNotNull());
+    verifyThat(TestFXHelper.carefulQuery(".bullet"), NodeMatchers.isNotNull());
   }
 
   @Test
   public void bulletInvisibleAfterShotTest() {
     simulateShoot();
     simulateTimeUntilBulletHits();
-    verifyThat(".bullet", NodeMatchers.isNull());
+    verifyThat(TestFXHelper.carefulQuery(".bullet"), NodeMatchers.isNull());
   }
 
   @Test
@@ -57,11 +57,11 @@ public class BulletViewTest extends AbstractViewTest {
     simulateShoot();
     simulateTimeUntilBulletHits();
     assertTrue("Creature should be dead", creature.getLifes() <= 0);
-    verifyThat(".creature", NodeMatchers.isNull());
+    verifyThat(TestFXHelper.carefulQuery(".creature"), NodeMatchers.isNull());
     // Check if there is a floating label for the won money, that disappears after a second
-    verifyThat(".earning-label", NodeMatchers.isNotNull());
+    verifyThat(TestFXHelper.carefulQuery(".earning-label"), NodeMatchers.isNotNull());
     WaitForAsyncUtils.sleep(1000, TimeUnit.MILLISECONDS);
-    verifyThat(".earning-label", NodeMatchers.isNull());
+    verifyThat(TestFXHelper.carefulQuery(".earning-label"), NodeMatchers.isNull());
   }
 
   public void simulateShoot() {

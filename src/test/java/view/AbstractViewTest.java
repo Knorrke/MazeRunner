@@ -1,8 +1,11 @@
 package view;
 
+import com.sun.javafx.PlatformUtil;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import org.mazerunner.Launcher;
 import org.mazerunner.controller.GameController;
 import org.mazerunner.controller.gameloop.GameLoop;
@@ -13,8 +16,6 @@ import org.mazerunner.model.player.PlayerModelInterface;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.util.DebugUtils;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 public abstract class AbstractViewTest extends ApplicationTest {
   protected GameModelInterface game;
@@ -34,6 +35,14 @@ public abstract class AbstractViewTest extends ApplicationTest {
 
   @Override
   public void start(Stage stage) {
+    /*
+    TODO Remove once JavaFx is updated to version 13.
+    This is a temporary fix for https://github.com/javafxports/openjdk-jfx/issues/66.
+    https://github.com/PCGen/pcgen/pull/5973
+     */
+    if (PlatformUtil.isWindows()) {
+      System.load("C:\\Windows\\System32\\WindowsCodecs.dll");
+    }
     gameController = Launcher.createGame();
     game = gameController.getModel();
     gameLoop = gameController.getGameLoop();

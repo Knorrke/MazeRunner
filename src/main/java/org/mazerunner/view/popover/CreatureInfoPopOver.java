@@ -1,14 +1,14 @@
 package org.mazerunner.view.popover;
 
-import org.controlsfx.control.PopOver;
-import org.mazerunner.model.creature.Creature;
-import org.mazerunner.util.Util;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 import jfxtras.scene.layout.VBox;
+import org.controlsfx.control.PopOver;
+import org.mazerunner.model.creature.Creature;
+import org.mazerunner.util.Util;
 
 public class CreatureInfoPopOver extends PopOver {
 

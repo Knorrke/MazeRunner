@@ -1,7 +1,10 @@
 package model.maze;
 
 import static org.junit.Assert.*;
+
 import java.util.concurrent.atomic.AtomicBoolean;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import org.junit.Before;
 import org.junit.Test;
 import org.mazerunner.model.creature.Creature;
@@ -14,8 +17,6 @@ import org.mazerunner.model.player.Player;
 import org.mazerunner.model.player.PlayerModelInterface;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 
 public class MazeTest {
   MazeModelInterface maze;

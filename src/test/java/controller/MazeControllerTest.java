@@ -3,10 +3,12 @@ package controller;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
+
 import org.junit.Test;
 import org.mazerunner.model.creature.CreatureFactory;
 import org.mazerunner.model.creature.CreatureType;
 import org.testfx.matcher.base.NodeMatchers;
+import util.TestFXHelper;
 import view.AbstractViewTest;
 
 public class MazeControllerTest extends AbstractViewTest {
@@ -32,7 +34,7 @@ public class MazeControllerTest extends AbstractViewTest {
   public void noActionInInfoModeOnEmptySquar() {
     clickOn(infoSelector);
     clickOn(mazeSelector);
-    verifyThat(".popover", NodeMatchers.isNull(), collectInfos());
+    verifyThat(TestFXHelper.carefulQuery(".popover"), NodeMatchers.isNull(), collectInfos());
   }
 
   @Test
@@ -41,7 +43,7 @@ public class MazeControllerTest extends AbstractViewTest {
     clickOn(mazeSelector);
     clickOn(infoSelector);
     clickOn(".wall");
-    verifyThat(".popover", NodeMatchers.isNotNull(), collectInfos());
+    verifyThat(TestFXHelper.carefulQuery(".popover"), NodeMatchers.isNotNull(), collectInfos());
   }
 
   @Test
@@ -49,7 +51,7 @@ public class MazeControllerTest extends AbstractViewTest {
     interact(() -> maze.addCreature(CreatureFactory.create(maze, CreatureType.NORMAL, 2, 3)));
     clickOn(buildSelector);
     clickOn(".creature");
-    verifyThat(".popover", NodeMatchers.isNull(), collectInfos());
+    verifyThat(TestFXHelper.carefulQuery(".popover"), NodeMatchers.isNull(), collectInfos());
   }
 
   @Test
@@ -57,6 +59,6 @@ public class MazeControllerTest extends AbstractViewTest {
     interact(() -> maze.addCreature(CreatureFactory.create(maze, CreatureType.NORMAL, 2, 3)));
     clickOn(infoSelector);
     clickOn(".creature");
-    verifyThat(".popover", NodeMatchers.isNotNull(), collectInfos());
+    verifyThat(TestFXHelper.carefulQuery(".popover"), NodeMatchers.isNotNull(), collectInfos());
   }
 }

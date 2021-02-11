@@ -2,6 +2,7 @@ package view;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
+
 import org.junit.Test;
 import org.mazerunner.util.Util;
 

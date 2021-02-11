@@ -2,13 +2,6 @@ package org.mazerunner.view.creatures;
 
 import java.util.Iterator;
 import java.util.List;
-
-import org.mazerunner.model.creature.Creature;
-import org.mazerunner.model.maze.MazeModelInterface;
-import org.mazerunner.util.Util;
-import org.mazerunner.view.Bindable;
-import org.mazerunner.view.FloatingLabel;
-
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
@@ -19,6 +12,11 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import org.mazerunner.model.creature.Creature;
+import org.mazerunner.model.maze.MazeModelInterface;
+import org.mazerunner.util.Util;
+import org.mazerunner.view.Bindable;
+import org.mazerunner.view.FloatingLabel;
 
 public class CreaturesView extends Pane implements Bindable<MazeModelInterface> {
   private static final Object monitor = new Object();

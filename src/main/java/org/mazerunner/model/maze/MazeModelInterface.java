@@ -1,15 +1,15 @@
 package org.mazerunner.model.maze;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import java.util.List;
+import javafx.collections.ObservableList;
 import org.mazerunner.controller.gameloop.Updateable;
 import org.mazerunner.model.ModelInterface;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.maze.tower.TowerType;
 import org.mazerunner.model.player.PlayerModelInterface;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import javafx.collections.ObservableList;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.WRAPPER_OBJECT, property = "type")
 @JsonSubTypes({

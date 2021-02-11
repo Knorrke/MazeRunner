@@ -4,6 +4,11 @@ import static org.mazerunner.model.GameState.BUILDING;
 import static org.mazerunner.model.GameState.GAMEOVER;
 import static org.mazerunner.model.GameState.RUNNING;
 import static org.mazerunner.model.GameState.WON;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ListChangeListener.Change;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.creature.CreatureGroup;
 import org.mazerunner.model.creature.CreatureType;
@@ -13,10 +18,6 @@ import org.mazerunner.model.maze.Maze;
 import org.mazerunner.model.maze.MazeModelInterface;
 import org.mazerunner.model.player.Player;
 import org.mazerunner.model.player.PlayerModelInterface;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.ListChangeListener.Change;
 
 public class Game implements GameModelInterface {
   private ObjectProperty<GameState> state = new SimpleObjectProperty<GameState>();

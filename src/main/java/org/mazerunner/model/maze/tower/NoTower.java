@@ -1,8 +1,8 @@
 package org.mazerunner.model.maze.tower;
 
-import org.mazerunner.model.maze.Wall;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.mazerunner.model.maze.Wall;
 
 public class NoTower extends AbstractTower {
 

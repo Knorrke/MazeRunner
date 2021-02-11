@@ -1,10 +1,17 @@
 package org.mazerunner.model.maze.tower;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.mazerunner.controller.gameloop.ActorInterface;
 import org.mazerunner.model.baseactions.CountdownAction;
 import org.mazerunner.model.creature.Creature;
@@ -12,13 +19,6 @@ import org.mazerunner.model.maze.Wall;
 import org.mazerunner.model.maze.tower.bullet.Bullet;
 import org.mazerunner.util.ObservableBulletsListDeserializer;
 import org.mazerunner.util.Util;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public abstract class AbstractTower implements ActorInterface, Cloneable {
   private static final Logger LOG = Logger.getLogger(AbstractTower.class.getName());
@@ -38,6 +38,7 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
 
   @JsonDeserialize(using = ObservableBulletsListDeserializer.class)
   protected ObservableList<Bullet> bullets;
+
   private int level = 0;
 
   protected AbstractTower(
@@ -92,7 +93,7 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
   }
 
   public abstract void shoot();
-  
+
   protected void addBullet(Bullet bullet) {
     bullets.add(bullet);
   }
@@ -124,14 +125,14 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
         clone.damage = upgrade.getDamageUpgrader().apply(getDamage());
         clone.visualRange = upgrade.getVisualRangeUpgrader().apply(getVisualRange());
         clone.costs = this.costs + upgrade.getCosts();
-        clone.level = level +1;
+        clone.level = level + 1;
         return clone;
       } catch (CloneNotSupportedException e) {
-        LOG.log(Level.SEVERE,"couldn't clone tower", e);
+        LOG.log(Level.SEVERE, "couldn't clone tower", e);
       }
     }
-    
-    return this; //if something went wrong
+
+    return this; // if something went wrong
   }
 
   /** @return the fireRate */

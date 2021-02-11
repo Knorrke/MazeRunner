@@ -1,12 +1,12 @@
 package org.mazerunner.model.maze.tower;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Arrays;
 import java.util.List;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.maze.Wall;
 import org.mazerunner.model.maze.tower.bullet.DamageBullet;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class NormalTower extends AbstractTower {
   @JsonCreator
@@ -25,12 +25,7 @@ public class NormalTower extends AbstractTower {
   public void shoot() {
     List<Creature> creatures = findCreaturesInRange();
     if (!creatures.isEmpty()) {
-      addBullet(
-          new DamageBullet(
-              getX() + 0.5,
-              getY() + 0.5,
-              getDamage(),
-              creatures.get(0)));
+      addBullet(new DamageBullet(getX() + 0.5, getY() + 0.5, getDamage(), creatures.get(0)));
     }
   }
 }

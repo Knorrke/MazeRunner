@@ -1,11 +1,11 @@
 package org.mazerunner.controller;
 
+import javafx.beans.binding.DoubleBinding;
+import javafx.scene.input.MouseEvent;
 import org.mazerunner.model.maze.Wall;
 import org.mazerunner.model.maze.tower.TowerType;
 import org.mazerunner.view.maze.WallMenuView;
 import org.mazerunner.view.maze.WallView;
-import javafx.beans.binding.DoubleBinding;
-import javafx.scene.input.MouseEvent;
 
 public class WallController {
 

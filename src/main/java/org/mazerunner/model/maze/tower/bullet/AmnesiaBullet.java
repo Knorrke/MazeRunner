@@ -1,11 +1,11 @@
 package org.mazerunner.model.maze.tower.bullet;
 
+import javafx.util.Duration;
 import org.mazerunner.model.baseactions.Action;
 import org.mazerunner.model.baseactions.CountdownAction;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.creature.movements.MovementInterface;
 import org.mazerunner.model.creature.movements.RandomMovement;
-import javafx.util.Duration;
 
 public class AmnesiaBullet extends Bullet {
   private Action revertAction;

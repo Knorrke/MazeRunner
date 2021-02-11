@@ -1,9 +1,5 @@
 package org.mazerunner.view.popover;
 
-import org.mazerunner.controller.gameloop.GameLoop;
-import org.mazerunner.model.GameState;
-import org.mazerunner.util.FXMLLoaderUtil;
-import org.mazerunner.util.ImageLoader;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -16,6 +12,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
+import org.mazerunner.controller.gameloop.GameLoop;
+import org.mazerunner.model.GameState;
+import org.mazerunner.util.FXMLLoaderUtil;
+import org.mazerunner.util.ImageLoader;
 
 public class GameEndPopOver extends Stage {
   private GameState state;

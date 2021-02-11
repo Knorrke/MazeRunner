@@ -3,7 +3,6 @@ package controller;
 import static org.junit.Assert.*;
 
 import java.util.concurrent.TimeUnit;
-
 import org.junit.Test;
 import org.mazerunner.controller.gameloop.GameLoop;
 import org.mazerunner.controller.gameloop.Updateable;
@@ -20,7 +19,7 @@ public class GameLoopTest extends AbstractViewTest {
     // AbstractViewTest)
     GameLoop localeGameloop = new GameLoop(updateable);
     localeGameloop.start();
-    WaitForAsyncUtils.sleep(100, TimeUnit.MILLISECONDS);
+    WaitForAsyncUtils.sleep(200, TimeUnit.MILLISECONDS);
     Mockito.verify(updateable, Mockito.atLeastOnce()).update(ArgumentMatchers.anyDouble());
   }
 

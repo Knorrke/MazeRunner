@@ -2,11 +2,11 @@ package model;
 
 import static org.junit.Assert.*;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import org.junit.Before;
 import org.junit.Test;
 import org.mazerunner.model.player.Player;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 
 public class PlayerTest {
 

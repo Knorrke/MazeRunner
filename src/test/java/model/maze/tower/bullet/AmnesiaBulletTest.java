@@ -2,6 +2,8 @@ package model.maze.tower.bullet;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import javafx.util.Duration;
 import org.junit.Test;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.creature.movements.MovementInterface;
@@ -10,7 +12,6 @@ import org.mazerunner.model.maze.tower.bullet.AmnesiaBullet;
 import org.mazerunner.model.maze.tower.bullet.Bullet;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import javafx.util.Duration;
 
 public class AmnesiaBulletTest {
 

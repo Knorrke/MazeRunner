@@ -5,7 +5,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
+
 import java.util.concurrent.TimeUnit;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.mazerunner.model.maze.tower.AbstractTower;
@@ -17,8 +20,7 @@ import org.mazerunner.view.maze.WallView;
 import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.util.WaitForAsyncUtils;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import util.TestFXHelper;
 import view.AbstractViewTest;
 
 public class WallMenuViewTest extends AbstractViewTest {
@@ -108,16 +110,18 @@ public class WallMenuViewTest extends AbstractViewTest {
       assertEquals(
           "Should have paid money for upgrades", moneyBefore - upgradeCosts, player.getMoney());
       verifyThat(
-          ".tower" + " " + String.format(".level%d", towerBeforeUpgrade.getLevel()),
+          TestFXHelper.carefulQuery(
+              ".tower" + " " + String.format(".level%d", towerBeforeUpgrade.getLevel())),
           NodeMatchers.isNull(),
           collectInfos());
       verifyThat(
-          ".tower" + " " + String.format(".level%d", 1 + towerBeforeUpgrade.getLevel()),
+          TestFXHelper.carefulQuery(
+              ".tower" + " " + String.format(".level%d", 1 + towerBeforeUpgrade.getLevel())),
           NodeMatchers.isNotNull(),
           collectInfos());
     }
     openMenuAndWaitForAnimation();
-    verifyThat("#upgrade-tower", NodeMatchers.isNull(), collectInfos());
+    verifyThat(TestFXHelper.carefulQuery("#upgrade-tower"), NodeMatchers.isNull(), collectInfos());
   }
 
   @Test
@@ -142,7 +146,7 @@ public class WallMenuViewTest extends AbstractViewTest {
     clickOn("#infoButton");
     openMenuAndWaitForAnimation();
     assertFalse(menu.isShown());
-    verifyThat(".popover", NodeMatchers.isNotNull(), collectInfos());
+    verifyThat(TestFXHelper.carefulQuery(".popover"), NodeMatchers.isNotNull(), collectInfos());
   }
 
   /*
@@ -173,6 +177,7 @@ public class WallMenuViewTest extends AbstractViewTest {
   }
 
   private void waitForAnimation() {
-    WaitForAsyncUtils.sleep((long) menu.getAnimationDuration().toMillis()+100, TimeUnit.MILLISECONDS);
+    WaitForAsyncUtils.sleep(
+        (long) menu.getAnimationDuration().toMillis() + 100, TimeUnit.MILLISECONDS);
   }
 }

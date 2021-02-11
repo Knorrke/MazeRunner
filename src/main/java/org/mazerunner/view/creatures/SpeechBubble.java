@@ -1,8 +1,8 @@
 package org.mazerunner.view.creatures;
 
-import org.mazerunner.util.ImageLoader;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.image.ImageView;
+import org.mazerunner.util.ImageLoader;
 
 public class SpeechBubble extends ImageView {
 

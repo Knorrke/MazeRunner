@@ -3,7 +3,6 @@ package model.creature.movements;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mazerunner.model.creature.VisitedMap;

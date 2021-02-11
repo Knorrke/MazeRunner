@@ -3,6 +3,7 @@ package model.creature;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 import java.util.Random;
 import org.junit.Before;
@@ -104,8 +105,7 @@ public class CreatureFactoryTest {
         normalCreatures.stream().allMatch(c -> c.getLifes() == type.getDefaultLifes()));
     assertTrue(
         "Tougher creature should have more lifes",
-        tougherCreatures
-            .stream()
+        tougherCreatures.stream()
             .allMatch(c -> c.getLifes() == (int) (type.getDefaultLifes() * toughnessFactor)));
   }
 }

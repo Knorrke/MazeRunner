@@ -2,6 +2,8 @@ package model.maze;
 
 import static org.junit.Assert.*;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import org.junit.Before;
 import org.junit.Test;
 import org.mazerunner.model.maze.Wall;
@@ -9,8 +11,6 @@ import org.mazerunner.model.maze.tower.AbstractTower;
 import org.mazerunner.model.maze.tower.NoTower;
 import org.mazerunner.model.maze.tower.TowerType;
 import org.mockito.Mockito;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 
 public class WallTest {
   private int x, y;

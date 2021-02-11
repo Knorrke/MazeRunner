@@ -2,18 +2,16 @@ package org.mazerunner.view.maze;
 
 import java.util.Iterator;
 import java.util.List;
-
-import org.mazerunner.model.maze.tower.AbstractTower;
-import org.mazerunner.model.maze.tower.TowerType;
-import org.mazerunner.model.maze.tower.bullet.Bullet;
-import org.mazerunner.util.ImageLoader;
-
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import org.mazerunner.model.maze.tower.AbstractTower;
+import org.mazerunner.model.maze.tower.TowerType;
+import org.mazerunner.model.maze.tower.bullet.Bullet;
+import org.mazerunner.util.ImageLoader;
 
 public class TowerView extends StackPane {
   private AbstractTower tower;

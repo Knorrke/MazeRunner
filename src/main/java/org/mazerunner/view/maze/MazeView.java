@@ -1,19 +1,17 @@
 package org.mazerunner.view.maze;
 
 import java.util.logging.Logger;
-
+import javafx.scene.layout.StackPane;
 import org.mazerunner.controller.MazeController;
 import org.mazerunner.model.maze.MazeModelInterface;
 import org.mazerunner.view.creatures.CreaturesView;
-
-import javafx.scene.layout.StackPane;
 
 public class MazeView extends StackPane {
   private static Logger LOG = Logger.getLogger(MazeView.class.getName());
 
   private WallsView walls;
   private CreaturesView creatures;
-  private MazeController controller;
+  //  private MazeController controller;
 
   public MazeView() {
     LOG.fine("creating Maze view");
@@ -49,7 +47,7 @@ public class MazeView extends StackPane {
   }
 
   public void setController(MazeController mazeController) {
-    this.controller = mazeController;
+    //    this.controller = mazeController;
     walls.setController(mazeController);
   }
 }

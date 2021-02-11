@@ -2,10 +2,11 @@ package view;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import javafx.stage.Window;
 import org.junit.Test;
 import org.mazerunner.model.GameState;
 import org.mazerunner.view.popover.GameEndPopOver;
-import javafx.stage.Window;
 
 public class GameEndModalIntegrationTest extends AbstractViewTest {
 

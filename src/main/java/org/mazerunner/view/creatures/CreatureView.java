@@ -1,11 +1,5 @@
 package org.mazerunner.view.creatures;
 
-import org.mazerunner.model.Position;
-import org.mazerunner.model.creature.Creature;
-import org.mazerunner.model.creature.CreatureType;
-import org.mazerunner.model.creature.actions.TalkAction;
-import org.mazerunner.util.ImageLoader;
-import org.mazerunner.util.Util;
 import javafx.animation.RotateTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
@@ -18,6 +12,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import org.mazerunner.model.Position;
+import org.mazerunner.model.creature.Creature;
+import org.mazerunner.model.creature.CreatureType;
+import org.mazerunner.model.creature.actions.TalkAction;
+import org.mazerunner.util.ImageLoader;
+import org.mazerunner.util.Util;
 
 public class CreatureView extends StackPane {
   private double imageSize = 0.7;

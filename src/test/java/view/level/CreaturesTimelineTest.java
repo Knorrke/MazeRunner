@@ -2,12 +2,14 @@ package view.level;
 
 import static org.junit.Assert.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
+
+import javafx.scene.layout.VBox;
 import org.junit.Test;
 import org.mazerunner.model.creature.CreatureGroup;
 import org.mazerunner.model.creature.CreatureType;
 import org.mazerunner.view.level.CreatureTimelineView;
 import org.testfx.matcher.base.NodeMatchers;
-import javafx.scene.layout.VBox;
+import util.TestFXHelper;
 import view.AbstractViewTest;
 
 public class CreaturesTimelineTest extends AbstractViewTest {
@@ -24,9 +26,9 @@ public class CreaturesTimelineTest extends AbstractViewTest {
   @Test
   public void shouldShowInfoOnClick() {
     interact(() -> level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 5)));
-    verifyThat(".popover", NodeMatchers.isNull(), collectInfos());
+    verifyThat(TestFXHelper.carefulQuery(".popover"), NodeMatchers.isNull(), collectInfos());
     clickOn(".wave");
-    verifyThat(".popover", NodeMatchers.isNotNull(), collectInfos());
+    verifyThat(TestFXHelper.carefulQuery(".popover"), NodeMatchers.isNotNull(), collectInfos());
   }
 
   @Test

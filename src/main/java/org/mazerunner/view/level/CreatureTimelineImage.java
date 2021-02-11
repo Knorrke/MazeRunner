@@ -1,15 +1,15 @@
 package org.mazerunner.view.level;
 
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.creature.CreatureFactory;
 import org.mazerunner.model.creature.CreatureGroup;
 import org.mazerunner.util.ImageLoader;
 import org.mazerunner.view.FloatingLabel;
 import org.mazerunner.view.popover.CreatureInfoPopOver;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 
 public class CreatureTimelineImage extends StackPane {
   public CreatureTimelineImage(CreatureGroup group) {

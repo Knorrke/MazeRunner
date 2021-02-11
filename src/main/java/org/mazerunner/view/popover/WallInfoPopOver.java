@@ -1,14 +1,14 @@
 package org.mazerunner.view.popover;
 
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import jfxtras.scene.layout.VBox;
 import org.controlsfx.control.PopOver;
 import org.mazerunner.model.maze.Wall;
 import org.mazerunner.model.maze.tower.AbstractTower;
 import org.mazerunner.model.maze.tower.TowerUpgrade;
 import org.mazerunner.util.Util;
 import org.mazerunner.view.maze.WallView;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import jfxtras.scene.layout.VBox;
 
 public class WallInfoPopOver extends PopOver {
 

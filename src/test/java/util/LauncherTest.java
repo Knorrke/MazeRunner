@@ -6,7 +6,6 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,13 +1,14 @@
 package util;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Random;
 import java.util.logging.Logger;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mazerunner.model.Game;
@@ -27,8 +28,6 @@ import org.mazerunner.model.player.Player;
 import org.mazerunner.model.player.PlayerModelInterface;
 import org.mazerunner.util.Serializer;
 import org.mockito.Mockito;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonTest {
 

@@ -1,21 +1,21 @@
 package org.mazerunner.model.maze;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
-import org.mazerunner.controller.gameloop.ActorInterface;
-import org.mazerunner.model.creature.Creature;
-import org.mazerunner.model.maze.tower.AbstractTower;
-import org.mazerunner.model.maze.tower.TowerType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import org.mazerunner.controller.gameloop.ActorInterface;
+import org.mazerunner.model.creature.Creature;
+import org.mazerunner.model.maze.tower.AbstractTower;
+import org.mazerunner.model.maze.tower.TowerType;
 
 public class Wall implements ActorInterface {
 

@@ -1,11 +1,13 @@
 package model.maze.tower;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+
+import javafx.collections.FXCollections;
 import org.junit.Before;
 import org.junit.Test;
 import org.mazerunner.model.creature.Creature;
@@ -19,7 +21,6 @@ import org.mazerunner.model.maze.tower.bullet.Bullet;
 import org.mazerunner.model.maze.tower.bullet.DamageBullet;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import javafx.collections.FXCollections;
 
 public class FastTowerTest {
 

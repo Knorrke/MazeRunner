@@ -1,21 +1,24 @@
 package util;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertEquals;
+
 import java.util.logging.Filter;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mazerunner.util.FXMLLoaderUtil;
 import org.mazerunner.util.FXMLLoaderUtil.ErrorView;
-import org.mockito.ArgumentMatchers;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.testfx.framework.junit.ApplicationTest;
-import javafx.scene.Parent;
-import javafx.scene.control.Label;
 
 public class FXMLLoaderUtilTest extends ApplicationTest {
   private String storedBasePath;
@@ -48,10 +51,10 @@ public class FXMLLoaderUtilTest extends ApplicationTest {
     Filter expectedErrorFilter = Mockito.mock(Filter.class);
     Logger.getLogger(FXMLLoaderUtil.class.getName()).setFilter(expectedErrorFilter);
     Parent root = FXMLLoaderUtil.load("not-existing.fxml");
-    Mockito.verify(expectedErrorFilter)
-        .isLoggable(
-            ArgumentMatchers.argThat(
-                record -> record.getMessage().equals("Loading not-existing.fxml failed")));
+
+    ArgumentCaptor<LogRecord> argument = ArgumentCaptor.forClass(LogRecord.class);
+    Mockito.verify(expectedErrorFilter).isLoggable(argument.capture());
+    assertEquals("Loading not-existing.fxml failed", argument.getValue().getMessage());
     assertThat(root, is(instanceOf(ErrorView.class)));
   }
 }

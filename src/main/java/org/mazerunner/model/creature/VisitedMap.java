@@ -1,10 +1,9 @@
 package org.mazerunner.model.creature;
 
-import java.util.Arrays;
-import java.util.Random;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
+import java.util.Random;
 
 public class VisitedMap {
   private static int[][][] bitStrings;
@@ -49,22 +48,22 @@ public class VisitedMap {
 
   public void markVisited(int x, int y) {
     if (checkBounds(x, y) && map[x][y] != VisitedState.VISITED) {
-    	setNewStateOnPosition(x,y,VisitedState.VISITED);
+      setNewStateOnPosition(x, y, VisitedState.VISITED);
     }
   }
 
   public void markWall(int x, int y) {
     if (checkBounds(x, y) && map[x][y] != VisitedState.WALL) {
-    	setNewStateOnPosition(x,y, VisitedState.WALL);
+      setNewStateOnPosition(x, y, VisitedState.WALL);
     }
   }
 
   private void setNewStateOnPosition(int x, int y, VisitedState newState) {
-	  VisitedState old = map[x][y];
-	  hash ^= bitStrings[x][y][old.ordinal()] ^ bitStrings[x][y][newState.ordinal()];
-	  map[x][y] = newState;
+    VisitedState old = map[x][y];
+    hash ^= bitStrings[x][y][old.ordinal()] ^ bitStrings[x][y][newState.ordinal()];
+    map[x][y] = newState;
   }
-  
+
   @Override
   public int hashCode() {
     return hash;

@@ -6,8 +6,10 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import javafx.collections.FXCollections;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -25,7 +27,6 @@ import org.mazerunner.model.maze.tower.TowerType;
 import org.mazerunner.model.maze.tower.bullet.Bullet;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import javafx.collections.FXCollections;
 
 @RunWith(Enclosed.class)
 public class TowerTest {

@@ -1,6 +1,7 @@
 package model.creature;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mazerunner.model.baseactions.Action;

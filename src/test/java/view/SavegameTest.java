@@ -1,16 +1,18 @@
 package view;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-import org.mazerunner.Launcher;
-import org.mazerunner.controller.GameController;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import org.junit.Test;
+import org.mazerunner.Launcher;
+import org.mazerunner.controller.GameController;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 
 public class SavegameTest extends AbstractViewTest {
 
@@ -40,11 +42,11 @@ public class SavegameTest extends AbstractViewTest {
     EventHandler<KeyEvent> mock = Mockito.mock(EventHandler.class);
     gameController.addSaveHandler(mock);
     press(KeyCode.A);
-    Mockito.verifyZeroInteractions(mock);
+    Mockito.verifyNoInteractions(mock);
     push(KeyCode.CONTROL, KeyCode.S);
-    Mockito.verify(mock)
-        .handle(
-            ArgumentMatchers.argThat(
-                event -> event.getCode() == KeyCode.S && event.isControlDown()));
+    ArgumentCaptor<KeyEvent> argument = ArgumentCaptor.forClass(KeyEvent.class);
+    Mockito.verify(mock).handle(argument.capture());
+    assertEquals(KeyCode.S, argument.getValue().getCode());
+    assertTrue(argument.getValue().isControlDown());
   }
 }

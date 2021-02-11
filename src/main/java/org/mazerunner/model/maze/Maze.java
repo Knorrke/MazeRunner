@@ -1,7 +1,11 @@
 package org.mazerunner.model.maze;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Iterator;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.mazerunner.controller.gameloop.ActorInterface;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.creature.VisitedMap;
@@ -12,10 +16,6 @@ import org.mazerunner.model.player.PlayerModelInterface;
 import org.mazerunner.util.ObservableCreaturesListDeserializer;
 import org.mazerunner.util.ObservableWallsListDeserializer;
 import org.mazerunner.util.Util;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class Maze implements MazeModelInterface {
 

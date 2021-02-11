@@ -1,16 +1,8 @@
 package org.mazerunner.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.mazerunner.controller.gameloop.GameLoop;
-import org.mazerunner.model.GameModelInterface;
-import org.mazerunner.util.FXMLLoaderUtil;
-import org.mazerunner.util.ImageLoader;
-import org.mazerunner.util.Serializer;
-import org.mazerunner.view.level.CreatureTimelineView;
-import org.mazerunner.view.maze.MazeView;
-import org.mazerunner.view.popover.GameEndPopOver;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
@@ -20,6 +12,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import org.mazerunner.controller.gameloop.GameLoop;
+import org.mazerunner.model.GameModelInterface;
+import org.mazerunner.util.FXMLLoaderUtil;
+import org.mazerunner.util.ImageLoader;
+import org.mazerunner.util.Serializer;
+import org.mazerunner.view.level.CreatureTimelineView;
+import org.mazerunner.view.maze.MazeView;
+import org.mazerunner.view.popover.GameEndPopOver;
 
 public class GameController implements ModelHolderInterface<GameModelInterface> {
   private static Logger LOG = Logger.getLogger(GameController.class.getName());

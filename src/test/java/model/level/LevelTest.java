@@ -2,19 +2,22 @@ package model.level;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import org.junit.Before;
 import org.junit.Test;
+import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.creature.CreatureGroup;
 import org.mazerunner.model.creature.CreatureType;
 import org.mazerunner.model.level.Level;
 import org.mazerunner.model.level.LevelModelInterface;
 import org.mazerunner.model.maze.Maze;
 import org.mazerunner.model.maze.MazeModelInterface;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 
 public class LevelTest {
 
@@ -40,7 +43,10 @@ public class LevelTest {
     level.addCreatureToTimeline(new CreatureGroup(CreatureType.NORMAL, 10));
     MazeModelInterface mazeMock = addMazeMock();
     level.sendNextCreatureWave();
-    Mockito.verify(mazeMock).addAllCreatures(ArgumentMatchers.argThat(list -> list.size() == 10));
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ArgumentCaptor<List<Creature>> argument = ArgumentCaptor.forClass((Class) List.class);
+    Mockito.verify(mazeMock).addAllCreatures(argument.capture());
+    assertEquals(10, argument.getValue().size());
   }
 
   @Test

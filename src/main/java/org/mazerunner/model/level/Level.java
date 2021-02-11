@@ -1,16 +1,9 @@
 package org.mazerunner.model.level;
 
-import java.util.List;
-import java.util.Random;
-import org.mazerunner.model.baseactions.CountdownAction;
-import org.mazerunner.model.creature.Creature;
-import org.mazerunner.model.creature.CreatureFactory;
-import org.mazerunner.model.creature.CreatureGroup;
-import org.mazerunner.model.maze.MazeModelInterface;
-import org.mazerunner.util.ObservableCreatureGroupListDeserializer;
-import org.mazerunner.util.Util;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.List;
+import java.util.Random;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.IntegerProperty;
@@ -19,6 +12,13 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
+import org.mazerunner.model.baseactions.CountdownAction;
+import org.mazerunner.model.creature.Creature;
+import org.mazerunner.model.creature.CreatureFactory;
+import org.mazerunner.model.creature.CreatureGroup;
+import org.mazerunner.model.maze.MazeModelInterface;
+import org.mazerunner.util.ObservableCreatureGroupListDeserializer;
+import org.mazerunner.util.Util;
 
 public class Level implements LevelModelInterface {
   public static final double WAVE_DURATION = 15;
@@ -130,7 +130,9 @@ public class Level implements LevelModelInterface {
         .addListener(
             (Change<? extends Creature> c) -> {
               while (c.next()) {
-                if (c.wasRemoved() && maze.getCreatures().isEmpty() && countdownAction.getCountdown() > 1) {
+                if (c.wasRemoved()
+                    && maze.getCreatures().isEmpty()
+                    && countdownAction.getCountdown() > 1) {
                   countdownAction.act(countdownAction.getCountdown() - 1);
                 }
               }

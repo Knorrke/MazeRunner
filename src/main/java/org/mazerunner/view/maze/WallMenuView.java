@@ -2,15 +2,6 @@ package org.mazerunner.view.maze;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.mazerunner.controller.WallController;
-import org.mazerunner.model.maze.Wall;
-import org.mazerunner.model.maze.tower.AbstractTower;
-import org.mazerunner.model.maze.tower.TowerType;
-import org.mazerunner.model.maze.tower.TowerUpgrade;
-import org.mazerunner.util.ImageLoader;
-import org.mazerunner.util.ScaleUtil;
-import org.mazerunner.util.Util;
-import org.mazerunner.view.FloatingLabel;
 import javafx.beans.binding.DoubleBinding;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
@@ -21,6 +12,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import jfxtras.scene.menu.CirclePopupMenu;
+import org.mazerunner.controller.WallController;
+import org.mazerunner.model.maze.Wall;
+import org.mazerunner.model.maze.tower.AbstractTower;
+import org.mazerunner.model.maze.tower.TowerType;
+import org.mazerunner.model.maze.tower.TowerUpgrade;
+import org.mazerunner.util.ImageLoader;
+import org.mazerunner.util.ScaleUtil;
+import org.mazerunner.util.Util;
+import org.mazerunner.view.FloatingLabel;
 
 public class WallMenuView extends CirclePopupMenu {
   private MenuItem sellItem;
