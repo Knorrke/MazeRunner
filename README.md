@@ -1,5 +1,5 @@
-[![Build Status](https://img.shields.io/travis/Knorrke/MazeRunner/master.svg)](https://travis-ci.org/Knorrke/MazeRunner/branches)
-[![Coverage Status](https://img.shields.io/coveralls/github/Knorrke/MazeRunner/master.svg)](https://coveralls.io/github/Knorrke/MazeRunner?branch=master)
+[![Build Status](https://img.shields.io/travis/Knorrke/MazeRunner/main.svg)](https://travis-ci.com/Knorrke/MazeRunner/branches)
+[![Coverage Status](https://img.shields.io/coveralls/github/Knorrke/MazeRunner/main.svg)](https://coveralls.io/github/Knorrke/MazeRunner?branch=main)
 [![SonarCloud Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=MazeRunner%3AMazeRunner&metric=alert_status)](https://sonarcloud.io/dashboard?id=MazeRunner%3AMazeRunner)
 [![SonarCloud Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=MazeRunner%3AMazeRunner&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=MazeRunner%3AMazeRunner)
 [![SonarCloud Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=MazeRunner%3AMazeRunner&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=MazeRunner%3AMazeRunner)
