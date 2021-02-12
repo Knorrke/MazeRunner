@@ -31,7 +31,7 @@ public class SlowdownTower extends AbstractTower {
               getX() + 0.5,
               getY() + 0.5,
               getLevel() * 0.05 + 0.15,
-              Duration.millis(500 * getLevel() + 2000),
+              Duration.millis(500 * getLevel() + 2000.0),
               target));
     }
   }

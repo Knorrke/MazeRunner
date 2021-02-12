@@ -29,9 +29,6 @@ public class Launcher extends Application {
 
   @Override
   public void start(Stage primaryStage) {
-    String javaVersion = System.getProperty("java.version");
-    String javafxVersion = System.getProperty("javafx.version");
-    System.out.println("Running java " + javaVersion + " with JavaFX " + javafxVersion);
     Map<String, String> params = this.getParameters().getNamed();
     if (params.containsKey("setup")) {
       gameController = createGame("setups/" + params.get("setup") + ".json");
@@ -118,7 +115,7 @@ public class Launcher extends Application {
       return builder.toString();
     } catch (IOException e) {
       LOG.log(Level.SEVERE, "opening file {} failed", path);
-      e.printStackTrace();
+      LOG.log(Level.SEVERE, "Error {}", e);
       return "";
     }
   }
