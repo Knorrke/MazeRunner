@@ -1,6 +1,5 @@
 package view;
 
-import com.sun.javafx.PlatformUtil;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
@@ -35,14 +34,6 @@ public abstract class AbstractViewTest extends ApplicationTest {
 
   @Override
   public void start(Stage stage) {
-    /*
-    TODO Remove once JavaFx is updated to do this automatically.
-    This is a temporary fix from
-    https://github.com/javafxports/openjdk-jfx/issues/66#issuecomment-468370664
-     */
-    if (PlatformUtil.isWindows()) {
-      System.load("C:\\Windows\\System32\\WindowsCodecs.dll");
-    }
     gameController = Launcher.createGame();
     game = gameController.getModel();
     gameLoop = gameController.getGameLoop();

@@ -26,11 +26,10 @@ public class NoSightMovement implements MovementInterface {
         return new double[] {currentX + direction[0], currentY + direction[1]};
       }
     }
-    return findUnknown(vision, visited, currentX, currentY);
+    return findUnknown(visited, currentX, currentY);
   }
 
-  private double[] findUnknown(
-      Vision vision, VisitedMap visited, double currentX, double currentY) {
+  private double[] findUnknown(VisitedMap visited, double currentX, double currentY) {
     Map<Node, Node> previous = new HashMap<>();
     Map<Node, Integer> dist = new HashMap<>();
     List<Node> closed = new ArrayList<>();
@@ -49,15 +48,14 @@ public class NoSightMovement implements MovementInterface {
           });
       Node nextEl = next.remove(0);
       closed.add(nextEl);
-      Node left = new Node(nextEl.x - 1, nextEl.y);
-      Node right = new Node(nextEl.x + 1, nextEl.y);
-      Node up = new Node(nextEl.x, nextEl.y - 1);
-      Node down = new Node(nextEl.x, nextEl.y + 1);
+      Node left = new Node(nextEl.x() - 1, nextEl.y());
+      Node right = new Node(nextEl.x() + 1, nextEl.y());
+      Node up = new Node(nextEl.x(), nextEl.y() - 1);
+      Node down = new Node(nextEl.x(), nextEl.y() + 1);
       for (Node neighbor : Arrays.asList(left, right, up, down)) {
         if (closed.contains(neighbor)) continue;
-        if (visited.isWall(neighbor.x, neighbor.y)) {
+        if (visited.isWall(neighbor.x(), neighbor.y())) {
           closed.add(neighbor);
-          continue;
         } else {
           if (!next.contains(neighbor)) next.add(neighbor);
 
@@ -67,8 +65,8 @@ public class NoSightMovement implements MovementInterface {
             previous.put(neighbor, nextEl);
           }
 
-          if (visited.isUnknown(neighbor.x, neighbor.y)) {
-            LOG.finest(String.format("Found UNKNOWN field at %d,%d", neighbor.x, neighbor.y));
+          if (visited.isUnknown(neighbor.x(), neighbor.y())) {
+            LOG.finest(String.format("Found UNKNOWN field at %d,%d", neighbor.x(), neighbor.y()));
             found = neighbor;
             break;
           }
@@ -81,8 +79,9 @@ public class NoSightMovement implements MovementInterface {
       while (previous.get(goal) != start) {
         goal = previous.get(goal);
       }
-      LOG.finest(String.format("Moving towards unknown field, next stop %d,%d", goal.x, goal.y));
-      return new double[] {goal.x + currentX % 1, goal.y + currentY % 1};
+      LOG.finest(
+          String.format("Moving towards unknown field, next stop %d,%d", goal.x(), goal.y()));
+      return new double[] {goal.x() + currentX % 1, goal.y() + currentY % 1};
     } else {
       LOG.warning("No unknown fields! This means that there is no path to the goal.");
       return new double[] {currentX + 1, currentY};
@@ -90,7 +89,8 @@ public class NoSightMovement implements MovementInterface {
   }
 
   private class Node {
-    public int x, y;
+    private int x;
+    private int y;
 
     public Node(int x, int y) {
       this.x = x;
@@ -107,8 +107,24 @@ public class NoSightMovement implements MovementInterface {
         return false;
       } else {
         Node other = (Node) obj;
-        return x == other.x && y == other.y;
+        return x == other.x() && y == other.y();
       }
+    }
+
+    @Override
+    public int hashCode() {
+      int hash = 23;
+      hash = hash * 37 + x;
+      hash = hash * 37 + y;
+      return hash;
+    }
+
+    public int x() {
+      return x;
+    }
+
+    public int y() {
+      return y;
     }
   }
 }
