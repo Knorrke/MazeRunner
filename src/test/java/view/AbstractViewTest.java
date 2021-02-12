@@ -36,9 +36,9 @@ public abstract class AbstractViewTest extends ApplicationTest {
   @Override
   public void start(Stage stage) {
     /*
-    TODO Remove once JavaFx is updated to version 13.
-    This is a temporary fix for https://github.com/javafxports/openjdk-jfx/issues/66.
-    https://github.com/PCGen/pcgen/pull/5973
+    TODO Remove once JavaFx is updated to do this automatically.
+    This is a temporary fix from
+    https://github.com/javafxports/openjdk-jfx/issues/66#issuecomment-468370664
      */
     if (PlatformUtil.isWindows()) {
       System.load("C:\\Windows\\System32\\WindowsCodecs.dll");
