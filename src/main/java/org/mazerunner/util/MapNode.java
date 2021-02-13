@@ -1,11 +1,10 @@
-package org.mazerunner.model.creature;
+package org.mazerunner.util;
 
-import java.util.Arrays;
 import java.util.List;
 
-public class MapNode {
-  private int x;
-  private int y;
+public abstract class MapNode {
+  protected int x;
+  protected int y;
 
   public MapNode(int x, int y) {
     this.x = x;
@@ -42,12 +41,5 @@ public class MapNode {
     return y;
   }
 
-  public List<MapNode> getNeighbors() {
-    MapNode left = new MapNode(x - 1, y);
-    MapNode right = new MapNode(x + 1, y);
-    MapNode up = new MapNode(x, y - 1);
-    MapNode down = new MapNode(x, y + 1);
-
-    return Arrays.asList(left, right, up, down);
-  }
+  public abstract List<MapNode> getNeighbors();
 }

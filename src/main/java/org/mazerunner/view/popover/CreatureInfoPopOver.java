@@ -9,6 +9,7 @@ import jfxtras.scene.layout.VBox;
 import org.controlsfx.control.PopOver;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.util.Util;
+import org.mazerunner.view.creatures.CreatureView;
 
 public class CreatureInfoPopOver extends PopOver {
 
@@ -25,5 +26,9 @@ public class CreatureInfoPopOver extends PopOver {
 
     this.setContentNode(box);
     this.show(view);
+    if (view instanceof CreatureView) {
+      ((CreatureView) view).showSelection();
+      this.setOnHidden(event -> ((CreatureView) view).hideSelection());
+    }
   }
 }

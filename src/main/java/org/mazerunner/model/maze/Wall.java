@@ -127,8 +127,8 @@ public class Wall implements ActorInterface {
     setTower(AbstractTower.create(this, type));
   }
 
-  public boolean canBuildTower(TowerType type) {
-    return getTower().getType().equals(TowerType.NO);
+  public boolean hasTower() {
+    return !getTower().getType().equals(TowerType.NO);
   }
 
   public void upgradeTower() {

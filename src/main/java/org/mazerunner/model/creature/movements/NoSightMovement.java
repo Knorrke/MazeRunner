@@ -1,14 +1,13 @@
 package org.mazerunner.model.creature.movements;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
-import org.mazerunner.model.creature.MapNode;
 import org.mazerunner.model.creature.VisitedMap;
 import org.mazerunner.model.creature.vision.Vision;
+import org.mazerunner.util.GraphSolver;
+import org.mazerunner.util.MapNode;
+import org.mazerunner.util.MazeNode;
 
 public class NoSightMovement implements MovementInterface {
   private static final Logger LOG = Logger.getLogger(NoSightMovement.class.getName());
@@ -30,14 +29,26 @@ public class NoSightMovement implements MovementInterface {
   }
 
   private double[] findUnknown(VisitedMap visited, double currentX, double currentY) {
-    Map<MapNode, MapNode> previous = new HashMap<>();
-    Map<MapNode, Integer> distances = new HashMap<>();
-    MapNode start = new MapNode(currentX, currentY);
-    MapNode found = findUnknown(start, previous, distances, visited);
-    if (found != null && previous.containsValue(start)) {
-      MapNode goal = found;
-      while (previous.get(goal) != start) {
-        goal = previous.get(goal);
+    MapNode start = new MazeNode(currentX, currentY);
+    AtomicReference<MapNode> foundUnknown = new AtomicReference<>();
+    // look in known map for closest unknown edge
+    Map<MapNode, MapNode> paths =
+        GraphSolver.calculatePerfectMoveMap(
+            start,
+            visited::isWall,
+            (MapNode traversing) -> {
+              if (foundUnknown.get() == null
+                  && visited.isUnknown(traversing.getX(), traversing.getY())) {
+                LOG.finest(
+                    String.format(
+                        "Found UNKNOWN field at %d,%d", traversing.getX(), traversing.getY()));
+                foundUnknown.set(traversing);
+              }
+            });
+    MapNode goal = foundUnknown.get();
+    if (goal != null && paths.containsValue(start)) {
+      while (paths.get(goal) != start) {
+        goal = paths.get(goal);
       }
       LOG.finest(
           String.format("Moving towards unknown field, next stop %d,%d", goal.getX(), goal.getY()));
@@ -46,53 +57,5 @@ public class NoSightMovement implements MovementInterface {
       LOG.warning("No unknown fields! This means that there is no path to the goal.");
       return new double[] {currentX + 1, currentY};
     }
-  }
-
-  private MapNode findUnknown(
-      MapNode start,
-      Map<MapNode, MapNode> previous,
-      Map<MapNode, Integer> distances,
-      VisitedMap visited) {
-    List<MapNode> closed = new ArrayList<>();
-    List<MapNode> next = new ArrayList<>();
-    distances.put(start, 0);
-    next.add(start);
-    while (!next.isEmpty()) {
-      MapNode nextEl = removeClosestUnvisited(next, distances);
-      closed.add(nextEl);
-
-      for (MapNode neighbor : nextEl.getNeighbors()) {
-        if (closed.contains(neighbor)) continue;
-        if (visited.isWall(neighbor.getX(), neighbor.getY())) {
-          closed.add(neighbor);
-          continue;
-        }
-        int newDistance = distances.getOrDefault(nextEl, Integer.MIN_VALUE) + 1;
-        int oldDistance = distances.getOrDefault(neighbor, Integer.MAX_VALUE);
-        if (newDistance < oldDistance) {
-          distances.put(neighbor, newDistance);
-          previous.put(neighbor, nextEl);
-        }
-
-        if (visited.isUnknown(neighbor.getX(), neighbor.getY())) {
-          LOG.finest(
-              String.format("Found UNKNOWN field at %d,%d", neighbor.getX(), neighbor.getY()));
-          return neighbor;
-        }
-        if (!next.contains(neighbor)) next.add(neighbor);
-      }
-    }
-    return null;
-  }
-
-  private MapNode removeClosestUnvisited(List<MapNode> next, Map<MapNode, Integer> dist) {
-    Collections.sort(
-        next,
-        (n1, n2) -> {
-          int dist1 = dist.containsKey(n1) ? dist.get(n1) : Integer.MAX_VALUE;
-          int dist2 = dist.containsKey(n2) ? dist.get(n2) : Integer.MAX_VALUE;
-          return dist1 - dist2;
-        });
-    return next.remove(0);
   }
 }

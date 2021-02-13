@@ -113,7 +113,7 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
 
   public List<Creature> findCreaturesInRange() {
     return wall.getCreaturesMatchingCondition(
-        c -> Util.distance(c.getX(), c.getY(), x + 0.5, y + 0.5) <= getVisualRange());
+        c -> Util.distance(c.getX(), c.getY(), getX() + 0.5, getY() + 0.5) <= getVisualRange());
   }
 
   public AbstractTower upgrade() {
@@ -126,6 +126,14 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
         clone.visualRange = upgrade.getVisualRangeUpgrader().apply(getVisualRange());
         clone.costs = this.costs + upgrade.getCosts();
         clone.level = level + 1;
+        clone.shootingAction =
+            new CountdownAction(1 / clone.getFireRate()) { // Infinity if fireRate==0.0
+              @Override
+              protected void onFinish() {
+                clone.shoot();
+                resetCountdown();
+              }
+            };
         return clone;
       } catch (CloneNotSupportedException e) {
         LOG.log(Level.SEVERE, "couldn't clone tower", e);
@@ -198,10 +206,5 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
 
   public int getLevel() {
     return level;
-  }
-
-  @Override
-  protected Object clone() throws CloneNotSupportedException {
-    return super.clone();
   }
 }
