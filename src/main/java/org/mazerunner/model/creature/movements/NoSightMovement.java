@@ -1,12 +1,12 @@
 package org.mazerunner.model.creature.movements;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import org.mazerunner.model.creature.MapNode;
 import org.mazerunner.model.creature.VisitedMap;
 import org.mazerunner.model.creature.vision.Vision;
 
@@ -30,101 +30,69 @@ public class NoSightMovement implements MovementInterface {
   }
 
   private double[] findUnknown(VisitedMap visited, double currentX, double currentY) {
-    Map<Node, Node> previous = new HashMap<>();
-    Map<Node, Integer> dist = new HashMap<>();
-    List<Node> closed = new ArrayList<>();
-    List<Node> next = new ArrayList<>();
-    Node start = new Node(currentX, currentY);
-    dist.put(start, 0);
-    next.add(start);
-    Node found = null;
-    while (found == null && !next.isEmpty()) {
-      Collections.sort(
-          next,
-          (n1, n2) -> {
-            int dist1 = dist.containsKey(n1) ? dist.get(n1) : Integer.MAX_VALUE;
-            int dist2 = dist.containsKey(n2) ? dist.get(n2) : Integer.MAX_VALUE;
-            return dist1 - dist2;
-          });
-      Node nextEl = next.remove(0);
-      closed.add(nextEl);
-      Node left = new Node(nextEl.x() - 1, nextEl.y());
-      Node right = new Node(nextEl.x() + 1, nextEl.y());
-      Node up = new Node(nextEl.x(), nextEl.y() - 1);
-      Node down = new Node(nextEl.x(), nextEl.y() + 1);
-      for (Node neighbor : Arrays.asList(left, right, up, down)) {
-        if (closed.contains(neighbor)) continue;
-        if (visited.isWall(neighbor.x(), neighbor.y())) {
-          closed.add(neighbor);
-        } else {
-          if (!next.contains(neighbor)) next.add(neighbor);
-
-          if (dist.containsKey(nextEl)
-              && (!dist.containsKey(neighbor) || dist.get(nextEl) + 1 < dist.get(neighbor))) {
-            dist.put(neighbor, dist.get(nextEl) + 1);
-            previous.put(neighbor, nextEl);
-          }
-
-          if (visited.isUnknown(neighbor.x(), neighbor.y())) {
-            LOG.finest(String.format("Found UNKNOWN field at %d,%d", neighbor.x(), neighbor.y()));
-            found = neighbor;
-            break;
-          }
-        }
-      }
-    }
-
+    Map<MapNode, MapNode> previous = new HashMap<>();
+    Map<MapNode, Integer> distances = new HashMap<>();
+    MapNode start = new MapNode(currentX, currentY);
+    MapNode found = findUnknown(start, previous, distances, visited);
     if (found != null && previous.containsValue(start)) {
-      Node goal = found;
+      MapNode goal = found;
       while (previous.get(goal) != start) {
         goal = previous.get(goal);
       }
       LOG.finest(
-          String.format("Moving towards unknown field, next stop %d,%d", goal.x(), goal.y()));
-      return new double[] {goal.x() + currentX % 1, goal.y() + currentY % 1};
+          String.format("Moving towards unknown field, next stop %d,%d", goal.getX(), goal.getY()));
+      return new double[] {goal.getX() + currentX % 1, goal.getY() + currentY % 1};
     } else {
       LOG.warning("No unknown fields! This means that there is no path to the goal.");
       return new double[] {currentX + 1, currentY};
     }
   }
 
-  private class Node {
-    private int x;
-    private int y;
+  private MapNode findUnknown(
+      MapNode start,
+      Map<MapNode, MapNode> previous,
+      Map<MapNode, Integer> distances,
+      VisitedMap visited) {
+    List<MapNode> closed = new ArrayList<>();
+    List<MapNode> next = new ArrayList<>();
+    distances.put(start, 0);
+    next.add(start);
+    while (!next.isEmpty()) {
+      MapNode nextEl = removeClosestUnvisited(next, distances);
+      closed.add(nextEl);
 
-    public Node(int x, int y) {
-      this.x = x;
-      this.y = y;
-    }
+      for (MapNode neighbor : nextEl.getNeighbors()) {
+        if (closed.contains(neighbor)) continue;
+        if (visited.isWall(neighbor.getX(), neighbor.getY())) {
+          closed.add(neighbor);
+          continue;
+        }
+        int newDistance = distances.getOrDefault(nextEl, Integer.MIN_VALUE) + 1;
+        int oldDistance = distances.getOrDefault(neighbor, Integer.MAX_VALUE);
+        if (newDistance < oldDistance) {
+          distances.put(neighbor, newDistance);
+          previous.put(neighbor, nextEl);
+        }
 
-    public Node(double x, double y) {
-      this((int) x, (int) y);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (!(obj instanceof Node)) {
-        return false;
-      } else {
-        Node other = (Node) obj;
-        return x == other.x() && y == other.y();
+        if (visited.isUnknown(neighbor.getX(), neighbor.getY())) {
+          LOG.finest(
+              String.format("Found UNKNOWN field at %d,%d", neighbor.getX(), neighbor.getY()));
+          return neighbor;
+        }
+        if (!next.contains(neighbor)) next.add(neighbor);
       }
     }
+    return null;
+  }
 
-    @Override
-    public int hashCode() {
-      int hash = 23;
-      hash = hash * 37 + x;
-      hash = hash * 37 + y;
-      return hash;
-    }
-
-    public int x() {
-      return x;
-    }
-
-    public int y() {
-      return y;
-    }
+  private MapNode removeClosestUnvisited(List<MapNode> next, Map<MapNode, Integer> dist) {
+    Collections.sort(
+        next,
+        (n1, n2) -> {
+          int dist1 = dist.containsKey(n1) ? dist.get(n1) : Integer.MAX_VALUE;
+          int dist2 = dist.containsKey(n2) ? dist.get(n2) : Integer.MAX_VALUE;
+          return dist1 - dist2;
+        });
+    return next.remove(0);
   }
 }
