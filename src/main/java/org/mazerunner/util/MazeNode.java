@@ -27,6 +27,6 @@ public class MazeNode extends MapNode {
 
   @Override
   public boolean isGoal() {
-    return x >= Settings.getInt("maxX", 100);
+    return x >= Settings.getInt("maxX", 100) - 1;
   }
 }

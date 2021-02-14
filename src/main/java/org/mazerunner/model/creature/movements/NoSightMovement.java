@@ -31,14 +31,15 @@ public class NoSightMovement implements MovementInterface {
   private double[] findUnknownOrGoal(VisitedMap visited, double currentX, double currentY) {
     MapNode start = new MazeNode(currentX, currentY);
     AtomicReference<MapNode> foundUnknown = new AtomicReference<>();
-    // look in known map for closest unknown edge
+    // look in known map for closest unknown field
     Map<MapNode, MapNode> paths =
         GraphSolver.calculatePerfectMoveMap(
             start,
             visited::isWall,
             (MapNode traversing) -> {
               if (foundUnknown.get() == null
-                  && visited.isUnknown(traversing.getX(), traversing.getY())) {
+                  && (visited.isUnknown(traversing.getX(), traversing.getY())
+                      || traversing.isGoal())) {
                 LOG.finest(
                     String.format(
                         "Found UNKNOWN field at %d,%d", traversing.getX(), traversing.getY()));

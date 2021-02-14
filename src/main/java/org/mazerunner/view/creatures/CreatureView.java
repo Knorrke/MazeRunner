@@ -1,5 +1,6 @@
 package org.mazerunner.view.creatures;
 
+import com.sun.scenario.Settings;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.animation.RotateTransition;
 import javafx.beans.binding.Bindings;
@@ -142,11 +143,13 @@ public class CreatureView extends StackPane {
 
   private void drawVisited(
       VisitedMap map, GraphicsContext graphicsContext2D, double scaleX, double scaleY) {
-    graphicsContext2D.setFill(Color.rgb(200, 255, 200, 0.5));
+    int maxX = Settings.getInt("maxX", 100);
+    int maxY = Settings.getInt("maxY", 100);
+    graphicsContext2D.clearRect(0, 0, maxX * scaleX, maxY * scaleY);
+    graphicsContext2D.setFill(Color.BLACK);
     for (int x = 0; x < 20; x++) {
       for (int y = 0; y < 10; y++) {
-        graphicsContext2D.clearRect(x * scaleX, y * scaleY, scaleX, scaleY);
-        if (!map.isUnknown(x, y)) {
+        if (map.isUnknown(x, y)) {
           graphicsContext2D.fillRect(x * scaleX, y * scaleY, scaleX, scaleY);
         }
       }

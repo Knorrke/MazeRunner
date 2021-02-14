@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
 import org.mazerunner.model.creature.movements.MovementInterface;
+import org.mazerunner.model.creature.vision.Vision;
 import org.mazerunner.model.maze.Maze;
 import org.mazerunner.model.maze.MazeModelInterface;
 
@@ -21,8 +22,8 @@ public class CreatureFactory {
     int lifes = (int) (type.getDefaultLifes() * timeFactor);
     int value = (int) (type.getDefaultValue() * Math.sqrt(timeFactor * 2));
     MovementInterface movementStrategy = type.getMovementStrategy();
-
-    return new Creature(x, y, velocity, lifes, value, movementStrategy, null, type, maze);
+    Vision vision = new Vision(type.getDefaultVisionRadius(), maze);
+    return new Creature(x, y, velocity, lifes, value, movementStrategy, vision, type, maze);
   }
 
   public static List<Creature> createAll(
