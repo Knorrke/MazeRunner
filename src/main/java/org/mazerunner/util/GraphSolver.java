@@ -12,7 +12,7 @@ public class GraphSolver {
 
   public static Map<MapNode, MapNode> calculatePerfectMoveMap(
       MapNode goal, BiPredicate<Integer, Integer> isClosed) {
-    return calculatePerfectMoveMap(goal, isClosed, ignore -> {});
+    return calculatePerfectMoveMap(goal, isClosed, _n -> {});
   }
 
   public static Map<MapNode, MapNode> calculatePerfectMoveMap(
@@ -41,7 +41,7 @@ public class GraphSolver {
           }
         }
 
-        traverse.accept(neighbor);
+        traverse.accept(nextEl);
 
         if (!next.contains(neighbor)) next.add(neighbor);
       }

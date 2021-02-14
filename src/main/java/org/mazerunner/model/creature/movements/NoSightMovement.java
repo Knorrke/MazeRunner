@@ -25,10 +25,10 @@ public class NoSightMovement implements MovementInterface {
         return new double[] {currentX + direction[0], currentY + direction[1]};
       }
     }
-    return findUnknown(visited, currentX, currentY);
+    return findUnknownOrGoal(visited, currentX, currentY);
   }
 
-  private double[] findUnknown(VisitedMap visited, double currentX, double currentY) {
+  private double[] findUnknownOrGoal(VisitedMap visited, double currentX, double currentY) {
     MapNode start = new MazeNode(currentX, currentY);
     AtomicReference<MapNode> foundUnknown = new AtomicReference<>();
     // look in known map for closest unknown edge

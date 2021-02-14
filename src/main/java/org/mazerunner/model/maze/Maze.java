@@ -2,6 +2,7 @@ package org.mazerunner.model.maze;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.sun.scenario.Settings;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -53,6 +54,8 @@ public class Maze implements MazeModelInterface {
   public Maze(int maxX, int maxY) {
     maxWallX = maxX;
     maxWallY = maxY;
+    Settings.set("maxX", "" + maxX);
+    Settings.set("maxY", "" + maxY);
     hasWall = new boolean[maxWallX][maxWallY];
     error = new SimpleObjectProperty<>();
     fictiveGoal =
@@ -64,6 +67,11 @@ public class Maze implements MazeModelInterface {
               neighbors.add(new MazeNode(maxWallX - 1, 0));
             }
             return neighbors;
+          }
+
+          @Override
+          public boolean isGoal() {
+            return true;
           }
         };
   }

@@ -1,6 +1,8 @@
 package model.creature.movements;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import org.junit.Before;
@@ -8,21 +10,16 @@ import org.junit.Test;
 import org.mazerunner.model.creature.VisitedMap;
 import org.mazerunner.model.creature.movements.MovementInterface;
 import org.mazerunner.model.creature.movements.NoSightMovement;
-import org.mazerunner.model.creature.vision.Vision;
-import org.mazerunner.model.maze.MazeModelInterface;
 
 public class NoSightMovementTest {
   int maxX = 5, maxY = 5;
   double x, y;
-  MazeModelInterface maze;
   MovementInterface movement;
-  Vision vision;
   VisitedMap visited;
 
   @Before
   public void setup() {
     movement = new NoSightMovement();
-    vision = new Vision();
     visited = new VisitedMap(maxX, maxY);
     x = 2;
     y = 3;
@@ -33,14 +30,14 @@ public class NoSightMovementTest {
 
   @Test
   public void moveForwardIfEmpty() {
-    double[] nextPos = movement.getNextGoal(vision, visited, 0, y);
+    double[] nextPos = movement.getNextGoal(null, visited, 0, y);
     assertArrayEquals(
         "Creature should move forward (in x direction)", new double[] {1, y}, nextPos, 0.1);
   }
 
   @Test
   public void moveOutOfBlindAllay() {
-    double[] nextPos = movement.getNextGoal(vision, visited, x, y);
+    double[] nextPos = movement.getNextGoal(null, visited, x, y);
     assertArrayEquals(
         "Creature should move out of blind alley", new double[] {x - 1, y}, nextPos, 0.1);
   }
@@ -48,7 +45,7 @@ public class NoSightMovementTest {
   @Test
   public void avoidVisitedSquares() {
     visited.markVisited((int) x, (int) y);
-    double[] nextPos = movement.getNextGoal(vision, visited, x - 1, y);
+    double[] nextPos = movement.getNextGoal(null, visited, x - 1, y);
     assertFalse("Should not move to useless square", Arrays.equals(new double[] {x, y}, nextPos));
   }
 
@@ -56,9 +53,9 @@ public class NoSightMovementTest {
   public void backtrackingTest() {
     visited.visit((int) x - 1, (int) y);
     visited.visit((int) x, (int) y);
-    double[] nextPos = movement.getNextGoal(vision, visited, x, y);
+    double[] nextPos = movement.getNextGoal(null, visited, x, y);
     assertArrayEquals("should backtrack correctly", new double[] {x - 1, y}, nextPos, 0.1);
-    nextPos = movement.getNextGoal(vision, visited, x - 1, y);
+    nextPos = movement.getNextGoal(null, visited, x - 1, y);
     assertTrue(
         "should move to the side",
         Arrays.equals(new double[] {x - 1, y + 1}, nextPos)
@@ -76,7 +73,7 @@ public class NoSightMovementTest {
     // backtracking should move out of useless fields in three moves
     double[] pos = new double[] {x, y};
     for (int i = 0; i <= 2; i++) {
-      pos = movement.getNextGoal(vision, visited, pos[0], pos[1]);
+      pos = movement.getNextGoal(null, visited, pos[0], pos[1]);
     }
     assertTrue(
         String.format("position %d,%d should be unknown", (int) pos[0], (int) pos[1]),

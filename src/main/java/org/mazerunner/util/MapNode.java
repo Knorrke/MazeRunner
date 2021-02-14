@@ -41,5 +41,7 @@ public abstract class MapNode {
     return y;
   }
 
+  public abstract boolean isGoal();
+
   public abstract List<MapNode> getNeighbors();
 }
