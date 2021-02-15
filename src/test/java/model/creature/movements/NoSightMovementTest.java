@@ -12,10 +12,12 @@ import org.mazerunner.model.creature.movements.MovementInterface;
 import org.mazerunner.model.creature.movements.NoSightMovement;
 
 public class NoSightMovementTest {
-  int maxX = 5, maxY = 5;
-  double x, y;
-  MovementInterface movement;
-  VisitedMap visited;
+  private int maxX = 5;
+  private int maxY = 5;
+  private int x;
+  private int y;
+  private MovementInterface movement;
+  private VisitedMap visited;
 
   @Before
   public void setup() {
@@ -23,9 +25,9 @@ public class NoSightMovementTest {
     visited = new VisitedMap(maxX, maxY);
     x = 2;
     y = 3;
-    visited.markWall((int) x + 1, (int) y); // in front (in x)
-    visited.markWall((int) x, (int) y + 1); // above
-    visited.markWall((int) x, (int) y - 1); // below
+    visited.markWall(x + 1, y); // in front (in x)
+    visited.markWall(x, y + 1); // above
+    visited.markWall(x, y - 1); // below
   }
 
   @Test
@@ -44,15 +46,15 @@ public class NoSightMovementTest {
 
   @Test
   public void avoidVisitedSquares() {
-    visited.markVisited((int) x, (int) y);
+    visited.markVisited(x, y);
     double[] nextPos = movement.getNextGoal(null, visited, x - 1, y);
     assertFalse("Should not move to useless square", Arrays.equals(new double[] {x, y}, nextPos));
   }
 
   @Test
   public void backtrackingTest() {
-    visited.visit((int) x - 1, (int) y);
-    visited.visit((int) x, (int) y);
+    visited.visit(x - 1, y);
+    visited.visit(x, y);
     double[] nextPos = movement.getNextGoal(null, visited, x, y);
     assertArrayEquals("should backtrack correctly", new double[] {x - 1, y}, nextPos, 0.1);
     nextPos = movement.getNextGoal(null, visited, x - 1, y);
@@ -64,12 +66,12 @@ public class NoSightMovementTest {
 
   @Test
   public void backtrackingWithCommunicationTest() {
-    visited.visit((int) x - 1, (int) y);
-    visited.visit((int) x, (int) y);
+    visited.visit(x - 1, y);
+    visited.visit(x, y);
     // communication information
-    visited.markVisited((int) x - 1, (int) y - 1);
-    visited.markVisited((int) x - 1, (int) y + 1);
-    visited.markVisited((int) x - 2, (int) y);
+    visited.markVisited(x - 1, y - 1);
+    visited.markVisited(x - 1, y + 1);
+    visited.markVisited(x - 2, y);
     // backtracking should move out of useless fields in three moves
     double[] pos = new double[] {x, y};
     for (int i = 0; i <= 2; i++) {

@@ -8,18 +8,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mazerunner.model.creature.VisitedMap;
 import org.mazerunner.model.creature.movements.MovementInterface;
-import org.mazerunner.model.creature.movements.NoSightMovement;
 import org.mazerunner.model.creature.movements.RandomMovement;
 
 public class RandomMovementTest {
-  int maxX = 5, maxY = 5;
-  int x, y;
-  MovementInterface movement;
-  VisitedMap visited;
+  private int maxX = 5;
+  private int maxY = 5;
+  private int x;
+  private int y;
+  private MovementInterface movement;
+  private VisitedMap visited;
 
   @Before
   public void setup() {
-    movement = new NoSightMovement();
     visited = new VisitedMap(maxX, maxY);
     x = 4;
     y = 2;
@@ -31,7 +31,7 @@ public class RandomMovementTest {
   @Test
   public void continueInLastDirection() {
     // Using 100% to continue in same direction if possible. Default 0.6
-    RandomMovement movement = new RandomMovement(1.0, 0.0);
+    movement = new RandomMovement(1.0, 0.0);
     double[] firstStep = movement.getNextGoal(null, visited, 2, y);
     double[] firstDirection = {firstStep[0] - 2, firstStep[1] - y};
     double[] secondStep = movement.getNextGoal(null, visited, firstStep[0], firstStep[1]);
@@ -44,7 +44,7 @@ public class RandomMovementTest {
 
   @Test
   public void oneRandomMovementObjectSeemsRandom() {
-    RandomMovement movement = new RandomMovement();
+    movement = new RandomMovement();
     double[] baseline = movement.getNextGoal(null, visited, 2, y);
     boolean foundDifferent = false;
     for (int i = 0; i < 1000; i++) {
@@ -60,7 +60,7 @@ public class RandomMovementTest {
     double[] baseline = null;
     boolean foundDifferent = false;
     for (int i = 0; i < 1000; i++) {
-      RandomMovement movement = new RandomMovement();
+      movement = new RandomMovement();
       double[] step = movement.getNextGoal(null, visited, 2, y);
       if (baseline == null) {
         baseline = step;
@@ -74,7 +74,7 @@ public class RandomMovementTest {
 
   @Test
   public void shouldOnlyChooseValidOptions() {
-    RandomMovement movement = new RandomMovement();
+    movement = new RandomMovement();
     for (int i = 0; i < 1000; i++) {
       double[] step = movement.getNextGoal(null, visited, x, y);
       assertArrayEquals(
@@ -84,7 +84,7 @@ public class RandomMovementTest {
 
   @Test
   public void defaultToRight() {
-    RandomMovement movement = new RandomMovement();
+    movement = new RandomMovement();
     visited.markWall(x - 1, y); // stuck between walls now.
     double[] step = movement.getNextGoal(null, visited, x, y);
     assertArrayEquals(

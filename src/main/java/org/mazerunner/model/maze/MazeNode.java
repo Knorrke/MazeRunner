@@ -3,15 +3,10 @@ package org.mazerunner.model.maze;
 import com.sun.scenario.Settings;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.BiPredicate;
 
 public class MazeNode extends MapNode {
 
   public MazeNode(double x, double y) {
-    super(x, y);
-  }
-
-  public MazeNode(int x, int y, BiPredicate<Integer, Integer> isGoal) {
     super(x, y);
   }
 
