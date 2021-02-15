@@ -1,4 +1,4 @@
-package org.mazerunner.util;
+package org.mazerunner.model.maze;
 
 import com.sun.scenario.Settings;
 import java.util.Arrays;

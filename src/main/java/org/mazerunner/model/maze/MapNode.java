@@ -1,4 +1,4 @@
-package org.mazerunner.util;
+package org.mazerunner.model.maze;
 
 import java.util.List;
 

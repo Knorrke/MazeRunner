@@ -19,9 +19,6 @@ import org.mazerunner.model.maze.tower.AbstractTower;
 import org.mazerunner.model.maze.tower.TowerType;
 import org.mazerunner.model.maze.tower.TowerUpgrade;
 import org.mazerunner.model.player.PlayerModelInterface;
-import org.mazerunner.util.GraphSolver;
-import org.mazerunner.util.MapNode;
-import org.mazerunner.util.MazeNode;
 import org.mazerunner.util.ObservableCreaturesListDeserializer;
 import org.mazerunner.util.ObservableWallsListDeserializer;
 import org.mazerunner.util.Util;
@@ -104,7 +101,7 @@ public class Maze implements MazeModelInterface {
     }
 
     perfectMoveMap =
-        GraphSolver.calculatePerfectMoveMap(
+        GraphSolver.calculateShortestPaths(
             fictiveGoal, (nodeX, nodeY) -> !checkBounds(nodeX, nodeY) || hasWallOn(nodeX, nodeY));
   }
 
@@ -136,7 +133,7 @@ public class Maze implements MazeModelInterface {
 
   private boolean movementPossibleAfterBuild(Wall wall) {
     var tmpMoveMap =
-        GraphSolver.calculatePerfectMoveMap(
+        GraphSolver.calculateShortestPaths(
             fictiveGoal,
             (nodeX, nodeY) ->
                 (nodeX == wall.getX() && nodeY == wall.getY())

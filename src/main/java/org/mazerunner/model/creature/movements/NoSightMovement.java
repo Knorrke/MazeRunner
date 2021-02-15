@@ -5,9 +5,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 import org.mazerunner.model.creature.VisitedMap;
 import org.mazerunner.model.creature.vision.Vision;
-import org.mazerunner.util.GraphSolver;
-import org.mazerunner.util.MapNode;
-import org.mazerunner.util.MazeNode;
+import org.mazerunner.model.maze.GraphSolver;
+import org.mazerunner.model.maze.MapNode;
+import org.mazerunner.model.maze.MazeNode;
 
 public class NoSightMovement implements MovementInterface {
   private static final Logger LOG = Logger.getLogger(NoSightMovement.class.getName());
@@ -33,7 +33,7 @@ public class NoSightMovement implements MovementInterface {
     AtomicReference<MapNode> foundUnknown = new AtomicReference<>();
     // look in known map for closest unknown field
     Map<MapNode, MapNode> paths =
-        GraphSolver.calculatePerfectMoveMap(
+        GraphSolver.calculateShortestPaths(
             start,
             visited::isWall,
             (MapNode traversing) -> {

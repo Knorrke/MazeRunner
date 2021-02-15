@@ -1,22 +1,29 @@
-package org.mazerunner.util;
+package org.mazerunner.model.maze;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
-public class GraphSolver {
+public final class GraphSolver {
+  private GraphSolver() {}
 
-  public static Map<MapNode, MapNode> calculatePerfectMoveMap(
+  public static Map<MapNode, MapNode> calculateShortestPaths(
       MapNode goal, BiPredicate<Integer, Integer> isClosed) {
-    return calculatePerfectMoveMap(goal, isClosed, _n -> {});
+    return calculateShortestPaths(goal, isClosed, (_n, _d) -> {});
   }
 
-  public static Map<MapNode, MapNode> calculatePerfectMoveMap(
+  public static Map<MapNode, MapNode> calculateShortestPaths(
       MapNode goal, BiPredicate<Integer, Integer> isClosed, Consumer<MapNode> traverse) {
+    return calculateShortestPaths(goal, isClosed, (n, _d) -> traverse.accept(n));
+  }
+
+  public static Map<MapNode, MapNode> calculateShortestPaths(
+      MapNode goal, BiPredicate<Integer, Integer> isClosed, BiConsumer<MapNode, Integer> traverse) {
     Map<MapNode, MapNode> paths = new HashMap<>();
     Map<MapNode, Integer> distances = new HashMap<>();
     List<MapNode> closed = new ArrayList<>();
@@ -41,7 +48,7 @@ public class GraphSolver {
           }
         }
 
-        traverse.accept(nextEl);
+        traverse.accept(nextEl, distances.get(nextEl));
 
         if (!next.contains(neighbor)) next.add(neighbor);
       }
