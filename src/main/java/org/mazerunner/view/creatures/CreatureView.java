@@ -1,11 +1,16 @@
 package org.mazerunner.view.creatures;
 
+import com.sun.scenario.Settings;
+import java.util.concurrent.atomic.AtomicInteger;
 import javafx.animation.RotateTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -15,16 +20,22 @@ import javafx.util.Duration;
 import org.mazerunner.model.Position;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.creature.CreatureType;
+import org.mazerunner.model.creature.VisitedMap;
 import org.mazerunner.model.creature.actions.TalkAction;
 import org.mazerunner.util.ImageLoader;
 import org.mazerunner.util.Util;
+import org.mazerunner.view.maze.MazeView;
 
 public class CreatureView extends StackPane {
   private double imageSize = 0.7;
   private final Creature creature;
 
+  private DoubleBinding scaleX, scaleY;
+
   public CreatureView(Creature creature, DoubleBinding scaleX, DoubleBinding scaleY) {
     this.creature = creature;
+    this.scaleX = scaleX;
+    this.scaleY = scaleY;
     this.getStyleClass().add("creature");
 
     ImageView img = createImageView(creature.getType(), scaleX, scaleY);
@@ -106,6 +117,64 @@ public class CreatureView extends StackPane {
     img.fitWidthProperty().bind(scaleX.multiply(imageSize));
     img.fitHeightProperty().bind(scaleY.multiply(imageSize));
     return img;
+  }
+
+  private Canvas createSelectionView(
+      Creature creature, MazeView mazeView, DoubleBinding scaleX, DoubleBinding scaleY) {
+    VisitedMap map = creature.getVisitedMap();
+    Canvas visited = new Canvas(mazeView.getWidth(), mazeView.getHeight());
+    AtomicInteger hash = new AtomicInteger(map.hashCode());
+    creature
+        .positionProperty()
+        .addListener(
+            c -> {
+              if (map.hashCode() != hash.get()) {
+                hash.set(map.hashCode());
+                if (visited.isVisible()) {
+                  drawVisited(map, visited.getGraphicsContext2D(), scaleX.get(), scaleY.get());
+                }
+              }
+            });
+    visited.setManaged(false);
+    visited.setVisible(false);
+    visited.setId("creature-information");
+    return visited;
+  }
+
+  private void drawVisited(
+      VisitedMap map, GraphicsContext graphicsContext2D, double scaleX, double scaleY) {
+    int maxX = Settings.getInt("maxX", 100);
+    int maxY = Settings.getInt("maxY", 100);
+    graphicsContext2D.clearRect(0, 0, maxX * scaleX, maxY * scaleY);
+    graphicsContext2D.setFill(Color.BLACK);
+    for (int x = 0; x < 20; x++) {
+      for (int y = 0; y < 10; y++) {
+        if (map.isUnknown(x, y)) {
+          graphicsContext2D.fillRect(x * scaleX, y * scaleY, scaleX, scaleY);
+        }
+      }
+    }
+  }
+
+  public void showSelection() {
+    MazeView mazeView = (MazeView) this.getScene().lookup("#maze");
+    Node alreadySelected = mazeView.lookup("#creature-information");
+    if (alreadySelected != null) {
+      mazeView.getChildren().remove(alreadySelected);
+    }
+    Canvas selectionView = createSelectionView(creature, mazeView, scaleX, scaleY);
+    mazeView.getChildren().add(selectionView);
+    drawVisited(
+        creature.getVisitedMap(), selectionView.getGraphicsContext2D(), scaleX.get(), scaleY.get());
+    selectionView.setVisible(true);
+  }
+
+  public void hideSelection() {
+    MazeView mazeView = (MazeView) this.getScene().lookup("#maze");
+    Node alreadySelected = mazeView.lookup("#creature-information");
+    if (alreadySelected != null) {
+      mazeView.getChildren().remove(alreadySelected);
+    }
   }
 
   public Creature getCreature() {

@@ -10,6 +10,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.collections.FXCollections;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -111,29 +112,33 @@ public class TowerTest {
   @RunWith(Parameterized.class)
   public static class UpgradesTests {
 
-    @Parameters(name = "{index}: Shoot test with tower at level {1}")
+    @Parameters(name = "{index}: Shoot test with tower at level {0}")
     public static Object[][] data() {
-      return new Object[][] {
-        {AbstractTower.create(TowerType.NORMAL), 0},
-        {AbstractTower.create(TowerType.NORMAL).upgrade(), 1}
-      };
+      return new Object[][] {{0}, {1}, {2}, {3}};
     }
 
     @Parameter(0)
-    public AbstractTower tower;
-
-    @Parameter(1)
     public int level;
+
+    private AbstractTower tower;
+
+    @Before
+    public void initialize() {
+      tower = AbstractTower.create(TowerType.NORMAL);
+      for (int i = 0; i < level; i++) {
+        tower = tower.upgrade();
+      }
+    }
 
     @Test
     public void shootCreatureInRange() {
-      assertTrue(tower.getLevel() == level);
+      assertEquals(level, tower.getLevel());
       int wallX = 2, wallY = 3;
       double visualRange = tower.getVisualRange();
       Wall wall = new Wall(wallX, wallY, tower);
 
       MazeModelInterface mazeMock = Mockito.mock(Maze.class);
-      Creature creatureInRange = mockCreature(wallX + visualRange / 2, wallY);
+      Creature creatureInRange = mockCreature(wallX + visualRange - 0.1, wallY);
       Creature creatureNotInRange = mockCreature(wallX + visualRange + 1, wallY);
       Mockito.doReturn(FXCollections.observableArrayList(creatureInRange, creatureNotInRange))
           .when(mazeMock)
@@ -150,6 +155,29 @@ public class TowerTest {
 
       shotBullet.hitTarget();
       Mockito.verify(creatureInRange).damage(ArgumentMatchers.anyInt());
+    }
+
+    @Test
+    public void fireRateTest() {
+      assertEquals(level, tower.getLevel());
+      int wallX = 2, wallY = 3;
+      Wall wall = new Wall(wallX, wallY, tower);
+
+      MazeModelInterface mazeMock = Mockito.mock(Maze.class);
+      Creature creatureInRange = mockCreature(wallX + 0.1, wallY);
+      Mockito.doReturn(FXCollections.observableArrayList(creatureInRange))
+          .when(mazeMock)
+          .getCreatures();
+      wall.setMaze(mazeMock);
+
+      List<Bullet> bullets = tower.getBullets();
+      double delayBetweenShots = 1 / tower.getFireRate();
+      tower.act(delayBetweenShots - 0.01);
+      assertEquals("There should be no bullet yet", 0, bullets.size());
+      tower.act(0.02);
+      assertEquals("There should be a bullet by that tower now", 1, bullets.size());
+      tower.act(delayBetweenShots);
+      assertEquals("There should be a second bullet by that tower now", 2, bullets.size());
     }
 
     private Creature mockCreature(double x, double y) {

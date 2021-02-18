@@ -43,7 +43,7 @@ public class Creature implements ActorInterface, Moveable {
 
   /** json entry */
   public Creature() {
-    this(0, 0, 0, 0, 0, new NoSightMovement(), new Vision(), CreatureType.NORMAL, new Maze());
+    this(0, 0, 0, 0, 0, new NoSightMovement(), null, CreatureType.NORMAL, new Maze());
   }
 
   public Creature(

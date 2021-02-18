@@ -2,11 +2,17 @@ package org.mazerunner.model.maze;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.sun.scenario.Settings;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.mazerunner.controller.gameloop.ActorInterface;
+import org.mazerunner.model.GameError;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.creature.VisitedMap;
 import org.mazerunner.model.maze.tower.AbstractTower;
@@ -32,6 +38,12 @@ public class Maze implements MazeModelInterface {
 
   @JsonIgnore private PlayerModelInterface player;
 
+  @JsonIgnore private Map<MapNode, MapNode> perfectMoveMap;
+
+  @JsonIgnore private ObjectProperty<GameError> error;
+
+  private MapNode fictiveGoal;
+
   public Maze() {
     this(20, 10);
   }
@@ -39,7 +51,26 @@ public class Maze implements MazeModelInterface {
   public Maze(int maxX, int maxY) {
     maxWallX = maxX;
     maxWallY = maxY;
+    Settings.set("maxX", "" + maxX);
+    Settings.set("maxY", "" + maxY);
     hasWall = new boolean[maxWallX][maxWallY];
+    error = new SimpleObjectProperty<>();
+    fictiveGoal =
+        new MapNode(-1, -1) {
+          @Override
+          public List<MapNode> getNeighbors() {
+            ArrayList<MapNode> neighbors = new ArrayList<>();
+            for (int y = 0; y < maxWallY; y++) {
+              neighbors.add(new MazeNode(maxWallX - 1, 0));
+            }
+            return neighbors;
+          }
+
+          @Override
+          public boolean isGoal() {
+            return true;
+          }
+        };
   }
 
   @Override
@@ -68,25 +99,57 @@ public class Maze implements MazeModelInterface {
       wall.setMaze(this);
       hasWall[x][y] = true;
     }
+
+    perfectMoveMap =
+        GraphSolver.calculateShortestPaths(
+            fictiveGoal, (nodeX, nodeY) -> !checkBounds(nodeX, nodeY) || hasWallOn(nodeX, nodeY));
   }
 
   @Override
   public Wall buildWall(int x, int y) {
-    if (checkBounds(x, y) && !hasWallOn(x, y)) {
-      Wall wall = new Wall(x, y, AbstractTower.create(TowerType.NO));
-      if (payIfEnoughMoney(wall.getCosts())) {
-        for (Creature creature : creatures) {
-          VisitedMap map = creature.getVisitedMap();
-          if (map.isVisited(x, y)) {
-            map.markWall(x, y);
-          }
-        }
-        this.addWall(wall);
-        return wall;
-      }
+    if (!checkBounds(x, y) || hasWallOn(x, y)) return null;
+
+    Wall wall = new Wall(x, y, AbstractTower.create(TowerType.NO));
+
+    if (!movementPossibleAfterBuild(wall)) {
+      setError(this::buildingWallNotAllowedError);
+      return null;
+    }
+    boolean success = payIfEnoughMoney(wall.getCosts());
+    if (!success) {
+      setError(this::notEnoughMoneyError);
+      return null;
     }
 
-    return null;
+    for (Creature creature : creatures) {
+      VisitedMap map = creature.getVisitedMap();
+      if (map.isVisited(x, y)) {
+        map.markWall(x, y);
+      }
+    }
+    this.addWall(wall);
+    return wall;
+  }
+
+  private boolean movementPossibleAfterBuild(Wall wall) {
+    var tmpMoveMap =
+        GraphSolver.calculateShortestPaths(
+            fictiveGoal,
+            (nodeX, nodeY) ->
+                (nodeX == wall.getX() && nodeY == wall.getY())
+                    || !checkBounds(nodeX, nodeY)
+                    || hasWallOn(nodeX, nodeY));
+    for (int line = 0; line < maxWallY; line++) {
+      if (!tmpMoveMap.containsKey(new MazeNode(0, line))) {
+        return false;
+      }
+    }
+    for (Creature creature : getCreatures()) {
+      if (!tmpMoveMap.containsKey(new MazeNode(creature.getX(), creature.getY()))) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private void removeWall(Wall wall) {
@@ -182,7 +245,8 @@ public class Maze implements MazeModelInterface {
     for (Creature creature : creatures) {
       VisitedMap map = creature.getVisitedMap();
       if (map.isWall(wall.getX(), wall.getY())) {
-        map.markVisited(wall.getX(), wall.getY());
+        setError(this::cantSellError);
+        return;
       }
     }
 
@@ -190,6 +254,14 @@ public class Maze implements MazeModelInterface {
     if (player != null) {
       player.earnMoney(wall.getCosts());
     }
+  }
+
+  @Override
+  public void sellTower(Wall wall) {
+    if (player != null) {
+      player.earnMoney(wall.getTower().getCosts());
+    }
+    wall.setTower(AbstractTower.create(TowerType.NO));
   }
 
   @Override
@@ -202,20 +274,49 @@ public class Maze implements MazeModelInterface {
   @Override
   public void buildTower(Wall wall, TowerType type) {
     AbstractTower newTower = AbstractTower.create(type);
-    if (wall.canBuildTower(type) && payIfEnoughMoney(newTower.getCosts())) {
-      wall.buildTower(type);
+
+    if (!wall.hasTower()) {
+      if (payIfEnoughMoney(newTower.getCosts())) {
+        wall.buildTower(type);
+      } else {
+        setError(this::notEnoughMoneyError);
+      }
     }
   }
 
   @Override
   public void upgradeTower(Wall wall) {
     TowerUpgrade nextUpgrade = wall.getTower().getNextUpgrade();
-    if (nextUpgrade != null && payIfEnoughMoney(nextUpgrade.getCosts())) {
-      wall.upgradeTower();
+    if (nextUpgrade != null) {
+      if (payIfEnoughMoney(nextUpgrade.getCosts())) {
+        wall.upgradeTower();
+      } else {
+        setError(this::notEnoughMoneyError);
+      }
     }
   }
 
   private boolean payIfEnoughMoney(int costs) {
     return player != null ? player.spendMoney(costs) : true;
+  }
+
+  public ObjectProperty<GameError> errorProperty() {
+    return error;
+  }
+
+  public void setError(GameError error) {
+    this.error.set(error);
+  }
+
+  public String buildingWallNotAllowedError() {
+    return "Building there is not allowed. Don't trap the creatures!";
+  }
+
+  public String notEnoughMoneyError() {
+    return "Not enough money";
+  }
+
+  public String cantSellError() {
+    return "This wall can't be sold, because creatures already have seen it. Kill them first.";
   }
 }

@@ -22,8 +22,8 @@ public class CreatureFactory {
     int lifes = (int) (type.getDefaultLifes() * timeFactor);
     int value = (int) (type.getDefaultValue() * Math.sqrt(timeFactor * 2));
     MovementInterface movementStrategy = type.getMovementStrategy();
-
-    return new Creature(x, y, velocity, lifes, value, movementStrategy, new Vision(), type, maze);
+    Vision vision = new Vision(type.getDefaultVisionRadius(), maze);
+    return new Creature(x, y, velocity, lifes, value, movementStrategy, vision, type, maze);
   }
 
   public static List<Creature> createAll(

@@ -21,6 +21,8 @@ public class ImageLoaderTest {
     ImageLoader.loadGameImages();
     assertEquals(ImageLoader.normalCreature, ImageLoader.getCreatureImage(CreatureType.NORMAL));
     assertEquals(ImageLoader.toughCreature, ImageLoader.getCreatureImage(CreatureType.TOUGH));
+    assertEquals(ImageLoader.dumbCreature, ImageLoader.getCreatureImage(CreatureType.DUMB));
+    assertEquals(ImageLoader.sightCreature, ImageLoader.getCreatureImage(CreatureType.SIGHT));
   }
 
   @Test

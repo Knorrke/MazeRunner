@@ -1,5 +1,6 @@
 package org.mazerunner.util;
 
+import java.util.Random;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.IntegerProperty;
@@ -33,5 +34,24 @@ public final class Util {
 
   public static double distance(double x1, double y1, double x2, double y2) {
     return Math.hypot(x2 - x1, y2 - y1);
+  }
+
+  /**
+   * Chooses one of the options at random, weighted by the probabilities.
+   *
+   * @param <T> Type of the options to choose from
+   * @param options
+   * @param probabilities - must add up to 1
+   * @return
+   */
+  public static <T> T chooseAtRandom(T[] options, double[] probabilities) {
+    double random = new Random().nextDouble();
+    for (int i = 0; i < probabilities.length; i++) {
+      if (random < probabilities[i]) {
+        return options[i];
+      }
+      random -= probabilities[i];
+    }
+    return options[0]; // default to right
   }
 }
