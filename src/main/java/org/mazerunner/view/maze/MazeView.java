@@ -64,6 +64,7 @@ public class MazeView extends StackPane {
 
   public void showError(String s) {
     Label label = new Label(s);
+    label.getStyleClass().add("error");
     label.setWrapText(true);
     label.setTextAlignment(TextAlignment.CENTER);
     label.setTextFill(Color.rgb(200, 0, 0));

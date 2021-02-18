@@ -79,6 +79,22 @@ public class WallMenuViewTest extends AbstractViewTest {
   }
 
   @Test
+  public void buildTowerNoMoneyTest() {
+    int costs = AbstractTower.create(TowerType.NORMAL).getCosts();
+    interact(
+        () -> {
+          player.moneyProperty().set(costs - 1);
+        });
+    selectNormalTower();
+    assertFalse(menu.isShown());
+    verifyThat(".wall", NodeMatchers.hasChildren(0, "." + TowerType.NORMAL.name()), collectInfos());
+    verifyThat(TestFXHelper.carefulQuery(".error"), NodeMatchers.isNotNull(), collectInfos());
+    assertEquals("Shouldn't have lost money with failed build", costs - 1, player.getMoney());
+    verifyThat(
+        "#money", LabeledMatchers.hasText(Util.moneyString(player.getMoney())), collectInfos());
+  }
+
+  @Test
   public void sellAfterBuildTest() {
     int moneyBefore = player.getMoney();
     selectNormalTower();
@@ -122,6 +138,28 @@ public class WallMenuViewTest extends AbstractViewTest {
     }
     openMenuAndWaitForAnimation();
     verifyThat(TestFXHelper.carefulQuery("#upgrade-tower"), NodeMatchers.isNull(), collectInfos());
+  }
+
+  @Test
+  public void upgradeTowerNoMoneyTest() {
+    selectNormalTower();
+    TowerView towerView = lookup(".tower").query();
+    AbstractTower towerBeforeUpgrade = towerView.getTower();
+    assertNotNull("Upgrade should be possible", towerBeforeUpgrade.getNextUpgrade());
+    int upgradeCosts = towerBeforeUpgrade.getNextUpgrade().getCosts();
+    interact(
+        () -> {
+          player.moneyProperty().set(upgradeCosts - 1);
+        });
+    openMenuAndWaitForAnimation();
+    selectUpgrade();
+    waitForAnimation();
+    assertEquals(
+        "Should not have paid money for failed upgrade", upgradeCosts - 1, player.getMoney());
+    verifyThat(TestFXHelper.carefulQuery(".tower .level1"), NodeMatchers.isNull(), collectInfos());
+    verifyThat(
+        TestFXHelper.carefulQuery(".tower .level0"), NodeMatchers.isNotNull(), collectInfos());
+    verifyThat(TestFXHelper.carefulQuery(".error"), NodeMatchers.isNotNull(), collectInfos());
   }
 
   @Test
