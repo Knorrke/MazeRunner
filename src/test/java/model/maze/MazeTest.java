@@ -118,6 +118,14 @@ public class MazeTest {
   }
 
   @Test
+  public void buildShouldNotWorkIfNoMoneyTest() {
+    Mockito.doReturn(false).when(playerMock).spendMoney(ArgumentMatchers.anyInt());
+    ObservableList<Wall> walls = maze.getWalls();
+    maze.buildWall(x, y);
+    assertEquals("Maze should not have a wall", 0, walls.size());
+  }
+
+  @Test
   public void sellShouldEarnMoneyTest() {
     ObservableList<Wall> walls = maze.getWalls();
     Wall wall = maze.buildWall(x, y);
