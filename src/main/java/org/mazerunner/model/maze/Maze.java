@@ -308,10 +308,6 @@ public class Maze implements MazeModelInterface {
     this.error.set(error);
   }
 
-  public GameError getError() {
-    return error.get();
-  }
-
   public String buildingWallNotAllowedError() {
     return "Building there is not allowed. Don't trap the creatures!";
   }
