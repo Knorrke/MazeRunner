@@ -300,10 +300,6 @@ public class Maze implements MazeModelInterface {
     return player != null ? player.spendMoney(costs) : true;
   }
 
-  public Map<MapNode, MapNode> getPerfectMoveMap() {
-    return perfectMoveMap;
-  }
-
   public ObjectProperty<GameError> errorProperty() {
     return error;
   }
