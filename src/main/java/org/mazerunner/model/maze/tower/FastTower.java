@@ -20,10 +20,13 @@ public class FastTower extends AbstractTower {
   }
 
   @Override
-  public void shoot() {
+  public Creature shoot() {
     List<Creature> creatures = findCreaturesInRange();
+    Creature target = null;
     if (!creatures.isEmpty()) {
-      addBullet(new DamageBullet(getX() + 0.5, getY() + 0.5, getDamage(), creatures.get(0)));
+      target = creatures.get(0);
+      addBullet(new DamageBullet(getX() + 0.5, getY() + 0.5, getDamage(), target));
     }
+    return target;
   }
 }

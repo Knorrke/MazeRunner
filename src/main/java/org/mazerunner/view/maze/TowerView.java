@@ -2,16 +2,21 @@ package org.mazerunner.view.maze;
 
 import java.util.Iterator;
 import java.util.List;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.ObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import org.mazerunner.model.Position;
+import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.maze.tower.AbstractTower;
 import org.mazerunner.model.maze.tower.TowerType;
 import org.mazerunner.model.maze.tower.bullet.Bullet;
 import org.mazerunner.util.ImageLoader;
+import org.mazerunner.util.Util;
 
 public class TowerView extends StackPane {
   private AbstractTower tower;
@@ -37,6 +42,25 @@ public class TowerView extends StackPane {
     towerImage.fitWidthProperty().bind(scaleX);
     towerImage.fitHeightProperty().bind(scaleY);
     towerImage.getStyleClass().addAll("tower-image", towerType.name());
+
+    ObjectProperty<Creature> targetedCreature = tower.targetedCreatureProperty();
+
+    targetedCreature.addListener(
+        (obj, oldValue, newValue) -> {
+          towerImage.rotateProperty().unbind();
+          if (newValue != null) {
+            var position = newValue.positionProperty();
+            towerImage
+                .rotateProperty()
+                .bind(
+                    Bindings.createDoubleBinding(
+                        () -> {
+                          return Util.calculateRotation(
+                              position.get(), new Position(tower.getX(), tower.getY()));
+                        },
+                        position));
+          }
+        });
 
     ImageView upgradeView = new ImageView(ImageLoader.getLevelImage(tower.getLevel()));
     upgradeView.fitWidthProperty().bind(scaleX);

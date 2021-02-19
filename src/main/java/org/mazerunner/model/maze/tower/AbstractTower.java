@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.mazerunner.controller.gameloop.ActorInterface;
@@ -29,6 +31,7 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
   @JsonIgnore protected double visualRange;
 
   @JsonIgnore private CountdownAction shootingAction;
+  @JsonIgnore private ObjectProperty<Creature> targetedCreatureProperty;
   @JsonIgnore protected int x, y;
 
   @JsonIgnore private List<TowerUpgrade> upgrades;
@@ -53,11 +56,12 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
         new CountdownAction(1 / getFireRate()) { // Infinity if fireRate==0.0
           @Override
           protected void onFinish() {
-            shoot();
+            setTargetedCreature(shoot());
             resetCountdown();
           }
         };
     bullets = FXCollections.observableArrayList();
+    this.targetedCreatureProperty = new SimpleObjectProperty<Creature>(null);
     this.upgrades = new ArrayList<>();
   }
 
@@ -92,7 +96,7 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
     }
   }
 
-  public abstract void shoot();
+  public abstract Creature shoot();
 
   protected void addBullet(Bullet bullet) {
     bullets.add(bullet);
@@ -130,7 +134,7 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
             new CountdownAction(1 / clone.getFireRate()) { // Infinity if fireRate==0.0
               @Override
               protected void onFinish() {
-                clone.shoot();
+                clone.setTargetedCreature(clone.shoot());
                 resetCountdown();
               }
             };
@@ -180,11 +184,11 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
     this.y = y;
   }
 
-  protected double getX() {
+  public double getX() {
     return x;
   }
 
-  protected double getY() {
+  public double getY() {
     return y;
   }
 
@@ -206,5 +210,14 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
 
   public int getLevel() {
     return level;
+  }
+
+  public ObjectProperty<Creature> targetedCreatureProperty() {
+    return targetedCreatureProperty;
+  }
+
+  private void setTargetedCreature(Creature targetedCreature) {
+    targetedCreatureProperty().set(targetedCreature);
+    ;
   }
 }
