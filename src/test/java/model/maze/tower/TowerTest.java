@@ -49,9 +49,13 @@ public class TowerTest {
       tower =
           new AbstractTower(fireRate, 0, 0, 0, TowerType.NO, null) {
             @Override
-            public Creature shoot() {
-              called.set(true);
+            protected Creature target() {
               return null;
+            }
+
+            @Override
+            public void shoot() {
+              called.set(true);
             }
           };
       double delayBetweenShots = 1 / fireRate;
@@ -69,7 +73,8 @@ public class TowerTest {
       assertTrue(fireRate > 0);
       double delayBetweenShots = 1 / fireRate;
       tower.act(delayBetweenShots);
-      Mockito.verify(wall, Mockito.times(1)).getCreaturesMatchingCondition(ArgumentMatchers.any());
+      Mockito.verify(wall, Mockito.atLeastOnce())
+          .getCreaturesMatchingCondition(ArgumentMatchers.any());
     }
 
     @Test

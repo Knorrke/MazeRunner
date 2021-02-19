@@ -56,7 +56,7 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
         new CountdownAction(1 / getFireRate()) { // Infinity if fireRate==0.0
           @Override
           protected void onFinish() {
-            setTargetedCreature(shoot());
+            shoot();
             resetCountdown();
           }
         };
@@ -96,7 +96,7 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
     }
   }
 
-  public abstract Creature shoot();
+  public abstract void shoot();
 
   protected void addBullet(Bullet bullet) {
     bullets.add(bullet);
@@ -104,6 +104,7 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
 
   @Override
   public void act(double dt) {
+    setTargetedCreature(target());
     shootingAction.act(dt);
     for (Iterator<Bullet> iterator = bullets.iterator(); iterator.hasNext(); ) {
       Bullet bullet = iterator.next();
@@ -113,6 +114,11 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
       }
       bullet.act(dt);
     }
+  }
+
+  protected Creature target() {
+    List<Creature> all = findCreaturesInRange();
+    return all.isEmpty() ? null : all.get(0);
   }
 
   public List<Creature> findCreaturesInRange() {
@@ -134,7 +140,7 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
             new CountdownAction(1 / clone.getFireRate()) { // Infinity if fireRate==0.0
               @Override
               protected void onFinish() {
-                clone.setTargetedCreature(clone.shoot());
+                clone.shoot();
                 resetCountdown();
               }
             };

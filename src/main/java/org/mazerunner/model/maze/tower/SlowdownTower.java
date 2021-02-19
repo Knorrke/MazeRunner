@@ -22,11 +22,15 @@ public class SlowdownTower extends AbstractTower {
   }
 
   @Override
-  public Creature shoot() {
+  protected Creature target() {
     List<Creature> creatures = findCreaturesInRange();
-    Creature target = null;
-    if (!creatures.isEmpty()) {
-      target = creatures.get(new Random().nextInt(creatures.size()));
+    return creatures.isEmpty() ? null : creatures.get(new Random().nextInt(creatures.size()));
+  }
+
+  @Override
+  public void shoot() {
+    Creature target = target();
+    if (target != null) {
       addBullet(
           new SlowdownBullet(
               getX() + 0.5,
@@ -35,6 +39,5 @@ public class SlowdownTower extends AbstractTower {
               Duration.millis(500 * getLevel() + 2000.0),
               target));
     }
-    return target;
   }
 }
