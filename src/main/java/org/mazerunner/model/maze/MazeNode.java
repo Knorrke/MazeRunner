@@ -6,7 +6,7 @@ import java.util.List;
 
 public class MazeNode extends MapNode {
 
-  public MazeNode(double x, double y) {
+  public MazeNode(int x, int y) {
     super(x, y);
   }
 

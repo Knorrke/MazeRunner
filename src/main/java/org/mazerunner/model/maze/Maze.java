@@ -145,7 +145,7 @@ public class Maze implements MazeModelInterface {
       }
     }
     for (Creature creature : getCreatures()) {
-      if (!tmpMoveMap.containsKey(new MazeNode(creature.getX(), creature.getY()))) {
+      if (!tmpMoveMap.containsKey(new MazeNode((int) creature.getX(), (int) creature.getY()))) {
         return false;
       }
     }

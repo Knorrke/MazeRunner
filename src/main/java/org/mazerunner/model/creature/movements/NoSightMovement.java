@@ -29,7 +29,7 @@ public class NoSightMovement implements MovementInterface {
   }
 
   private double[] findUnknownOrGoal(VisitedMap visited, double currentX, double currentY) {
-    MapNode start = new MazeNode(currentX, currentY);
+    MapNode start = new MazeNode((int) currentX, (int) currentY);
     AtomicReference<MapNode> foundUnknown = new AtomicReference<>();
     // look in known map for closest unknown field
     Map<MapNode, MapNode> paths =

@@ -11,10 +11,6 @@ public abstract class MapNode {
     this.y = y;
   }
 
-  public MapNode(double x, double y) {
-    this((int) x, (int) y);
-  }
-
   @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof MapNode)) {
