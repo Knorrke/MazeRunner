@@ -50,15 +50,13 @@ public class TowerView extends StackPane {
           towerImage.rotateProperty().unbind();
           if (newValue != null) {
             var position = newValue.positionProperty();
+            Position towerPos = new Position(tower.getX() + 0.5, tower.getY() + 0.5);
+
             towerImage
                 .rotateProperty()
                 .bind(
                     Bindings.createDoubleBinding(
-                        () -> {
-                          return Util.calculateRotation(
-                              position.get(), new Position(tower.getX(), tower.getY()));
-                        },
-                        position));
+                        () -> Util.calculateRotation(position.get(), towerPos), position));
           }
         });
 
