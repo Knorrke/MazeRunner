@@ -82,8 +82,8 @@ public class Vision {
       List<ParameterizedLine> wallEdges = new ArrayList<>();
       wallEdges.add(new ParameterizedLine(wallPosition[0], wallPosition[1], 1, 0)); // top
       wallEdges.add(new ParameterizedLine(wallPosition[0], wallPosition[1], 0, 1)); // left
-      wallEdges.add(new ParameterizedLine(wallPosition[0], wallPosition[1] + 1, 1, 0)); // right
-      wallEdges.add(new ParameterizedLine(wallPosition[0] + 1, wallPosition[1], 0, 1)); // bottom
+      wallEdges.add(new ParameterizedLine(wallPosition[0], wallPosition[1] + 1.0, 1, 0)); // right
+      wallEdges.add(new ParameterizedLine(wallPosition[0] + 1.0, wallPosition[1], 0, 1)); // bottom
       for (ParameterizedLine edge : wallEdges) {
         double[] intersection = sight.getIntersection(edge);
         if (intersection != null) {
