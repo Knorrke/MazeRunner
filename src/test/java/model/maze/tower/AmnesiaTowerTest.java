@@ -46,7 +46,7 @@ public class AmnesiaTowerTest {
     assertTrue(fireRate > 0);
     double delayBetweenShots = 1 / fireRate;
     tower.act(delayBetweenShots);
-    Mockito.verify(wallMock, Mockito.times(1))
+    Mockito.verify(wallMock, Mockito.atLeastOnce())
         .getCreaturesMatchingCondition(ArgumentMatchers.any());
   }
 
