@@ -1,14 +1,14 @@
 package org.mazerunner.view.popover;
 
-import org.mazerunner.controller.gameloop.GameLoop;
-import org.mazerunner.model.GameState;
-import org.mazerunner.util.FXMLLoaderUtil;
-import org.mazerunner.util.ImageLoader;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import org.mazerunner.controller.gameloop.GameLoop;
+import org.mazerunner.model.GameState;
+import org.mazerunner.util.FXMLLoaderUtil;
+import org.mazerunner.util.ImageLoader;
 
 public class GameEndPopOver extends Pane {
   private GameState state;

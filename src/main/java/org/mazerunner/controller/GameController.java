@@ -83,13 +83,17 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
     setUserActionState(UserActionState.INFO);
   }
 
-  /** @param actionState the actionState to set */
+  /**
+   * @param actionState the actionState to set
+   */
   public void setUserActionState(UserActionState actionState) {
     this.actionState = actionState;
     setButtonSelectedImage(actionState);
   }
 
-  /** @return the actionState */
+  /**
+   * @return the actionState
+   */
   public UserActionState getUserActionState() {
     return actionState;
   }

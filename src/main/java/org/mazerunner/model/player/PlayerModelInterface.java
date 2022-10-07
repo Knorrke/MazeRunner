@@ -11,13 +11,21 @@ import org.mazerunner.model.ModelInterface;
   @JsonSubTypes.Type(value = Player.class, name = "Player"),
 })
 public interface PlayerModelInterface extends ModelInterface {
-  /** @return the money */
+  /**
+   * @return the money
+   */
   public int getMoney();
-  /** @return the money property */
+  /**
+   * @return the money property
+   */
   public IntegerProperty moneyProperty();
-  /** @return the lives */
+  /**
+   * @return the lives
+   */
   public int getLifes();
-  /** @return the lives property */
+  /**
+   * @return the lives property
+   */
   public IntegerProperty lifesProperty();
 
   /** Loose a life */

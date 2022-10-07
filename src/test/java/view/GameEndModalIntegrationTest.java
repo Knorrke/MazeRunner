@@ -1,15 +1,13 @@
 package view;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
-import javafx.stage.Window;
-import util.TestFXHelper;
+
 import org.junit.Test;
 import org.mazerunner.model.GameState;
-import org.mazerunner.view.popover.GameEndPopOver;
 import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.matcher.control.LabeledMatchers;
+import util.TestFXHelper;
 
 public class GameEndModalIntegrationTest extends AbstractViewTest {
 

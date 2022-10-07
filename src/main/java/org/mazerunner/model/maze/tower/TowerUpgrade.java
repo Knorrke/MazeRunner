@@ -19,22 +19,30 @@ public class TowerUpgrade {
     this.costs = costs;
   }
 
-  /** @return the fireRateUpgrader */
+  /**
+   * @return the fireRateUpgrader
+   */
   public Function<Double, Double> getFireRateUpgrader() {
     return fireRateUpgrader;
   }
 
-  /** @return the damageUpgrader */
+  /**
+   * @return the damageUpgrader
+   */
   public Function<Integer, Integer> getDamageUpgrader() {
     return damageUpgrader;
   }
 
-  /** @return the visualRangeUpgrader */
+  /**
+   * @return the visualRangeUpgrader
+   */
   public Function<Double, Double> getVisualRangeUpgrader() {
     return visualRangeUpgrader;
   }
 
-  /** @return the costs */
+  /**
+   * @return the costs
+   */
   public int getCosts() {
     return costs;
   }

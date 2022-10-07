@@ -138,77 +138,107 @@ public class Creature implements ActorInterface, Moveable {
     }
   }
 
-  /** @return the x value */
+  /**
+   * @return the x value
+   */
   public double getX() {
     return this.x.get();
   }
 
-  /** @param x the x to set */
+  /**
+   * @param x the x to set
+   */
   public void setX(double x) {
     setPosition(x, getY());
   }
 
-  /** @return the x property */
+  /**
+   * @return the x property
+   */
   public DoubleProperty xProperty() {
     return x;
   }
 
-  /** @return the y value */
+  /**
+   * @return the y value
+   */
   public double getY() {
     return y.get();
   }
 
-  /** @param y the y to set */
+  /**
+   * @param y the y to set
+   */
   public void setY(double y) {
     setPosition(getX(), y);
   }
 
-  /** @return the y property */
+  /**
+   * @return the y property
+   */
   public DoubleProperty yProperty() {
     return y;
   }
 
-  /** @return the velocity value */
+  /**
+   * @return the velocity value
+   */
   public double getVelocity() {
     return velocity.get();
   }
 
-  /** @param velocity the velocity to set */
+  /**
+   * @param velocity the velocity to set
+   */
   public void setVelocity(double velocity) {
     this.velocity.set(velocity);
   }
 
-  /** @return the velocity property */
+  /**
+   * @return the velocity property
+   */
   public DoubleProperty velocityProperty() {
     return velocity;
   }
 
-  /** @return the lifes value */
+  /**
+   * @return the lifes value
+   */
   public int getLifes() {
     return lifes.get();
   }
 
-  /** @param lifes the lifes to set */
+  /**
+   * @param lifes the lifes to set
+   */
   private void setLifes(int lifes) {
     this.lifes.set(lifes);
   }
 
-  /** @return the lifes property */
+  /**
+   * @return the lifes property
+   */
   public IntegerProperty lifesProperty() {
     return lifes;
   }
 
-  /** @param movementStrategy the movementStrategy to set */
+  /**
+   * @param movementStrategy the movementStrategy to set
+   */
   public void setMovementStrategy(MovementInterface movementStrategy) {
     this.movementStrategy = movementStrategy;
   }
 
-  /** @return the movementStrategy */
+  /**
+   * @return the movementStrategy
+   */
   public MovementInterface getMovementStrategy() {
     return movementStrategy;
   }
 
-  /** @return the type */
+  /**
+   * @return the type
+   */
   public CreatureType getType() {
     return type;
   }

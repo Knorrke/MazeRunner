@@ -120,7 +120,9 @@ public class Game implements GameModelInterface {
     return state;
   }
 
-  /** @param state the state to set */
+  /**
+   * @param state the state to set
+   */
   public void setState(GameState state) {
     this.state.set(state);
   }

@@ -48,48 +48,66 @@ public class Wall implements ActorInterface {
     this.tower = tower;
   }
 
-  /** @return the x position */
+  /**
+   * @return the x position
+   */
   public int getX() {
     return x.get();
   }
 
-  /** @param y the x position to set */
+  /**
+   * @param y the x position to set
+   */
   public void setX(int x) {
     this.x.set(x);
   }
 
-  /** @return the x property */
+  /**
+   * @return the x property
+   */
   public IntegerProperty xProperty() {
     return x;
   }
 
-  /** @return the y position */
+  /**
+   * @return the y position
+   */
   public int getY() {
     return y.get();
   }
 
-  /** @param y the y position to set */
+  /**
+   * @param y the y position to set
+   */
   public void setY(int y) {
     this.y.set(y);
   }
 
-  /** @return the y property */
+  /**
+   * @return the y property
+   */
   public IntegerProperty yProperty() {
     return y;
   }
 
-  /** @return the position as array */
+  /**
+   * @return the position as array
+   */
   @JsonIgnore
   public int[] getPosition() {
     return new int[] {x.get(), y.get()};
   }
 
-  /** @return the abstractTower */
+  /**
+   * @return the abstractTower
+   */
   public AbstractTower getTower() {
     return tower.get();
   }
 
-  /** @param abstractTower the abstractTower to set */
+  /**
+   * @param abstractTower the abstractTower to set
+   */
   public void setTower(AbstractTower abstractTower) {
     this.tower.set(abstractTower);
     getTower().setWall(this);

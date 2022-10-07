@@ -14,16 +14,24 @@ import org.mazerunner.model.player.PlayerModelInterface;
   @JsonSubTypes.Type(value = Game.class, name = "Game"),
 })
 public interface GameModelInterface extends Updateable, ModelInterface {
-  /** @return the player */
+  /**
+   * @return the player
+   */
   public PlayerModelInterface getPlayer();
 
-  /** @return the level */
+  /**
+   * @return the level
+   */
   public LevelModelInterface getLevel();
 
-  /** @return the maze */
+  /**
+   * @return the maze
+   */
   public MazeModelInterface getMaze();
 
-  /** @return the state */
+  /**
+   * @return the state
+   */
   public GameState getState();
 
   ReadOnlyObjectProperty<GameState> stateProperty();

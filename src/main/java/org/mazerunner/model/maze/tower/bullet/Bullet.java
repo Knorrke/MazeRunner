@@ -50,7 +50,9 @@ public abstract class Bullet implements Moveable, ActorInterface {
     return target;
   }
 
-  /** @return the relative position property */
+  /**
+   * @return the relative position property
+   */
   public ObjectProperty<Position> relativePositionProperty() {
     return relativePosition;
   }
@@ -59,47 +61,65 @@ public abstract class Bullet implements Moveable, ActorInterface {
     this.relativePosition.set(relativePosition);
   }
 
-  /** @return the relative x property */
+  /**
+   * @return the relative x property
+   */
   public DoubleProperty dxProperty() {
     return dx;
   }
 
-  /** @return the relative x value */
+  /**
+   * @return the relative x value
+   */
   private double getDx() {
     return dx.get();
   }
 
-  /** @return the absolute x value */
+  /**
+   * @return the absolute x value
+   */
   public double getX() {
     return sourceX + getDx();
   }
 
-  /** @return the relative y property */
+  /**
+   * @return the relative y property
+   */
   public DoubleProperty dyProperty() {
     return dy;
   }
 
-  /** @return the relative y value */
+  /**
+   * @return the relative y value
+   */
   private double getDy() {
     return dy.get();
   }
 
-  /** @return the absolute y value */
+  /**
+   * @return the absolute y value
+   */
   public double getY() {
     return sourceY + getDy();
   }
 
-  /** @return true if bullet is completely finished and can be removed from updates */
+  /**
+   * @return true if bullet is completely finished and can be removed from updates
+   */
   public boolean isOver() {
     return hasHitTarget();
   }
 
-  /** @return true if bullet already hit the target */
+  /**
+   * @return true if bullet already hit the target
+   */
   public boolean hasHitTarget() {
     return hasHitTarget.get();
   }
 
-  /** @return hasHitTarget property if bullet has hit the target */
+  /**
+   * @return hasHitTarget property if bullet has hit the target
+   */
   public BooleanProperty hasHitTargetProperty() {
     return hasHitTarget;
   }

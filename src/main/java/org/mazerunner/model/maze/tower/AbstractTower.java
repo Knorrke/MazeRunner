@@ -153,27 +153,37 @@ public abstract class AbstractTower implements ActorInterface, Cloneable {
     return this; // if something went wrong
   }
 
-  /** @return the fireRate */
+  /**
+   * @return the fireRate
+   */
   public double getFireRate() {
     return fireRate;
   }
 
-  /** @return the damage */
+  /**
+   * @return the damage
+   */
   public int getDamage() {
     return damage;
   }
 
-  /** @return the costs */
+  /**
+   * @return the costs
+   */
   public int getCosts() {
     return costs;
   }
 
-  /** @return the visualRange */
+  /**
+   * @return the visualRange
+   */
   public double getVisualRange() {
     return visualRange;
   }
 
-  /** @return the type of the tower */
+  /**
+   * @return the type of the tower
+   */
   public TowerType getType() {
     return type;
   }
