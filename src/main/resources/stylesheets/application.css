@@ -11,6 +11,10 @@
 	-fx-border-color: rgb(0.0,100.0,0.0);
 }
 
+#end-modal {
+	-fx-alignment: CENTER;
+}
+
 .health-bar > .bar {
     -fx-background-color: linear-gradient(to bottom, derive(-fx-accent, -7.0%), derive(-fx-accent, 0.0%), derive(-fx-accent, -3.0%), derive(-fx-accent, -9.0%) );
 	-fx-background-radius: 2.0;

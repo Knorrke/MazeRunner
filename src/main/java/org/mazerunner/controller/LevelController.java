@@ -14,7 +14,9 @@ public class LevelController implements ModelHolderInterface<LevelModelInterface
     view.bind(level);
   }
 
-  /** @param view the view to set */
+  /**
+   * @param view the view to set
+   */
   public void setView(CreatureTimelineView view) {
     this.view = view;
   }

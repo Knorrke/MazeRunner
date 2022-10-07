@@ -20,22 +20,30 @@ public class Player implements PlayerModelInterface {
     this.lifes = lifes;
   }
 
-  /** @return the money */
+  /**
+   * @return the money
+   */
   @Override
   public int getMoney() {
     return money.get();
   }
-  /** @return the money property */
+  /**
+   * @return the money property
+   */
   @Override
   public IntegerProperty moneyProperty() {
     return money;
   }
-  /** @return the lives */
+  /**
+   * @return the lives
+   */
   @Override
   public int getLifes() {
     return lifes.get();
   }
-  /** @return the lives property */
+  /**
+   * @return the lives property
+   */
   @Override
   public IntegerProperty lifesProperty() {
     return lifes;

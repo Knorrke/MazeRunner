@@ -1,27 +1,38 @@
 package view;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.testfx.api.FxAssert.verifyThat;
 
-import javafx.stage.Window;
 import org.junit.Test;
 import org.mazerunner.model.GameState;
-import org.mazerunner.view.popover.GameEndPopOver;
+import org.testfx.matcher.base.NodeMatchers;
+import org.testfx.matcher.control.LabeledMatchers;
+import util.TestFXHelper;
 
 public class GameEndModalIntegrationTest extends AbstractViewTest {
 
   @Test
+  public void notVisibleWhileGamestateIsRunning() {
+    verifyModalVisible(false);
+    verifyThat(TestFXHelper.carefulQuery("#endModal"), NodeMatchers.isNull(), collectInfos());
+  }
+
+  @Test
   public void getsCreatedWhenGamestateChangesToWin() {
+    verifyModalVisible(false);
     interact(() -> winGame());
     assertEquals(GameState.WON, game.getState());
-    verifyModalVisible();
+    verifyModalVisible(true);
+    verifyThat("#gameEndText", LabeledMatchers.hasText("You Win!"));
   }
 
   @Test
   public void getsCreatedWhenGamestateChangesToLoose() {
+    verifyModalVisible(false);
     interact(() -> looseGame());
     assertEquals(GameState.GAMEOVER, game.getState());
-    verifyModalVisible();
+    verifyModalVisible(true);
+    verifyThat("#gameEndText", LabeledMatchers.hasText("GAME OVER"));
   }
 
   private void winGame() {
@@ -39,13 +50,10 @@ public class GameEndModalIntegrationTest extends AbstractViewTest {
     }
   }
 
-  private void verifyModalVisible() {
-    boolean visible = false;
-    for (Window window : listWindows()) {
-      if (window instanceof GameEndPopOver) {
-        visible = true;
-      }
-    }
-    assertTrue("Modal is visible", visible);
+  private void verifyModalVisible(boolean visible) {
+    verifyThat(
+        TestFXHelper.carefulQuery("#endModal"),
+        visible ? NodeMatchers.isNotNull() : NodeMatchers.isNull(),
+        collectInfos());
   }
 }

@@ -19,7 +19,9 @@ import org.mazerunner.model.player.PlayerModelInterface;
 })
 public interface MazeModelInterface extends Updateable, ModelInterface {
 
-  /** @return the walls */
+  /**
+   * @return the walls
+   */
   public ObservableList<Wall> getWalls();
 
   /**
@@ -32,12 +34,18 @@ public interface MazeModelInterface extends Updateable, ModelInterface {
    */
   public Wall buildWall(int x, int y);
 
-  /** @return the creatures */
+  /**
+   * @return the creatures
+   */
   public ObservableList<Creature> getCreatures();
-  /** @param creature the creature to add */
+  /**
+   * @param creature the creature to add
+   */
   public void addCreature(Creature creature);
 
-  /** @param creatures the list of creatures to add */
+  /**
+   * @param creatures the list of creatures to add
+   */
   public void addAllCreatures(List<Creature> creatures);
 
   /**
@@ -74,10 +82,14 @@ public interface MazeModelInterface extends Updateable, ModelInterface {
    */
   public Creature getCreatureNear(double x, double y);
 
-  /** @return the maximal X value for walls */
+  /**
+   * @return the maximal X value for walls
+   */
   public int getMaxWallX();
 
-  /** @return the maximal Y value for walls */
+  /**
+   * @return the maximal Y value for walls
+   */
   public int getMaxWallY();
 
   /**

@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import org.mazerunner.controller.gameloop.GameLoop;
 import org.mazerunner.model.GameModelInterface;
 import org.mazerunner.util.FXMLLoaderUtil;
@@ -82,13 +83,17 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
     setUserActionState(UserActionState.INFO);
   }
 
-  /** @param actionState the actionState to set */
+  /**
+   * @param actionState the actionState to set
+   */
   public void setUserActionState(UserActionState actionState) {
     this.actionState = actionState;
     setButtonSelectedImage(actionState);
   }
 
-  /** @return the actionState */
+  /**
+   * @return the actionState
+   */
   public UserActionState getUserActionState() {
     return actionState;
   }
@@ -135,7 +140,7 @@ public class GameController implements ModelHolderInterface<GameModelInterface> 
                 case GAMEOVER:
                 case WON:
                   setUserActionState(UserActionState.BLOCK_ALL);
-                  new GameEndPopOver(newValue, view.getScene().getWindow());
+                  new GameEndPopOver(newValue, (Pane) view);
                 case RUNNING:
                 case BUILDING:
                 default:

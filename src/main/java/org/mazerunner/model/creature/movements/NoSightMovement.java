@@ -2,6 +2,7 @@ package org.mazerunner.model.creature.movements;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mazerunner.model.creature.VisitedMap;
 import org.mazerunner.model.creature.vision.Vision;
@@ -25,35 +26,45 @@ public class NoSightMovement implements MovementInterface {
         return new double[] {currentX + direction[0], currentY + direction[1]};
       }
     }
-    return findUnknownOrGoal(visited, currentX, currentY);
+    return findGoalOrUnknown(visited, currentX, currentY);
   }
 
-  private double[] findUnknownOrGoal(VisitedMap visited, double currentX, double currentY) {
+  private double[] findGoalOrUnknown(VisitedMap visited, double currentX, double currentY) {
     MapNode start = new MazeNode((int) currentX, (int) currentY);
     AtomicReference<MapNode> foundUnknown = new AtomicReference<>();
+    AtomicReference<MapNode> foundGoal = new AtomicReference<>();
     // look in known map for closest unknown field
     Map<MapNode, MapNode> paths =
         GraphSolver.calculateShortestPaths(
             start,
             visited::isWall,
             (MapNode traversing) -> {
-              if (foundUnknown.get() == null
-                  && (visited.isUnknown(traversing.getX(), traversing.getY())
-                      || traversing.isGoal())) {
-                LOG.finest(
-                    String.format(
-                        "Found UNKNOWN field at %d,%d", traversing.getX(), traversing.getY()));
+              if (foundGoal.get() != null) return;
+              else if (traversing.isGoal()) {
+                LOG.log(
+                    Level.FINEST,
+                    "Found goal at {0},{1}",
+                    new Object[] {traversing.getX(), traversing.getY()});
+                foundGoal.set(traversing);
+              } else if (foundUnknown.get() == null
+                  && visited.isUnknown(traversing.getX(), traversing.getY())) {
+                LOG.log(
+                    Level.FINEST,
+                    "Found unknown field at {0},{1}",
+                    new Object[] {traversing.getX(), traversing.getY()});
                 foundUnknown.set(traversing);
               }
             });
-    MapNode goal = foundUnknown.get();
-    if (goal != null && paths.containsValue(start)) {
-      while (paths.get(goal) != start) {
-        goal = paths.get(goal);
+    MapNode nextGoal = foundGoal.get() != null ? foundGoal.get() : foundUnknown.get();
+    if (nextGoal != null && paths.containsValue(start)) {
+      while (paths.get(nextGoal) != start) {
+        nextGoal = paths.get(nextGoal);
       }
-      LOG.finest(
-          String.format("Moving towards unknown field, next stop %d,%d", goal.getX(), goal.getY()));
-      return new double[] {goal.getX() + currentX % 1, goal.getY() + currentY % 1};
+      LOG.log(
+          Level.FINEST,
+          "Moving towards unknown field, next stop {0},{1}",
+          new Object[] {nextGoal.getX(), nextGoal.getY()});
+      return new double[] {nextGoal.getX() + currentX % 1, nextGoal.getY() + currentY % 1};
     } else {
       LOG.warning("No unknown fields! This means that there is no path to the goal.");
       return new double[] {currentX + 1, currentY};

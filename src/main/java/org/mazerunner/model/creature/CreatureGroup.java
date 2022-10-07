@@ -22,17 +22,23 @@ public class CreatureGroup {
     this.thoughnessFactor = toughnessFactor;
   }
 
-  /** @return the number */
+  /**
+   * @return the number
+   */
   public int getNumber() {
     return number;
   }
 
-  /** @return the type */
+  /**
+   * @return the type
+   */
   public CreatureType getType() {
     return type;
   }
 
-  /** @return the toughnessFactor */
+  /**
+   * @return the toughnessFactor
+   */
   public double getToughnessFactor() {
     return thoughnessFactor;
   }

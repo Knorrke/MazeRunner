@@ -30,22 +30,30 @@ public class MazeView extends StackPane {
     this.getChildren().addAll(getWalls(), getCreatures());
   }
 
-  /** @return the walls */
+  /**
+   * @return the walls
+   */
   public WallsView getWalls() {
     return walls;
   }
 
-  /** @param walls the walls to set */
+  /**
+   * @param walls the walls to set
+   */
   public void setWalls(WallsView walls) {
     this.walls = walls;
   }
 
-  /** @return the creatures */
+  /**
+   * @return the creatures
+   */
   public CreaturesView getCreatures() {
     return creatures;
   }
 
-  /** @param creatures the creatures to set */
+  /**
+   * @param creatures the creatures to set
+   */
   public void setCreatures(CreaturesView creatures) {
     this.creatures = creatures;
   }

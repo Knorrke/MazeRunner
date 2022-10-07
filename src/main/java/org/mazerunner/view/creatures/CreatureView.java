@@ -147,8 +147,8 @@ public class CreatureView extends StackPane {
     int maxY = Settings.getInt("maxY", 100);
     graphicsContext2D.clearRect(0, 0, maxX * scaleX, maxY * scaleY);
     graphicsContext2D.setFill(Color.BLACK);
-    for (int x = 0; x < 20; x++) {
-      for (int y = 0; y < 10; y++) {
+    for (int x = 0; x < maxX; x++) {
+      for (int y = 0; y < maxY; y++) {
         if (map.isUnknown(x, y)) {
           graphicsContext2D.fillRect(x * scaleX, y * scaleY, scaleX, scaleY);
         }

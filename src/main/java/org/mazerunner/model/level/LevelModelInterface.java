@@ -24,7 +24,9 @@ public interface LevelModelInterface extends Updateable, ModelInterface {
    */
   public void addCreatureToTimeline(CreatureGroup group);
 
-  /** @return the timeline of creature groups */
+  /**
+   * @return the timeline of creature groups
+   */
   public ObservableList<CreatureGroup> getCreatureTimeline();
 
   /**

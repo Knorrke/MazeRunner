@@ -61,7 +61,7 @@ public class Maze implements MazeModelInterface {
           public List<MapNode> getNeighbors() {
             ArrayList<MapNode> neighbors = new ArrayList<>();
             for (int y = 0; y < maxWallY; y++) {
-              neighbors.add(new MazeNode(maxWallX - 1, 0));
+              neighbors.add(new MazeNode(maxWallX - 1, y));
             }
             return neighbors;
           }

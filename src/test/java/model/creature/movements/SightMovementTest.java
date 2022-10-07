@@ -45,6 +45,7 @@ public class SightMovementTest {
         0.1);
   }
 
+  /** Setup: ++++++ c + ++ +++ + + +++ */
   @Test
   public void moveTowardsGapInWalls() {
     for (int i = -1; i < 4; i++) {
@@ -54,15 +55,16 @@ public class SightMovementTest {
       maze.buildWall(x + i, y - 1);
     }
     maze.buildWall(x + 4, y);
-    for (int i = 1; i <= 2; i++) {
+    for (int i = 2; i <= 3; i++) {
       maze.buildWall(x, y + i);
       maze.buildWall(x + 2, y + i);
     }
-    maze.buildWall(x + 2, y + 3);
+    maze.buildWall(x + 1, y + 4);
     double cx = x + 0.2;
     double cy = y + 0.2;
     double[] nextPos = movement.getNextGoal(vision, visited, cx, cy);
     assertArrayEquals("Creature should move towards gap", new double[] {cx + 1, cy}, nextPos, 0.1);
+    visited.markVisited((int) cx + 1, (int) cy);
     nextPos = movement.getNextGoal(vision, visited, cx + 1, cy);
     assertArrayEquals(
         "Creature should turn around at the crossing", new double[] {cx, cy}, nextPos, 0.1);
