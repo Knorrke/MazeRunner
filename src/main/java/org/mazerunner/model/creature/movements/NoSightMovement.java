@@ -2,6 +2,7 @@ package org.mazerunner.model.creature.movements;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mazerunner.model.creature.VisitedMap;
 import org.mazerunner.model.creature.vision.Vision;
@@ -40,14 +41,17 @@ public class NoSightMovement implements MovementInterface {
             (MapNode traversing) -> {
               if (foundGoal.get() != null) return;
               else if (traversing.isGoal()) {
-                LOG.finest(
-                    String.format("Found goal at %d,%d", traversing.getX(), traversing.getY()));
+                LOG.log(
+                    Level.FINEST,
+                    "Found goal at {0},{1}",
+                    new Object[] {traversing.getX(), traversing.getY()});
                 foundGoal.set(traversing);
               } else if (foundUnknown.get() == null
                   && visited.isUnknown(traversing.getX(), traversing.getY())) {
-                LOG.finest(
-                    String.format(
-                        "Found UNKNOWN field at %d,%d", traversing.getX(), traversing.getY()));
+                LOG.log(
+                    Level.FINEST,
+                    "Found unknown field at {0},{1}",
+                    new Object[] {traversing.getX(), traversing.getY()});
                 foundUnknown.set(traversing);
               }
             });
@@ -56,9 +60,10 @@ public class NoSightMovement implements MovementInterface {
       while (paths.get(nextGoal) != start) {
         nextGoal = paths.get(nextGoal);
       }
-      LOG.finest(
-          String.format(
-              "Moving towards unknown field, next stop %d,%d", nextGoal.getX(), nextGoal.getY()));
+      LOG.log(
+          Level.FINEST,
+          "Moving towards unknown field, next stop {0},{1}",
+          new Object[] {nextGoal.getX(), nextGoal.getY()});
       return new double[] {nextGoal.getX() + currentX % 1, nextGoal.getY() + currentY % 1};
     } else {
       LOG.warning("No unknown fields! This means that there is no path to the goal.");

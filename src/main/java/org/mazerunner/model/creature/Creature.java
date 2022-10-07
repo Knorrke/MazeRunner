@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -285,7 +286,7 @@ public class Creature implements ActorInterface, Moveable {
         int adjacentX = (int) getX() + i;
         int adjacentY = (int) getY() + j;
         if (!visitedMap.isWall(adjacentX, adjacentY) && maze.hasWallOn(adjacentX, adjacentY)) {
-          LOG.finest(String.format("wall detected on %d,%d", adjacentX, adjacentY));
+          LOG.log(Level.FINEST, "wall detected on {0},{1}", new Object[] {adjacentX, adjacentY});
           visitedMap.markWall(adjacentX, adjacentY);
         }
       }
