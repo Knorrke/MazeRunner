@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import java.util.List;
+import java.util.Map;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
 import org.mazerunner.controller.gameloop.Updateable;
@@ -124,4 +125,6 @@ public interface MazeModelInterface extends Updateable, ModelInterface {
   public ObjectProperty<GameError> errorProperty();
 
   public void sellTower(Wall wall);
+
+  public Map<MapNode, MapNode> getPerfectMoveMap();
 }

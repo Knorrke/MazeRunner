@@ -319,4 +319,8 @@ public class Maze implements MazeModelInterface {
   public String cantSellError() {
     return "This wall can't be sold, because creatures already have seen it. Kill them first.";
   }
+
+  public Map<MapNode, MapNode> getPerfectMoveMap() {
+    return perfectMoveMap;
+  }
 }
