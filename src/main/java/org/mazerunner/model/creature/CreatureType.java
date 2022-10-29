@@ -1,6 +1,7 @@
 package org.mazerunner.model.creature;
 
 import java.util.function.Supplier;
+import org.mazerunner.model.creature.movements.ClimbWallMovement;
 import org.mazerunner.model.creature.movements.MovementInterface;
 import org.mazerunner.model.creature.movements.NoSightMovement;
 import org.mazerunner.model.creature.movements.RandomMovement;
@@ -10,7 +11,8 @@ public enum CreatureType {
   DUMB(3, 10, 1, () -> new RandomMovement(), 0, false),
   NORMAL(1, 10, 1, () -> new NoSightMovement(), 0, true),
   TOUGH(0.8, 30, 3, () -> new NoSightMovement(), 0, true),
-  SIGHT(1, 10, 1, () -> new SightMovement(), Integer.MAX_VALUE, true);
+  SIGHT(1, 10, 1, () -> new SightMovement(), Integer.MAX_VALUE, true),
+  COMMANDER(1, 15, 3, () -> new ClimbWallMovement(), Integer.MAX_VALUE, false);
 
   private double defaultVelocity;
   private int defaultLifes;

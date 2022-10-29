@@ -287,7 +287,11 @@ public class Creature implements ActorInterface, Moveable {
         int adjacentY = (int) getY() + j;
         if (!visitedMap.isWall(adjacentX, adjacentY) && maze.hasWallOn(adjacentX, adjacentY)) {
           LOG.log(Level.FINEST, "wall detected on {0},{1}", new Object[] {adjacentX, adjacentY});
-          visitedMap.markWall(adjacentX, adjacentY);
+          if (maze.getWallOn(adjacentX, adjacentY).hasTower()) {
+            visitedMap.markTower(adjacentX, adjacentY);
+          } else {
+            visitedMap.markWall(adjacentX, adjacentY);
+          }
         }
       }
     }

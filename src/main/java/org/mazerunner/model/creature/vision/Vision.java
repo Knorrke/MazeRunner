@@ -20,7 +20,7 @@ public class Vision {
     List<int[]> wallPositions = getWallPositions();
     for (int x = 0; x < maze.getMaxWallX(); x++) {
       for (int y = 0; y < maze.getMaxWallY(); y++) {
-        if (visited.isUnknown(x, y)) {
+        if (visited.isUnknown(x, y) || visited.isWall(x, y)) {
           for (double[] pointToCheck : getCheckpointsFromTopleftCorner(x, y)) {
             if (isVisible(
                 pointToCheck[0],
@@ -58,7 +58,11 @@ public class Vision {
 
   private void updateInformation(VisitedMap visited, int x, int y) {
     if (maze.hasWallOn(x, y)) {
-      visited.markWall(x, y);
+      if (maze.getWallOn(x, y).hasTower()) {
+        visited.markTower(x, y);
+      } else {
+        visited.markWall(x, y);
+      }
     } else {
       visited.markVisited(x, y);
     }

@@ -11,7 +11,8 @@ public class VisitedMap {
   public enum VisitedState {
     UNKNOWN,
     VISITED,
-    WALL
+    WALL,
+    TOWER
   }
 
   @JsonProperty private VisitedState[][] map;
@@ -58,6 +59,12 @@ public class VisitedMap {
     }
   }
 
+  public void markTower(int x, int y) {
+    if (checkBounds(x, y) && map[x][y] != VisitedState.TOWER) {
+      setNewStateOnPosition(x, y, VisitedState.TOWER);
+    }
+  }
+
   private void setNewStateOnPosition(int x, int y, VisitedState newState) {
     VisitedState old = map[x][y];
     hash ^= bitStrings[x][y][old.ordinal()] ^ bitStrings[x][y][newState.ordinal()];
@@ -87,7 +94,15 @@ public class VisitedMap {
 
   public boolean isWall(int x, int y) {
     if (checkBounds(x, y)) {
-      return map[x][y] == VisitedState.WALL;
+      return map[x][y] == VisitedState.WALL || map[x][y] == VisitedState.TOWER;
+    } else {
+      return true;
+    }
+  }
+
+  public boolean isTower(Integer x, Integer y) {
+    if (checkBounds(x, y)) {
+      return map[x][y] == VisitedState.TOWER;
     } else {
       return true;
     }
