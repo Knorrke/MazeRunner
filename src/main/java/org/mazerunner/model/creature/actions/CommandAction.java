@@ -28,19 +28,6 @@ public class CommandAction extends Action {
   public CommandAction(Creature commander, MazeModelInterface maze) {
     this.commander = commander;
     this.maze = maze;
-    this.creatures = maze.getCreatures();
-
-    for (Creature c : this.creatures) {
-      updateCommandedCreature(c);
-    }
-    this.creatures.addListener(listener);
-    commander
-        .lifesProperty()
-        .lessThanOrEqualTo(0)
-        .addListener(
-            (obj, oldValue, newValue) -> {
-              if (newValue.booleanValue()) this.onFinish();
-            });
   }
 
   private void updateCommandedCreature(Creature c) {
@@ -50,9 +37,25 @@ public class CommandAction extends Action {
     c.setAction(commandedAction);
   }
 
-  /** No-Op, because Commander doesn't need to act. */
   @Override
-  protected void update(double dt) {}
+  protected void update(double dt) {
+    if (this.creatures == null) {
+      // do this here, because otherwise the commander might not be in game yet.
+      this.creatures = maze.getCreatures();
+
+      for (Creature c : this.creatures) {
+        updateCommandedCreature(c);
+      }
+      this.creatures.addListener(listener);
+      commander
+          .lifesProperty()
+          .lessThanOrEqualTo(0)
+          .addListener(
+              (obj, oldValue, newValue) -> {
+                if (newValue.booleanValue()) this.onFinish();
+              });
+    }
+  }
 
   @Override
   public boolean isFinished() {
@@ -68,6 +71,7 @@ public class CommandAction extends Action {
     }
     // update
     for (Creature c : creatures) {
+      if (c.getType() == CreatureType.COMMANDER) continue;
       c.act(0);
     }
     if (commander.getLifes() > 0) {
