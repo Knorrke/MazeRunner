@@ -33,12 +33,11 @@ public final class GraphSolver {
     while (!next.isEmpty()) {
       MapNode nextEl = removeClosestUnvisited(next, distances);
       closed.add(nextEl);
+
+      traverse.accept(nextEl, distances.get(nextEl));
+
       for (MapNode neighbor : nextEl.getNeighbors()) {
         if (closed.contains(neighbor)) continue;
-        if (isClosed.test(neighbor.getX(), neighbor.getY())) {
-          closed.add(neighbor);
-          continue;
-        }
         if (distances.containsKey(nextEl)) {
           int newDistance = distances.get(nextEl) + 1;
           int oldDistance = distances.getOrDefault(neighbor, Integer.MAX_VALUE);
@@ -47,10 +46,11 @@ public final class GraphSolver {
             paths.put(neighbor, nextEl);
           }
         }
-
-        traverse.accept(nextEl, distances.get(nextEl));
-
-        if (!next.contains(neighbor)) next.add(neighbor);
+        if (isClosed.test(neighbor.getX(), neighbor.getY())) {
+          closed.add(neighbor);
+        } else if (!next.contains(neighbor)) {
+          next.add(neighbor);
+        }
       }
     }
     return paths;

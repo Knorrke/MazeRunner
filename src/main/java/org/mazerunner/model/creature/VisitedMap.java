@@ -181,4 +181,32 @@ public class VisitedMap {
   public boolean checkBounds(int x, int y) {
     return x >= 0 && x < map.length && y >= 0 && y < map[x].length;
   }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    for (int x = 0; x < map.length; x++) {
+      for (int y = 0; y < map[x].length; y++) {
+        switch (map[x][y]) {
+          case TOWER:
+            builder.append('T');
+            break;
+          case UNKNOWN:
+            builder.append('?');
+            break;
+          case VISITED:
+            builder.append('_');
+            break;
+          case WALL:
+            builder.append('W');
+            break;
+          default:
+            builder.append("what?");
+            break;
+        }
+      }
+      builder.append('\n');
+    }
+    return builder.toString();
+  }
 }

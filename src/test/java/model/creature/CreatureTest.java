@@ -1,20 +1,29 @@
 package model.creature;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.*;
-import static org.hamcrest.core.IsEqual.*;
-import static org.hamcrest.core.IsInstanceOf.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.never;
 
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Before;
 import org.junit.Test;
 import org.mazerunner.model.baseactions.Action;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.creature.CreatureFactory;
 import org.mazerunner.model.creature.CreatureType;
+import org.mazerunner.model.creature.actions.CommandAction;
+import org.mazerunner.model.creature.actions.CreatureMoveAction;
 import org.mazerunner.model.creature.actions.TalkAction;
+import org.mazerunner.model.creature.movements.MovementInterface;
+import org.mazerunner.model.creature.movements.PerfectMovement;
 import org.mazerunner.model.maze.Maze;
 import org.mazerunner.model.maze.MazeModelInterface;
+import org.mazerunner.model.maze.tower.TowerType;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
@@ -187,6 +196,158 @@ public class CreatureTest {
     Mockito.verify(talking, Mockito.atLeastOnce()).getAction();
     Mockito.verify(talkAction).adjustTalkTime(ArgumentMatchers.anyInt());
   }
+
+  /* Commander tests */
+
+  @Test
+  public void commanderMovingOntoWallTriggersCommandAction() {
+    maze.buildWall((int) startX + 1, (int) startY);
+    Creature commander = CreatureFactory.create(maze, CreatureType.COMMANDER, startX, startY);
+    maze.addCreature(commander);
+    assertThat(commander.getAction(), IsInstanceOf.instanceOf(CreatureMoveAction.class));
+
+    moveOneFieldAutonomously(commander);
+    assertEquals("Should move onto wall", startX + 1, commander.getX(), 0.1);
+    assertThat(
+        "Should change action",
+        commander.getAction(),
+        IsInstanceOf.instanceOf(CommandAction.class));
+  }
+
+  @Test
+  public void commanderChangesCreatureMovementStrategy() {
+    maze.buildWall((int) startX, (int) startY);
+    Creature commander = CreatureFactory.create(maze, CreatureType.COMMANDER, startX, startY);
+    Creature commanded =
+        Mockito.spy(CreatureFactory.create(maze, CreatureType.NORMAL, startX + 5, startY));
+    maze.addCreature(commanded);
+    maze.addCreature(commander);
+
+    Mockito.verify(commanded)
+        .setMovementStrategy(
+            ArgumentMatchers.argThat(
+                (movementStrategy) -> (movementStrategy instanceof PerfectMovement)));
+  }
+
+  @Test
+  public void commanderKeepsSettingMovementStrategyOfNewCreatures() {
+    maze.buildWall((int) startX, (int) startY);
+    Creature commander = CreatureFactory.create(maze, CreatureType.COMMANDER, startX, startY);
+    Creature commanded =
+        Mockito.spy(CreatureFactory.create(maze, CreatureType.NORMAL, startX + 5, startY));
+    maze.addCreature(commander);
+
+    // should not have triggered yet
+    Mockito.verify(commanded, never())
+        .setMovementStrategy(
+            ArgumentMatchers.argThat(
+                (movementStrategy) -> (movementStrategy instanceof PerfectMovement)));
+
+    // should change immediately when creature is added to maze
+    maze.addCreature(commanded);
+    Mockito.verify(commanded)
+        .setMovementStrategy(
+            ArgumentMatchers.argThat(
+                (movementStrategy) -> (movementStrategy instanceof PerfectMovement)));
+  }
+
+  @Test
+  public void commanderStopsSettingMovementStrategiesAfterDeath() {
+    maze.buildWall((int) startX, (int) startY);
+    Creature commander = CreatureFactory.create(maze, CreatureType.COMMANDER, startX, startY);
+    Creature commanded =
+        Mockito.spy(CreatureFactory.create(maze, CreatureType.NORMAL, startX + 5, startY));
+    maze.addCreature(commander);
+
+    Mockito.verify(commanded, never())
+        .setMovementStrategy(
+            ArgumentMatchers.argThat(
+                (movementStrategy) -> (movementStrategy instanceof PerfectMovement)));
+
+    // kill commander
+    commander.damage(commander.getLifes());
+
+    // add new creature
+    maze.addCreature(commanded);
+
+    // should not have changed
+    Mockito.verify(commanded, never())
+        .setMovementStrategy(
+            ArgumentMatchers.argThat(
+                (movementStrategy) -> (movementStrategy instanceof PerfectMovement)));
+  }
+
+  @Test
+  public void commanderRevertsMovementStragetyAfterDeath() {
+    maze.buildWall((int) startX, (int) startY);
+    Creature commander = CreatureFactory.create(maze, CreatureType.COMMANDER, startX, startY);
+    Creature commanded =
+        Mockito.spy(CreatureFactory.create(maze, CreatureType.NORMAL, startX + 5, startY));
+    MovementInterface movementBefore = commanded.getMovementStrategy();
+
+    maze.addCreature(commander);
+    maze.addCreature(commanded);
+
+    Mockito.verify(commanded)
+        .setMovementStrategy(
+            ArgumentMatchers.argThat(
+                (movementStrategy) -> (movementStrategy instanceof PerfectMovement)));
+
+    // kill commander
+    commander.damage(commander.getLifes());
+
+    Mockito.verify(commanded).setMovementStrategy(movementBefore);
+  }
+
+  @Test
+  public void commanderGoesToNextWallWhenKickedOff() {
+    maze.buildWall((int) startX, (int) startY);
+    maze.buildWall((int) startX + 1, (int) startY);
+    Creature commander = CreatureFactory.create(maze, CreatureType.COMMANDER, startX, startY);
+    maze.addCreature(commander);
+    assertThat(commander.getAction(), IsInstanceOf.instanceOf(CommandAction.class));
+
+    maze.buildTower(maze.getWallOn((int) startX, (int) startY), TowerType.NORMAL);
+    commander.act(0);
+    assertThat(commander.getAction(), IsInstanceOf.instanceOf(CreatureMoveAction.class));
+
+    moveOneFieldAutonomously(commander);
+    assertEquals("Should move onto next wall", startX + 1, commander.getX(), 0.1);
+    assertThat(
+        "Should change action",
+        commander.getAction(),
+        IsInstanceOf.instanceOf(CommandAction.class));
+  }
+
+  //  @Test
+  //  public void commanderRevertsMovementWhenKickedOffWall() {fail("not implemented");}
+  //
+  //  @Test
+  //  public void commanderGoesToNextWallWhenKickedOff() {fail("not implemented");}
+
+  // @Test
+  //  public void twoCommanderDontChangeEachOthersMovementStrategy() {
+  //
+  //  }
+  //  @Test
+  //  public void twoCommandersFirstDies() {
+  //
+  //  }
+  //
+  //  @Test
+  //  public void twoCommandersSecondDies() {
+  //
+  //  }
+  //
+  //  @Test
+  //  public void twoCommandersFirstDiesThenSecondDies() {
+  //
+  //  }
+  //
+  //  @Test
+  //  public void twoCommandersSecondDiesThenFirstDies() {
+  //
+  //  }
 
   /** Helper functions */
   private void moveOneFieldAutonomously(Creature c) {

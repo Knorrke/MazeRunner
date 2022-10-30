@@ -28,14 +28,14 @@ public class ClimbWallMovement implements MovementInterface {
             (MapNode traversing) -> {
               if (foundGoal.get() != null) return;
               else if (traversing.isGoal()
-                  || visited.isWall(traversing.getX(), traversing.getY())) {
+                  || (visited.isWall(traversing.getX(), traversing.getY())
+                      && !visited.isTower(traversing.getX(), traversing.getY()))) {
                 foundGoal.set(traversing);
               } else if (foundUnknown.get() == null
                   && visited.isUnknown(traversing.getX(), traversing.getY())) {
                 foundUnknown.set(traversing);
               }
             });
-
     MapNode nextGoal = foundGoal.get() != null ? foundGoal.get() : foundUnknown.get();
     if (nextGoal != null && paths.containsValue(start)) {
       while (paths.get(nextGoal) != start) {

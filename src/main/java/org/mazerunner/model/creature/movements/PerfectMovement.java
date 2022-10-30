@@ -17,6 +17,10 @@ public class PerfectMovement implements MovementInterface {
   @Override
   public double[] getNextGoal(Vision vision, VisitedMap visited, double currentX, double currentY) {
     MapNode nextGoal = maze.getPerfectMoveMap().get(new MazeNode((int) currentX, (int) currentY));
-    return new double[] {nextGoal.getX() + currentX % 1, nextGoal.getY() + currentY % 1};
+    if (nextGoal == null) {
+      return new double[] {currentX, currentY};
+    } else {
+      return new double[] {nextGoal.getX() + currentX % 1, nextGoal.getY() + currentY % 1};
+    }
   }
 }
