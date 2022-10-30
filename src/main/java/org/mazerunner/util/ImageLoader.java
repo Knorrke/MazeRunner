@@ -17,8 +17,8 @@ public class ImageLoader {
 
   public static Image money, lifes;
   public static Image play, pause, buildSelected, buildNotSelected, infoSelected, infoNotSelected;
-  public static Image normalCreature, toughCreature, dumbCreature, sightCreature;
-  public static Image talking;
+  public static Image normalCreature, toughCreature, dumbCreature, sightCreature, commanderCreature;
+  public static Image talking, walkietalkie;
 
   public static Image wall;
 
@@ -53,8 +53,10 @@ public class ImageLoader {
     toughCreature = loadImage("creatures/tough.png");
     dumbCreature = loadImage("creatures/dumb.png");
     sightCreature = loadImage("creatures/sight.png");
+    commanderCreature = loadImage("creatures/commander.png");
 
     talking = loadImage("creatures/talking.png");
+    walkietalkie = loadImage("creatures/walkietalkie.png");
 
     sell = loadImage("sell.png");
     upgrade = loadImage("upgrade.png");
@@ -100,6 +102,8 @@ public class ImageLoader {
         return ImageLoader.dumbCreature;
       case SIGHT:
         return ImageLoader.sightCreature;
+      case COMMANDER:
+        return ImageLoader.commanderCreature;
       case NORMAL:
       default:
         return ImageLoader.normalCreature;

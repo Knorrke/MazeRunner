@@ -12,7 +12,7 @@ import org.mazerunner.model.maze.Maze;
 import org.mazerunner.model.maze.Wall;
 import org.mazerunner.model.maze.tower.TowerType;
 
-public class ClimbTowerMovementTest {
+public class ClimbWallMovementTest {
   private int maxX = 10, maxY = 10;
   private int x, y;
   private double cx, cy;
