@@ -15,7 +15,7 @@ public class CommandAction extends Action {
   private ObservableList<Creature> creatures;
   private List<CommandedAction> actions = new ArrayList<>();
   private ListChangeListener<Creature> listener =
-      (change) -> {
+      change -> {
         while (change.next()) {
           if (change.wasAdded() && !this.isFinished()) {
             for (Creature c : change.getAddedSubList()) {
@@ -39,7 +39,7 @@ public class CommandAction extends Action {
         .lessThanOrEqualTo(0)
         .addListener(
             (obj, oldValue, newValue) -> {
-              if (newValue) this.onFinish();
+              if (newValue.booleanValue()) this.onFinish();
             });
   }
 
@@ -50,6 +50,7 @@ public class CommandAction extends Action {
     c.setAction(commandedAction);
   }
 
+  /** No-Op, because Commander doesn't need to act. */
   @Override
   protected void update(double dt) {}
 

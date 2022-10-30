@@ -100,11 +100,19 @@ public class VisitedMap {
     }
   }
 
+  public boolean isEmptyWall(int x, int y) {
+    if (checkBounds(x, y)) {
+      return map[x][y] == VisitedState.WALL;
+    } else {
+      return true;
+    }
+  }
+
   public boolean isTower(Integer x, Integer y) {
     if (checkBounds(x, y)) {
       return map[x][y] == VisitedState.TOWER;
     } else {
-      return true;
+      return false;
     }
   }
 

@@ -8,11 +8,11 @@ import org.mazerunner.model.creature.movements.RandomMovement;
 import org.mazerunner.model.creature.movements.SightMovement;
 
 public enum CreatureType {
-  DUMB(3, 10, 1, () -> new RandomMovement(), 0, false),
-  NORMAL(1, 10, 1, () -> new NoSightMovement(), 0, true),
-  TOUGH(0.8, 30, 3, () -> new NoSightMovement(), 0, true),
-  SIGHT(1, 10, 1, () -> new SightMovement(), Integer.MAX_VALUE, true),
-  COMMANDER(1, 15, 3, () -> new ClimbWallMovement(), Integer.MAX_VALUE, false);
+  DUMB(3, 10, 1, RandomMovement::new, 0, false),
+  NORMAL(1, 10, 1, NoSightMovement::new, 0, true),
+  TOUGH(0.8, 30, 3, NoSightMovement::new, 0, true),
+  SIGHT(1, 10, 1, SightMovement::new, Integer.MAX_VALUE, true),
+  COMMANDER(1, 15, 3, ClimbWallMovement::new, Integer.MAX_VALUE, false);
 
   private double defaultVelocity;
   private int defaultLifes;

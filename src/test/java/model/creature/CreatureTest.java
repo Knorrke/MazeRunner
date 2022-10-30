@@ -308,6 +308,7 @@ public class CreatureTest {
     assertThat(commander.getAction(), IsInstanceOf.instanceOf(CommandAction.class));
 
     maze.buildTower(maze.getWallOn((int) startX, (int) startY), TowerType.NORMAL);
+    // update commander action
     commander.act(0);
     assertThat(commander.getAction(), IsInstanceOf.instanceOf(CreatureMoveAction.class));
 
@@ -319,11 +320,30 @@ public class CreatureTest {
         IsInstanceOf.instanceOf(CommandAction.class));
   }
 
-  //  @Test
-  //  public void commanderRevertsMovementWhenKickedOffWall() {fail("not implemented");}
-  //
-  //  @Test
-  //  public void commanderGoesToNextWallWhenKickedOff() {fail("not implemented");}
+  @Test
+  public void commanderRevertsMovementWhenKickedOffWall() {
+    maze.buildWall((int) startX, (int) startY);
+    maze.buildWall((int) startX + 1, (int) startY);
+    Creature commander = CreatureFactory.create(maze, CreatureType.COMMANDER, startX, startY);
+    Creature commanded =
+        Mockito.spy(CreatureFactory.create(maze, CreatureType.NORMAL, startX + 5, startY));
+    MovementInterface movementBefore = commanded.getMovementStrategy();
+
+    maze.addCreature(commander);
+    maze.addCreature(commanded);
+
+    Mockito.verify(commanded)
+        .setMovementStrategy(
+            ArgumentMatchers.argThat(
+                (movementStrategy) -> (movementStrategy instanceof PerfectMovement)));
+
+    // kick of wall
+    maze.buildTower(maze.getWallOn((int) startX, (int) startY), TowerType.NORMAL);
+    // update commander action
+    commander.act(0);
+
+    Mockito.verify(commanded).setMovementStrategy(movementBefore);
+  }
 
   // @Test
   //  public void twoCommanderDontChangeEachOthersMovementStrategy() {

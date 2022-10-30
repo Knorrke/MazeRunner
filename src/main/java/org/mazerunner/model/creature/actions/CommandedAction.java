@@ -25,7 +25,6 @@ public class CommandedAction extends CreatureMoveAction {
 
   @Override
   public boolean isFinished() {
-    //    System.out.println("Commanded is finished? " + finished);
     if (super.isFinished()) {
       super.onFinish();
       target = toPosition(creature.findNextGoal());
@@ -35,7 +34,6 @@ public class CommandedAction extends CreatureMoveAction {
 
   @Override
   protected void onFinish() {
-    System.out.println("Commanded on finish");
     creature.setMovementStrategy(previousMovement);
   }
 }

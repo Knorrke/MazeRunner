@@ -110,7 +110,6 @@ public class Creature implements ActorInterface, Moveable {
   }
 
   private void communicateWithOthers() {
-    if (getType().equals(CreatureType.COMMANDER)) {}
     if (getType().canCommunicate()) {
       List<Creature> allCreatures = maze.getCreatures();
       for (Creature creature : allCreatures) {
