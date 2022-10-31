@@ -21,6 +21,7 @@ import org.mazerunner.model.Position;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.creature.CreatureType;
 import org.mazerunner.model.creature.VisitedMap;
+import org.mazerunner.model.creature.actions.CommandAction;
 import org.mazerunner.model.creature.actions.TalkAction;
 import org.mazerunner.util.ImageLoader;
 import org.mazerunner.util.Util;
@@ -98,6 +99,10 @@ public class CreatureView extends StackPane {
     StackPane.setMargin(
         speechBubble, new Insets(-0.8 * scaleX.doubleValue(), -0.8 * scaleY.doubleValue(), 0, 0));
 
+    Walkietalkie walkietalkie = new Walkietalkie(scaleX.multiply(imageSize));
+    this.getChildren().add(walkietalkie);
+    StackPane.setMargin(walkietalkie, new Insets(0, 0, -0.8 * scaleX.doubleValue(), 0));
+
     creature
         .actionProperty()
         .addListener(
@@ -106,6 +111,12 @@ public class CreatureView extends StackPane {
                 speechBubble.setVisible(true);
               } else {
                 speechBubble.setVisible(false);
+              }
+
+              if (newAction instanceof CommandAction) {
+                walkietalkie.setVisible(true);
+              } else {
+                walkietalkie.setVisible(false);
               }
             });
   }

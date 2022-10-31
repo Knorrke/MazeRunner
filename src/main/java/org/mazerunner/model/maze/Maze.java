@@ -71,6 +71,7 @@ public class Maze implements MazeModelInterface {
             return true;
           }
         };
+    refreshPerfectMoveMap();
   }
 
   @Override
@@ -89,6 +90,7 @@ public class Maze implements MazeModelInterface {
       hasWall[wall.getX()][wall.getY()] = true;
       wall.setMaze(this);
     }
+    refreshPerfectMoveMap();
   }
 
   private void addWall(Wall wall) {
@@ -100,6 +102,10 @@ public class Maze implements MazeModelInterface {
       hasWall[x][y] = true;
     }
 
+    refreshPerfectMoveMap();
+  }
+
+  private void refreshPerfectMoveMap() {
     perfectMoveMap =
         GraphSolver.calculateShortestPaths(
             fictiveGoal, (nodeX, nodeY) -> !checkBounds(nodeX, nodeY) || hasWallOn(nodeX, nodeY));
@@ -318,5 +324,9 @@ public class Maze implements MazeModelInterface {
 
   public String cantSellError() {
     return "This wall can't be sold, because creatures already have seen it. Kill them first.";
+  }
+
+  public Map<MapNode, MapNode> getPerfectMoveMap() {
+    return perfectMoveMap;
   }
 }

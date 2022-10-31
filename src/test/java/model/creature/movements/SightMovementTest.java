@@ -45,9 +45,14 @@ public class SightMovementTest {
         0.1);
   }
 
-  /** Setup: ++++++ c + ++ +++ + + +++ */
   @Test
   public void moveTowardsGapInWalls() {
+    // Setup:
+    // ++++++
+    // c     +
+    // ++ +++
+    //  + +
+    //  +++
     for (int i = -1; i < 4; i++) {
       if (i != 1) {
         maze.buildWall(x + i, y + 1);

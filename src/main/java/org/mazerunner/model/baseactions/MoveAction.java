@@ -7,7 +7,7 @@ import org.mazerunner.util.Util;
 public class MoveAction extends Action {
 
   private Moveable moveable;
-  private PositionAware target;
+  protected PositionAware target;
   private double remainingDist;
   private double oldTargetX = -1, oldTargetY = -1;
 

@@ -8,19 +8,7 @@ public class CreatureMoveAction extends MoveAction {
   private Creature creature;
 
   public CreatureMoveAction(Creature creature, double[] goal) {
-    super(
-        creature,
-        new PositionAware() {
-          @Override
-          public double getX() {
-            return goal[0];
-          }
-
-          @Override
-          public double getY() {
-            return goal[1];
-          }
-        });
+    super(creature, toPosition(goal));
     this.creature = creature;
   }
 
@@ -28,5 +16,19 @@ public class CreatureMoveAction extends MoveAction {
   protected void onFinish() {
     super.onFinish();
     creature.chooseNewAction();
+  }
+
+  protected static PositionAware toPosition(double[] goal) {
+    return new PositionAware() {
+      @Override
+      public double getX() {
+        return goal[0];
+      }
+
+      @Override
+      public double getY() {
+        return goal[1];
+      }
+    };
   }
 }
