@@ -28,7 +28,7 @@ public class CommandedAction extends CreatureMoveAction {
   @Override
   public boolean isFinished() {
     if (super.isFinished()) {
-      //      super.onFinish();
+      // super.onFinish();
       target = toPosition(creature.findNextGoal());
     }
     return finished;
