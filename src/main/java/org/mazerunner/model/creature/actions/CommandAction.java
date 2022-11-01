@@ -90,7 +90,7 @@ public class CommandAction extends Action {
       c.act(0);
     }
     if (commander.getLifes() > 0) {
-      commander.chooseNewAction();
+      commander.setAction(new CreatureMoveAction(commander, commander.findNextGoal()));
     }
   }
 }

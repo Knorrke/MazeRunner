@@ -8,6 +8,7 @@ public abstract class Action implements ActorInterface {
   @Override
   public final void act(double dt) {
     if (!isFinished()) {
+      onFinishHandled = false;
       update(dt);
       if (isFinished()) {
         onFinishHandled = true;

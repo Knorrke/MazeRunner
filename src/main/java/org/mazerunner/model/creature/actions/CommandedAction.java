@@ -1,6 +1,8 @@
 package org.mazerunner.model.creature.actions;
 
+import org.mazerunner.model.PositionAware;
 import org.mazerunner.model.baseactions.Action;
+import org.mazerunner.model.baseactions.MoveAction;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.creature.movements.MovementInterface;
 import org.mazerunner.model.creature.movements.PerfectMovement;
@@ -18,7 +20,7 @@ public class CommandedAction extends CreatureMoveAction {
     previousMovement = creature.getMovementStrategy();
     previousAction = creature.getAction();
     creature.setMovementStrategy(new PerfectMovement(maze));
-    target = toPosition(creature.findNextGoal());
+    target = PositionAware.valueOf(creature.findNextGoal());
   }
 
   public void setFinished() {
@@ -28,8 +30,7 @@ public class CommandedAction extends CreatureMoveAction {
   @Override
   public boolean isFinished() {
     if (super.isFinished()) {
-      // super.onFinish();
-      target = toPosition(creature.findNextGoal());
+      super.onFinish();
     }
     return finished;
   }
@@ -37,6 +38,9 @@ public class CommandedAction extends CreatureMoveAction {
   @Override
   protected void onFinish() {
     creature.setMovementStrategy(previousMovement);
+    if (previousAction instanceof MoveAction) {
+      ((MoveAction) previousAction).setTarget(target);
+    }
     creature.setAction(previousAction);
     creature.act(0);
   }

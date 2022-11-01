@@ -12,10 +12,8 @@ public class MoveAction extends Action {
   private double oldTargetX = -1, oldTargetY = -1;
 
   public MoveAction(Moveable moveable, PositionAware positionAware) {
-    this.target = positionAware;
     this.moveable = moveable;
-    remainingDist =
-        Util.distance(moveable.getX(), moveable.getY(), positionAware.getX(), positionAware.getY());
+    setTarget(positionAware);
   }
 
   @Override
@@ -44,5 +42,11 @@ public class MoveAction extends Action {
   @Override
   protected void onFinish() {
     moveable.moveTo(target.getX(), target.getY());
+  }
+
+  public void setTarget(PositionAware nextTarget) {
+    target = nextTarget;
+    remainingDist =
+        Util.distance(moveable.getX(), moveable.getY(), nextTarget.getX(), nextTarget.getY());
   }
 }

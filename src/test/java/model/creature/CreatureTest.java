@@ -11,11 +11,14 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 
+import java.util.Arrays;
 import org.hamcrest.core.IsInstanceOf;
 import org.hamcrest.core.IsNot;
 import org.junit.Before;
 import org.junit.Test;
+import org.mazerunner.model.PositionAware;
 import org.mazerunner.model.baseactions.Action;
+import org.mazerunner.model.baseactions.MoveAction;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.creature.CreatureFactory;
 import org.mazerunner.model.creature.CreatureType;
@@ -152,11 +155,12 @@ public class CreatureTest {
     for (int i = 0; i < length; i++) {
       moveOneFieldAutonomously(creature);
     }
-    assertTrue("back to start", movedTo(creature, x, y, 0.1));
+    assertTrue("back to start", movedTo(creature, startX, startY, 0.1));
     moveOneFieldAutonomously(creature);
-    assertTrue("moved to unknown", movedTo(creature, x, y + 1, 0.1));
+    System.out.println(creature.getX() + " " + creature.getY());
+    assertTrue("moved to unknown", movedTo(creature, startX, startY + 1, 0.1));
     moveOneFieldAutonomously(creature);
-    assertTrue("moved to unknown", movedTo(creature, x, y + 2, 0.1));
+    assertTrue("moved to unknown", movedTo(creature, startX, startY + 2, 0.1));
   }
 
   @Test
@@ -398,8 +402,9 @@ public class CreatureTest {
   public void commandedCreatureKeepsMovingWhileCommanded() {
     maze.buildWall((int) startX + 1, (int) startY);
     maze.buildWall((int) startX + 1, (int) startY + 1);
-    buildHorizontalBlindAlley((int) startX + 5, (int) startY, 5);
-    buildVerticalBlindAlley((int) startX + 4, (int) startY, 5);
+    buildHorizontalBlindAlley((int) startX + 6, (int) startY, 5);
+    buildVerticalBlindAlley((int) startX + 5, (int) startY + 1, 5);
+    maze.buildWall((int) startX + 5, (int) startY - 1);
     Creature commander = CreatureFactory.create(maze, CreatureType.COMMANDER, startX, startY);
     Creature commanded =
         Mockito.spy(CreatureFactory.create(maze, CreatureType.NORMAL, startX + 5, startY));
@@ -415,17 +420,11 @@ public class CreatureTest {
 
     moveOneFieldAutonomously(commander);
     assertThat(commanded.getMovementStrategy(), IsInstanceOf.instanceOf(PerfectMovement.class));
+    System.out.println(Arrays.toString(commanded.findNextGoal()));
     moveOneFieldAutonomously(commanded);
     assertArrayEquals(
         "should turn around after change to perfect movement",
         new double[] {startX + 5, startY},
-        new double[] {commanded.getX(), commanded.getY()},
-        0.1);
-
-    moveOneFieldAutonomously(commanded);
-    assertArrayEquals(
-        "should continue backwards",
-        new double[] {startX + 4, startY},
         new double[] {commanded.getX(), commanded.getY()},
         0.1);
 
@@ -434,8 +433,8 @@ public class CreatureTest {
         commanded.getMovementStrategy(), IsNot.not(IsInstanceOf.instanceOf(PerfectMovement.class)));
     moveOneFieldAutonomously(commanded);
     assertArrayEquals(
-        "should move to right (into dead end)",
-        new double[] {startX + 4, startY},
+        "should move to downwards (into dead end)",
+        new double[] {startX + 5, startY + 1},
         new double[] {commanded.getX(), commanded.getY()},
         0.1);
   }
@@ -612,7 +611,10 @@ public class CreatureTest {
 
   /** Helper functions */
   private void moveOneFieldAutonomously(Creature c) {
-    c.chooseNewAction();
+    Action a = c.getAction();
+    if (a instanceof MoveAction) {
+      ((MoveAction) a).setTarget(PositionAware.valueOf(c.findNextGoal()));
+    }
     c.act(1 / c.getVelocity());
     c.act(0);
   }
