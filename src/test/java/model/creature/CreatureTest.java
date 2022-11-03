@@ -4,24 +4,31 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 
+import java.util.Arrays;
 import org.hamcrest.core.IsInstanceOf;
+import org.hamcrest.core.IsNot;
 import org.junit.Before;
 import org.junit.Test;
+import org.mazerunner.model.PositionAware;
 import org.mazerunner.model.baseactions.Action;
+import org.mazerunner.model.baseactions.MoveAction;
 import org.mazerunner.model.creature.Creature;
 import org.mazerunner.model.creature.CreatureFactory;
 import org.mazerunner.model.creature.CreatureType;
 import org.mazerunner.model.creature.actions.CommandAction;
+import org.mazerunner.model.creature.actions.CommandedAction;
 import org.mazerunner.model.creature.actions.CreatureMoveAction;
 import org.mazerunner.model.creature.actions.TalkAction;
 import org.mazerunner.model.creature.movements.ClimbWallMovement;
 import org.mazerunner.model.creature.movements.MovementInterface;
+import org.mazerunner.model.creature.movements.NoSightMovement;
 import org.mazerunner.model.creature.movements.PerfectMovement;
 import org.mazerunner.model.maze.Maze;
 import org.mazerunner.model.maze.MazeModelInterface;
@@ -148,11 +155,12 @@ public class CreatureTest {
     for (int i = 0; i < length; i++) {
       moveOneFieldAutonomously(creature);
     }
-    assertTrue("back to start", movedTo(creature, x, y, 0.1));
+    assertTrue("back to start", movedTo(creature, startX, startY, 0.1));
     moveOneFieldAutonomously(creature);
-    assertTrue("moved to unknown", movedTo(creature, x, y + 1, 0.1));
+    System.out.println(creature.getX() + " " + creature.getY());
+    assertTrue("moved to unknown", movedTo(creature, startX, startY + 1, 0.1));
     moveOneFieldAutonomously(creature);
-    assertTrue("moved to unknown", movedTo(creature, x, y + 2, 0.1));
+    assertTrue("moved to unknown", movedTo(creature, startX, startY + 2, 0.1));
   }
 
   @Test
@@ -353,6 +361,85 @@ public class CreatureTest {
   }
 
   @Test
+  public void commandedCreatureKeepsActionWhileMoving() {
+    maze.buildWall((int) startX + 1, (int) startY);
+    maze.buildWall((int) startX + 1, (int) startY + 1);
+    Creature commander = CreatureFactory.create(maze, CreatureType.COMMANDER, startX, startY);
+    Creature commanded =
+        Mockito.spy(CreatureFactory.create(maze, CreatureType.NORMAL, startX + 5, startY));
+    maze.addCreature(commander);
+    maze.addCreature(commanded);
+
+    moveOneFieldAutonomously(commanded);
+    assertThat(
+        "before commander is on wall movement is normal",
+        commanded.getMovementStrategy(),
+        IsInstanceOf.instanceOf(NoSightMovement.class));
+    assertThat(
+        "before commander is on wall action is normal",
+        commanded.getAction(),
+        IsNot.not(IsInstanceOf.instanceOf(CommandedAction.class)));
+
+    moveOneFieldAutonomously(commander);
+    assertThat(
+        "when commander steps on wall movement is changed",
+        commanded.getMovementStrategy(),
+        IsInstanceOf.instanceOf(PerfectMovement.class));
+    assertThat(
+        "when commander steps on wall action is Commanded",
+        commanded.getAction(),
+        IsInstanceOf.instanceOf(CommandedAction.class));
+
+    moveOneFieldAutonomously(commanded);
+    assertThat(
+        "no changes",
+        commanded.getMovementStrategy(),
+        IsInstanceOf.instanceOf(PerfectMovement.class));
+    assertThat("no changes", commanded.getAction(), IsInstanceOf.instanceOf(CommandedAction.class));
+  }
+
+  @Test
+  public void commandedCreatureKeepsMovingWhileCommanded() {
+    maze.buildWall((int) startX + 1, (int) startY);
+    maze.buildWall((int) startX + 1, (int) startY + 1);
+    buildHorizontalBlindAlley((int) startX + 6, (int) startY, 5);
+    buildVerticalBlindAlley((int) startX + 5, (int) startY + 1, 5);
+    maze.buildWall((int) startX + 5, (int) startY - 1);
+    Creature commander = CreatureFactory.create(maze, CreatureType.COMMANDER, startX, startY);
+    Creature commanded =
+        Mockito.spy(CreatureFactory.create(maze, CreatureType.NORMAL, startX + 5, startY));
+    maze.addCreature(commander);
+    maze.addCreature(commanded);
+
+    moveOneFieldAutonomously(commanded);
+    assertArrayEquals(
+        "should move forward (into dead end)",
+        new double[] {startX + 6, startY},
+        new double[] {commanded.getX(), commanded.getY()},
+        0.1);
+
+    moveOneFieldAutonomously(commander);
+    assertThat(commanded.getMovementStrategy(), IsInstanceOf.instanceOf(PerfectMovement.class));
+    System.out.println(Arrays.toString(commanded.findNextGoal()));
+    moveOneFieldAutonomously(commanded);
+    assertArrayEquals(
+        "should turn around after change to perfect movement",
+        new double[] {startX + 5, startY},
+        new double[] {commanded.getX(), commanded.getY()},
+        0.1);
+
+    killCreature(commander);
+    assertThat(
+        commanded.getMovementStrategy(), IsNot.not(IsInstanceOf.instanceOf(PerfectMovement.class)));
+    moveOneFieldAutonomously(commanded);
+    assertArrayEquals(
+        "should move to downwards (into dead end)",
+        new double[] {startX + 5, startY + 1},
+        new double[] {commanded.getX(), commanded.getY()},
+        0.1);
+  }
+
+  @Test
   public void twoCommandersDontChangeEachOthersMovementStrategy() {
     maze.buildWall((int) startX + 1, (int) startY);
     Creature commander = CreatureFactory.create(maze, CreatureType.COMMANDER, startX, startY);
@@ -524,7 +611,10 @@ public class CreatureTest {
 
   /** Helper functions */
   private void moveOneFieldAutonomously(Creature c) {
-    c.chooseNewAction();
+    Action a = c.getAction();
+    if (a instanceof MoveAction) {
+      ((MoveAction) a).setTarget(PositionAware.valueOf(c.findNextGoal()));
+    }
     c.act(1 / c.getVelocity());
     c.act(0);
   }

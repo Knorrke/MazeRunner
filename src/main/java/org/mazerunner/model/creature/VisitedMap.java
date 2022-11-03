@@ -193,9 +193,9 @@ public class VisitedMap {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    for (int x = 0; x < map.length; x++) {
-      for (int y = 0; y < map[x].length; y++) {
-        switch (map[x][y]) {
+    for (int x = 0; x < map[0].length; x++) {
+      for (int y = 0; y < map.length; y++) {
+        switch (map[y][x]) {
           case TOWER:
             builder.append('T');
             break;

@@ -17,7 +17,6 @@ import org.mazerunner.controller.gameloop.ActorInterface;
 import org.mazerunner.model.Moveable;
 import org.mazerunner.model.Position;
 import org.mazerunner.model.baseactions.Action;
-import org.mazerunner.model.creature.actions.CommandAction;
 import org.mazerunner.model.creature.actions.CreatureMoveAction;
 import org.mazerunner.model.creature.actions.TalkAction;
 import org.mazerunner.model.creature.movements.MovementInterface;
@@ -96,7 +95,7 @@ public class Creature implements ActorInterface, Moveable {
     visitedMap.visit((int) getX(), (int) getY());
     markWalls();
     action = new SimpleObjectProperty<>();
-    chooseNewAction();
+    setAction(new CreatureMoveAction(this, findNextGoal()));
   }
 
   public void moveBy(double dirX, double dirY) {
@@ -267,15 +266,6 @@ public class Creature implements ActorInterface, Moveable {
     return movementStrategy.getNextGoal(vision, visitedMap, getX(), getY());
   }
 
-  public void chooseNewAction() {
-    double[] goal = findNextGoal();
-    if (getType() == CreatureType.COMMANDER && getX() == goal[0] && getY() == goal[1]) {
-      setAction(new CommandAction(this, maze));
-    } else {
-      setAction(new CreatureMoveAction(this, goal));
-    }
-  }
-
   public void setAction(Action action) {
     this.action.set(action);
   }
@@ -323,5 +313,9 @@ public class Creature implements ActorInterface, Moveable {
 
   public int getStartLifes() {
     return startLifes;
+  }
+
+  public MazeModelInterface getMaze() {
+    return maze;
   }
 }

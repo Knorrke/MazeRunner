@@ -34,6 +34,7 @@ public class AmnesiaTower extends AbstractTower {
   @Override
   public void shoot() {
     Creature target = target();
+    if (target == null) return;
     addBullet(new AmnesiaBullet(getX() + 0.5, getY() + 0.5, Duration.millis(5000), target));
     shotAt.add(target);
   }
